@@ -1,4 +1,3 @@
-import React from "react";
 import { Avatar } from "../../components/ui/avatar";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
@@ -253,7 +252,7 @@ export const Wireframe = (): JSX.Element => {
         </section>
 
         {/* About Section */}
-        <section className="relative w-[1446px] h-[782px] mt-[195px] mx-auto bg-[url(/rectangle-10.svg)] bg-[100%_100%]">
+        <section className="relative w-[1446px] h-[782px] mt-[195px] mx-auto bg-[url(/Rectangle 10.png)] bg-[100%_100%]">
           <div className="flex">
             <div className="flex-shrink-0">
               <img
@@ -287,7 +286,7 @@ export const Wireframe = (): JSX.Element => {
                       <img
                         className="relative self-stretch w-full h-0.5 mt-[-2.00px]"
                         alt="Line"
-                        src="/line-2.png"
+                        src="/line-4.png"
                       />
                     </div>
 
@@ -523,7 +522,7 @@ export const Wireframe = (): JSX.Element => {
         </section>
 
         {/* Services Section */}
-        <section className="relative w-[1440px] h-[961px] mt-[40px] bg-[#ece5df]">
+        <section className="relative w-[1440px] h-[961px] mt-[0px] bg-[#ece5df]">
           <img
             className="w-[962px] h-[961px] top-0 left-[239px] absolute object-cover"
             alt="Decorative Image"
@@ -658,74 +657,79 @@ export const Wireframe = (): JSX.Element => {
             </p>
           </div>
         </section>
-// Add this just below the Divine Power Section
 
-<section className="flex gap-[20px] mt-[40px] mx-[80px]">
+        <section className="flex gap-[20px] mt-[40px] mx-[80px]">
   {/* Connect with Us */}
-  <Card className="w-[413px] h-[188px] bg-[#8b0000] rounded-none">
-    <CardContent className="p-6 flex flex-col justify-between h-full">
-      <div>
+  <Card className="w-[450px] h-[320px] bg-[#8b0000] rounded-none">
+    <CardContent className="p-8 flex flex-col h-full">
+      <div className="flex-1">
         <img
-          className="w-8 h-8 mb-2"
+          className="w-12 h-12 mb-4"
           alt="Temple Icon"
-          src="/temple-icon.svg"
+          src="/connect.png"
         />
-        <div className="[font-family:'Marcellus',Helvetica] font-normal text-white text-xl mb-2">
+        <div className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[24px] leading-tight mb-4">
           Connect with Us
         </div>
-        <div className="[font-family:'Tenor_Sans',Helvetica] font-normal text-white text-base mb-4">
+        <div className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[16px] leading-relaxed mb-6">
           Reach out and connect with our church community. We're here to welcome, assist, and share in your journey of faith.
         </div>
       </div>
-      <div className="flex items-center text-white text-lg mt-2">
-        <img className="w-6 h-6 mr-2" alt="Phone" src="/phone.svg" />
-        +91 9876543210
+      
+      <div className="flex items-center mt-auto">
+        <img className="w-7 h-7 mr-3" alt="Phone" src="/call.png" />
+        <span className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[28px]">
+          +91 9876543210
+        </span>
       </div>
     </CardContent>
   </Card>
 
   {/* Donate for Cause */}
-  <Card className="w-[413px] h-[188px] bg-[#ece5df] rounded-none">
-    <CardContent className="p-6 flex flex-col justify-between h-full">
-      <div>
+  <Card className="w-[450px] h-[320px] bg-[#ece5df] rounded-none">
+    <CardContent className="p-8 flex flex-col h-full">
+      <div className="flex-1">
         <img
-          className="w-8 h-8 mb-2"
+          className="w-12 h-12 mb-4"
           alt="Charity Icon"
-          src="/charity-svgrepo-com.svg"
+          src="/donate.png"
         />
-        <div className="[font-family:'Marcellus',Helvetica] font-normal text-black text-xl mb-2">
+        <div className="[font-family:'Tenor_Sans',Helvetica] text-black text-[24px] leading-tight mb-4">
           Donate for Cause
         </div>
-        <div className="[font-family:'Tenor_Sans',Helvetica] font-normal text-black text-base mb-4">
+        <div className="[font-family:'Tenor_Sans',Helvetica]  text-black text-[16px] leading-relaxed mb-6">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq
         </div>
       </div>
-      <Button className="w-20 h-[30px] bg-[#8b0000] rounded-none text-white text-sm">
-        Donate
-      </Button>
+      
+      <div className="mt-auto">
+        <Button className="w-[80px] h-[40px] bg-[#8b0000] rounded-none text-white text-[15px] [font-family:'Tenor_Sans',Helvetica] hover:bg-[#7a0000]">
+          Donate
+        </Button>
+      </div>
     </CardContent>
   </Card>
 
   {/* Office Timings */}
-  <Card className="w-[413px] h-[188px] bg-[#d05e2d] rounded-none">
-    <CardContent className="p-6 flex flex-col justify-between h-full">
-      <div>
+  <Card className="w-[450px] h-[320px] bg-[#d05e2d] rounded-none">
+    <CardContent className="p-8 flex flex-col h-full">
+      <div className="flex-1">
         <img
-          className="w-8 h-8 mb-2"
+          className="w-12 h-12 mb-4"
           alt="Time Icon"
-          src="/time-svgrepo-com-3.svg"
+          src="/time.png"
         />
-        <div className="[font-family:'Marcellus',Helvetica] font-normal text-white text-xl mb-2">
+        <div className="[font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[24px] leading-tight mb-6">
           Office Timings
         </div>
-        <div className="flex justify-between [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-base">
-          <div>
-            <div>Monday - Friday</div>
-            <div>Saturday - Sunday</div>
+        <div className="space-y-3">
+          <div className="flex justify-between [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[16px]">
+            <span>Monday - Friday</span>
+            <span>8:00 AM - 8:00 PM</span>
           </div>
-          <div className="text-right">
-            <div>8:00 AM - 8:00 PM</div>
-            <div>10:00 AM - 6:00 PM</div>
+          <div className="flex justify-between [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[16px]">
+            <span>Saturday - Sunday</span>
+            <span>10:00 AM - 6:00 PM</span>
           </div>
         </div>
       </div>
@@ -769,43 +773,43 @@ export const Wireframe = (): JSX.Element => {
             ))}
           </div>
 
-          <div className="flex flex-col space-y-4 absolute top-[277px] left-[657px]">
+
+          <div className="flex absolute top-[277px] left-[657px] space-x-4">
             <img
               className="w-[305px] h-[272px] object-cover"
               alt="Image"
               src="/image-4.png"
             />
-            <div className="w-[378px] [font-family:'Tenor_Sans',Helvetica] text-[#1e1e1e80] text-base leading-[normal] font-normal tracking-[0]">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit,
-            </div>
-            <div className="flex flex-col w-[222px] items-start gap-[15px] mt-[25px]">
-              <Separator className="relative self-stretch w-full h-px mt-[-1.00px]" />
-              <div className="relative w-[186px] [font-family:'Marcellus',Helvetica] font-normal text-[#8b0000] text-xl tracking-[0] leading-[normal]">
-                John Doe
+            <div className="flex flex-col w-[378px] space-y-4">
+              <div className="[font-family:'Tenor_Sans',Helvetica] text-[#1e1e1e80] text-base leading-[normal] font-normal tracking-[0]">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               </div>
+              <div className="flex flex-col w-[222px] items-start gap-[15px] mt-[25px]">
+                <Separator className="relative self-stretch w-full h-px mt-[-1.00px]" />
+                <div className="relative w-[186px] mb-7 [font-family:'Marcellus',Helvetica] font-normal text-[#8b0000] text-xl tracking-[0] leading-[normal]">
+                  John Doe
+                </div>
+              </div>
+              <Button className="w-24 h-[30px] mt-[80px] bg-[#8b0000] rounded-none">
+                <span className="relative w-fit mt-[-4.17px] mb-[-2.77px] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
+                  Know More
+                </span>
+              </Button>
             </div>
-            <Button className="w-24 h-[30px] mt-[64px] bg-[#8b0000] rounded-none">
-              <span className="relative w-fit mt-[-4.17px] mb-[-2.77px] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
-                Know More
-              </span>
-            </Button>
           </div>
+
 
           <div className="absolute w-[30px] h-[30px] top-[508px] left-[1330px] bg-white" />
           <div className="absolute w-[30px] h-[30px] top-[508px] left-[1293px] bg-[#8b0000]" />
           <img
             className="left-[1335px] absolute w-[21px] h-[15px] top-[516px]"
             alt="Arrow"
-            src="/arrow-1.svg"
+            src="/Arrow 1.png"
           />
           <img
             className="left-[1298px] absolute w-[21px] h-[15px] top-[516px]"
             alt="Arrow"
-            src="/arrow-2.svg"
+            src="/Arrow 2.png"
           />
 
           <img
@@ -824,12 +828,12 @@ export const Wireframe = (): JSX.Element => {
             <img
               className="absolute w-[84px] h-[92px] top-0 left-0"
               alt="Decorative Image"
-              src="/mand-9-min-2.png"
+              src="/mand-9-min 2.png"
             />
             <img
               className="absolute w-[145px] h-[145px] top-[117px] left-[426px]"
               alt="Decorative Image"
-              src="/mand-9-min-3.png"
+              src="/mand-9-min 3.png"
             />
 
             <div className="absolute w-[414px] top-[53px] left-[149px] [-webkit-text-stroke:1px_#daa520] [font-family:'Marcellus',Helvetica] text-white text-4xl leading-[normal] font-normal tracking-[0]">
@@ -872,12 +876,12 @@ export const Wireframe = (): JSX.Element => {
             <img
               className="absolute w-[84px] h-[92px] top-0 left-0"
               alt="Decorative Image"
-              src="/mand-9-min-4.png"
+              src="/mand-9-min 4.png"
             />
             <img
               className="absolute w-[84px] h-[92px] top-[78px] left-[687px]"
               alt="Decorative Image"
-              src="/mand-9-min-5.png"
+              src="/mand-9-min 5.png"
             />
 
             <div className="flex justify-around items-center h-full">
@@ -955,7 +959,7 @@ export const Wireframe = (): JSX.Element => {
         {/* Om Namah Shivaya Section */}
         <section className="relative w-[1440px] h-[634px] mt-[5px] bg-[url(/bg-shiv.png)] bg-cover bg-[50%_50%]">
           <div className="absolute top-[85px] left-[126px] [text-shadow:10px_10px_4px_#00000040] [font-family:'Tiro_Devanagari_Hindi',Helvetica] text-white text-[173.3px] tracking-[0] font-normal leading-[normal]">
-            ॐ नमः शिवाय 
+            ॐ नमः शिवाय
           </div>
           <img
             className="absolute w-[1124px] h-[634px] top-0 left-[316px]"
@@ -965,7 +969,7 @@ export const Wireframe = (): JSX.Element => {
         </section>
 
         {/* Scrolling Banner */}
-        <div className="flex w-[1440px] h-[82px] items-center gap-[26px] px-20 py-[15px] mt-[5px] bg-[#8b0000]">
+        <div className="flex w-full h-[82px] items-center gap-[26px] px-20 py-[15px] mt-[0px] bg-[#8b0000] overflow-hidden">
           <div className="flex items-center gap-[26px] animate-marquee">
             <div className="relative w-fit [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
               || JAI SHREE MAHAKALESHWAR ||
@@ -973,7 +977,7 @@ export const Wireframe = (): JSX.Element => {
             <img
               className="relative w-[41px] h-[41px]"
               alt="Om symbol"
-              src="/om.png"
+              src="/om-scroll.png"
             />
             <div className="relative w-fit [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
               || JAI SHREE SALASAR BALAJI ||
@@ -981,7 +985,7 @@ export const Wireframe = (): JSX.Element => {
             <img
               className="relative w-[41px] h-[41px]"
               alt="Om symbol"
-              src="/om-solid-svgrepo-com.svg"
+              src="/om-scroll.png"
             />
             <div className="relative w-fit [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
               || JAI SHREE MAHAKALESHWAR ||
@@ -989,24 +993,48 @@ export const Wireframe = (): JSX.Element => {
             <img
               className="relative w-[41px] h-[41px]"
               alt="Om symbol"
-              src="/om-solid-svgrepo-com.svg"
+              src="/om-scroll.png"
             />
             <div className="relative w-fit [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
               || JAI SHREE SALASAR BALAJI ||
             </div>
+            {/* Duplicate content */}
+            <div className="relative w-fit [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
+              || JAI SHREE MAHAKALESHWAR ||
+            </div>
+            <img
+              className="relative w-[41px] h-[41px]"
+              alt="Om symbol"
+              src="/om-scroll.png"
+            />
+            <div className="relative w-fit [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
+              || JAI SHREE SALASAR BALAJI ||
+            </div>
+            <img
+              className="relative w-[41px] h-[41px]"
+              alt="Om symbol"
+              src="/om-scroll.png"
+            />
           </div>
         </div>
 
+
         {/* Contact Section */}
-        <section className="flex mt-[40px]">
-          <div className="relative w-[602px] h-[845px] bg-[url(/image-7.png)] bg-cover bg-[50%_50%]">
+        <section className="flex mt-[20px]">
+          <div className="relative w-[602px] -mt-5 h-[845px] bg-[url(/image-7.png)] bg-cover bg-[50%_50%]">
             <Card className="absolute w-[478px] h-[636px] top-[97px] left-[62px] bg-[#ece5df] rounded-none">
               <CardContent className="p-0">
                 <div className="flex flex-col w-[430px] items-center mt-[34px] mx-auto">
                   <div className="flex flex-col w-[415px] items-center">
                     <h3 className="relative w-fit mt-[-1.00px] [font-family:'Marcellus',Helvetica] font-normal text-[#4c291e] text-xl tracking-[0] leading-[normal]">
                       Reach Out to us
+
                     </h3>
+                    <img
+                      className="mt-2 w-[368px] h-5"
+                      alt="Decorative Line"
+                      src="/line-4.png"
+                    />
                     <h2 className="relative w-[395px] mt-[10px] [font-family:'Marcellus',Helvetica] font-normal text-[#4c291e] text-4xl tracking-[0] leading-[normal]">
                       We will get Back to You
                     </h2>
@@ -1017,13 +1045,9 @@ export const Wireframe = (): JSX.Element => {
                   </p>
                 </div>
 
-                <img
-                  className="absolute w-[368px] h-5 top-[166px] left-[65px]"
-                  alt="Decorative Line"
-                  src="/frame-24.svg"
-                />
 
-                <form className="flex flex-col gap-[10px] mt-[149px] mx-[62px]">
+
+                {/* <form className="flex flex-col gap-[10px] mt-[46px] mx-[62px]">
                   <div className="flex gap-2">
                     <Input
                       className="w-[200px] p-2.5 bg-white rounded-none"
@@ -1051,7 +1075,37 @@ export const Wireframe = (): JSX.Element => {
                       Submit
                     </span>
                   </Button>
+                </form> */}
+                <form className="flex flex-col gap-[10px] mt-[46px] border-white mx-auto max-w-[430px]">
+                  <div className="flex gap-4">
+                    <Input
+                      className="w-[220px] p-2.5 bg-white rounded-none"
+                      placeholder="First Name"
+                    />
+                    <Input
+                      className="w-[220px] p-2.5 bg-white rounded-none"
+                      placeholder="Last Name"
+                    />
+                  </div>
+                  <Input
+                    className="w-full p-2.5 bg-white rounded-none mt-2"
+                    placeholder="Mobile Number"
+                  />
+                  <Input
+                    className="w-full p-2.5 bg-white rounded-none mt-2"
+                    placeholder="Email ID"
+                  />
+                  <Textarea
+                    className="w-full h-[100px] p-2.5 bg-white rounded-none mt-2"
+                    placeholder="Message"
+                  />
+                  <Button className="w-[138px] h-[37px] mt-[52px] mx-auto bg-[#8b0000] rounded-none">
+                    <span className="[-webkit-text-stroke:0.5px_#ffffff] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
+                      Submit
+                    </span>
+                  </Button>
                 </form>
+
               </CardContent>
             </Card>
           </div>
@@ -1086,15 +1140,15 @@ export const Wireframe = (): JSX.Element => {
               key={index}
               className="w-[413px] h-[276px] bg-[url(/ganesh.png)] bg-cover bg-[50%_50%] rounded-none border-none"
             >
-             <CardContent className="relative z-20 flex flex-col justify-end h-full p-6">
-        <div className="text-white text-xs mb-1">{article.date || "Jan 01, 2025"}</div>
-        <div className="text-[#daa520] text-lg font-semibold mb-3 [font-family:'Marcellus',Helvetica]">
-          {article.title || "Lorem ipsum dolor sit"}
-        </div>
-        <Button className="w-[110px] h-[32px] bg-[#8b0000] rounded-none text-white text-xs">
-          Read Articles
-        </Button>
-      </CardContent>
+              <CardContent className="relative z-20 flex flex-col justify-end h-full p-6">
+                <div className="text-white text-xs mb-1">{article.date || "Jan 01, 2025"}</div>
+                <div className="text-[#daa520] text-lg font-semibold mb-3 [font-family:'Marcellus',Helvetica]">
+                  {article.title || "Lorem ipsum dolor sit"}
+                </div>
+                <Button className="w-[110px] h-[32px] bg-[#8b0000] rounded-none text-white text-xs">
+                  Read Articles
+                </Button>
+              </CardContent>
             </Card>
           ))}
         </section>
@@ -1184,9 +1238,9 @@ export const Wireframe = (): JSX.Element => {
             </div>
             <div className="absolute w-[643px] top-[113px] left-0 [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000] [font-family:'Marcellus_SC',Helvetica] font-normal text-white text-4xl text-center tracking-[0] leading-[normal]">
               Shree Mahakaleshwar Salasar Hanuman Sewa Trust
-               <img src="/footer-line.png"/>
+              <img src="/footer-line.png" />
             </div>
-           
+
           </div>
 
           <div className="absolute w-[614px] top-[253px] left-[413px] [font-family:'Tenor_Sans',Helvetica] text-white text-base text-center leading-[normal] font-normal tracking-[0]">
@@ -1300,19 +1354,19 @@ export const Wireframe = (): JSX.Element => {
           </div>
 
           {/* <Separator className="absolute w-[1293px] h-3 top-[487px] left-[74px]" /> */}
-         <img src="/footer-line-2.png"className="absolute w-[1293px] h-3 top-[487px] left-[74px]"></img>
+          <img src="/footer-line-2.png" className="absolute w-[1293px] h-3 top-[487px] left-[74px]"></img>
           <div className="absolute w-[430px] h-[22px] top-[519px] left-[81px]">
             {/* <img
               className="absolute w-[19px] h-[19px] top-[3px] left-[87px]"
               alt=""
               src="/heart-svgrepo-com.svg"
             /> */}
-           <div className="absolute top-0 left-0 flex items-center [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-base tracking-[0] leading-[normal] whitespace-nowrap">
-  Made with
-  <span className="mx-2 text-[20px] align-middle">🧡</span>
-  by Nexteir Technologies Pvt. Ltd. in India
-  <img className="ml-2 w-6 h-4 inline-block align-middle" src="/india.png" alt="India Flag" />
-</div>
+            <div className="absolute top-0 left-0 flex items-center [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-base tracking-[0] leading-[normal] whitespace-nowrap">
+              Made with
+              <span className="mx-2 text-[20px] align-middle">🧡</span>
+              by Nexteir Technologies Pvt. Ltd. in India
+              <img className="ml-2 w-6 h-4 inline-block align-middle" src="/india.png" alt="India Flag" />
+            </div>
           </div>
 
           <div className="absolute top-[519px] left-[981px] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-base tracking-[0] leading-[normal] whitespace-nowrap">
