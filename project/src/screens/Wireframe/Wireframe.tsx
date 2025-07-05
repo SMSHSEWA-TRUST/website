@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Avatar } from "../../components/ui/avatar";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
@@ -19,6 +20,31 @@ import { Separator } from "../../components/ui/separator";
 import { Textarea } from "../../components/ui/textarea";
 
 export const Wireframe = (): JSX.Element => {
+  const [textIndex, setTextIndex] = useState(0);
+  const texts = [
+    'JAI SHRI MAHAKAL',
+    'JAI SHRI SALASAR BALAJI',
+    // Add more text items as needed
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
+    }, 3000); // Change text every 3 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
+
+  // Function to go to the previous text
+  const handlePrevClick = () => {
+    setTextIndex((prevIndex) => (prevIndex - 1 + texts.length) % texts.length);
+  };
+
+  // Function to go to the next text
+  const handleNextClick = () => {
+    setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
+  };
+
   // Donation data
   const donations = [
     {
@@ -106,7 +132,33 @@ export const Wireframe = (): JSX.Element => {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
   ];
+  const [selectedTemple, setSelectedTemple] = useState<string>('mahakaleshwar');
+  const [videoUrl, setVideoUrl] = useState('');
 
+  // Video URLs
+  const mahakaleshwarVideo = "https://www.youtube.com/watch?v=SyvlfWBCw7I";
+  const salasarBalajiVideo = "https://www.youtube.com/watch?v=lW--ukmD8Wc&t=1s";
+
+  // const handleButtonClick = (temple:string) => {
+  //   setSelectedTemple(temple);
+  //   if (temple === 'mahakaleshwar') {
+  //     setVideoUrl(mahakaleshwarVideo);
+  //   } else if (temple === 'salasar') {
+  //     setVideoUrl(salasarBalajiVideo);
+  //   }
+  // };
+  useEffect(() => {
+    if (selectedTemple === 'mahakaleshwar') {
+      setVideoUrl(mahakaleshwarVideo);
+    } else if (selectedTemple === 'salasar') {
+      setVideoUrl(salasarBalajiVideo);
+    }
+  }, [selectedTemple]); // This effect runs when the selectedTemple changes
+
+  // Handle button click to change selected temple and video URL
+  const handleButtonClick = (temple: string) => {
+    setSelectedTemple(temple);
+  };
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white overflow-hidden w-[1440px] relative">
@@ -212,7 +264,7 @@ export const Wireframe = (): JSX.Element => {
           <div className="relative h-[741px]">
             <div className="absolute w-[433px] h-[740px] top-0 left-[847px] bg-[#8b0000]" />
             <img
-              className="absolute w-[1198px] h-[957px] top-[-216px] left-[42px]"
+              className="absolute w-[1100px] h-[900px] top-[-120px] left-[42px]"
               alt="Abstract floral"
               src="/abstract-floral.png"
             />
@@ -231,10 +283,16 @@ export const Wireframe = (): JSX.Element => {
               <div className="absolute w-[442px] h-[294px] top-0 left-0">
                 <div className="absolute w-[442px] -top-px left-0 [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-base tracking-[0] leading-[normal]">
                   Feel Lord Shiva&apos;s Power
+                   <div className="relative w-full h-full">
+        <div
+          className="absolute w-[489px] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] [font-family:'Marcellus',Helvetica] font-normal text-white text-[64px] tracking-[0] leading-[normal] animate-slideUpText"
+          key={texts[textIndex]} // This ensures the text re-renders when the index changes
+        >
+          {texts[textIndex]}
+        </div>
+      </div>
                 </div>
-                <h2 className="absolute w-[489px] top-[26px] -left-0.5 [-webkit-text-stroke:2px_#daa520] [font-family:'Marcellus',Helvetica] font-normal text-white text-[64px] tracking-[0] leading-[normal]">
-                  JAI SHRI MAHAKAL
-                </h2>
+
                 <p className="absolute w-[442px] top-[198px] left-0 [font-family:'Tenor_Sans',Helvetica] text-white text-base leading-[normal] font-normal tracking-[0]">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -252,7 +310,7 @@ export const Wireframe = (): JSX.Element => {
         </section>
 
         {/* About Section */}
-        <section className="relative w-[1446px] h-[782px] mt-[195px] mx-auto bg-[url(/Rectangle 10.png)] bg-[100%_100%]">
+        <section className="relative w-[1446px] h-[782px] mt-[50px] mx-auto bg-[#F8F5F0] bg-[url(/Rectangle 10.png)] bg-[100%_100%]">
           <div className="flex">
             <div className="flex-shrink-0">
               <img
@@ -262,12 +320,12 @@ export const Wireframe = (): JSX.Element => {
               />
               <div className="flex gap-4">
                 <img
-                  className="w-[305px] h-[251px] -mt-[534px] ml-[481px] object-cover"
+                  className="w-[305px] h-[251px] -mt-[580px] ml-[481px] object-cover"
                   alt="Temple Image"
                   src="/temp-image-3.png"
                 />
                 <img
-                  className="w-[303px] h-[323px] mt-[374px] -ml-[305px] object-cover"
+                  className="w-[303px] h-[323px] -mt-[37%] -ml-[305px] object-cover"
                   alt="Temple Image"
                   src="/temp-image-2.png"
                 />
@@ -282,11 +340,11 @@ export const Wireframe = (): JSX.Element => {
                       Lorem ipsum dolor sit amet, consectetur adipiscing eli
                     </h3>
 
-                    <div className="flex flex-col w-[542px] items-start gap-2.5 p-2.5 -ml-2.5 mt-[77px]">
+                    <div className="flex flex-col w-[542px] items-start gap-2.5 p-2.5 -ml-2.5 mt-[30px]">
                       <img
                         className="relative self-stretch w-full h-0.5 mt-[-2.00px]"
                         alt="Line"
-                        src="/line-4.png"
+                        src="/line-final-1.png"
                       />
                     </div>
 
@@ -305,7 +363,7 @@ export const Wireframe = (): JSX.Element => {
                       <img
                         className="w-[50px] h-[50px] object-cover"
                         alt="Image"
-                        src="/image-2-1.png"
+                        src="/image 2.png"
                       />
                       <div className="flex flex-col w-[389px] items-start gap-[5px]">
                         <h4 className="self-stretch mt-[-1.00px] [font-family:'Marcellus',Helvetica] font-normal text-[#4c291e] text-base tracking-[0] leading-[normal]">
@@ -323,7 +381,7 @@ export const Wireframe = (): JSX.Element => {
                       <img
                         className="w-[50px] h-[50px] object-cover"
                         alt="Image"
-                        src="/image-3-1.png"
+                        src="/image 3.png"
                       />
                       <div className="flex flex-col w-[389px] items-start gap-[7px]">
                         <h4 className="self-stretch mt-[-1.00px] [font-family:'Marcellus',Helvetica] font-normal text-[#4c291e] text-base tracking-[0] leading-[normal]">
@@ -358,7 +416,7 @@ export const Wireframe = (): JSX.Element => {
         {/* Live Darshan Section */}
         <section className="relative w-[1446px] h-[927px] mt-[5px] bg-[#8b0000]">
           <img
-            className="w-[405px] h-[715px] top-[172px] left-14 absolute object-cover"
+            className="w-[405px] h-[715px] top-[172px] left-0 absolute object-cover"
             alt="Decorative Image"
             src="/mand-7.png"
           />
@@ -368,21 +426,21 @@ export const Wireframe = (): JSX.Element => {
             src="/mand-7.png"
           />
 
-          <div className="absolute w-[225px] h-[225px] top-[393px] left-[1314px]">
+          <div className="absolute w-[225px] h-[225px] top-[393px] left-[0px]">
             <img
-              className="absolute w-[168px] h-[211px] top-[7px] left-3.5"
+              className="absolute w-[168px] h-[211px] top-[7px] -left-0"
               alt="Decorative Group"
               src="/om-1.png"
             />
           </div>
 
-          <div className="absolute w-[225px] h-[225px] top-[403px] left-0">
+          {/* <div className="absolute w-[225px] h-[225px] top-[403px] left-0">
             <img
               className="absolute w-[155px] h-[211px] top-[7px] left-14"
               alt="Decorative Group"
               src="/om-1.png"
             />
-          </div>
+          </div> */}
 
           <h2 className="absolute w-[210px] top-[42px] left-[674px] [text-shadow:0px_4px_4px_#00000040] [-webkit-text-stroke:0.5px_#8b0000] [font-family:'Marcellus',Helvetica] font-normal text-white text-4xl tracking-[0] leading-[normal]">
             Live Darshan
@@ -402,6 +460,29 @@ export const Wireframe = (): JSX.Element => {
 
           <div className="absolute w-[955px] h-[589px] top-[235px] left-[136px] bg-[#1e1e1e]">
             {/* Video player placeholder */}
+            {selectedTemple === 'mahakaleshwar' && (
+              <iframe
+                width="955"
+                height="589"
+                src="https://www.youtube.com/embed/SyvlfWBCw7I?si=MjvSk7Uxks9welTV&controls=1&autoplay=1&mute=1"
+                title="Live Darshan Video - Mahakaleshwar"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            )}
+
+            {selectedTemple === 'salasar' && (
+              <iframe
+                width="955"
+                height="589"
+                src="https://www.youtube.com/embed/lW--ukmD8Wc?si=sXMi9WppuEPEX83C&controls=1&autoplay=1&mute=1"
+                title="Live Darshan Video - Salasar Balaji"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            )}
             <img
               className="w-[305px] h-[305px] top-[-134px] left-[488px] absolute object-cover"
               alt="Decorative Image"
@@ -433,13 +514,19 @@ export const Wireframe = (): JSX.Element => {
             />
           </div>
 
-          <div className="inline-flex items-center justify-center gap-2.5 p-2.5 absolute top-36 left-[469px] bg-[#daa520] border border-solid border-white">
+          <div
+            className={`inline-flex items-center justify-center gap-2.5 p-2.5 absolute top-36 left-[469px] ${selectedTemple === 'mahakaleshwar' ? 'bg-[#daa520]' : 'bg-[#8b0000]'} border border-solid border-white`}
+            onClick={() => handleButtonClick('mahakaleshwar')}
+          >
             <div className="relative w-fit mt-[-1.00px] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-xl tracking-[0] leading-[normal] whitespace-nowrap">
               Shree Mahakaleshwar Mandir
             </div>
           </div>
 
-          <div className="flex w-[304px] items-center justify-center gap-2.5 p-2.5 absolute top-36 left-[784px] bg-[#8b0000] border border-solid border-white">
+          <div
+            className={`flex w-[304px] items-center justify-center gap-2.5 p-2.5 absolute top-36 left-[784px] ${selectedTemple === 'salasar' ? 'bg-[#daa520]' : 'bg-[#8b0000]'} border border-solid border-white`}
+            onClick={() => handleButtonClick('salasar')}
+          >
             <div className="relative w-fit mt-[-1.00px] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-xl tracking-[0] leading-[normal] whitespace-nowrap">
               Shree Salasar Balaji Mandir
             </div>
@@ -659,83 +746,83 @@ export const Wireframe = (): JSX.Element => {
         </section>
 
         <section className="flex gap-[20px] mt-[40px] mx-[80px]">
-  {/* Connect with Us */}
-  <Card className="w-[450px] h-[320px] bg-[#8b0000] rounded-none">
-    <CardContent className="p-8 flex flex-col h-full">
-      <div className="flex-1">
-        <img
-          className="w-12 h-12 mb-4"
-          alt="Temple Icon"
-          src="/connect.png"
-        />
-        <div className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[24px] leading-tight mb-4">
-          Connect with Us
-        </div>
-        <div className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[16px] leading-relaxed mb-6">
-          Reach out and connect with our church community. We're here to welcome, assist, and share in your journey of faith.
-        </div>
-      </div>
-      
-      <div className="flex items-center mt-auto">
-        <img className="w-7 h-7 mr-3" alt="Phone" src="/call.png" />
-        <span className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[28px]">
-          +91 9876543210
-        </span>
-      </div>
-    </CardContent>
-  </Card>
+          {/* Connect with Us */}
+          <Card className="w-[450px] h-[320px] bg-[#8b0000] rounded-none">
+            <CardContent className="p-8 flex flex-col h-full">
+              <div className="flex-1">
+                <img
+                  className="w-12 h-12 mb-4"
+                  alt="Temple Icon"
+                  src="/connect.png"
+                />
+                <div className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[24px] leading-tight mb-4">
+                  Connect with Us
+                </div>
+                <div className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[16px] leading-relaxed mb-6">
+                  Reach out and connect with our church community. We're here to welcome, assist, and share in your journey of faith.
+                </div>
+              </div>
 
-  {/* Donate for Cause */}
-  <Card className="w-[450px] h-[320px] bg-[#ece5df] rounded-none">
-    <CardContent className="p-8 flex flex-col h-full">
-      <div className="flex-1">
-        <img
-          className="w-12 h-12 mb-4"
-          alt="Charity Icon"
-          src="/donate.png"
-        />
-        <div className="[font-family:'Tenor_Sans',Helvetica] text-black text-[24px] leading-tight mb-4">
-          Donate for Cause
-        </div>
-        <div className="[font-family:'Tenor_Sans',Helvetica]  text-black text-[16px] leading-relaxed mb-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq
-        </div>
-      </div>
-      
-      <div className="mt-auto">
-        <Button className="w-[80px] h-[40px] bg-[#8b0000] rounded-none text-white text-[15px] [font-family:'Tenor_Sans',Helvetica] hover:bg-[#7a0000]">
-          Donate
-        </Button>
-      </div>
-    </CardContent>
-  </Card>
+              <div className="flex items-center mt-auto">
+                <img className="w-7 h-7 mr-3" alt="Phone" src="/call.png" />
+                <span className="[font-family:'Tenor_Sans',Helvetica]  text-white text-[28px]">
+                  +91 9876543210
+                </span>
+              </div>
+            </CardContent>
+          </Card>
 
-  {/* Office Timings */}
-  <Card className="w-[450px] h-[320px] bg-[#d05e2d] rounded-none">
-    <CardContent className="p-8 flex flex-col h-full">
-      <div className="flex-1">
-        <img
-          className="w-12 h-12 mb-4"
-          alt="Time Icon"
-          src="/time.png"
-        />
-        <div className="[font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[24px] leading-tight mb-6">
-          Office Timings
-        </div>
-        <div className="space-y-3">
-          <div className="flex justify-between [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[16px]">
-            <span>Monday - Friday</span>
-            <span>8:00 AM - 8:00 PM</span>
-          </div>
-          <div className="flex justify-between [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[16px]">
-            <span>Saturday - Sunday</span>
-            <span>10:00 AM - 6:00 PM</span>
-          </div>
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-</section>
+          {/* Donate for Cause */}
+          <Card className="w-[450px] h-[320px] bg-[#ece5df] rounded-none">
+            <CardContent className="p-8 flex flex-col h-full">
+              <div className="flex-1">
+                <img
+                  className="w-12 h-12 mb-4"
+                  alt="Charity Icon"
+                  src="/donate.png"
+                />
+                <div className="[font-family:'Tenor_Sans',Helvetica] text-black text-[24px] leading-tight mb-4">
+                  Donate for Cause
+                </div>
+                <div className="[font-family:'Tenor_Sans',Helvetica]  text-black text-[16px] leading-relaxed mb-6">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq
+                </div>
+              </div>
+
+              <div className="mt-auto">
+                <Button className="w-[80px] h-[40px] bg-[#8b0000] rounded-none text-white text-[15px] [font-family:'Tenor_Sans',Helvetica] hover:bg-[#7a0000]">
+                  Donate
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Office Timings */}
+          <Card className="w-[450px] h-[320px] bg-[#d05e2d] rounded-none">
+            <CardContent className="p-8 flex flex-col h-full">
+              <div className="flex-1">
+                <img
+                  className="w-12 h-12 mb-4"
+                  alt="Time Icon"
+                  src="/time.png"
+                />
+                <div className="[font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[24px] leading-tight mb-6">
+                  Office Timings
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[16px]">
+                    <span>Monday - Friday</span>
+                    <span>8:00 AM - 8:00 PM</span>
+                  </div>
+                  <div className="flex justify-between [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-[16px]">
+                    <span>Saturday - Sunday</span>
+                    <span>10:00 AM - 6:00 PM</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
         {/* Donation Section */}
         <section className="relative w-[1440px] h-[1576px] mt-[40px]">
           <img
@@ -1312,28 +1399,36 @@ export const Wireframe = (): JSX.Element => {
                   <img
                     className="absolute w-[7px] h-[13px] top-0 left-px"
                     alt="Facebook"
-                    src="/facebook.svg"
+                    src="/Facebook.png"
                   />
                 </div>
                 <div className="absolute w-[13px] h-2.5 top-px left-[25px]">
                   <img
                     className="absolute w-[13px] h-2.5 top-0 left-px"
                     alt="Twitter"
-                    src="/twitter.svg"
+                    src="/Twitter.png"
                   />
                 </div>
                 <div className="absolute w-[13px] h-[13px] top-0 left-[52px]">
                   <img
                     className="absolute w-[13px] h-[13px] top-0 left-px"
                     alt="Instagram"
-                    src="/instagram.svg"
+                    src="/Instagram.png"
                   />
                 </div>
                 <div className="absolute w-[13px] h-[13px] -top-px left-20">
-                  <div className="relative h-3 top-px left-px bg-[url(/linkedin.svg)] bg-[100%_100%]" />
+                  <img
+                    className="absolute w-[13px] h-[13px] top-0 left-px"
+                    alt="LinkedIn"
+                    src="/LinkedIn.png"
+                  />
                 </div>
                 <div className="absolute w-[15px] h-2.5 top-px left-[109px]">
-                  <div className="relative w-3.5 h-2.5 left-px bg-[url(/youtube.svg)] bg-[100%_100%]" />
+                  <img
+                    className="absolute w-[13px] h-[13px] top-0 left-px"
+                    alt="youtube"
+                    src="/YouTube.png"
+                  />
                 </div>
               </div>
             </div>

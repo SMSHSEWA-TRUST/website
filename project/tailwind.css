@@ -66,6 +66,28 @@
 }
 
 
+
+@keyframes slideUpText {
+  0% {
+    opacity: 0;
+    transform: translateY(100%); /* Start from the bottom */
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0); /* Move to normal position */
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%); /* Move upwards and disappear */
+  }
+}
+
+.animate-slideUpText {
+  animation: slideUpText 3s ease-in-out infinite;
+}
+
+
+
   .dark {
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
