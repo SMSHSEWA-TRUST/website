@@ -20,16 +20,22 @@ import { Separator } from "../../components/ui/separator";
 import { Textarea } from "../../components/ui/textarea";
 
 export const Wireframe = (): JSX.Element => {
-  const [textIndex, setTextIndex] = useState(0);
-  const texts = [
-    'JAI SHRI MAHAKAL',
-    'JAI SHRI SALASAR BALAJI',
-    // Add more text items as needed
+  // Replace texts array with array of objects containing text and image
+  const heroItems = [
+    {
+      text: 'JAI SHRI MAHAKAL',
+      image: '/deity.png', // Mahakal image
+    },
+    {
+      text: 'JAI SHRI SALASAR BALAJI',
+      image: '/temp-image-7.png', // Salasar image (add this image to public/ if not present)
+    },
   ];
+  const [textIndex, setTextIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
+      setTextIndex((prevIndex) => (prevIndex + 1) % heroItems.length);
     }, 3000); // Change text every 3 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
@@ -37,12 +43,12 @@ export const Wireframe = (): JSX.Element => {
 
   // Function to go to the previous text
   const handlePrevClick = () => {
-    setTextIndex((prevIndex) => (prevIndex - 1 + texts.length) % texts.length);
+    setTextIndex((prevIndex) => (prevIndex - 1 + heroItems.length) % heroItems.length);
   };
 
   // Function to go to the next text
   const handleNextClick = () => {
-    setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
+    setTextIndex((prevIndex) => (prevIndex + 1) % heroItems.length);
   };
 
   // Donation data
@@ -166,7 +172,7 @@ export const Wireframe = (): JSX.Element => {
         <header className="relative w-[1283px] h-[114px] mx-auto mt-[77px]">
           <div className="flex w-full h-[114px] items-center gap-[89px]">
             <img
-              className="relative w-[114px] h-[114px] object-cover"
+              className="relative w-[114px] h-[114px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
               alt="Temple Logo"
               src="/temp-logo.png"
             />
@@ -264,33 +270,34 @@ export const Wireframe = (): JSX.Element => {
           <div className="relative h-[741px]">
             <div className="absolute w-[433px] h-[740px] top-0 left-[847px] bg-[#8b0000]" />
             <img
-              className="absolute w-[1100px] h-[900px] top-[-120px] left-[42px]"
+              className="absolute w-[1100px] h-[900px] top-[-120px] left-[42px] transition-transform duration-500 ease-in-out hover:scale-105"
               alt="Abstract floral"
               src="/abstract-floral.png"
             />
             <img
-              className="absolute w-[847px] h-[741px] top-0 left-0 object-cover"
+              className="absolute w-[847px] h-[741px] top-0 left-0 object-cover transition-transform duration-500 ease-in-out hover:scale-105"
               alt="Temple Image"
               src="/temp-image.png"
             />
+            {/* Animated deity image changes with text */}
             <img
-              className="absolute w-[521px] h-[520px] top-[95px] left-[599px] object-cover"
+              className="absolute w-[521px] h-[520px] top-[95px] left-[599px] object-cover transition-all duration-700"
               alt="Deity Image"
-              src="/deity.png"
+              src={heroItems[textIndex].image}
+              key={heroItems[textIndex].image}
             />
-
             <div className="absolute w-[442px] h-[289px] top-[262px] left-[75px]">
               <div className="absolute w-[442px] h-[294px] top-0 left-0">
                 <div className="absolute w-[442px] -top-px left-0 [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-base tracking-[0] leading-[normal]">
                   Feel Lord Shiva&apos;s Power
-                   <div className="relative w-full h-full">
-        <div
-          className="absolute w-[489px] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] [font-family:'Marcellus',Helvetica] font-normal text-white text-[64px] tracking-[0] leading-[normal] animate-slideUpText"
-          key={texts[textIndex]} // This ensures the text re-renders when the index changes
-        >
-          {texts[textIndex]}
-        </div>
-      </div>
+                  <div className="relative w-full h-full">
+                    <div
+                      className="absolute w-[489px] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] [font-family:'Marcellus',Helvetica] font-normal text-white text-[64px] tracking-[0] leading-[normal] animate-slideUpText"
+                      key={heroItems[textIndex].text}
+                    >
+                      {heroItems[textIndex].text}
+                    </div>
+                  </div>
                 </div>
 
                 <p className="absolute w-[442px] top-[198px] left-0 [font-family:'Tenor_Sans',Helvetica] text-white text-base leading-[normal] font-normal tracking-[0]">
@@ -314,18 +321,18 @@ export const Wireframe = (): JSX.Element => {
           <div className="flex">
             <div className="flex-shrink-0">
               <img
-                className="w-[380px] h-[558px] mt-[119px] ml-[83px] object-cover"
+                className="w-[380px] h-[558px] mt-[119px] ml-[83px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                 alt="Temple Image"
                 src="/temp-image-4.png"
               />
               <div className="flex gap-4">
                 <img
-                  className="w-[305px] h-[251px] -mt-[580px] ml-[481px] object-cover"
+                  className="w-[305px] h-[251px] -mt-[580px] ml-[481px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                   alt="Temple Image"
                   src="/temp-image-3.png"
                 />
                 <img
-                  className="w-[303px] h-[323px] -mt-[37%] -ml-[305px] object-cover"
+                  className="w-[303px] h-[323px] -mt-[37%] -ml-[305px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                   alt="Temple Image"
                   src="/temp-image-2.png"
                 />
@@ -361,7 +368,7 @@ export const Wireframe = (): JSX.Element => {
 
                     <div className="inline-flex items-center gap-[29px] mt-[60px]">
                       <img
-                        className="w-[50px] h-[50px] object-cover"
+                        className="w-[50px] h-[50px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                         alt="Image"
                         src="/image 2.png"
                       />
@@ -379,7 +386,7 @@ export const Wireframe = (): JSX.Element => {
 
                     <div className="inline-flex items-center gap-[29px] mt-[54px]">
                       <img
-                        className="w-[50px] h-[50px] object-cover"
+                        className="w-[50px] h-[50px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                         alt="Image"
                         src="/image 3.png"
                       />
@@ -416,12 +423,12 @@ export const Wireframe = (): JSX.Element => {
         {/* Live Darshan Section */}
         <section className="relative w-[1446px] h-[927px] mt-[5px] bg-[#8b0000]">
           <img
-            className="w-[405px] h-[715px] top-[172px] left-0 absolute object-cover"
+            className="w-[405px] h-[715px] top-[172px] left-0 absolute object-cover transition-transform duration-500 ease-in-out hover:scale-105"
             alt="Decorative Image"
             src="/mand-7.png"
           />
           <img
-            className="w-[354px] h-[715px] top-[172px] left-[1142px] absolute object-cover"
+            className="w-[354px] h-[715px] top-[172px] left-[1142px] absolute object-cover transition-transform duration-500 ease-in-out hover:scale-105"
             alt="Decorative Image"
             src="/mand-7.png"
           />
@@ -484,12 +491,12 @@ export const Wireframe = (): JSX.Element => {
               ></iframe>
             )}
             <img
-              className="w-[305px] h-[305px] top-[-134px] left-[488px] absolute object-cover"
+              className="w-[305px] h-[305px] top-[-134px] left-[488px] absolute object-cover transition-transform duration-500 ease-in-out hover:scale-105"
               alt="Decorative Image"
               src="/mand-8-min 2.png"
             />
             <img
-              className="w-[305px] h-[305px] top-[366px] left-[495px] absolute object-cover"
+              className="w-[305px] h-[305px] top-[366px] left-[495px] absolute object-cover transition-transform duration-500 ease-in-out hover:scale-105"
               alt="Decorative Image"
               src="/mand-8-min 2.png"
             />
@@ -554,7 +561,7 @@ export const Wireframe = (): JSX.Element => {
               />
 
               <img
-                className="w-[217px] h-[217px] mt-[132px] ml-[22px] absolute object-cover"
+                className="w-[217px] h-[217px] mt-[132px] ml-[22px] absolute object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                 alt="Decorative Image"
                 src="/mand-8-min 2.png"
               />
@@ -611,7 +618,7 @@ export const Wireframe = (): JSX.Element => {
         {/* Services Section */}
         <section className="relative w-[1440px] h-[961px] mt-[0px] bg-[#ece5df]">
           <img
-            className="w-[962px] h-[961px] top-0 left-[239px] absolute object-cover"
+            className="w-[962px] h-[961px] top-0 left-[239px] absolute object-cover transition-transform duration-500 ease-in-out hover:scale-105"
             alt="Decorative Image"
             src="/mand-7.png"
           />
@@ -642,7 +649,7 @@ export const Wireframe = (): JSX.Element => {
             <div className="flex flex-col items-start gap-[27px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="gap-[22px] self-stretch w-full flex-[0_0_auto] flex items-center relative">
                 <img
-                  className="relative w-[338px] h-[316px] object-cover"
+                  className="relative w-[338px] h-[316px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                   alt="Temple Image"
                   src="/temp-image-7.png"
                 />
@@ -664,7 +671,7 @@ export const Wireframe = (): JSX.Element => {
                   </CardContent>
                 </Card>
                 <img
-                  className="relative w-[338px] h-[316px] object-cover"
+                  className="relative w-[338px] h-[316px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                   alt="Temple Image"
                   src="/temp-image-6.png"
                 />
@@ -689,7 +696,7 @@ export const Wireframe = (): JSX.Element => {
                   </CardContent>
                 </Card>
                 <img
-                  className="relative w-[349px] h-[316px] object-cover"
+                  className="relative w-[349px] h-[316px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                   alt="Temple Image"
                   src="/temp-image-5.png"
                 />
@@ -751,7 +758,7 @@ export const Wireframe = (): JSX.Element => {
             <CardContent className="p-8 flex flex-col h-full">
               <div className="flex-1">
                 <img
-                  className="w-12 h-12 mb-4"
+                  className="w-12 h-12 mb-4 transition-transform duration-500 ease-in-out hover:scale-105"
                   alt="Temple Icon"
                   src="/connect.png"
                 />
@@ -777,7 +784,7 @@ export const Wireframe = (): JSX.Element => {
             <CardContent className="p-8 flex flex-col h-full">
               <div className="flex-1">
                 <img
-                  className="w-12 h-12 mb-4"
+                  className="w-12 h-12 mb-4 transition-transform duration-500 ease-in-out hover:scale-105"
                   alt="Charity Icon"
                   src="/donate.png"
                 />
@@ -802,7 +809,7 @@ export const Wireframe = (): JSX.Element => {
             <CardContent className="p-8 flex flex-col h-full">
               <div className="flex-1">
                 <img
-                  className="w-12 h-12 mb-4"
+                  className="w-12 h-12 mb-4 transition-transform duration-500 ease-in-out hover:scale-105"
                   alt="Time Icon"
                   src="/time.png"
                 />
@@ -826,7 +833,7 @@ export const Wireframe = (): JSX.Element => {
         {/* Donation Section */}
         <section className="relative w-[1440px] h-[1576px] mt-[40px]">
           <img
-            className="absolute w-[810px] h-[810px] top-0 left-0 object-cover"
+            className="absolute w-[810px] h-[810px] top-0 left-0 object-cover transition-transform duration-500 ease-in-out hover:scale-105"
             alt="Decorative Image"
             src="/mand-9-min 1.png"
           />
@@ -863,7 +870,7 @@ export const Wireframe = (): JSX.Element => {
 
           <div className="flex absolute top-[277px] left-[657px] space-x-4">
             <img
-              className="w-[305px] h-[272px] object-cover"
+              className="w-[305px] h-[272px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
               alt="Image"
               src="/image-4.png"
             />
@@ -900,13 +907,13 @@ export const Wireframe = (): JSX.Element => {
           />
 
           <img
-            className="absolute w-[785px] h-[810px] top-[623px] left-0 object-cover"
+            className="absolute w-[785px] h-[810px] top-[623px] left-0 object-cover transition-transform duration-500 ease-in-out hover:scale-105"
             alt="Decorative Image"
             src="/mand-9-min 1.png"
           />
 
           <img
-            className="absolute w-[1366px] h-[569px] top-[924px] left-[27px] object-cover"
+            className="absolute w-[1366px] h-[569px] top-[924px] left-[27px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
             alt="Image"
             src="/image-5.png"
           />
@@ -1007,35 +1014,35 @@ export const Wireframe = (): JSX.Element => {
             </div>
             <div className="col-span-1 row-span-1 bg-[#8b0000]">
               <img
-                className="w-[303px] h-[323px] mt-2 ml-7"
+                className="w-[303px] h-[323px] mt-2 ml-7 transition-transform duration-500 ease-in-out hover:scale-105"
                 alt="Image"
                 src="/temp-image-11.png"
               />
             </div>
             <div className="col-span-1 row-span-1">
               <img
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                 alt="Image"
                 src="/temp-image-10.png"
               />
             </div>
             <div className="col-span-1 row-span-1">
               <img
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                 alt="Image"
                 src="/temp-image-8.png"
               />
             </div>
             <div className="col-span-1 row-span-1 bg-white">
               <img
-                className="w-[303px] h-[323px] mt-2 ml-[25px] object-cover"
+                className="w-[303px] h-[323px] mt-2 ml-[25px] object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                 alt="Image"
                 src="/temp-image-2.png"
               />
             </div>
             <div className="col-span-2 row-span-1">
               <img
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                 alt="Image"
                 src="/temp-image-9.png"
               />
@@ -1049,7 +1056,7 @@ export const Wireframe = (): JSX.Element => {
             ॐ नमः शिवाय
           </div>
           <img
-            className="absolute w-[1124px] h-[634px] top-0 left-[316px]"
+            className="absolute w-[1124px] h-[634px] top-0 left-[316px] transition-transform duration-500 ease-in-out hover:scale-105"
             alt="Image"
             src="/image-shiv.png"
           />
@@ -1199,7 +1206,7 @@ export const Wireframe = (): JSX.Element => {
 
           <div className="relative w-[838px] h-[847px] mb-10 -mt-5">
             <img
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105"
               alt="Image"
               src="/image-6.png"
             />
@@ -1349,7 +1356,7 @@ export const Wireframe = (): JSX.Element => {
             </div>
           </div>
 
-          <div className="absolute w-[156px] top-[93px] left-20 [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000] [font-family:'Marcellus_SC',Helvetica] font-normal text-white text-xl tracking-[0] leading-[normal]">
+          <div className="absolute w-[156px] top-[93px] left-20 [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000] [font-family:'Marcellus',Helvetica] font-normal text-white text-xl tracking-[0] leading-[normal]">
             Special Links
           </div>
 
@@ -1372,7 +1379,7 @@ export const Wireframe = (): JSX.Element => {
           </div>
 
           <div className="absolute w-[222px] h-[159px] top-[87px] left-[1147px]">
-            <div className="absolute w-[105px] -top-px left-[108px] [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000] [font-family:'Marcellus_SC',Helvetica] font-normal text-white text-xl text-right tracking-[0] leading-[normal]">
+            <div className="absolute w-[105px] -top-px left-[108px] [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000] [font-family:'Marcellus',Helvetica] font-normal text-white text-xl text-right tracking-[0] leading-[normal]">
               Info
             </div>
             <div className="absolute w-[203px] top-[38px] left-[11px] text-white text-base text-center [font-family:'Tenor_Sans',Helvetica] font-normal tracking-[0] leading-[normal]">
