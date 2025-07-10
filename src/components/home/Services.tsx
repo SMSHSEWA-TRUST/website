@@ -38,7 +38,7 @@ const Services = (): JSX.Element => {
         <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-8 lg:px-0 overflow-hidden">
             {/* Decorative background image for large screens */}
             <img
-                className="hidden lg:block absolute top-0 left-1/2 -translate-x-1/2 w-[70vw] max-w-4xl h-full object-cover opacity-20 pointer-events-none select-none"
+                className="hidden lg:block absolute top-0 left-1/2 -translate-x-1/2 w-[70vw] max-w-4xl h-full object-cover opacity-20 pointer-events-none select-none transition-transform duration-500 ease-in-out hover:scale-110"
                 alt="Decorative background"
                 src="/mand-7.png"
                 aria-hidden="true"
@@ -71,7 +71,7 @@ const Services = (): JSX.Element => {
                                 <img
                                     src={service.image}
                                     alt={service.title}
-                                    className="w-full h-64 object-cover rounded-md shadow-md mb-4"
+                                    className="w-full h-64 object-cover rounded-md shadow-md mb-4 transition-transform duration-500 ease-in-out hover:scale-110"
                                     loading="lazy"
                                 />
                                 <Card className="w-full bg-white rounded-lg shadow p-6 flex flex-col items-center">

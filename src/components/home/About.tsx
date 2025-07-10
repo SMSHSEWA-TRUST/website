@@ -15,7 +15,7 @@ const About = (): JSX.Element => {
                         {/* Main large image - spans 2 rows */}
                         <div className="row-span-2">
                             <img
-                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-transform duration-500 ease-in-out hover:scale-110"
                                 alt="Main temple view showcasing traditional architecture"
                                 src="/temp-image-4.png"
                                 loading="lazy"
@@ -25,7 +25,7 @@ const About = (): JSX.Element => {
                         {/* Top right image */}
                         <div className="row-span-1">
                             <img
-                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-transform duration-500 ease-in-out hover:scale-110"
                                 alt="Temple detail view"
                                 src="/temp-image-3.png"
                                 loading="lazy"
@@ -35,7 +35,7 @@ const About = (): JSX.Element => {
                         {/* Bottom right image */}
                         <div className="row-span-1">
                             <img
-                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-transform duration-500 ease-in-out hover:scale-110"
                                 alt="Temple courtyard view"
                                 src="/temp-image-2.png"
                                 loading="lazy"
@@ -117,4 +117,4 @@ const About = (): JSX.Element => {
     );
 };
 
-export default About; 
+export default About;

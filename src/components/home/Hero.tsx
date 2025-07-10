@@ -51,7 +51,7 @@ const Hero = (): JSX.Element => {
                         {deityImages.map((imageSrc, index) => (
                             <img
                                 key={index}
-                                className={`absolute w-full h-full object-cover transition-all duration-1000 ease-in-out transform ${index === textIndex
+                                className={`absolute inset-0 w-full h-full object-cover duration-1000 ease-in-out transform transition-transform hover:scale-110 ${index === textIndex
                                         ? 'opacity-100 scale-100'
                                         : 'opacity-0 scale-105'
                                     }`}
@@ -139,14 +139,14 @@ const Hero = (): JSX.Element => {
                 <div className="relative w-full bg-[#8b0000] py-8 sm:py-12 md:py-16 flex justify-center items-center overflow-hidden">
                     {/* Abstract floral background - positioned to cover most of the red section */}
                     <img
-                        className="absolute inset-0 w-full h-full object-cover opacity-30 scale-110"
+                        className="absolute inset-0 w-full h-full object-cover opacity-30 scale-110 transition-transform duration-500 ease-in-out hover:scale-125"
                         alt="Abstract floral"
                         src="/abstract-floral.png"
                     />
 
                     {/* Additional abstract floral positioning for better coverage */}
                     <img
-                        className="absolute top-[-20px] left-[-20px] w-[120%] h-[120%] object-cover opacity-20"
+                        className="absolute top-[-20px] left-[-20px] w-[120%] h-[120%] object-cover opacity-20 transition-transform duration-500 ease-in-out hover:scale-125"
                         alt="Abstract floral overlay"
                         src="/abstract-floral.png"
                     />
@@ -160,7 +160,7 @@ const Hero = (): JSX.Element => {
                                 {deityImages.map((imageSrc, index) => (
                                     <img
                                         key={index}
-                                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out transform ${index === textIndex
+                                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out transform transition-transform hover:scale-110 ${index === textIndex
                                             ? 'opacity-100 scale-100'
                                             : 'opacity-0 scale-105'
                                             }`}
@@ -183,4 +183,4 @@ const Hero = (): JSX.Element => {
     );
 };
 
-export default Hero; 
+export default Hero;
