@@ -16,7 +16,7 @@ import { Footer } from "../../components/common/Footer";
 export const Home = (): JSX.Element => {
     return (
         <div className="bg-white flex flex-row justify-center w-full">
-            <div className="bg-white overflow-hidden w-[1440px] relative">
+            <div className="bg-white overflow-hidden ">
                 {/* Header Section */}
                 <Header />
 

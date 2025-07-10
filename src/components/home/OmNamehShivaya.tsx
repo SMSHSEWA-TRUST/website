@@ -1,15 +1,38 @@
 
 const OmNamehShivaya = (): JSX.Element => {
     return (
-        <section className="relative w-[1440px] h-[634px] mt-[5px] bg-[url(/bg-shiv.png)] bg-cover bg-[50%_50%]">
-            <div className="absolute top-[85px] left-[126px] [text-shadow:10px_10px_4px_#00000040] [font-family:'Tiro_Devanagari_Hindi',Helvetica] text-white text-[173.3px] tracking-[0] font-normal leading-[normal]">
-                ॐ नमः शिवाय
-            </div>
-            <img
-                className="absolute w-[1124px] h-[634px] top-0 left-[316px]"
-                alt="Image"
-                src="/image-shiv.png"
+        <section className="relative w-full aspect-[1440/634] max-h-[90vh] overflow-hidden">
+            {/* Background Image */}
+            <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: 'url(/bg-shiv.png)' }}
             />
+
+            {/* Content Container */}
+            <div className="relative z-10 w-full h-full flex items-center justify-center">
+
+                {/* Om Namah Shivaya Text - Proportional positioning */}
+                <div className="absolute left-[8.75%] top-[13.4%] z-10">
+                    <h1 className="font-['Tiro_Devanagari_Hindi',serif] text-white font-normal leading-none tracking-wide drop-shadow-[10px_10px_4px_rgba(0,0,0,0.25)]"
+                        style={{ fontSize: 'clamp(1rem, 12vw, 173.3px)' }}>
+                        ॐ नमः शिवाय
+                    </h1>
+                </div>
+
+                {/* Shiva Image - Proportional positioning */}
+                <div className="absolute right-0 top-0 w-[78%] h-full z-20">
+                    <img
+                        className="w-full h-full object-cover object-left"
+                        alt="Lord Shiva Statue"
+                        src="/image-shiv.png"
+                        loading="lazy"
+                    />
+                </div>
+
+            </div>
+
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent pointer-events-none z-5" />
         </section>
     );
 };
