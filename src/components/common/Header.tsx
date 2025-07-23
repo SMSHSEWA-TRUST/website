@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
     NavigationMenu,
@@ -8,35 +9,11 @@ import {
 
 const Header = (): JSX.Element => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isPujaSubmenuOpen, setIsPujaSubmenuOpen] = useState(false);
-    const [isPujaDropdownOpen, setIsPujaDropdownOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
-
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
-
-    const togglePujaSubmenu = () => {
-        setIsPujaSubmenuOpen(!isPujaSubmenuOpen);
-    };
-
-    const togglePujaDropdown = () => {
-        setIsPujaDropdownOpen(!isPujaDropdownOpen);
-    };
-
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsPujaDropdownOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    const location = useLocation();
+    const currentPath = location.pathname;
 
     return (
         <header className="w-full bg-white sticky top-0 z-50 shadow-sm">
@@ -86,106 +63,64 @@ const Header = (): JSX.Element => {
                         <NavigationMenu>
                             <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8">
                                 <NavigationMenuItem>
-                                    <Button
-                                        variant="link"
-                                        className="text-[#333333] text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] transition-colors"
-                                    >
-                                        Home
-                                    </Button>
-                                </NavigationMenuItem>
-                                <NavigationMenuItem>
-                                    <Button
-                                        variant="link"
-                                        className="text-[#333333] text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] transition-colors"
-                                    >
-                                        About
-                                    </Button>
-                                </NavigationMenuItem>
-                                <NavigationMenuItem>
-                                    <div className="relative" ref={dropdownRef}>
-                                        <button
-                                            onClick={togglePujaDropdown}
-                                            className="flex items-center gap-1 bg-transparent hover:bg-transparent text-[#333333] text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] transition-colors px-3 py-2"
+                                    <a href="/">
+                                        <Button
+                                            variant="link"
+                                            className={`text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                         >
-                                            Puja&apos;s
-                                            <svg
-                                                className={`w-4 h-4 ml-1 transition-transform duration-200 ${isPujaDropdownOpen ? 'rotate-180' : ''}`}
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </button>
-
-                                        {/* Dropdown Menu */}
-                                        {isPujaDropdownOpen && (
-                                            <div className="absolute top-full left-0 mt-1 w-[250px] bg-white shadow-lg border border-gray-100 rounded-md z-50">
-                                                <div className="py-2">
-                                                    <button
-                                                        className="w-full text-left px-4 py-2 text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 transition-colors"
-                                                        onClick={() => setIsPujaDropdownOpen(false)}
-                                                    >
-                                                        Hanuman Puja
-                                                    </button>
-                                                    <button
-                                                        className="w-full text-left px-4 py-2 text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 transition-colors"
-                                                        onClick={() => setIsPujaDropdownOpen(false)}
-                                                    >
-                                                        Mahakaleshwar Puja
-                                                    </button>
-                                                    <button
-                                                        className="w-full text-left px-4 py-2 text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 transition-colors"
-                                                        onClick={() => setIsPujaDropdownOpen(false)}
-                                                    >
-                                                        Aarti Services
-                                                    </button>
-                                                    <button
-                                                        className="w-full text-left px-4 py-2 text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 transition-colors"
-                                                        onClick={() => setIsPujaDropdownOpen(false)}
-                                                    >
-                                                        Special Prayers
-                                                    </button>
-                                                    <button
-                                                        className="w-full text-left px-4 py-2 text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 transition-colors"
-                                                        onClick={() => setIsPujaDropdownOpen(false)}
-                                                    >
-                                                        Festival Pujas
-                                                    </button>
-                                                    <button
-                                                        className="w-full text-left px-4 py-2 text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 transition-colors"
-                                                        onClick={() => setIsPujaDropdownOpen(false)}
-                                                    >
-                                                        Book a Puja
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
+                                            Home
+                                        </Button>
+                                    </a>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
-                                    <Button
-                                        variant="link"
-                                        className="text-[#333333] text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] transition-colors"
-                                    >
-                                        Membership
-                                    </Button>
+                                    <a href="/about">
+                                        <Button
+                                            variant="link"
+                                            className={`text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        >
+                                            About
+                                        </Button>
+                                    </a>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
-                                    <Button
-                                        variant="link"
-                                        className="text-[#333333] text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] transition-colors"
-                                    >
-                                        Blogs
-                                    </Button>
+                                    <a href="/puja">
+                                        <Button
+                                            variant="link"
+                                            className={`text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        >
+                                            Puja's
+                                        </Button>
+                                    </a>
                                 </NavigationMenuItem>
                                 <NavigationMenuItem>
-                                    <Button
-                                        variant="link"
-                                        className="text-[#333333] text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] transition-colors"
-                                    >
-                                        Contact us
-                                    </Button>
+                                    <a href="/membership">
+                                        <Button
+                                            variant="link"
+                                            className={`text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        >
+                                            Membership
+                                        </Button>
+                                    </a>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <a href="/blogs">
+                                        <Button
+                                            variant="link"
+                                            className={`text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        >
+                                            Blogs
+                                        </Button>
+                                    </a>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <a href="/contact">
+                                        <Button
+                                            variant="link"
+                                            className={`text-lg xl:text-xl [font-family:'Tenor_Sans',Helvetica] font-normal transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        >
+                                            Contact us
+                                        </Button>
+                                    </a>
                                 </NavigationMenuItem>
                             </NavigationMenuList>
                         </NavigationMenu>
@@ -238,66 +173,54 @@ const Header = (): JSX.Element => {
                     {/* Mobile Navigation Menu */}
                     <div className={`${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100`}>
                         <nav className={`py-4 space-y-2 ${isMobileMenuOpen ? 'max-h-80 overflow-y-auto' : ''}`}>
-                            <Button
-                                variant="link"
-                                className="w-full text-center text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] py-2 px-4"
-                            >
-                                Home
-                            </Button>
-                            <Button
-                                variant="link"
-                                className="w-full text-center text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] py-2 px-4"
-                            >
-                                About
-                            </Button>
-                            <div className="w-full">
-                                <button
-                                    onClick={togglePujaSubmenu}
-                                    className="w-full text-center text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] py-2 px-4 flex items-center justify-center gap-2 transition-colors"
+                            <a href="/">
+                                <Button
+                                    variant="link"
+                                    className={`w-full text-center text-base [font-family:'Tenor_Sans',Helvetica] font-normal py-2 px-4 transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                 >
-                                    <span>Puja&apos;s</span>
-                                    <svg
-                                        className={`w-4 h-4 transition-transform duration-200 ${isPujaSubmenuOpen ? 'rotate-180' : ''}`}
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isPujaSubmenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'}`}>
-                                    <div className="bg-gray-50  border-[#8b0000] ml-4 mt-1 max-h-60 overflow-y-auto">
-                                        <button className="w-full text-center text-[#333333] text-sm [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 py-2 px-4 transition-colors">
-                                            Hanuman Puja
-                                        </button>
-                                        <button className="w-full text-center text-[#333333] text-sm [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 py-2 px-4 transition-colors">
-                                            Mahakaleshwar Puja
-                                        </button>
-                                        
-                                        <button className="w-full text-center text-[#333333] text-sm [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] hover:bg-orange-50 py-2 px-4 transition-colors">
-                                            Book a Puja
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <Button
-                                variant="link"
-                                className="w-full text-center text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] py-2 px-4"
-                            >
-                                Membership
-                            </Button>
-                            <Button
-                                variant="link"
-                                className="w-full text-center text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] py-2 px-4"
-                            >
-                                Blogs
-                            </Button>
-                            <Button
-                                variant="link"
-                                className="w-full text-center text-[#333333] text-base [font-family:'Tenor_Sans',Helvetica] font-normal hover:text-[#8b0000] py-2 px-4"
-                            >
-                                Contact us
-                            </Button>
+                                    Home
+                                </Button>
+                            </a>
+                            <a href="/about">
+                                <Button
+                                    variant="link"
+                                    className={`w-full text-center text-base [font-family:'Tenor_Sans',Helvetica] font-normal py-2 px-4 transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                >
+                                    About
+                                </Button>
+                            </a>
+                            <a href="/puja">
+                                <Button
+                                    variant="link"
+                                    className={`w-full text-center text-base [font-family:'Tenor_Sans',Helvetica] font-normal py-2 px-4 transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                >
+                                    Puja's
+                                </Button>
+                            </a>
+                            <a href="/membership">
+                                <Button
+                                    variant="link"
+                                    className={`w-full text-center text-base [font-family:'Tenor_Sans',Helvetica] font-normal py-2 px-4 transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                >
+                                    Membership
+                                </Button>
+                            </a>
+                            <a href="/blogs">
+                                <Button
+                                    variant="link"
+                                    className={`w-full text-center text-base [font-family:'Tenor_Sans',Helvetica] font-normal py-2 px-4 transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                >
+                                    Blogs
+                                </Button>
+                            </a>
+                            <a href="/contact">
+                                <Button
+                                    variant="link"
+                                    className={`w-full text-center text-base [font-family:'Tenor_Sans',Helvetica] font-normal py-2 px-4 transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                >
+                                    Contact us
+                                </Button>
+                            </a>
                             {/* Mobile Register/Login in menu */}
                             <div className="px-4 pt-2">
                                 <Button className="w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-sm [font-family:'Tenor_Sans',Helvetica] font-normal">

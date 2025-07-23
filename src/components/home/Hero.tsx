@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "../ui/button";
 
 const Hero = (): JSX.Element => {
@@ -30,14 +30,14 @@ const Hero = (): JSX.Element => {
             <div className="hidden lg:block relative w-full max-w-[1400px] mx-auto">
                 <div className="relative w-full" style={{ aspectRatio: '1283/741' }}>
                     {/* Red section - responsive width with no gap */}
-                    <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]" />
-
-                    {/* Abstract floral - responsive positioning */}
-                    <img
-                        className="absolute w-[85.8%] h-[121.4%] top-[-16.2%] left-[3.3%] object-cover"
-                        alt="Abstract floral"
-                        src="/abstract-floral.png"
-                    />
+                    <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]">
+                        {/* Abstract floral - only in right red section */}
+                        <img
+                            className="absolute right-0 top-0 w-full h-full object-cover opacity-60 pointer-events-none"
+                            alt="Abstract floral"
+                            src="/abstract-floral.png"
+                        />
+                    </div>
 
                     {/* Temple image - responsive with slight overlap to prevent gap */}
                     <img
@@ -52,8 +52,8 @@ const Hero = (): JSX.Element => {
                             <img
                                 key={index}
                                 className={`absolute w-full h-full object-cover transition-all duration-1000 ease-in-out transform ${index === textIndex
-                                        ? 'opacity-100 scale-100'
-                                        : 'opacity-0 scale-105'
+                                    ? 'opacity-100 scale-100'
+                                    : 'opacity-0 scale-105'
                                     }`}
                                 alt={`Deity Image ${index + 1}`}
                                 src={imageSrc}
