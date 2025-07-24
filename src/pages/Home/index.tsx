@@ -13,7 +13,7 @@ import { ContactSection } from "../../components/home/ContactSection";
 import { BlogSection } from "../../components/home/BlogSection";
 import { Footer } from "../../components/common/Footer";
 
-export const Home = (): JSX.Element => {
+export const HomePage = (): JSX.Element => {
     return (
         <div className="bg-white flex flex-row justify-center w-full">
             <div className="bg-white overflow-hidden ">
