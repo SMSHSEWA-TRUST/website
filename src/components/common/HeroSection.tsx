@@ -34,7 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                         <div className="absolute inset-0 bg-black/30" />
                         <h1
                             id="hero-section-title"
-                            className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white text-center"
+                            className="relative z-10 font-marcellus font-normal text-[32px] lg:text-[64px] text-white text-center drop-shadow-lg"
                         >
                             {title}
                         </h1>
@@ -46,7 +46,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 <div className="w-full bg-white ">
                     <div className=" mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="bg-gray-50 rounded-lg p-6 sm:p-8 lg:p-10">
-                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 leading-relaxed text-justify">
+                            <p className="font-tenor-sans font-normal lg:text-[16px] text-[12px] text-[rgba(0, 0, 0, 0.5)] leading-relaxed text-justify">
                                 {description}
                             </p>
                         </div>

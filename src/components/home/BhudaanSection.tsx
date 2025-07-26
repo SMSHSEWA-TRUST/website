@@ -1,6 +1,6 @@
 import React from "react";
 
-const Bhudaan: React.FC = () => {
+const BhudaanSection: React.FC = () => {
     return (
         <section className="bg-[#8B0000] py-12 px-4 md:px-0 flex flex-col items-center w-full min-h-screen relative overflow-hidden">
             <div className="max-w-3xl mx-auto text-center">
@@ -60,4 +60,4 @@ const Bhudaan: React.FC = () => {
     );
 };
 
-export default Bhudaan;
+export default BhudaanSection;
