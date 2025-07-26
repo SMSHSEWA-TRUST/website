@@ -17,20 +17,20 @@ const DivinePower = (): JSX.Element => {
                 />
                 <div className="absolute inset-0 bg-black/40 z-10" />
                 <div className="relative z-20 w-full flex flex-col items-center justify-center px-4 py-16 md:py-24">
-                    <h2 className="font-marcellus text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white text-center font-normal drop-shadow-lg max-w-3xl mx-auto">
+                    <h2 className="font-marcellus text-[16px] sm:text-[32px] lg:text-[48px] text-white text-center font-normal drop-shadow-lg max-w-3xl mx-auto">
                         Feel the Surreal Divine Power
                     </h2>
-                    <p className="mt-6 sm:mt-8 max-w-xl md:max-w-2xl lg:max-w-3xl text-white text-sm sm:text-base md:text-lg text-center font-serif leading-relaxed drop-shadow">
+                    <p className="mt-6 sm:mt-8 max-w-xl text-[16px] text-white text-sm sm:text-base md:text-lg text-center font-serif leading-relaxed drop-shadow">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     </p>
                 </div>
             </div>
             {/* Mobile/Small screen: text above image */}
             <div className="flex flex-col md:hidden w-full items-center justify-center px-4 py-10">
-                <h2 className="font-marcellus text-2xl sm:text-3xl text-[#4c291e] text-center font-normal max-w-2xl mx-auto">
+                <h2 className="font-marcellus text-[16px] sm:text-[32px] lg:text-[48px] text-[#4c291e] text-center font-normal max-w-2xl mx-auto">
                     Feel the Surreal Divine Power
                 </h2>
-                <p className="mt-4 max-w-md text-[#4c291e] text-sm sm:text-base text-center font-serif leading-relaxed">
+                <p className="mt-4 max-w-md text-[#4c291e] text-[10px] sm:text-[12px] text-center font-serif leading-relaxed">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 <img

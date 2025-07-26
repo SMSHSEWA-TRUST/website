@@ -90,11 +90,11 @@ const AnimatedStat = ({ amount, label, shouldAnimate }: { amount: string; label:
 
     return (
         <li className="flex items-center gap-3">
-            <span className="text-3xl md:text-5xl font-light text-[#4b2e1e]">
+            <span className="text-[48px] font-marcellus  font-normal text-[rgba(76,41,30,1)]">
                 {displayValue}
                 <span className="text-xl md:text-3xl align-super">+</span>
             </span>
-            <span className="text-[#4b2e1e] text-lg md:text-base">
+            <span className="text-[rgba(76,41,30,1)] text-[17px] lg:text-[20px] font-normal font-tenor-sans">
                 {label}
             </span>
         </li>
@@ -142,7 +142,7 @@ export default function DonationSection() {
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">
-                    <p className="text-[#4b2e1e] text-lg md:text-base max-w-xs mb-4">
+                    <p className="text-[rgba(76,41,30,1)] font-marcellus text-[17px] lg:text-[20px] max-w-xs mb-4">
                         Lorem ipsum dolor sit amet, consectetur adipiscing eli
                     </p>
                     <ul className="flex flex-col gap-6">
@@ -159,7 +159,7 @@ export default function DonationSection() {
 
                 {/* Right: Main Content */}
                 <div className="flex flex-col items-start gap-6 w-full">
-                    <h2 className="text-[#4b2e1e] text-2xl md:text-3xl font-light leading-tight mb-2">
+                    <h2 className="text-[rgba(76, 41, 30, 1)] text-[26px] lg:text-[36px] font-marcellus font-normal leading-tight mb-2">
                         Lorem ipsum dolor sit amet, <br className="hidden md:block" />
                         consectetur adipiscing eli
                     </h2>
@@ -178,7 +178,7 @@ export default function DonationSection() {
                             className="w-48 h-56 object-cover rounded-md shadow-md bg-gray-200"
                         />
                         <div className="flex-1 flex flex-col gap-3 w-full">
-                            <p className="text-[#4b2e1e] text-base md:text-sm leading-relaxed">
+                            <p className="text-[rgba(30,30,30,0.5)] lg:text-[16px] text-[14px]  leading-relaxed">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing eli.
                             </p>
                             {/* Decorative line after paragraph */}
@@ -187,17 +187,17 @@ export default function DonationSection() {
                                     <span className="flex-1 h-[2px] bg-[#e07a4c] rounded"></span>
                                 </div>
                             </div>
-                            <span className="text-[#c04a1b] font-medium text-base md:text-sm">
+                            <span className="text-[rgba(139,0,0,1)] font-normal font-marcellus text-[16px] lg:text-[20px]">
                                 John Doe
                             </span>
                             <div className="flex items-center justify-between w-full mt-2 gap-2">
-                                <button className="px-5 py-2 bg-[#7c0a02] text-white rounded hover:bg-[#a32d13] transition-colors text-sm font-semibold w-max">
+                                <button className="px-5 py-2 bg-[rgba(139,0,0,1)] text-white  hover:bg-[#a32d13] transition-colors lg:text-[14px] text-[12px] font-semibold w-max">
                                     Know More
                                 </button>
                                 <div className="flex gap-2 ml-auto">
                                     <button
                                         aria-label="Previous"
-                                        className="w-8 h-8 flex items-center justify-center bg-[#7c0a02] text-white rounded hover:bg-[#a32d13] transition-colors"
+                                        className="w-8 h-8 flex items-center justify-center bg-[rgba(139,0,0,1)] text-white rounded hover:bg-[#a32d13] transition-colors"
                                     >
                                         <span className="text-xl">&#8592;</span>
                                     </button>

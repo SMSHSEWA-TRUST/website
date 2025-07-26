@@ -12,6 +12,7 @@ import ScrollingBanner from "../../components/home/ScrollingBanner";
 import { ContactSection } from "../../components/home/ContactSection";
 import { BlogSection } from "../../components/home/BlogSection";
 import { Footer } from "../../components/common/Footer";
+import Bhudaan from "../../components/home/bhudaan";
 
 export const HomePage = (): JSX.Element => {
     return (
@@ -25,7 +26,10 @@ export const HomePage = (): JSX.Element => {
 
                 {/* About Section */}
                 <About />
+                {/* Bhudaan Section */}
+                {<Bhudaan /> }
 
+                {/* Services Section */}
                 {/* Live Darshan Section */}
                 <LiveDarshan />
 

@@ -1,10 +1,3 @@
-import React from 'react';
-import { Button } from "../ui/button";
-import {
-    Card,
-    CardContent,
-} from "../ui/card";
-
 const About = (): JSX.Element => {
     return (
         <section className="w-full  mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
@@ -48,8 +41,8 @@ const About = (): JSX.Element => {
                 <div className="order-2 lg:order-2 space-y-8">
                     {/* Heading */}
                     <div className="space-y-6">
-                        <h2 className="text-4xl md:text-5xl font-normal text-gray-800 leading-tight">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing eli
+                        <h2 className="font-marcellus text-[24px] sm:text-[28px] lg:text-[36px] font-normal text-[rgba(76, 41, 30, 1)] leading-tight">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit
                         </h2>
 
                         {/* Decorative line */}
@@ -62,7 +55,7 @@ const About = (): JSX.Element => {
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-500 text-base leading-relaxed max-w-[500px]">
+                    <p className="text-[rgba(30, 30, 30, 0.5)] font-tenor-sans text-[10px]  sm:text-[12px] lg:text-[16px] font-normal leading-relaxed max-w-[500px]">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                         enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -85,8 +78,8 @@ const About = (): JSX.Element => {
                                 />
                             </div>
                             <div className="flex-1">
-                                <h3 className="font-semibold text-gray-800 text-xl mb-2">Lorem Ipsum</h3>
-                                <p className="text-gray-500 text-base leading-relaxed">
+                                <h3 className="text-[rgba(76, 41, 30, 1)] font-marcellus text-[10px] sm:text-[12px] lg:text-[16px] mb-2">Lorem Ipsum</h3>
+                                <p className="text-[rgba(30, 30, 30, 0.5)] font-tenor-sans text-[10px] sm:text-[12px] lg:text-[12px] leading-relaxed">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                     eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
@@ -103,8 +96,8 @@ const About = (): JSX.Element => {
                                 />
                             </div>
                             <div className="flex-1">
-                                <h3 className="font-semibold text-gray-800 text-xl mb-2">Lorem Ipsum</h3>
-                                <p className="text-gray-500 text-base leading-relaxed">
+                                <h3 className="text-[rgba(76, 41, 30, 1)] font-marcellus text-[10px] sm:text-[12px] lg:text-[16px] mb-2">Lorem Ipsum</h3>
+                                <p className="text-[rgba(30, 30, 30, 0.5)] font-tenor-sans text-[10px] sm:text-[12px] lg:text-[12px] leading-relaxed">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                     eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
@@ -117,4 +110,4 @@ const About = (): JSX.Element => {
     );
 };
 
-export default About; 
+export default About;
