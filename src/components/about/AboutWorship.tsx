@@ -52,14 +52,15 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                         <div className="flex-1  max-w-[546px] flex flex-col gap-6">
                             {/* Title and Subtitle Container - Using Flex */}
                             <div className="flex flex-col gap-3">
-                                <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 leading-tight">
+                                <h1 className="font-marcellus font-normal lg:text-[36px] text-[24px] leading-tight">
                                     {title}{' '}
                                     <span className="inline-block bg-gradient-to-r from-orange-500 to-red-600 text-white px-2 py-1 rounded text-lg sm:text-xl lg:text-2xl xl:text-3xl">
                                         {highlightedText}
                                     </span>
                                 </h1>
                                 {/* Subtitle */}
-                                <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-800">
+                                <h2 className="font-marcellus font-normal lg:text-[36px] text-[24px] leading-tight 
+                            ">
                                     {subtitle}
                                 </h2>
                             </div>
