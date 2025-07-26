@@ -22,7 +22,7 @@ export const ContactSection: React.FC = () => {
 
                             {/* Header Section */}
                             <div className="text-center mb-8">
-                                <h3 className="font-['Marcellus',serif] font-normal text-[#4c291e] text-lg sm:text-xl mb-3">
+                                <h3 className="font-marcellus font-normal text-[rgba(255, 255, 255, 1)] text-lg sm:text-xl mb-3">
                                     Reach Out to us
                                 </h3>
 

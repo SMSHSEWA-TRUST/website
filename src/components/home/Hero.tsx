@@ -12,7 +12,7 @@ const Hero = (): JSX.Element => {
     // Array of deity images that will change with the text - using different actual images
     const deityImages = [
         '/deity.png',        // For JAI SHRI MAHAKAL
-        '/ganesh.png',       // For JAI SHRI SALASAR BALAJI
+        '/balaji.png',       // For JAI SHRI SALASAR BALAJI
         // Add more image paths as needed
     ];
 
@@ -67,11 +67,11 @@ const Hero = (): JSX.Element => {
                     {/* Text content - responsive positioning */}
                     <div className="absolute w-[34.4%] h-[39%] top-[35.4%] left-[5.8%]">
                         <div className="relative w-full h-full">
-                            <div className="absolute w-full top-0 left-0 [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm xl:text-base 2xl:text-lg tracking-[0] leading-[normal]">
+                            <div className="absolute w-full top-0 left-0 font-tenor-sans text-[16px] text-white tracking-[0] leading-[normal]">
                                 Feel Lord Shiva&apos;s Power
                                 <div className="relative w-full h-full">
                                     <div
-                                        className="absolute w-[110.6%] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] [font-family:'Marcellus',Helvetica] font-normal text-white text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-6xl tracking-[0] leading-[normal] animate-slideUpText"
+                                        className="absolute w-[110.6%] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] font-marcellus font-normal text-white text-[64px] tracking-[0] leading-[normal] animate-slideUpText"
                                         key={texts[textIndex]}
                                     >
                                         {texts[textIndex]}
@@ -79,7 +79,7 @@ const Hero = (): JSX.Element => {
                                 </div>
                             </div>
 
-                            <p className="absolute w-full top-[68.5%] left-0 [font-family:'Tenor_Sans',Helvetica] text-white text-xs xl:text-sm 2xl:text-base leading-[normal] font-normal tracking-[0]">
+                            <p className="absolute w-full top-[68.5%] left-0 font-tenor-sans text-[16px] text-[rgba(255,255,255,0.9)] leading-[normal] font-normal tracking-[0]">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                                 do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -89,7 +89,7 @@ const Hero = (): JSX.Element => {
 
                         {/* Responsive button */}
                         <Button className="flex justify-center gap-[6.98px] px-4 xl:px-6 2xl:px-8 py-2 xl:py-3 2xl:py-4 mt-4 xl:mt-6 2xl:mt-8 bg-[#daa520] items-center rounded-none hover:bg-[#b8941c] transition-colors">
-                            <span className="relative [-webkit-text-stroke:0.5px_#ffffff] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-xs xl:text-sm 2xl:text-base tracking-[0] leading-[normal] whitespace-nowrap">
+                            <span className="relative [-webkit-text-stroke:0.5px_#ffffff] font-tenor-sans font-normal text-white text-[14px] tracking-[0] leading-[normal] whitespace-nowrap">
                                 Register/Login
                             </span>
                         </Button>
@@ -111,24 +111,24 @@ const Hero = (): JSX.Element => {
                     {/* Text overlay */}
                     <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col justify-center items-start px-6 sm:px-8">
                         <div className="w-full max-w-sm">
-                            <p className="text-white text-sm sm:text-base [font-family:'Tenor_Sans',Helvetica] font-normal mb-2 sm:mb-3">
+                            <p className="text-white text-[7px] font-tenor-sans font-normal mb-2 sm:mb-3">
                                 Feel Lord Shiva&apos;s Power
                             </p>
 
                             <div
-                                className="[-webkit-text-stroke:1px_#daa520] [font-family:'Marcellus',Helvetica] font-normal text-white text-2xl sm:text-3xl md:text-4xl leading-tight mb-4 sm:mb-6 animate-slideUpText"
+                                className="[-webkit-text-stroke:1px_#daa520] font-marcellus text-[31px] font-normal text-white   leading-tight mb-4 sm:mb-6 animate-slideUpText"
                                 key={texts[textIndex]}
                             >
                                 {texts[textIndex]}
                             </div>
 
-                            <p className="text-white text-xs sm:text-sm [font-family:'Tenor_Sans',Helvetica] font-normal leading-relaxed mb-6 sm:mb-8 opacity-90">
+                            <p className="text-white text-[7px] font-tenor-sans font-normal leading-relaxed mb-6 sm:mb-8 opacity-90">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                                 do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 Ut enim ad minim veniam, quis nostrud exercitation.
                             </p>
 
-                            <Button className="bg-[#daa520] hover:bg-[#b8941c] text-white px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base [font-family:'Tenor_Sans',Helvetica] font-normal rounded-none shadow-lg">
+                            <Button className="bg-[#daa520] hover:bg-[#b8941c] text-white px-6 py-2.5 sm:px-8 sm:py-3 text-[7px] font-tenor-sans font-normal rounded-none shadow-lg">
                                 Register/Login
                             </Button>
                         </div>

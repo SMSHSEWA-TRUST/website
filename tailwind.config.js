@@ -51,15 +51,25 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          "ui-sans-serif",
-          "system-ui",
-          "sans-serif",
+          'Tenor Sans',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif',
           '"Apple Color Emoji"',
           '"Segoe UI Emoji"',
           '"Segoe UI Symbol"',
           '"Noto Color Emoji"',
         ],
+        marcellus: [
+          'Marcellus SC',
+          
+        ],
+        'tenor-sans': [
+          'Tenor Sans',
+          
+        ],
       },
+      // Usage: className="font-marcellus" or className="font-tenor" or className="font-sans"
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

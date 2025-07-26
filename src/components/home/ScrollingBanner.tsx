@@ -1,4 +1,3 @@
-import React from 'react';
 
 const ScrollingBanner = (): JSX.Element => {
     // Create array of repeated text for seamless scrolling
@@ -18,8 +17,14 @@ const ScrollingBanner = (): JSX.Element => {
                     {repeatedText.map((text, index) => (
                         <span
                             key={index}
-                            className="font-['Tenor_Sans',sans-serif] font-normal text-white text-sm tracking-wider px-6"
+                            className="flex items-center font-['Tenor_Sans',sans-serif] font-normal text-white text-sm tracking-wider px-6"
                         >
+                            <img
+                                className="w-7 h-7 object-contain text-yellow-500 mr-2"
+                                alt="Om Symbol"
+                                src="/om.png"
+                                style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }}
+                            />
                             {text}
                         </span>
                     ))}
@@ -27,8 +32,14 @@ const ScrollingBanner = (): JSX.Element => {
                     {repeatedText.map((text, index) => (
                         <span
                             key={`duplicate-${index}`}
-                            className="font-['Tenor_Sans',sans-serif] font-normal text-white text-sm tracking-wider px-6"
+                            className="flex items-center font-tenor-sans lg:text-[14px] text-[6px] font-normal text-white text-sm tracking-wider px-6"
                         >
+                            <img
+                                className="w-7 h-7 object-contain text-red-800 mr-2"
+                                alt="Om Symbol"
+                                src="/om.png"
+                                style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }}
+                            />
                             {text}
                         </span>
                     ))}

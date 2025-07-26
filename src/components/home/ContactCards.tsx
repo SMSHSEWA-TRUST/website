@@ -9,14 +9,14 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex-1">
                         <img className="w-12 h-12 mb-4" alt="Temple Icon" src="/connect.png" />
-                        <h3 className="text-white text-xl md:text-2xl font-semibold mb-3 font-serif">Connect with Us</h3>
-                        <p className="text-white text-base font-normal mb-6 font-serif">
+                        <h3 className="text-white font-marcellus lg:text-[24px] text-[17px]  mb-3 ">Connect with Us</h3>
+                        <p className="text-white text-[12px] lg:text-[16px] font-normal mb-6 font-tenor-sans">
                             Reach out and connect with our church community. We're here to welcome, assist, and share in your journey of faith.
                         </p>
                     </div>
                     <div className="flex items-center mt-auto">
                         <img className="w-7 h-7 mr-3" alt="Phone" src="/call.png" />
-                        <span className="text-white text-lg md:text-2xl font-semibold font-serif">+91 9876543210</span>
+                        <span className="text-white font-normal font-tenor-sans text-[17px] lg:text-[24px]">+91 9876543210</span>
                     </div>
                 </CardContent>
             </Card>
@@ -26,13 +26,13 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex-1">
                         <img className="w-12 h-12 mb-4" alt="Charity Icon" src="/donate.png" />
-                        <h3 className="text-[#4c291e] text-xl md:text-2xl font-semibold mb-3 font-serif">Donate for Cause</h3>
-                        <p className="text-[#4c291e] text-base font-normal mb-6 font-serif">
+                        <h3 className="text-[#4c291e] font-marcellus lg:text-[24px] text-[17px] mb-3">Donate for Cause</h3>
+                        <p className="text-[#4c291e] text-[12px] lg:text-[16px] font-normal mb-6 font-tenor-sans">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq
                         </p>
                     </div>
                     <div className="mt-auto">
-                        <Button className="w-24 h-10 bg-[#8b0000] rounded-md text-white text-base font-serif hover:bg-[#7a0000] transition-colors">
+                        <Button className="w-24 h-10 bg-[#8b0000] rounded-md text-white text-[17px] lg:text-[24px] font-tenor-sans font-normal hover:bg-[#7a0000] transition-colors">
                             Donate
                         </Button>
                     </div>
@@ -44,13 +44,13 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex-1">
                         <img className="w-12 h-12 mb-4" alt="Time Icon" src="/time.png" />
-                        <h3 className="text-white text-xl md:text-2xl font-semibold mb-6 font-serif">Office Timings</h3>
+                        <h3 className="text-white font-marcellus lg:text-[24px] text-[17px] mb-6">Office Timings</h3>
                         <div className="space-y-3">
-                            <div className="flex justify-between text-white text-base font-serif">
+                            <div className="flex justify-between text-white text-[12px] lg:text-[16px] font-tenor-sans font-normal">
                                 <span>Monday - Friday</span>
                                 <span>8:00 AM - 8:00 PM</span>
                             </div>
-                            <div className="flex justify-between text-white text-base font-serif">
+                            <div className="flex justify-between text-white text-[12px] lg:text-[16px] font-tenor-sans font-normal">
                                 <span>Saturday - Sunday</span>
                                 <span>10:00 AM - 6:00 PM</span>
                             </div>
