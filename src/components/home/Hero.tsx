@@ -43,7 +43,7 @@ const Hero = (): JSX.Element => {
                     <img
                         className="absolute w-[67%] h-full top-0 left-0 object-cover"
                         alt="Temple Image"
-                        src="/temp-image.png"
+                        src="/temp-image.webp"
                     />
 
                     {/* Desktop Deity Images - responsive positioning and scaling */}
@@ -105,7 +105,7 @@ const Hero = (): JSX.Element => {
                     <img
                         className="absolute inset-0 w-full h-full object-cover"
                         alt="Temple Image"
-                        src="/temp-image.png"
+                        src="/temp-image.webp"
                     />
 
                     {/* Text overlay */}

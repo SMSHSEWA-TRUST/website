@@ -25,19 +25,19 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
             id: 1,
             date: "Jan 01, 2025",
             title: "Lorem ipsum dolor sit",
-            image: "/ganesh.png"
+            image: "/ganesh.webp",
         },
         {
             id: 2,
             date: "Jan 02, 2025",
             title: "Lorem ipsum dolor sit",
-            image: "/ganesh.png"
+            image: "/ganesh.webp",
         },
         {
             id: 3,
             date: "Jan 03, 2025",
             title: "Lorem ipsum dolor sit",
-            image: "/ganesh.png"
+            image: "/ganesh.webp"
         },
     ],
     className = ""

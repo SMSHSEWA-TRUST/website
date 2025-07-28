@@ -2,7 +2,7 @@ import React from "react";
 
 const images = [
     "/public/aboutSection1.png", // left card image
-    "/public/aboutSection2.png", // middle card image
+    "/public/aboutSection2.webp", // middle card image
     "/public/aboutSection3.png", // right card image (repeat for demo)
 ];
 

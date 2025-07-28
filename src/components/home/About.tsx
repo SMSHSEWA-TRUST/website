@@ -10,7 +10,7 @@ const About = (): JSX.Element => {
                             <img
                                 className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 alt="Main temple view showcasing traditional architecture"
-                                src="/temp-image-4.png"
+                                src="/temp-image-4.webp"
                                 loading="lazy"
                             />
                         </div>
@@ -20,7 +20,7 @@ const About = (): JSX.Element => {
                             <img
                                 className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 alt="Temple detail view"
-                                src="/temp-image-3.png"
+                                src="/temp-image-3.webp"
                                 loading="lazy"
                             />
                         </div>

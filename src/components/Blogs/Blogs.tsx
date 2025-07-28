@@ -5,21 +5,21 @@ const blogPosts = [
         id: 1,
         title: "Essence of Hindu Wisdom",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Read More",
-        image: "/blogarti1.png",
+        image: "/blogarti1.webp",
         link: "#"
     },
     {
         id: 2,
         title: "Essence of Hindu Wisdom",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Read More",
-        image: "/blogarti2.png",
+        image: "/blogarti2.webp",
         link: "#"
     },
     {
         id: 3,
         title: "Essence of Hindu Wisdom",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Read More",
-        image: "/blogarti3.png",
+        image: "/blogarti3.webp",
         link: "#"
     }
 ];

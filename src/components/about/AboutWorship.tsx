@@ -17,7 +17,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
     subtitle = "Nurture Your Soul",
     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     buttonText = "Aarti Timings",
-    worshipImage = "/Aboutworship.png",
+    worshipImage = "/Aboutworship.webp",
     onButtonClick = () => { },
     className = ""
 }) => {

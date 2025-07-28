@@ -272,7 +272,7 @@ export default function DonationSection() {
                         <img
                             className="w-full h-[250px] object-cover"
                             alt="Main Background Image"
-                            src="/image-5.png"
+                            src="/image-5.webp"
                         />
                     </div>
 
@@ -310,7 +310,7 @@ export default function DonationSection() {
                     <img
                         className="w-full h-[400px] lg:h-[500px] object-cover"
                         alt="Main Background Image"
-                        src="/image-5.png"
+                        src="/image-5.webp"
                     />
 
                     {/* Red Donation Section - Overlapping top-left */}
