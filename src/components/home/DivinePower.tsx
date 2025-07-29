@@ -34,7 +34,7 @@ const DivinePower = (): JSX.Element => {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 <img
-                    src="/divine-2.png"
+                    src="/divine-2.webp"
                     alt="Divine temple"
                     className="w-full h-56 sm:h-72 object-cover rounded-lg mt-6 shadow"
                     loading="lazy"

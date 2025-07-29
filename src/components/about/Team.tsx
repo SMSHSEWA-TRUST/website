@@ -1,6 +1,6 @@
 import { useState, useEffect, } from "react";
 
-const teamImage = "/TeamMember.png";
+const teamImage = "/TeamMember.webp";
 const teamMembers = [
     { name: "Acharya Pandit Ji", role: "Chief Priest", image: teamImage },
     { name: "Acharya Pandit Ji", role: "Assistant Priest", image: teamImage },

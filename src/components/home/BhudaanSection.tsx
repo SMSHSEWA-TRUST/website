@@ -45,14 +45,14 @@ const BhudaanSection: React.FC = () => {
             </div>
             <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mx-auto">
                 <div className="flex items-center justify-center h-[400px] w-full overflow-hidden">
-                    <img src="/bhudaan1.png" alt="Temple 1" className="w-full h-full object-cover shadow-lg" />
+                    <img src="/bhudaan1.webp" alt="Temple 1" className="w-full h-full object-cover shadow-lg" />
                 </div>
                 <div className="flex flex-col h-[400px] w-full overflow-hidden gap-4">
                     <div className="flex-1 flex items-center justify-center overflow-hidden">
-                        <img src="/bhudaan2.png" alt="Temple 2" className="w-full h-full object-cover shadow-lg" />
+                        <img src="/bhudaan2.webp" alt="Temple 2" className="w-full h-full object-cover shadow-lg" />
                     </div>
                     <div className="flex-1 flex items-center justify-center overflow-hidden">
-                        <img src="/bhudaan3.png" alt="Temple 3" className="w-full h-full object-cover shadow-lg" />
+                        <img src="/bhudaan3.webp" alt="Temple 3" className="w-full h-full object-cover shadow-lg" />
                     </div>
                 </div>
             </div>

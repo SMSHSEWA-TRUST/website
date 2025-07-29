@@ -31,7 +31,7 @@ const GridLayout = (): JSX.Element => {
                             <img
                                 className="w-full h-32 sm:h-40 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Temple Image 1"
-                                src="/temp-image-8.png"
+                                src="/temp-image-8.webp"
                             />
                         </div>
                         <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-white p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
@@ -61,7 +61,7 @@ const GridLayout = (): JSX.Element => {
                             <img
                                 className="w-full h-32 sm:h-40 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Temple Image 2"
-                                src="/temp-image-10.png"
+                                src="/temp-image-10.webp"
                             />
                         </div>
                     </div>
@@ -71,7 +71,7 @@ const GridLayout = (): JSX.Element => {
                         <img
                             className="w-full h-40 sm:h-48 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             alt="Large Temple Image"
-                            src="/temp-image-9.png"
+                            src="/temp-image-9.webp"
                         />
                     </div>
 

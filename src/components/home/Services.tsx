@@ -2,7 +2,7 @@ import { Card, CardContent } from "../ui/card";
 
 const services = [
     {
-        image: "/temp-image-7.png",
+        image: "/temp-image-7.webp",
         title: "Lorem ipsum dolor sit amet, consectetur",
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -14,7 +14,7 @@ const services = [
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
-        image: "/temp-image-6.png",
+        image: "/temp-image-6.webp",
         title: "Lorem ipsum dolor sit amet, consectetur",
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -26,7 +26,7 @@ const services = [
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
-        image: "/temp-image-5.png",
+        image: "/temp-image-5.webp",
         title: "Lorem ipsum dolor sit amet, consectetur",
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",

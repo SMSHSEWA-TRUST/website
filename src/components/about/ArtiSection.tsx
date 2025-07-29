@@ -40,7 +40,7 @@ const ArtiSection = () => {
                         {/* Image */}
                         <div className="relative h-64 bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
                             <img
-                                src="/aboutArtiImage.png"
+                                src="/aboutArtiImage.webp"
                                 alt="Prayer hands representing spiritual devotion"
                                 className="w-full h-full object-cover drop-shadow-xl opacity-90"
                                 loading="lazy"
@@ -94,7 +94,7 @@ const ArtiSection = () => {
                             {/* Image */}
                             <div className="relative bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
                                 <img
-                                    src="/aboutArtiImage.png"
+                                    src="/aboutArtiImage.webp"
                                     alt="Prayer hands representing spiritual devotion"
                                     className="w-full h-full object-cover drop-shadow-xl opacity-90"
                                     loading="lazy"

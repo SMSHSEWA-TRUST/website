@@ -12,7 +12,7 @@ export const BlogDetailsPage = (): JSX.Element => {
                 {/* Hero Section */}
                 <HeroSection
                     title="Blogs "
-                    backgroundImage="/BlogImage.png"
+                    backgroundImage="/Blogdetail.webp"
                 />
                 <BlogDetails/>
                 <Footer />

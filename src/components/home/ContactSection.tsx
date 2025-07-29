@@ -11,7 +11,7 @@ export const ContactSection: React.FC = () => {
 
                 {/* Left Section - Background Image with Contact Form */}
                 <div className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center p-6 lg:p-8"
-                    style={{ backgroundImage: 'url(/image-7.png)' }}>
+                    style={{ backgroundImage: 'url(/image-7.webp)' }}>
 
                     {/* Overlay for better form visibility */}
                     <div className="absolute inset-0 bg-black/10" />
@@ -99,7 +99,7 @@ export const ContactSection: React.FC = () => {
                     <img
                         className="w-full h-full object-cover"
                         alt="Temple Architecture"
-                        src="/image-6.png"
+                        src="/image-6.webp"
                         loading="lazy"
                     />
 

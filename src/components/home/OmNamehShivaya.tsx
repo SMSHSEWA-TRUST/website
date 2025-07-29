@@ -5,7 +5,7 @@ const OmNamehShivaya = (): JSX.Element => {
             {/* Background Image */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: 'url(/bg-shiv.png)' }}
+                style={{ backgroundImage: 'url(/bg-shiv.webp)' }}
             />
 
             {/* Content Container */}
