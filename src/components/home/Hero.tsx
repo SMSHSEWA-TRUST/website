@@ -25,10 +25,10 @@ const Hero = (): JSX.Element => {
     }, []);
 
     return (
-        <section className="w-full mt-4 lg:mt-[31px]">
+        <section className="w-full mt-4 lg:mt-[31px] border-b-4 border-[#daa520]">
             {/* Desktop Layout - Responsive Design */}
-            <div className="hidden lg:block relative w-full max-w-[1400px] mx-auto">
-                <div className="relative w-full" style={{ aspectRatio: '1283/741' }}>
+            <div className="hidden lg:block relative w-full mx-auto">
+                <div className="relative w-full h-[610px]">
                     {/* Red section - responsive width with no gap */}
                     <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]">
                         {/* Abstract floral - only in right red section */}
@@ -41,17 +41,18 @@ const Hero = (): JSX.Element => {
 
                     {/* Temple image - responsive with slight overlap to prevent gap */}
                     <img
-                        className="absolute w-[67%] h-full top-0 left-0 object-cover"
+                        className="absolute w-[67%] h-full top-0 left-0 object-cover object-center"
                         alt="Temple Image"
                         src="/temp-image.webp"
+                        style={{ objectPosition: 'center top' }}
                     />
 
                     {/* Desktop Deity Images - responsive positioning and scaling */}
-                    <div className="absolute w-[40.6%] h-[70.2%] top-[12.8%] right-[6.5%] overflow-hidden">
+                    <div className="absolute w-[40.6%] h-[75%] top-[8%] right-[6.5%] overflow-hidden">
                         {deityImages.map((imageSrc, index) => (
                             <img
                                 key={index}
-                                className={`absolute w-full h-full object-cover transition-all duration-1000 ease-in-out transform ${index === textIndex
+                                className={`absolute w-full h-full object-contain transition-all duration-1000 ease-in-out transform ${index === textIndex
                                     ? 'opacity-100 scale-100'
                                     : 'opacity-0 scale-105'
                                     }`}

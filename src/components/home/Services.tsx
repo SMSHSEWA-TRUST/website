@@ -1,5 +1,3 @@
-import { Card, CardContent } from "../ui/card";
-
 const services = [
     {
         image: "/temp-image-7.webp",
@@ -31,6 +29,12 @@ const services = [
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
+    {
+        image: null,
+        title: "Lorem ipsum dolor sit amet, consectetur",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
 ];
 
 const Services = (): JSX.Element => {
@@ -38,9 +42,9 @@ const Services = (): JSX.Element => {
         <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-8 lg:px-0 overflow-hidden">
             {/* Decorative background image for large screens */}
             <img
-                className="hidden lg:block absolute top-0 left-1/2 -translate-x-1/2 w-[70vw] max-w-4xl h-full object-cover opacity-20 pointer-events-none select-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[962px] h-auto object-contain opacity-5 pointer-events-none select-none z-0"
                 alt="Decorative background"
-                src="/mand-7.png"
+                src="/bgcardImage.png"
                 aria-hidden="true"
             />
             <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-8 z-10">
@@ -67,50 +71,29 @@ const Services = (): JSX.Element => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-8">
                     {services.map((service, idx) =>
                         service.image ? (
-                            <div key={idx} className="flex flex-col items-center">
+                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md overflow-hidden">
                                 <img
                                     src={service.image}
                                     alt={service.title}
-                                    className="w-full h-64 object-cover rounded-md shadow-md mb-4"
+                                    className="w-full h-full object-cover"
                                     loading="lazy"
                                 />
-                                <Card className="w-full bg-white rounded-lg shadow p-6 flex flex-col items-center">
-                                    <CardContent className="p-0 flex flex-col items-center">
-                                        <img
-                                            src="/om.png"
-                                            alt="Om symbol"
-                                            className="w-10 h-10 mb-4"
-                                            loading="lazy"
-                                        />
-                                        <h3 className="font-marcellus text-lg md:text-xl text-[#4c291e] text-center mb-2">
-                                            {service.title}
-                                        </h3>
-                                        <p className="font-serif text-xs text-[#1e1e1e80] text-center">
-                                            {service.description}
-                                        </p>
-                                    </CardContent>
-                                </Card>
                             </div>
                         ) : (
-                            <Card
-                                key={idx}
-                                className="w-full bg-white rounded-lg shadow p-6 flex flex-col items-center justify-center"
-                            >
-                                <CardContent className="p-0 flex flex-col items-center">
-                                    <img
-                                        src="/om.png"
-                                        alt="Om symbol"
-                                        className="w-10 h-10 mb-4"
-                                        loading="lazy"
-                                    />
-                                    <h3 className="font-marcellus text-lg md:text-xl text-[#4c291e] text-center mb-2">
-                                        {service.title}
-                                    </h3>
-                                    <p className="font-serif text-xs text-[#1e1e1e80] text-center">
-                                        {service.description}
-                                    </p>
-                                </CardContent>
-                            </Card>
+                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center">
+                                <img
+                                    src="/om.png"
+                                    alt="Om symbol"
+                                    className="w-12 h-12 mb-4 text-[#8b0000]"
+                                    loading="lazy"
+                                />
+                                <h3 className="font-marcellus text-lg md:text-xl text-[#4c291e] text-center mb-3 font-medium">
+                                    {service.title}
+                                </h3>
+                                <p className="font-serif text-sm text-[#666] text-center leading-relaxed">
+                                    {service.description}
+                                </p>
+                            </div>
                         )
                     )}
                 </div>

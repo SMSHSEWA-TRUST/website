@@ -23,12 +23,13 @@ export const HomePage = (): JSX.Element => {
 
                 {/* Hero Section */}
                 <Hero />
-
-                {/* About Section */}
-                <About />
+                
                 {/* Bhudaan Section */}
                 {<BhudaanSection />}
 
+                {/* About Section */}
+                <About />
+               
                 {/* Services Section */}
                 {/* Live Darshan Section */}
                 <LiveDarshan />

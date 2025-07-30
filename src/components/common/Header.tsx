@@ -31,37 +31,15 @@ const Header = (): JSX.Element => {
                     </div>
 
                     {/* Center Content - Title, Decorative Line, and Navigation */}
-                    <div className="flex-1 flex flex-col items-center mx-8 xl:mx-12">
+                    <div className="flex-1 flex flex-col items-center mx-8 xl:mx-12 lg:gap-4">
                         {/* Title */}
                         <h1 className="text-center mb-4 xl:mb-6   text-[36px]  font-normal text-[#4c291e] [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#8b0000] font-marcellus leading-tight max-w-4xl">
                             Shree Mahakaleshwar Salasar Hanuman Sewa Trust
                         </h1>
 
-                        {/* Decorative Line - Between Title and Navigation */}
-                        <div className="relative mb-4 xl:mb-6">
-                            <div className="relative w-full max-w-4xl h-3">
-                                <img
-                                    className="w-full h-3 object-cover"
-                                    alt="Decorative Line"
-                                    src="/line.png"
-                                />
-                                {/* Center dot - largest */}
-                                <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
-                                {/* Medium dots near center */}
-                                <div className="absolute w-2 h-2 top-0.5 left-1/2 transform -translate-x-1/2 translate-x-4 bg-[#d05e2d] rounded-full" />
-                                <div className="absolute w-2 h-2 top-0.5 left-1/2 transform -translate-x-1/2 -translate-x-4 bg-[#d05e2d] rounded-full" />
-                                {/* Small dots further from center */}
-                                <div className="absolute w-1.5 h-1.5 top-1 left-1/2 transform -translate-x-1/2 translate-x-6 bg-[#d05e2d] rounded-full" />
-                                <div className="absolute w-1.5 h-1.5 top-1 left-1/2 transform -translate-x-1/2 -translate-x-6 bg-[#d05e2d] rounded-full" />
-                                {/* End dots - at both ends of the line */}
-                                <div className="absolute w-3 h-3 top-0 left-0 bg-[#d05e2d] rounded-full" />
-                                <div className="absolute w-3 h-3 top-0 right-0 bg-[#d05e2d] rounded-full" />
-                            </div>
-                        </div>
-
                         {/* Desktop Navigation */}
                         <NavigationMenu>
-                            <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8">
+                            <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-[50%]">
                                 <NavigationMenuItem>
                                     <a href="/">
                                         <Button
@@ -124,6 +102,30 @@ const Header = (): JSX.Element => {
                                 </NavigationMenuItem>
                             </NavigationMenuList>
                         </NavigationMenu>
+
+                        {/* Decorative Line - Between Title and Navigation */}
+                        <div className="relative mb-4 mt-4 xl:mb-6">
+                            <div className="relative w-full max-w-4xl h-3">
+                                <img
+                                    className="w-full h-3 object-cover"
+                                    alt="Decorative Line"
+                                    src="/line.png"
+                                />
+                                {/* Center dot - largest */}
+                                <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                {/* Medium dots near center */}
+                                <div className="absolute w-2 h-2 top-0.5 left-1/2 transform -translate-x-1/2 translate-x-4 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-2 h-2 top-0.5 left-1/2 transform -translate-x-1/2 -translate-x-4 bg-[#d05e2d] rounded-full" />
+                                {/* Small dots further from center */}
+                                <div className="absolute w-1.5 h-1.5 top-1 left-1/2 transform -translate-x-1/2 translate-x-6 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-1.5 h-1.5 top-1 left-1/2 transform -translate-x-1/2 -translate-x-6 bg-[#d05e2d] rounded-full" />
+                                {/* End dots - at both ends of the line */}
+                                <div className="absolute w-3 h-3 top-0 left-0 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-3 h-3 top-0 right-0 bg-[#d05e2d] rounded-full" />
+                            </div>
+                        </div>
+
+
                     </div>
 
                     {/* Register/Login Button */}
