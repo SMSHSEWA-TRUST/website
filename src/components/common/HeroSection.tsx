@@ -41,6 +41,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     </div>
                 </div>
             )}
+            {/* Abstract Floral Image */}
+            {backgroundImage && (
+                <img
+                    className="absolute left-[49%] top-[0%] -translate-x-1/2 h-[100%] object-contain opacity-100 pointer-events-none z-10"
+                    alt="Abstract floral"
+                    src="/abstract-floral.png"
+                />
+            )}
             {/* Text Content Section Below Image */}
             {description && description.trim() !== "" && (
                 <div className="w-full bg-white ">

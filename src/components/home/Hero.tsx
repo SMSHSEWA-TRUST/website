@@ -25,21 +25,20 @@ const Hero = (): JSX.Element => {
     }, []);
 
     return (
-        <section className="w-full mt-4 lg:mt-[31px] border-b-4 border-[#daa520]">
+        <section className="w-full mt-4 lg:mt-[10px] border-b-4 border-[#daa520] relative">
             {/* Desktop Layout - Responsive Design */}
             <div className="hidden lg:block relative w-full mx-auto">
-                <div className="relative w-full h-[610px]">
+                <div className="relative w-full h-[610px] overflow-visible">
+                    {/* Abstract floral - aligned with header decorative line center */}
+                    <img
+                        className="absolute left-[49%] top-[-40%] -translate-x-1/2 h-[140%] object-contain opacity-100 pointer-events-none z-10"
+                        alt="Abstract floral"
+                        src="/abstract-floral.png"
+                    />
+
                     {/* Red section - responsive width with no gap */}
                     <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]">
-                        {/* Abstract floral - only in right red section */}
-                        <img
-                            className="absolute right-0 top-0 w-full h-full object-cover opacity-60 pointer-events-none"
-                            alt="Abstract floral"
-                            src="/abstract-floral.png"
-                        />
-                    </div>
-
-                    {/* Temple image - responsive with slight overlap to prevent gap */}
+                    </div>                    {/* Temple image - responsive with slight overlap to prevent gap */}
                     <img
                         className="absolute w-[67%] h-full top-0 left-0 object-cover object-center"
                         alt="Temple Image"
@@ -48,7 +47,7 @@ const Hero = (): JSX.Element => {
                     />
 
                     {/* Desktop Deity Images - responsive positioning and scaling */}
-                    <div className="absolute w-[40.6%] h-[75%] top-[8%] right-[6.5%] overflow-hidden">
+                    <div className="absolute w-[40.6%] h-[75%] top-[8%] right-[6.5%] overflow-hidden z-20">
                         {deityImages.map((imageSrc, index) => (
                             <img
                                 key={index}
@@ -66,7 +65,7 @@ const Hero = (): JSX.Element => {
                     </div>
 
                     {/* Text content - responsive positioning */}
-                    <div className="absolute w-[34.4%] h-[39%] top-[35.4%] left-[5.8%]">
+                    <div className="absolute w-[34.4%] h-[39%] top-[35.4%] left-[5.8%] z-20">
                         <div className="relative w-full h-full">
                             <div className="absolute w-full top-0 left-0 font-tenor-sans text-[16px] text-white tracking-[0] leading-[normal]">
                                 Feel Lord Shiva&apos;s Power
@@ -138,16 +137,16 @@ const Hero = (): JSX.Element => {
 
                 {/* Bottom Section - Red background with abstract floral and deity image */}
                 <div className="relative w-full bg-[#8b0000] py-8 sm:py-12 md:py-16 flex justify-center items-center overflow-hidden">
-                    {/* Abstract floral background - positioned to cover most of the red section */}
+                    {/* Abstract floral background - centered and extending beyond top */}
                     <img
-                        className="absolute inset-0 w-full h-full object-cover opacity-30 scale-110"
+                        className="absolute left-1/2 top-[-15%] -translate-x-1/2 w-[130%] h-[130%] object-cover opacity-30"
                         alt="Abstract floral"
                         src="/abstract-floral.png"
                     />
 
                     {/* Additional abstract floral positioning for better coverage */}
                     <img
-                        className="absolute top-[-20px] left-[-20px] w-[120%] h-[120%] object-cover opacity-20"
+                        className="absolute left-1/2 top-[-25%] -translate-x-1/2 w-[140%] h-[140%] object-cover opacity-20"
                         alt="Abstract floral overlay"
                         src="/abstract-floral.png"
                     />

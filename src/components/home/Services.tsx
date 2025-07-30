@@ -42,11 +42,37 @@ const Services = (): JSX.Element => {
         <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-8 lg:px-0 overflow-hidden">
             {/* Decorative background image for large screens */}
             <img
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[962px] h-auto object-contain opacity-5 pointer-events-none select-none z-0"
+                className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[962px] h-auto object-contain opacity-5 pointer-events-none select-none z-0"
                 alt="Decorative background"
                 src="/bgcardImage.png"
                 aria-hidden="true"
             />
+
+            {/* Background images for small screens - 3 images covering 2 cards each */}
+            <div className="lg:hidden absolute inset-0 z-0">
+                {/* First bg image - covers cards 1-2 */}
+                <img
+                    className="absolute top-[8%] left-1/2 -translate-x-1/2 w-[100%] max-w-[400px] h-[400px] object-contain opacity-10 pointer-events-none select-none"
+                    alt="Decorative background 1"
+                    src="/bgcardImage.png"
+                    aria-hidden="true"
+                />
+                {/* Second bg image - covers cards 3-4 */}
+                <img
+                    className="absolute top-[38%] left-1/2 -translate-x-1/2 w-[100%] max-w-[400px] h-[400px] object-contain opacity-10 pointer-events-none select-none"
+                    alt="Decorative background 2"
+                    src="/bgcardImage.png"
+                    aria-hidden="true"
+                />
+                {/* Third bg image - covers cards 5-6 */}
+                <img
+                    className="absolute top-[70%] left-1/2 -translate-x-1/2 w-[100%] max-w-[400px] h-auto object-contain opacity-10 pointer-events-none select-none"
+                    alt="Decorative background 3"
+                    src="/bgcardImage.png"
+                    aria-hidden="true"
+                />
+            </div>
+
             <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-8 z-10">
                 {/* Section Header */}
                 <div className="flex flex-col items-center gap-2 w-full">

@@ -16,7 +16,7 @@ const Header = (): JSX.Element => {
     const currentPath = location.pathname;
 
     return (
-        <header className="w-full bg-white sticky top-0 z-50 shadow-sm">
+        <header className="w-full bg-white sticky top-0  shadow-sm">
             {/* Main Header Container */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Desktop Layout */}
@@ -39,7 +39,7 @@ const Header = (): JSX.Element => {
 
                         {/* Desktop Navigation */}
                         <NavigationMenu>
-                            <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-[50%]">
+                            <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-[50%] justify-start">
                                 <NavigationMenuItem>
                                     <a href="/">
                                         <Button
@@ -70,7 +70,7 @@ const Header = (): JSX.Element => {
                                         </Button>
                                     </a>
                                 </NavigationMenuItem>
-                                <NavigationMenuItem>
+                                <NavigationMenuItem className="mr-4">
                                     <a href="/membership">
                                         <Button
                                             variant="link"
@@ -113,12 +113,12 @@ const Header = (): JSX.Element => {
                                 />
                                 {/* Center dot - largest */}
                                 <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
-                                {/* Medium dots near center */}
-                                <div className="absolute w-2 h-2 top-0.5 left-1/2 transform -translate-x-1/2 translate-x-4 bg-[#d05e2d] rounded-full" />
-                                <div className="absolute w-2 h-2 top-0.5 left-1/2 transform -translate-x-1/2 -translate-x-4 bg-[#d05e2d] rounded-full" />
+                                {/* Medium dots near center - repositioned to be equidistant from center */}
+                                <div className="absolute w-2 h-2 top-0.5 left-[calc(50%+12px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-2 h-2 top-0.5 left-[calc(50%-12px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
                                 {/* Small dots further from center */}
-                                <div className="absolute w-1.5 h-1.5 top-1 left-1/2 transform -translate-x-1/2 translate-x-6 bg-[#d05e2d] rounded-full" />
-                                <div className="absolute w-1.5 h-1.5 top-1 left-1/2 transform -translate-x-1/2 -translate-x-6 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%+24px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%-24px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
                                 {/* End dots - at both ends of the line */}
                                 <div className="absolute w-3 h-3 top-0 left-0 bg-[#d05e2d] rounded-full" />
                                 <div className="absolute w-3 h-3 top-0 right-0 bg-[#d05e2d] rounded-full" />
