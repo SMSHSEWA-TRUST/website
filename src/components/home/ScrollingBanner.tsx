@@ -22,7 +22,7 @@ const ScrollingBanner = (): JSX.Element => {
                             <img
                                 className="w-7 h-7 object-contain text-yellow-500 mr-2"
                                 alt="Om Symbol"
-                                src="/om.png"
+                                src="om-scroll.png"
                                 style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }}
                             />
                             {text}

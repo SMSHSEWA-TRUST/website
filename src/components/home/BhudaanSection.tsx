@@ -3,7 +3,7 @@ import React from "react";
 const BhudaanSection: React.FC = () => {
     return (
         <section className="bg-[#8B0000] py-6 px-4 md:px-0 flex flex-col items-center w-full min-h-screen relative overflow-hidden">
-            <div className="max-w-[994px] mx-auto text-center">
+            <div className="max-w-[1300px] mx-auto text-center">
                 <h2 className="text-5xl md:text-6xl font-bold text-[#FFE4C4] tracking-wide drop-shadow-lg font-serif">Bhudaan</h2>
                 <div className="flex items-center justify-center py-2 w-full">
                     <div className="flex items-center w-full max-w-md">

@@ -83,17 +83,35 @@ export default function Team() {
                     </div>
                 </div>
                 {/* Custom Divider with Dots */}
-                <div className="flex justify-center items-center my-4" style={{ marginTop: 20 }}>
-                    <span className="w-3 h-3 bg-red-700 rounded-full inline-block mr-3"></span>
-                    <div className="relative flex-1 h-[3px] bg-red-700 flex items-center max-w-2xl">
-                        <span className="absolute left-1/2 -translate-x-1/2 flex gap-2">
-                            <span className="w-2 h-2 bg-red-700 rounded-full"></span>
-                            <span className="w-2 h-2 bg-red-700 rounded-full"></span>
-                            <span className="w-2 h-2 bg-red-700 rounded-full"></span>
-                        </span>
+                <div className="flex items-center justify-center py-8">
+                    <div className="flex items-center">
+                        {/* Left arrow/diamond with connecting line */}
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-orange-500 transform rotate-45"></div>
+                            <div className="w-16 h-px bg-orange-500"></div>
+                        </div>
+
+                        {/* Center dots with continuous line: small-small-big-small-small */}
+                        <div className="flex items-center">
+                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-4 h-px bg-orange-500"></div>
+                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-4 h-px bg-orange-500"></div>
+                            <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                            <div className="w-4 h-px bg-orange-500"></div>
+                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-4 h-px bg-orange-500"></div>
+                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                        </div>
+
+                        {/* Right arrow/diamond with connecting line */}
+                        <div className="flex items-center">
+                            <div className="w-16 h-px bg-orange-500"></div>
+                            <div className="w-3 h-3 bg-orange-500 transform rotate-45"></div>
+                        </div>
                     </div>
-                    <span className="w-3 h-3 bg-red-700 rounded-full inline-block ml-3"></span>
                 </div>
+
                 {/* Description */}
                 <p className="text-gray-700 max-w-3xl mx-auto text-center text-[15px] font-light mb-7" style={{ lineHeight: "1.6" }}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

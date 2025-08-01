@@ -34,7 +34,7 @@ const cardData = [
 
 const ImageSection: React.FC = () => {
     return (
-        <section className="w-full py-8 px-2 sm:px-6 lg:px-12">
+        <section className="w-full py-8 px-2 sm:px-6 lg:px-[80px] ">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
                 {cardData.map((card, idx) => {
                     // First card: custom background

@@ -15,19 +15,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
     return (
         <section
-            className={`w-full ${className}`}
+            className={`w-full ${className} lg:px-[80px]` }
             role="banner"
             aria-labelledby="hero-section-title"
         >
             {/* Responsive Image Section */}
             {backgroundImage && (
-                <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[80vh] overflow-hidden">
+                <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[50vh] lg:h-[60vh] xl:h-[60vh] overflow-hidden">
                     <img
                         src={backgroundImage}
                         alt={title}
                         className="w-full h-full object-cover object-center"
                         loading="eager"
                         decoding="async"
+                        
                     />
                     {/* Title overlaid on image */}
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -47,6 +48,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     className="absolute left-[49%] top-[0%] -translate-x-1/2 h-[100%] object-contain opacity-100 pointer-events-none z-10"
                     alt="Abstract floral"
                     src="/abstract-floral.png"
+                    style={{
+                        clipPath: 'polygon(0 0, 100% 0, 100% 20%, 0 20%)'
+                    }}
                 />
             )}
             {/* Text Content Section Below Image */}

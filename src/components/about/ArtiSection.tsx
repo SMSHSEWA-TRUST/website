@@ -1,29 +1,29 @@
 
 const ArtiSection = () => {
     return (
-        <section className="w-full  bg-gray-50 flex items-center justify-center py-8 px-2 sm:px-6 lg:px-12">
-            <div className=" w-full bg-white  overflow-hidden">
+        <section className="w-full bg-gray-50 flex items-center justify-center py-4 px-2 sm:px-6 lg:px-[80px]">
+            <div className="w-full bg-white overflow-hidden">
 
                 {/* Mobile/Small Screen Layout */}
                 <div className="md:hidden">
                     {/* Top Content - Mobile */}
-                    <div className="p-8">
-                        <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 mb-4">
+                    <div className="p-4">
+                        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3">
                             Essence of Hindu Wisdom
                         </h1>
-                        <p className="text-gray-600 text-base mb-6 leading-relaxed">
+                        <p className="text-gray-600 text-sm mb-4 leading-relaxed">
                             Discover the profound teachings and timeless wisdom of ancient Hindu philosophy.
                             Journey through centuries of spiritual knowledge that continues to guide millions
                             in their quest for inner peace and enlightenment.
                         </p>
-                        <button className="bg-red-700 hover:bg-red-800 text-white px-6 py-3 text-base font-medium rounded-lg shadow transition-colors duration-200 w-fit">
+                        <button className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 text-sm font-medium rounded-lg shadow transition-colors duration-200 w-fit">
                             Explore Wisdom
                         </button>
                     </div>
 
                     {/* Video Section - Mobile */}
-                    <div className="bg-gray-800 p-4">
-                        <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                    <div className="bg-gray-800 p-3">
+                        <div className="relative w-full" style={{ paddingBottom: '45%' }}>
                             <iframe
                                 className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
                                 src="https://www.youtube.com/embed/dQw4w9WgXcQ"
@@ -38,7 +38,7 @@ const ArtiSection = () => {
                     {/* Bottom Image and Text Section - Mobile */}
                     <div className="grid grid-cols-1">
                         {/* Image */}
-                        <div className="relative h-64 bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
+                        <div className="relative h-48 bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
                             <img
                                 src="/aboutArtiImage.webp"
                                 alt="Prayer hands representing spiritual devotion"
@@ -47,8 +47,8 @@ const ArtiSection = () => {
                             />
                         </div>
                         {/* Text */}
-                        <div className="bg-gradient-to-br from-orange-500 to-red-500 p-6 text-orange-100">
-                            <div className="text-sm leading-relaxed space-y-3 opacity-90">
+                        <div className="bg-gradient-to-br from-orange-500 to-red-500 p-4 text-orange-100">
+                            <div className="text-xs leading-relaxed space-y-2 opacity-90">
                                 <p>
                                     The ancient scriptures teach us that true wisdom comes from understanding
                                     the interconnectedness of all beings and the divine essence that permeates everything.
@@ -75,16 +75,16 @@ const ArtiSection = () => {
                     {/* Left Side */}
                     <div className="flex flex-col h-full">
                         {/* Top Content */}
-                        <div className="flex-1 flex flex-col justify-center p-8 lg:p-12">
-                            <h1 className="text-4xl lg:text-5xl font-semibold text-gray-800 mb-6 leading-tight">
+                        <div className="flex-1 flex flex-col justify-center p-6 lg:p-8">
+                            <h1 className="text-3xl lg:text-4xl font-semibold text-gray-800 mb-4 leading-tight">
                                 Essence of Hindu Wisdom
                             </h1>
-                            <p className="text-gray-600 text-base lg:text-lg mb-8 leading-relaxed">
+                            <p className="text-gray-600 text-sm lg:text-base mb-6 leading-relaxed">
                                 Discover the profound teachings and timeless wisdom of ancient Hindu philosophy.
                                 Journey through centuries of spiritual knowledge that continues to guide millions
                                 in their quest for inner peace and enlightenment.
                             </p>
-                            <button className="bg-red-700 hover:bg-red-800 text-white px-8 py-4 text-base font-medium rounded-lg shadow-lg transition-all duration-200 w-fit hover:shadow-xl transform hover:-translate-y-0.5">
+                            <button className="bg-red-700 hover:bg-red-800 text-white px-6 py-3 text-sm font-medium rounded-lg shadow-lg transition-all duration-200 w-fit hover:shadow-xl transform hover:-translate-y-0.5">
                                 Explore Wisdom
                             </button>
                         </div>
@@ -102,8 +102,8 @@ const ArtiSection = () => {
                             </div>
 
                             {/* Text */}
-                            <div className="flex flex-col justify-center bg-gradient-to-br from-orange-500 to-red-500 p-6 lg:p-8 text-orange-100">
-                                <div className="text-sm lg:text-base leading-relaxed space-y-4 opacity-90">
+                            <div className="flex flex-col justify-center bg-gradient-to-br from-orange-500 to-red-500 p-4 lg:p-5 text-orange-100">
+                                <div className="text-xs lg:text-sm leading-relaxed space-y-2 opacity-90">
                                     <p>
                                         The ancient scriptures teach us that true wisdom comes from understanding
                                         the interconnectedness of all beings.
@@ -126,9 +126,9 @@ const ArtiSection = () => {
                     </div>
 
                     {/* Right Side - Video */}
-                    <div className="flex items-center justify-center bg-gray-800 p-6 lg:p-8">
+                    <div className="flex items-center justify-center bg-gray-800 p-4 lg:p-6">
                         <div className="w-full h-full flex items-center justify-center">
-                            <div className="relative w-full max-w-lg" style={{ paddingBottom: '56.25%' }}>
+                            <div className="relative w-full max-w-md" style={{ paddingBottom: '45%' }}>
                                 <iframe
                                     className="absolute top-0 left-0 w-full h-full rounded-lg shadow-2xl"
                                     src="https://www.youtube.com/embed/dQw4w9WgXcQ"

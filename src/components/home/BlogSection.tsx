@@ -43,7 +43,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
     className = ""
 }) => {
     return (
-        <section className={`w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 ${className}`}>
+        <section className={`w-full  mx-auto px-4 sm:px-6 lg:px-[80px] py-12 lg:py-16 ${className}`}>
 
             {/* Header Section */}
             <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-12 items-start lg:items-center mb-12 lg:mb-16">

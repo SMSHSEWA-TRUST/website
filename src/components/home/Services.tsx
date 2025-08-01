@@ -42,37 +42,11 @@ const Services = (): JSX.Element => {
         <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-8 lg:px-0 overflow-hidden">
             {/* Decorative background image for large screens */}
             <img
-                className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[962px] h-auto object-contain opacity-5 pointer-events-none select-none z-0"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[962px] h-auto object-contain opacity-5 pointer-events-none select-none z-0"
                 alt="Decorative background"
                 src="/bgcardImage.png"
                 aria-hidden="true"
             />
-
-            {/* Background images for small screens - 3 images covering 2 cards each */}
-            <div className="lg:hidden absolute inset-0 z-0">
-                {/* First bg image - covers cards 1-2 */}
-                <img
-                    className="absolute top-[8%] left-1/2 -translate-x-1/2 w-[100%] max-w-[400px] h-[400px] object-contain opacity-10 pointer-events-none select-none"
-                    alt="Decorative background 1"
-                    src="/bgcardImage.png"
-                    aria-hidden="true"
-                />
-                {/* Second bg image - covers cards 3-4 */}
-                <img
-                    className="absolute top-[38%] left-1/2 -translate-x-1/2 w-[100%] max-w-[400px] h-[400px] object-contain opacity-10 pointer-events-none select-none"
-                    alt="Decorative background 2"
-                    src="/bgcardImage.png"
-                    aria-hidden="true"
-                />
-                {/* Third bg image - covers cards 5-6 */}
-                <img
-                    className="absolute top-[70%] left-1/2 -translate-x-1/2 w-[100%] max-w-[400px] h-auto object-contain opacity-10 pointer-events-none select-none"
-                    alt="Decorative background 3"
-                    src="/bgcardImage.png"
-                    aria-hidden="true"
-                />
-            </div>
-
             <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-8 z-10">
                 {/* Section Header */}
                 <div className="flex flex-col items-center gap-2 w-full">
@@ -94,10 +68,32 @@ const Services = (): JSX.Element => {
                     </div>
                 </div>
                 {/* Services Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-8 relative">
+                    {/* Background images for small screens - each covers 2 cards */}
+                    <div className="absolute inset-0 lg:hidden">
+                        {/* First background image for cards 1-2 */}
+                        <img
+                            className="absolute top-0 left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
+                            alt="Background 1"
+                            src="/temp-image-7.webp"
+                        />
+                        {/* Second background image for cards 3-4 */}
+                        <img
+                            className="absolute top-[calc(50%+12px)] left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
+                            alt="Background 2"
+                            src="/temp-image-6.webp"
+                        />
+                        {/* Third background image for cards 5-6 */}
+                        <img
+                            className="absolute top-[calc(100%+24px)] left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
+                            alt="Background 3"
+                            src="/temp-image-5.webp"
+                        />
+                    </div>
+
                     {services.map((service, idx) =>
                         service.image ? (
-                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md overflow-hidden">
+                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10">
                                 <img
                                     src={service.image}
                                     alt={service.title}
@@ -106,7 +102,7 @@ const Services = (): JSX.Element => {
                                 />
                             </div>
                         ) : (
-                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center">
+                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center relative z-10">
                                 <img
                                     src="/om.png"
                                     alt="Om symbol"

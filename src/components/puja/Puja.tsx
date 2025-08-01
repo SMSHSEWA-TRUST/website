@@ -39,7 +39,7 @@ export default function Puja() {
     }, [prev]);
 
     return (
-        <div className="min-h-screen bg-white flex flex-col items-center py-8 px-2">
+        <div className="min-h-screen bg-white flex flex-col items-center py-8 ">
             <h2 className="text-[28px] font-serif text-[#B91C1C] text-center mb-8">Puja's at Temple</h2>
             <div className="flex items-center justify-center py-8 w-full">
                 <div className="flex items-center w-full max-w-md">

@@ -29,14 +29,15 @@ const Hero = (): JSX.Element => {
             {/* Desktop Layout - Responsive Design */}
             <div className="hidden lg:block relative w-full mx-auto">
                 <div className="relative w-full h-[610px] overflow-visible">
-                    {/* Abstract floral - aligned with header decorative line center */}
+                    {/* Abstract floral - only top part visible above section */}
                     <img
-                        className="absolute left-[49%] top-[-40%] -translate-x-1/2 h-[140%] object-contain opacity-100 pointer-events-none z-10"
+                        className="absolute left-[48%] top-[-28%] -translate-x-1/2   object-contain pointer-events-none z-10"
                         alt="Abstract floral"
                         src="/abstract-floral.png"
-                    />
-
-                    {/* Red section - responsive width with no gap */}
+                        style={{
+                            clipPath: 'polygon(0 0, 100% 0, 100% 9.5%, 0 9.5%)'
+                        }}
+                    />                    {/* Red section - responsive width with no gap */}
                     <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]">
                     </div>                    {/* Temple image - responsive with slight overlap to prevent gap */}
                     <img
@@ -47,7 +48,7 @@ const Hero = (): JSX.Element => {
                     />
 
                     {/* Desktop Deity Images - responsive positioning and scaling */}
-                    <div className="absolute w-[40.6%] h-[75%] top-[8%] right-[6.5%] overflow-hidden z-20">
+                    <div className="absolute w-[40.6%] h-[75%] top-[8%] left-[46.5%] overflow-hidden z-20">
                         {deityImages.map((imageSrc, index) => (
                             <img
                                 key={index}
