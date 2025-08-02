@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
     NavigationMenu,
@@ -30,9 +30,6 @@ const Header = (): JSX.Element => {
                                 src="/temp-logo.png"
                             />
                         </div>
-
-                        
-                     
 
                         {/* Center Content - Title, Decorative Line, and Navigation */}
                         <div className="flex flex-col items-center lg:gap-2">
@@ -67,71 +64,67 @@ const Header = (): JSX.Element => {
                             <NavigationMenu>
                                 <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-full justify-center">
                                     <NavigationMenuItem>
-                                        <a href="/">
+                                        <Link to="/">
                                             <Button
                                                 variant="link"
                                                 className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Home
                                             </Button>
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
-                                        <a href="/about">
+                                        <Link to="/about">
                                             <Button
                                                 variant="link"
                                                 className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 About
                                             </Button>
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
-                                        <a href="/puja">
+                                        <Link to="/puja">
                                             <Button
                                                 variant="link"
                                                 className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Puja's
                                             </Button>
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem className="mr-4">
-                                        <a href="/membership">
+                                        <Link to="/membership">
                                             <Button
                                                 variant="link"
                                                 className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Membership
                                             </Button>
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
-                                        <a href="/blogs">
+                                        <Link to="/blogs">
                                             <Button
                                                 variant="link"
                                                 className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Blogs
                                             </Button>
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
-                                        <a href="/contact">
+                                        <Link to="/contact">
                                             <Button
                                                 variant="link"
                                                 className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Contact us
                                             </Button>
-                                        </a>
+                                        </Link>
                                     </NavigationMenuItem>
                                 </NavigationMenuList>
                             </NavigationMenu>
-
-                          
-
-
                         </div>
 
                         {/* Register/Login Button */}
@@ -176,59 +169,57 @@ const Header = (): JSX.Element => {
                             </div>
                         </div>
 
-
-
                         {/* Mobile Navigation Menu */}
                         <div className={`${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100`}>
                             <nav className={`py-4 space-y-2 ${isMobileMenuOpen ? 'max-h-80 overflow-y-auto' : ''}`}>
-                                <a href="/">
+                                <Link to="/">
                                     <Button
                                         variant="link"
                                         className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Home
                                     </Button>
-                                </a>
-                                <a href="/about">
+                                </Link>
+                                <Link to="/about">
                                     <Button
                                         variant="link"
                                         className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         About
                                     </Button>
-                                </a>
-                                <a href="/puja">
+                                </Link>
+                                <Link to="/puja">
                                     <Button
                                         variant="link"
                                         className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Puja's
                                     </Button>
-                                </a>
-                                <a href="/membership">
+                                </Link>
+                                <Link to="/membership">
                                     <Button
                                         variant="link"
                                         className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Membership
                                     </Button>
-                                </a>
-                                <a href="/blogs">
+                                </Link>
+                                <Link to="/blogs">
                                     <Button
                                         variant="link"
                                         className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Blogs
                                     </Button>
-                                </a>
-                                <a href="/contact">
+                                </Link>
+                                <Link to="/contact">
                                     <Button
                                         variant="link"
                                         className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Contact us
                                     </Button>
-                                </a>
+                                </Link>
                                 {/* Mobile Register/Login in menu */}
                                 <div className="px-4 pt-2">
                                     <Button className="w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-tenor-sans font-normal ">
