@@ -1,63 +1,88 @@
-import Hero from "../../components/home/Hero";
-import About from "../../components/home/About";
-import Services from "../../components/home/Services";
-import LiveDarshan from "../../components/home/LiveDarshan";
-import DivinePower from "../../components/home/DivinePower";
-import ContactCards from "../../components/home/ContactCards";
-import DonationSection from "../../components/home/DonationSection";
-import GridLayout from "../../components/home/GridLayout";
-import OmNamehShivaya from "../../components/home/OmNamehShivaya";
-import ScrollingBanner from "../../components/home/ScrollingBanner";
-import { ContactSection } from "../../components/home/ContactSection";
-import { BlogSection } from "../../components/home/BlogSection";
-import BhudaanSection from "@/components/home/BhudaanSection";
+import React, { Suspense } from "react";
+import { SectionLoader, ComponentLoader, LiveDarshanLoader, ServicesLoader } from "../../components/ui/LoadingComponents";
+
+// Lazy load components
+const Hero = React.lazy(() => import("../../components/home/Hero"));
+const About = React.lazy(() => import("../../components/home/About"));
+const Services = React.lazy(() => import("../../components/home/Services"));
+const LiveDarshan = React.lazy(() => import("../../components/home/LiveDarshan"));
+const DivinePower = React.lazy(() => import("../../components/home/DivinePower"));
+const ContactCards = React.lazy(() => import("../../components/home/ContactCards"));
+const DonationSection = React.lazy(() => import("../../components/home/DonationSection"));
+const GridLayout = React.lazy(() => import("../../components/home/GridLayout"));
+const OmNamehShivaya = React.lazy(() => import("../../components/home/OmNamehShivaya"));
+const ScrollingBanner = React.lazy(() => import("../../components/home/ScrollingBanner"));
+const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
+const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
+const BhudaanSection = React.lazy(() => import("@/components/home/BhudaanSection"));
 
 export const HomePage = (): JSX.Element => {
     return (
         <>
-           
             {/* Hero Section */}
-            <Hero />
+            <Suspense fallback={<ComponentLoader height="h-screen" />}>
+                <Hero />
+            </Suspense>
 
             {/* Bhudaan Section */}
-            {<BhudaanSection />}
+            <Suspense fallback={<SectionLoader />}>
+                <BhudaanSection />
+            </Suspense>
 
             {/* About Section */}
-            <About />
+            <Suspense fallback={<SectionLoader />}>
+                <About />
+            </Suspense>
 
-            {/* Services Section */}
             {/* Live Darshan Section */}
-            <LiveDarshan />
+            <Suspense fallback={<LiveDarshanLoader />}>
+                <LiveDarshan />
+            </Suspense>
 
             {/* Services Section */}
-            <Services />
+            <Suspense fallback={<ServicesLoader />}>
+                <Services />
+            </Suspense>
 
             {/* Divine Power Section */}
-            <DivinePower />
+            <Suspense fallback={<SectionLoader />}>
+                <DivinePower />
+            </Suspense>
 
             {/* Contact Cards Section */}
-            <ContactCards />
+            <Suspense fallback={<SectionLoader />}>
+                <ContactCards />
+            </Suspense>
+
             {/* Donation Section */}
-            <DonationSection />
+            <Suspense fallback={<SectionLoader />}>
+                <DonationSection />
+            </Suspense>
 
             {/* Grid Layout Section */}
-            <GridLayout />
+            <Suspense fallback={<SectionLoader />}>
+                <GridLayout />
+            </Suspense>
 
             {/* Om Namah Shivaya Section */}
-            <OmNamehShivaya />
+            <Suspense fallback={<SectionLoader />}>
+                <OmNamehShivaya />
+            </Suspense>
 
             {/* Scrolling Banner */}
-            <ScrollingBanner />
+            <Suspense fallback={<ComponentLoader height="h-16" />}>
+                <ScrollingBanner />
+            </Suspense>
 
             {/* Contact Section */}
-            <ContactSection />
+            <Suspense fallback={<SectionLoader />}>
+                <ContactSection />
+            </Suspense>
 
             {/* Blog Articles Section */}
-            <BlogSection />
-
-
+            <Suspense fallback={<SectionLoader />}>
+                <BlogSection />
+            </Suspense>
         </>
-               
-          
     );
 };

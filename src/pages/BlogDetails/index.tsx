@@ -1,14 +1,24 @@
-import HeroSection from "../../components/common/HeroSection";
-import BlogDetails from "@/components/Blogs/BlogDetails";
+import React, { Suspense } from "react";
+import { ComponentLoader, BlogDetailsLoader } from "../../components/ui/LoadingComponents";
+
+// Lazy load components
+const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
+const BlogDetails = React.lazy(() => import("@/components/Blogs/BlogDetails"));
 export const BlogDetailsPage = (): JSX.Element => {
     return (
         <>
-            <HeroSection
-                title="Blog Details"
-                backgroundImage="/Blogdetail.webp"
-            />
-            <BlogDetails />
-            
+            {/* Hero Section */}
+            <Suspense fallback={<ComponentLoader height="h-96" />}>
+                <HeroSection
+                    title="Blog Details"
+                    backgroundImage="/Blogdetail.webp"
+                />
+            </Suspense>
+
+            {/* Blog Details Section */}
+            <Suspense fallback={<BlogDetailsLoader />}>
+                <BlogDetails />
+            </Suspense>
         </>
     );
 };
