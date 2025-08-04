@@ -1,5 +1,6 @@
 import React from 'react';
 import aboutWorshipImage from '@/assets/images/Aboutworship.webp';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface AboutWorshipProps {
     title?: string;
@@ -70,16 +71,21 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                                 <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                                     {description}
                                 </p>
-                            </div>
-                            {/* Button Container - Using Flex */}
-                            <div className="flex">
+                                <LazyLoadImage
+                                    src={worshipImage}
+                                    alt="Spiritual worship scene with hands holding flower and sacred fire"
+                                    className="h-auto object-cover transition-all duration-[1200ms] ease-in-out"
+                                    style={{
+                                        width: inView ? 'clamp(250px, 40vw, 350px)' : '50px',
+                                        height: 'auto'
+                                    }}
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                                 <button
+                                    type="button"
                                     onClick={onButtonClick}
-                                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-red-700 to-red-800 
-                             text-white font-semibold text-sm rounded shadow-lg 
-                             hover:from-red-800 hover:to-red-900 hover:shadow-xl 
-                             transform hover:scale-105 transition-all duration-300 
-                             focus:outline-none focus:ring-4 focus:ring-red-300 active:scale-95"
+                                    className="mt-4 px-6 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded shadow hover:from-orange-600 hover:to-red-700 transition-colors"
                                     aria-label={`Learn more about ${buttonText}`}
                                 >
                                     {buttonText}

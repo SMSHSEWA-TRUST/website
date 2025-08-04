@@ -1,5 +1,6 @@
 
 import aboutArtiImage from '@/assets/images/aboutArtiImage.webp';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const ArtiSection = () => {
     return (
@@ -41,7 +42,7 @@ const ArtiSection = () => {
                     <div className="grid grid-cols-1">
                         {/* Image */}
                         <div className="relative h-48 bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
-                            <img
+                            <LazyLoadImage
                                 src={aboutArtiImage}
                                 alt="Prayer hands representing spiritual devotion"
                                 className="w-full h-full object-cover drop-shadow-xl opacity-90"
@@ -95,7 +96,7 @@ const ArtiSection = () => {
                         <div className="flex-1 grid grid-cols-2 h-full">
                             {/* Image */}
                             <div className="relative bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
-                                <img
+                                <LazyLoadImage
                                     src={aboutArtiImage}
                                     alt="Prayer hands representing spiritual devotion"
                                     className="w-full h-full object-cover drop-shadow-xl opacity-90"

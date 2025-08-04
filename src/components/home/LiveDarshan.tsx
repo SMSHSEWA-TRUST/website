@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Badge } from "../ui/badge";
 import {
@@ -7,10 +6,9 @@ import {
     CardHeader,
     CardTitle,
 } from "../ui/card";
-
-// Image imports
 import mand7Png from '@/assets/images/mand-7.png';
 import omPng from '@/assets/images/om.png';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 // Video Player Component - Reusable for both layouts
 const VideoPlayerSection = ({ selectedTemple, isDesktop }: {
@@ -79,11 +77,12 @@ const SevaSection = ({ isDesktop, upcomingSevas }: {
             <Card className={`bg-white shadow-lg ${isDesktop ? "h-full" : ""}`}>
                 <CardHeader className="pb-4">
                     <div className="flex items-center gap-2">
-                        <img
+                        <LazyLoadImage
                             className="w-7 h-7 object-contain text-red-800"
                             alt="Om Symbol"
                             src={omPng}
                             style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }} // ensures red color if SVG, else remove
+                            loading="lazy"
                         />
                         <CardTitle className="text-[rgba(139,0,0,1)] font-marcellus text-[20px] lg:text-[24px] font-normal">
                             Upcoming Seva's
@@ -200,15 +199,17 @@ const LiveDarshan = (): JSX.Element => {
         <section className="relative w-full bg-red-800 overflow-hidden">
             {/* Background Decorative Images */}
             <div className="absolute inset-0 pointer-events-none">
-                <img
+                <LazyLoadImage
                     className="absolute left-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
                     alt="Left Decoration"
                     src={mand7Png}
+                    loading="lazy"
                 />
-                <img
+                <LazyLoadImage
                     className="absolute right-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
                     alt="Right Decoration"
                     src={mand7Png}
+                    loading="lazy"
                 />
             </div>
 

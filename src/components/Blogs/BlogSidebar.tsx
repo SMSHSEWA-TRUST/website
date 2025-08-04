@@ -1,4 +1,5 @@
 import React from "react";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface LatestPost {
     id: number;
@@ -41,10 +42,11 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
                 <div className="flex flex-col gap-4 mb-6">
                     {latestPosts.map((post) => (
                         <div key={post.id} className="flex gap-3 items-center">
-                            <img
+                            <LazyLoadImage
                                 src={post.image}
                                 alt={post.title}
                                 className="w-16 h-12 object-cover rounded flex-shrink-0"
+                                loading="lazy"
                             />
                             <div className="flex flex-col justify-center flex-1">
                                 <h4 className="text-sm font-medium text-red-700 mb-1">

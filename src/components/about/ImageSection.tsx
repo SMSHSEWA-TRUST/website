@@ -1,4 +1,5 @@
 import React from "react";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import aboutSection1 from "@/assets/images/aboutSection1.png";
 import aboutSection2 from "@/assets/images/aboutSection2.webp";
 import aboutSection3 from "@/assets/images/aboutSection3.png";
@@ -53,7 +54,7 @@ const ImageSection: React.FC = () => {
                                         className="w-[220px]  flex items-center justify-center bg-transparent"
 
                                     >
-                                        <img
+                                        <LazyLoadImage
                                             src={card.image}
                                             alt={card.title || "Worship scene"}
                                             className="w-full h-full object-cover"
@@ -81,7 +82,7 @@ const ImageSection: React.FC = () => {
                                 className="flex items-center justify-center w-full md:h-[598px]"
                                 style={{ background: "transparent" }}
                             >
-                                <img
+                                <LazyLoadImage
                                     src={card.image}
                                     alt="Worship scene"
                                     className="w-full h-auto md:h-full object-cover"
@@ -103,7 +104,7 @@ const ImageSection: React.FC = () => {
                                     className="w-[220px] h-[260px] flex items-center justify-center bg-transparent"
 
                                 >
-                                    <img
+                                    <LazyLoadImage
                                         src={card.image}
                                         alt={card.title || "Worship scene"}
                                         className="w-full h-full object-cover"

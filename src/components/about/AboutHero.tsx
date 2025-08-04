@@ -1,4 +1,5 @@
 import React from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import aboutImage from '@/assets/images/About.webp';
 
 interface AboutHeroProps {
@@ -22,7 +23,7 @@ const AboutHero: React.FC<AboutHeroProps> = ({
         >
             {/* Responsive Image Section */}
             <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[80vh] overflow-hidden">
-                <img
+                <LazyLoadImage
                     src={backgroundImage}
                     alt="Sacred architectural arches with golden sunset"
                     className="w-full h-full object-cover object-center"

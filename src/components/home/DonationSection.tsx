@@ -11,6 +11,7 @@ import mand9Min2 from '@/assets/images/mand-9-min 2.png';
 import mand9Min3 from '@/assets/images/mand-9-min 3.png';
 import mand9Min4 from '@/assets/images/mand-9-min 4.png';
 import mand9Min5 from '@/assets/images/mand-9-min 5.png';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 // Custom hook for counter animation
@@ -182,10 +183,11 @@ export default function DonationSection() {
                         </div>
                     </div>
                     <div className="flex flex-col md:flex-row gap-6 items-center w-full">
-                        <img
+                        <LazyLoadImage
                             src={image4}
                             alt="Profile"
                             className="w-48 h-56 object-cover rounded-md shadow-md bg-gray-200"
+                            loading="lazy"
                         />
                         <div className="flex-1 flex flex-col gap-3 w-full">
                             <p className="text-[rgba(30,30,30,0.5)] lg:text-[16px] text-[14px]  leading-relaxed">
@@ -231,21 +233,24 @@ export default function DonationSection() {
                 <div className="block lg:hidden">
                     {/* Red Donation Section - Mobile */}
                     <div className="w-full bg-[#8b0000] py-6 px-4 mb-0 relative">
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[60px] h-[70px] top-2 left-2"
                             alt="Decorative Image"
                             src={mand9Min2}
+                            loading="lazy"
                         />
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[100px] h-[100px] bottom-2 right-2"
                             alt="Decorative Image"
                             src={mand9Min3}
+                            loading="lazy"
                         />
                         {/* Center Top Decorative Image - Half inside, half outside */}
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[120px] h-[120px] top-[-60px] left-1/2 transform -translate-x-1/2 object-cover opacity-80 z-10"
                             alt="Decorative Image"
                             src={mand9Min1}
+                            loading="lazy"
                         />
 
                         <div className="relative z-10 space-y-4">
@@ -279,24 +284,27 @@ export default function DonationSection() {
 
                     {/* Main Background Image - Mobile */}
                     <div className="relative w-full">
-                        <img
+                        <LazyLoadImage
                             className="w-full h-[250px] object-cover"
                             alt="Main Background Image"
                             src={image5Webp}
+                            loading="lazy"
                         />
                     </div>
 
                     {/* Orange Avatar Section - Mobile */}
                     <div className="w-full bg-[#d05e2d] py-6 px-4 mt-0">
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[60px] h-[70px] top-2 left-2"
                             alt="Decorative Image"
                             src={mand9Min4}
+                            loading="lazy"
                         />
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[60px] h-[70px] bottom-2 right-2"
                             alt="Decorative Image"
                             src={mand9Min5}
+                            loading="lazy"
                         />
 
                         <div className="flex flex-row justify-around items-center gap-2 relative z-10">
@@ -317,29 +325,33 @@ export default function DonationSection() {
                 {/* Desktop Layout - Overlapping */}
                 <div className="hidden lg:block">
                     {/* Main Background Image */}
-                    <img
+                    <LazyLoadImage
                         className="w-full h-[400px] lg:h-[500px] object-cover"
                         alt="Main Background Image"
                         src={image5Webp}
+                        loading="lazy"
                     />
 
                     {/* Red Donation Section - Overlapping top-left */}
                     <div className="absolute top-[-50%] left-7 w-[80%] bg-[#8b0000] py-8 px-8 z-20">
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[84px] h-[92px] top-0 left-0"
                             alt="Decorative Image"
                             src={mand9Min2}
+                            loading="lazy"
                         />
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[145px] h-[145px] bottom-0 right-4"
                             alt="Decorative Image"
                             src={mand9Min3}
+                            loading="lazy"
                         />
                         {/* Center Top Decorative Image - Half inside, half outside */}
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[200px] h-[200px] top-[-100px] left-1/2 transform -translate-x-1/2 object-cover opacity-80 z-10"
                             alt="Decorative Image"
                             src={mand9Min1}
+                            loading="lazy"
                         />
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center relative z-10">
@@ -373,15 +385,17 @@ export default function DonationSection() {
 
                     {/* Orange Avatar Section - Overlapping bottom-right */}
                     <div className="absolute bottom-[-20%] right-0 w-3/5 bg-[#d05e2d] py-8 px-8 z-20">
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[84px] h-[92px] top-4 left-4"
                             alt="Decorative Image"
                             src={mand9Min4}
+                            loading="lazy"
                         />
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[84px] h-[92px] bottom-4 right-4"
                             alt="Decorative Image"
                             src={mand9Min5}
+                            loading="lazy"
                         />
 
                         <div className="flex flex-col md:flex-row justify-around items-center gap-6 relative z-10">

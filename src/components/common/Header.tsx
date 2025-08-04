@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import tempLogo from '@/assets/images/temp-logo.png';
 import lineImage from '@/assets/images/line.png';
 import { useLocation, Link } from "react-router-dom";
@@ -26,10 +27,11 @@ const Header = (): JSX.Element => {
                     <div className="hidden lg:flex lg:items-center lg:justify-center lg:py-2 gap-6">
                         {/* Logo */}
                         <div className="flex-shrink-0">
-                            <img
+                            <LazyLoadImage
                                 className="w-20 h-20 object-cover"
                                 alt="Temple Logo"
                                 src={tempLogo}
+                                loading="lazy"
                             />
                         </div>
 
@@ -43,10 +45,11 @@ const Header = (): JSX.Element => {
                             {/* Decorative Line - Between Title and Navigation */}
                             <div className="relative mb-2 mt-2">
                                 <div className="relative w-full max-w-4xl h-3">
-                                    <img
+                                    <LazyLoadImage
                                         className="w-full h-3 object-cover"
                                         alt="Decorative Line"
                                         src={lineImage}
+                                        loading="lazy"
                                     />
                                     {/* Center dot - largest */}
                                     <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
@@ -143,10 +146,11 @@ const Header = (): JSX.Element => {
                         <div className="flex items-center justify-between py-4">
                             {/* Logo */}
                             <div className="flex-shrink-0">
-                                <img
+                                <LazyLoadImage
                                     className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-cover"
                                     alt="Temple Logo"
                                     src={tempLogo}
+                                    loading="lazy"
                                 />
                             </div>
 

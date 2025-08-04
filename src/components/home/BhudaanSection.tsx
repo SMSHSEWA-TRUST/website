@@ -2,6 +2,7 @@ import React from "react";
 import bhudaan1 from '@/assets/images/bhudaan1.webp';
 import bhudaan2 from '@/assets/images/bhudaan2.webp';
 import bhudaan3 from '@/assets/images/bhudaan3.webp';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const BhudaanSection: React.FC = () => {
     return (
@@ -48,14 +49,14 @@ const BhudaanSection: React.FC = () => {
             </div>
             <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mx-auto">
                 <div className="flex items-center justify-center h-[451px] w-full overflow-hidden">
-                    <img src={bhudaan1} alt="Temple 1" className="w-full h-full object-cover shadow-lg" />
+                    <LazyLoadImage src={bhudaan1} alt="Temple 1" className="w-full h-full object-cover shadow-lg" loading="lazy" />
                 </div>
                 <div className="flex flex-col h-[451px] w-full overflow-hidden gap-4">
                     <div className="flex-1 flex items-center justify-center overflow-hidden">
-                        <img src={bhudaan2} alt="Temple 2" className="w-full h-full object-cover shadow-lg" />
+                        <LazyLoadImage src={bhudaan2} alt="Temple 2" className="w-full h-full object-cover shadow-lg" loading="lazy" />
                     </div>
                     <div className="flex-1 flex items-center justify-center overflow-hidden">
-                        <img src={bhudaan3} alt="Temple 3" className="w-full h-full object-cover shadow-lg" />
+                        <LazyLoadImage src={bhudaan3} alt="Temple 3" className="w-full h-full object-cover shadow-lg" loading="lazy" />
                     </div>
                 </div>
             </div>

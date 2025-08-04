@@ -1,4 +1,5 @@
 import React from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import facebookIcon from '@/assets/images/Facebook.png';
 import twitterIcon from '@/assets/images/Twitter.png';
 import instagramIcon from '@/assets/images/Instagram.png';
@@ -83,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 <div className="flex justify-center items-center mb-3">
                                     <div className="relative w-16 h-16">
                                         <div className="absolute inset-1 bg-white rounded-full" />
-                                        <img
+                                        <LazyLoadImage
                                             src={tempLogo}
                                             alt="Shree Mahakaleshwar Salasar Hanuman Sewa Trust Logo"
                                             className="relative w-full h-full object-cover rounded-full"
@@ -101,7 +102,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                                 {/* Decorative Line */}
                                 <div className="flex justify-center items-center mb-3">
-                                    <img
+                                    <LazyLoadImage
                                         src={footerLine}
                                         alt=""
                                         className="h-1.5 w-auto"
@@ -129,7 +130,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                                     className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-[#8b0000] hover:bg-gray-100 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
                                                     aria-label={`Visit our ${social.name} page`}
                                                 >
-                                                    <img
+                                                    <LazyLoadImage
                                                         src={social.icon}
                                                         alt={social.name}
                                                         className="w-4 h-4 object-contain"
@@ -219,7 +220,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                         <div className="flex flex-col items-center space-y-3">
                             {/* Decorative Line */}
                             <div className="w-full flex justify-center items-center">
-                                <img
+                                <LazyLoadImage
                                     src={footerLine2}
                                     alt=""
                                     className="h-2 w-full max-w-4xl object-contain"
@@ -234,7 +235,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     <span className="text-xl">🧡</span>
                                     <span>by Nexteir Technologies Pvt. Ltd. in India</span>
                                     <div className="flex items-center ml-2">
-                                        <img
+                                        <LazyLoadImage
                                             src={indiaFlag}
                                             alt="India Flag"
                                             className="w-6 h-4"
@@ -265,7 +266,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             <div className="flex justify-center items-center">
                                 <div className="relative w-12 h-12">
                                     <div className="absolute inset-0.5 bg-white rounded-full" />
-                                    <img
+                                    <LazyLoadImage
                                         src={tempLogo}
                                         alt="Shree Mahakaleshwar Salasar Hanuman Sewa Trust Logo"
                                         className="relative w-full h-full object-cover rounded-full"
@@ -301,7 +302,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                                 className="w-6 h-6 bg-white rounded-full flex items-center justify-center border border-[#8b0000] hover:bg-gray-100 hover:scale-105 transition-all duration-200"
                                                 aria-label={`Visit our ${social.name} page`}
                                             >
-                                                <img
+                                                <LazyLoadImage
                                                     src={social.icon}
                                                     alt={social.name}
                                                     className="w-3 h-3 object-contain"
@@ -406,7 +407,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     <span className="text-sm">🧡</span>
                                     <span>by Nexteir Technologies Pvt. Ltd. in India</span>
                                     <div className="flex items-center ml-1">
-                                        <img src={indiaFlag} alt="India Flag" className="w-4 h-3" loading="lazy" />
+                                        <LazyLoadImage src={indiaFlag} alt="India Flag" className="w-4 h-3" loading="lazy" />
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-1">

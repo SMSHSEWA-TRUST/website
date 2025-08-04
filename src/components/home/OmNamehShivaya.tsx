@@ -1,6 +1,7 @@
 
 import bgShivWebp from '@/assets/images/bg-shiv.webp';
 import imageShivPng from '@/assets/images/image-shiv.png';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const OmNamehShivaya = (): JSX.Element => {
     return (
@@ -24,7 +25,7 @@ const OmNamehShivaya = (): JSX.Element => {
 
                 {/* Shiva Image - Proportional positioning */}
                 <div className="absolute right-0 top-0 w-[78%] h-full z-20">
-                    <img
+                    <LazyLoadImage
                         className="w-full h-full object-cover object-left"
                         alt="Lord Shiva Statue"
                         src={imageShivPng}

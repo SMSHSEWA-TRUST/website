@@ -5,6 +5,7 @@ import tempImage5Webp from '@/assets/images/temp-image-5.webp';
 import bgcardImagePng from '@/assets/images/bgcardImage.png';
 import linePng from '@/assets/images/line.png';
 import omPng from '@/assets/images/om.png';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const services = [
     {
@@ -49,11 +50,12 @@ const Services = (): JSX.Element => {
     return (
         <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-8 lg:px-0 overflow-hidden">
             {/* Decorative background image for large screens */}
-            <img
+            <LazyLoadImage
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[962px] h-auto object-contain opacity-5 pointer-events-none select-none z-0"
                 alt="Decorative background"
                 src={bgcardImagePng}
                 aria-hidden="true"
+                loading="lazy"
             />
             <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-8 z-10">
                 {/* Section Header */}
@@ -65,10 +67,11 @@ const Services = (): JSX.Element => {
                         Lorem ipsum dolor sit amet, consectetur
                     </h2>
                     <div className="relative flex items-center justify-center w-40 md:w-72 h-3 mt-2">
-                        <img
+                        <LazyLoadImage
                             className="absolute w-full h-1.5 top-1 left-0 object-cover"
                             alt="Section divider"
                             src={linePng}
+                            loading="lazy"
                         />
                         <div className="absolute left-1/2 -translate-x-1/2 bg-[#8b0000] w-3 h-3 rounded-full border border-solid border-[#8b0000]" />
                         <div className="absolute left-[45%] bg-[#8b0000] w-2 h-2 rounded-full border border-solid border-[#8b0000]" />
@@ -80,29 +83,32 @@ const Services = (): JSX.Element => {
                     {/* Background images for small screens - each covers 2 cards */}
                     <div className="absolute inset-0 lg:hidden">
                         {/* First background image for cards 1-2 */}
-                        <img
+                        <LazyLoadImage
                             className="absolute top-0 left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
                             alt="Background 1"
                             src={tempImage7Webp}
+                            loading="lazy"
                         />
                         {/* Second background image for cards 3-4 */}
-                        <img
+                        <LazyLoadImage
                             className="absolute top-[calc(50%+12px)] left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
                             alt="Background 2"
                             src={tempImage6Webp}
+                            loading="lazy"
                         />
                         {/* Third background image for cards 5-6 */}
-                        <img
+                        <LazyLoadImage
                             className="absolute top-[calc(100%+24px)] left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
                             alt="Background 3"
                             src={tempImage5Webp}
+                            loading="lazy"
                         />
                     </div>
 
                     {services.map((service, idx) =>
                         service.image ? (
                             <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10">
-                                <img
+                                <LazyLoadImage
                                     src={service.image}
                                     alt={service.title}
                                     className="w-full h-full object-cover"
@@ -111,7 +117,7 @@ const Services = (): JSX.Element => {
                             </div>
                         ) : (
                             <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center relative z-10">
-                                <img
+                                <LazyLoadImage
                                     src={omPng}
                                     alt="Om symbol"
                                     className="w-12 h-12 mb-4 text-[#8b0000]"

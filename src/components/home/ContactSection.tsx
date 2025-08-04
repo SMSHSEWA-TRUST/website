@@ -7,6 +7,7 @@ import { Button } from '../ui/button';
 import contactBg from '@/assets/images/image-7.webp';
 import contactLine from '@/assets/images/line-4.png';
 import contactMain from '@/assets/images/image-6.webp';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export const ContactSection: React.FC = () => {
     return (
@@ -32,10 +33,11 @@ export const ContactSection: React.FC = () => {
 
                                 {/* Decorative Line */}
                                 <div className="flex justify-center mb-4">
-                                    <img
+                                    <LazyLoadImage
                                         className="w-64 h-4 object-contain"
                                         alt="Decorative Line"
                                         src={contactLine}
+                                        loading="lazy"
                                     />
                                 </div>
 
@@ -100,7 +102,7 @@ export const ContactSection: React.FC = () => {
 
                 {/* Right Section - Main Image */}
                 <div className="relative h-64 sm:h-80 lg:min-h-[700px] lg:h-full">
-                    <img
+                    <LazyLoadImage
                         className="w-full h-full object-cover"
                         alt="Temple Architecture"
                         src={contactMain}

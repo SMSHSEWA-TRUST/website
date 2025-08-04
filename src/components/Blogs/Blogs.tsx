@@ -1,5 +1,6 @@
 
 import BlogSidebar from "./BlogSidebar";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import blogArti1 from '@/assets/images/blogarti1.webp';
 import blogArti2 from '@/assets/images/blogarti2.webp';
 import blogArti3 from '@/assets/images/blogarti3.webp';
@@ -62,7 +63,7 @@ const Blogs = () => {
                         {blogPosts.map((post) => (
                             <div key={post.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col">
                                 <div className="w-full aspect-[16/10] bg-gray-100 flex items-center justify-center">
-                                    <img
+                                    <LazyLoadImage
                                         src={post.image}
                                         alt={post.title}
                                         className="w-full h-full object-cover object-center rounded-t"

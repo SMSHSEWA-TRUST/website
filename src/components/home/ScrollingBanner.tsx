@@ -2,6 +2,7 @@
 
 import omScrollPng from '@/assets/images/om-scroll.png';
 import omPng from '@/assets/images/om.png';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const ScrollingBanner = (): JSX.Element => {
     // Create array of repeated text for seamless scrolling
@@ -23,11 +24,12 @@ const ScrollingBanner = (): JSX.Element => {
                             key={index}
                             className="flex items-center font-['Tenor_Sans',sans-serif] font-normal text-white text-sm tracking-wider px-6"
                         >
-                            <img
+                            <LazyLoadImage
                                 className="w-7 h-7 object-contain text-yellow-500 mr-2"
                                 alt="Om Symbol"
                                 src={omScrollPng}
                                 style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }}
+                                loading="lazy"
                             />
                             {text}
                         </span>
@@ -38,11 +40,12 @@ const ScrollingBanner = (): JSX.Element => {
                             key={`duplicate-${index}`}
                             className="flex items-center font-tenor-sans lg:text-[14px] text-[6px] font-normal text-white text-sm tracking-wider px-6"
                         >
-                            <img
+                            <LazyLoadImage
                                 className="w-7 h-7 object-contain text-red-800 mr-2"
                                 alt="Om Symbol"
                                 src={omPng}
                                 style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }}
+                                loading="lazy"
                             />
                             {text}
                         </span>

@@ -3,6 +3,7 @@ import tempImage3 from '@/assets/images/temp-image-3.webp';
 import tempImage2 from '@/assets/images/temp-image-2.png';
 import image3 from '@/assets/images/image 3.png';
 import image2 from '@/assets/images/image 2.png';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const About = (): JSX.Element => {
     return (
@@ -13,7 +14,7 @@ const About = (): JSX.Element => {
                     <div className="grid grid-cols-2 gap-3 sm:gap-4  ">
                         {/* Main large image - spans 2 rows */}
                         <div className="row-span-2">
-                            <img
+                            <LazyLoadImage
                                 className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 alt="Main temple view showcasing traditional architecture"
                                 src={tempImage4}
@@ -23,7 +24,7 @@ const About = (): JSX.Element => {
 
                         {/* Top right image */}
                         <div className="row-span-1">
-                            <img
+                            <LazyLoadImage
                                 className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 alt="Temple detail view"
                                 src={tempImage3}
@@ -33,7 +34,7 @@ const About = (): JSX.Element => {
 
                         {/* Bottom right image */}
                         <div className="row-span-1">
-                            <img
+                            <LazyLoadImage
                                 className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 alt="Temple courtyard view"
                                 src={tempImage2}
@@ -77,10 +78,11 @@ const About = (): JSX.Element => {
                         <div className="flex items-start space-x-4">
                             {/* Lotus Flower Icon */}
                             <div className="flex-shrink-0 mt-1">
-                                <img
+                                <LazyLoadImage
                                     className="w-[50px] h-[50px] object-cover"
                                     alt="Image"
                                     src={image3}
+                                    loading="lazy"
                                 />
                             </div>
                             <div className="flex-1">
@@ -95,10 +97,11 @@ const About = (): JSX.Element => {
                         <div className="flex items-start space-x-4">
                             {/* Person Icon */}
                             <div className="flex-shrink-0 mt-1">
-                                <img
+                                <LazyLoadImage
                                     className="w-[50px] h-[50px] object-cover"
                                     alt="Image"
                                     src={image2}
+                                    loading="lazy"
                                 />
                             </div>
                             <div className="flex-1">

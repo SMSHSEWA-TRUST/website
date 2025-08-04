@@ -1,6 +1,7 @@
 
 import divinePng from '@/assets/images/divine-2.png';
 import divineWebp from '@/assets/images/divine-2.webp';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const DivinePower = (): JSX.Element => {
     return (
@@ -36,7 +37,7 @@ const DivinePower = (): JSX.Element => {
                 <p className="mt-4 max-w-md text-[#4c291e] text-[10px] sm:text-[12px] text-center font-serif leading-relaxed">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
-                <img
+                <LazyLoadImage
                     src={divineWebp}
                     alt="Divine temple"
                     className="w-full h-56 sm:h-72 object-cover rounded-lg mt-6 shadow"

@@ -1,5 +1,6 @@
 
 import diamondOrange from '@/assets/images/om-scroll.png'; // Example decorative image, replace with actual if needed
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const SubscriptionPlans = () => {
     const features = [
@@ -94,7 +95,7 @@ const SubscriptionPlans = () => {
                             <div className="w-3 h-px bg-orange-500"></div>
                             <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
                             <div className="w-3 h-px bg-orange-500"></div>
-                            <img src={diamondOrange} alt="Decorative" className="w-6 h-6 mx-2" />
+                            <LazyLoadImage src={diamondOrange} alt="Decorative" className="w-6 h-6 mx-2" loading="lazy" />
                             <div className="w-3 h-px bg-orange-500"></div>
                             <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
                             <div className="w-3 h-px bg-orange-500"></div>

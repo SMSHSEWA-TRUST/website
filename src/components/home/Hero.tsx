@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from "../ui/button";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 // Image imports
 import abstractFloral from '@/assets/images/abstract-floral.png';
@@ -37,27 +38,29 @@ const Hero = (): JSX.Element => {
             <div className="hidden lg:block relative w-full mx-auto">
                 <div className="relative w-full h-[610px] overflow-visible">
                     {/* Abstract floral - only top part visible above section */}
-                    <img
+                    <LazyLoadImage
                         className="absolute left-[48%] top-[-28%] -translate-x-1/2   object-contain pointer-events-none z-10"
                         alt="Abstract floral"
                         src={abstractFloral}
                         style={{
                             clipPath: 'polygon(0 0, 100% 0, 100% 9.5%, 0 9.5%)'
                         }}
+                        loading="lazy"
                     />                    {/* Red section - responsive width with no gap */}
                     <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]">
                     </div>                    {/* Temple image - responsive with slight overlap to prevent gap */}
-                    <img
+                    <LazyLoadImage
                         className="absolute w-[67%] h-full top-0 left-0 object-cover object-center"
                         alt="Temple Image"
                         src={tempImageWebp}
                         style={{ objectPosition: 'center top' }}
+                        loading="lazy"
                     />
 
                     {/* Desktop Deity Images - responsive positioning and scaling */}
                     <div className="absolute w-[40.6%] h-[75%] top-[8%] left-[46.5%] overflow-hidden z-20">
                         {deityImages.map((imageSrc, index) => (
-                            <img
+                            <LazyLoadImage
                                 key={index}
                                 className={`absolute w-full h-full object-contain transition-all duration-1000 ease-in-out transform ${index === textIndex
                                     ? 'opacity-100 scale-100'
@@ -68,6 +71,7 @@ const Hero = (): JSX.Element => {
                                 style={{
                                     filter: index === textIndex ? 'brightness(1)' : 'brightness(0.8)',
                                 }}
+                                loading="lazy"
                             />
                         ))}
                     </div>
@@ -110,10 +114,11 @@ const Hero = (): JSX.Element => {
                 {/* Top Section - Temple background with text overlay */}
                 <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] overflow-hidden">
                     {/* Background temple image */}
-                    <img
+                    <LazyLoadImage
                         className="absolute inset-0 w-full h-full object-cover"
                         alt="Temple Image"
                         src={tempImageWebp}
+                        loading="lazy"
                     />
 
                     {/* Text overlay */}
@@ -146,17 +151,19 @@ const Hero = (): JSX.Element => {
                 {/* Bottom Section - Red background with abstract floral and deity image */}
                 <div className="relative w-full bg-[#8b0000] py-8 sm:py-12 md:py-16 flex justify-center items-center overflow-hidden">
                     {/* Abstract floral background - centered and extending beyond top */}
-                    <img
+                    <LazyLoadImage
                         className="absolute left-1/2 top-[-15%] -translate-x-1/2 w-[130%] h-[130%] object-cover opacity-30"
                         alt="Abstract floral"
                         src={abstractFloral}
+                        loading="lazy"
                     />
 
                     {/* Additional abstract floral positioning for better coverage */}
-                    <img
+                    <LazyLoadImage
                         className="absolute left-1/2 top-[-25%] -translate-x-1/2 w-[140%] h-[140%] object-cover opacity-20"
                         alt="Abstract floral overlay"
                         src={abstractFloral}
+                        loading="lazy"
                     />
 
                     {/* Deity image container - positioned above the abstract floral */}
@@ -166,7 +173,7 @@ const Hero = (): JSX.Element => {
                             <div className="w-full h-full rounded-full overflow-hidden bg-white">
                                 {/* Deity Images with smooth transitions */}
                                 {deityImages.map((imageSrc, index) => (
-                                    <img
+                                    <LazyLoadImage
                                         key={index}
                                         className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out transform ${index === textIndex
                                             ? 'opacity-100 scale-100'
@@ -177,6 +184,7 @@ const Hero = (): JSX.Element => {
                                         style={{
                                             filter: index === textIndex ? 'brightness(1)' : 'brightness(0.8)',
                                         }}
+                                        loading="lazy"
                                     />
                                 ))}
                             </div>

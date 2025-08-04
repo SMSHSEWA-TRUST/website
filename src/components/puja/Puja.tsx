@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import pujaImageWebp from '@/assets/images/pujaImage.webp';
 
@@ -117,11 +118,12 @@ export default function Puja() {
                                                 background: "#fff"
                                             }}>
                                             <div className="w-full aspect-[16/7] bg-black relative flex items-center justify-center overflow-hidden">
-                                                <img
+                                                <LazyLoadImage
                                                     src={puja.image}
                                                     alt={puja.title}
                                                     className="w-full h-full object-cover object-center"
                                                     style={{ opacity: 0.7 }}
+                                                    loading="lazy"
                                                 />
                                                 <div className="absolute inset-0 flex flex-col items-center justify-end px-6 pb-6">
                                                     <p className="text-white text-xs md:text-base font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
@@ -153,11 +155,12 @@ export default function Puja() {
                                                 }}
                                             >
                                                 <div className="w-full aspect-[16/7] bg-black relative flex items-center justify-center overflow-hidden">
-                                                    <img
+                                                    <LazyLoadImage
                                                         src={puja.image}
                                                         alt={puja.title}
                                                         className="w-full h-full object-cover object-center"
                                                         style={{ opacity: 0.7 }}
+                                                        loading="lazy"
                                                     />
                                                     <div className="absolute inset-0 flex flex-col items-center justify-end px-6 pb-6">
                                                         <p className="text-white text-xs md:text-base font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">

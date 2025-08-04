@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import teamImage from "@/assets/images/TeamMember.webp";
 const teamMembers = [
     { name: "Acharya Pandit Ji", role: "Chief Priest", image: teamImage },
@@ -142,10 +143,11 @@ export default function Team() {
                                         borderBottom: "1px solid #eaeaea"
                                     }}
                                 >
-                                    <img
+                                    <LazyLoadImage
                                         src={member.image}
                                         alt={member.name}
                                         className="w-full h-full object-cover"
+                                        loading="lazy"
                                     />
                                 </div>
                                 <div className="px-6 py-3 pb-2">

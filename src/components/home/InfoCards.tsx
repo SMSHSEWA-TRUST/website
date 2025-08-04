@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 // Image imports
 import callPng from '@/assets/images/call.png';
@@ -27,17 +27,19 @@ export const InfoCards: React.FC = () => {
                         +91 9876543210
                     </div>
                     <div className="absolute w-[33px] h-[33px] top-[229px] left-[25px]">
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[33px] h-[33px] top-0 left-0"
                             alt="Phone icon"
                             src={callPng}
+                            loading="lazy"
                         />
                     </div>
                     <div className="absolute w-14 h-14 top-[22px] left-[25px]">
-                        <img
+                        <LazyLoadImage
                             className="absolute w-[52px] h-[52px] top-0 left-0"
                             alt="Connect icon"
                             src={connectPng}
+                            loading="lazy"
                         />
                     </div>
                 </CardContent>
@@ -53,10 +55,11 @@ export const InfoCards: React.FC = () => {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliq
                     </div>
-                    <img
+                    <LazyLoadImage
                         className="absolute w-[52px] h-[52px] top-[25px] left-[25px]"
                         alt="Charity icon"
                         src={donatePng}
+                        loading="lazy"
                     />
                     <Button className="w-24 h-[30px] absolute top-[214px] left-[31px] bg-[#8b0000] rounded-none">
                         <span className="relative w-fit mt-[-4.17px] mb-[-2.77px] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
@@ -84,13 +87,14 @@ export const InfoCards: React.FC = () => {
                     <div className="absolute w-[156px] top-[193px] left-[243px] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-base tracking-[0] leading-[normal]">
                         10:00 AM - 6:00 PM
                     </div>
-                    <img
+                    <LazyLoadImage
                         className="absolute w-[47px] h-[47px] top-[35px] left-[31px]"
                         alt="Time icon"
                         src={timePng}
+                        loading="lazy"
                     />
                 </CardContent>
             </Card>
         </section>
     );
-}; 
+};
