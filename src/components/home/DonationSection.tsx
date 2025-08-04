@@ -149,7 +149,7 @@ export default function DonationSection() {
     });
 
     return (
-        <section ref={setRef} className="w-full bg-[#f7f3ef] py-12 px-4 md:px-0">
+        <section ref={setRef} className="w-full bg-[#f7f3ef] py-16 px-4 md:px-0">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">

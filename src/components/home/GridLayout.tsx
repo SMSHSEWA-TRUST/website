@@ -1,6 +1,5 @@
 
 import { Button } from "../ui/button";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 // Image imports
 import tempImage8Webp from '@/assets/images/temp-image-8.webp';
@@ -37,19 +36,17 @@ const GridLayout = (): JSX.Element => {
                     {/* Two Images Bottom - Always side by side */}
                     <div className="grid grid-cols-2  flex-1">
                         <div className="relative overflow-hidden rounded-lg lg:rounded-none group">
-                            <LazyLoadImage
+                            <img
                                 className="w-full h-32 sm:h-40 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Temple Image 1"
                                 src={tempImage8Webp}
-                                loading="lazy"
                             />
                         </div>
                         <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-white p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
-                            <LazyLoadImage
+                            <img
                                 className="w-full h-28 sm:h-36 lg:h-full max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Portrait Image"
                                 src={tempImage2Png}
-                                loading="lazy"
                             />
                         </div>
                     </div>
@@ -62,30 +59,27 @@ const GridLayout = (): JSX.Element => {
                     {/* Two Images Top - Always side by side */}
                     <div className="grid grid-cols-2 flex-1">
                         <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-[#8b0000] p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
-                            <LazyLoadImage
+                            <img
                                 className="w-full h-28 sm:h-36 lg:h-full max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Portrait Image 2"
                                 src={tempImage11Png}
-                                loading="lazy"
                             />
                         </div>
                         <div className="relative overflow-hidden rounded-lg lg:rounded-none group">
-                            <LazyLoadImage
+                            <img
                                 className="w-full h-32 sm:h-40 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Temple Image 2"
                                 src={tempImage10Webp}
-                                loading="lazy"
                             />
                         </div>
                     </div>
 
                     {/* One Large Image Bottom */}
-                    <div className="relative overflow-hidden rounded-lg lg:rounded-none flex-1 group">
-                        <LazyLoadImage
+                    <div className="relative overflow-hidden rounded-lg lg:rounded-none flex-1 group mb-4">
+                        <img
                             className="w-full h-40 sm:h-48 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             alt="Large Temple Image"
                             src={tempImage9Webp}
-                            loading="lazy"
                         />
                     </div>
 

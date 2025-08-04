@@ -66,16 +66,33 @@ const Services = (): JSX.Element => {
                     <h2 className="font-marcellus text-2xl md:text-4xl text-[#4c291e] text-center font-normal">
                         Lorem ipsum dolor sit amet, consectetur
                     </h2>
-                    <div className="relative flex items-center justify-center w-40 md:w-72 h-3 mt-2">
-                        <LazyLoadImage
-                            className="absolute w-full h-1.5 top-1 left-0 object-cover"
-                            alt="Section divider"
-                            src={linePng}
-                            loading="lazy"
-                        />
-                        <div className="absolute left-1/2 -translate-x-1/2 bg-[#8b0000] w-3 h-3 rounded-full border border-solid border-[#8b0000]" />
-                        <div className="absolute left-[45%] bg-[#8b0000] w-2 h-2 rounded-full border border-solid border-[#8b0000]" />
-                        <div className="absolute left-[55%] bg-[#8b0000] w-2 h-2 rounded-full border border-solid border-[#8b0000]" />
+                    <div className="flex items-center justify-center py-8 w-full">
+                        <div className="flex items-center w-full max-w-md">
+                            {/* Left arrow/diamond with connecting line */}
+                            <div className="flex items-center flex-1">
+                                <div className="w-2 h-2" style={{ backgroundColor: 'rgba(139, 0, 0, 1)', transform: 'rotate(45deg)' }}></div>
+                                <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            </div>
+
+                            {/* Center dots with continuous line: small-small-big-small-small */}
+                            <div className="flex items-center">
+                                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            </div>
+
+                            {/* Right arrow/diamond with connecting line */}
+                            <div className="flex items-center flex-1">
+                                <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                                <div className="w-2 h-2" style={{ backgroundColor: 'rgba(139, 0, 0, 1)', transform: 'rotate(45deg)' }}></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {/* Services Grid */}

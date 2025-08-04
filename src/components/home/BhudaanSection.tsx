@@ -8,7 +8,17 @@ const BhudaanSection: React.FC = () => {
     return (
         <section className="bg-[#8B0000] py-6 px-4 md:px-0 flex flex-col items-center w-full min-h-screen relative overflow-hidden">
             <div className="max-w-[1300px] mx-auto text-center">
-                <h2 className="text-5xl md:text-6xl font-bold text-[#FFE4C4] tracking-wide drop-shadow-lg font-serif">Bhudaan</h2>
+                <h2
+                    className="text-5xl md:text-6xl font-bold font-serif"
+                    style={{
+                        color: '#fff',
+                        WebkitTextStroke: '2px #d05e2d',
+                        textShadow: '0px 2px 4px rgba(139,0,0,0.5), 0px 0.5px 0px #fff',
+                        letterSpacing: '0.04em',
+                    }}
+                >
+                    Bhudaan
+                </h2>
                 <div className="flex items-center justify-center py-2 w-full">
                     <div className="flex items-center w-full max-w-md">
                         {/* Left arrow/diamond with connecting line */}
@@ -19,15 +29,15 @@ const BhudaanSection: React.FC = () => {
 
                         {/* Center dots with continuous line: small-small-big-small-small */}
                         <div className="flex items-center">
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
                             <div className="w-3 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
                             <div className="w-3 h-px bg-orange-500"></div>
-                            <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                            <div className="w-3 h-3 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
                             <div className="w-3 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
                             <div className="w-3 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
                         </div>
 
                         {/* Right arrow/diamond with connecting line */}
@@ -43,7 +53,7 @@ const BhudaanSection: React.FC = () => {
                 <p className="text-white text-lg font-semibold mb-4">
                     Donate a Portion of Land towards the Temple Construction
                 </p>
-                <button className="bg-white text-[#8B0000] font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition mb-8">
+                <button className="bg-white text-[#8B0000] font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition ">
                     Donate Now
                 </button>
             </div>

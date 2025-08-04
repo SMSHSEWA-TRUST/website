@@ -1,3 +1,4 @@
+import React from 'react';
 import tempImage4 from '@/assets/images/temp-image-4.webp';
 import tempImage3 from '@/assets/images/temp-image-3.webp';
 import tempImage2 from '@/assets/images/temp-image-2.png';
@@ -5,7 +6,20 @@ import image3 from '@/assets/images/image 3.png';
 import image2 from '@/assets/images/image 2.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
+// Custom hook to detect large screen
+function useIsLargeScreen() {
+    const [isLarge, setIsLarge] = React.useState(false);
+    React.useEffect(() => {
+        const checkScreen = () => setIsLarge(window.innerWidth >= 1024);
+        checkScreen();
+        window.addEventListener('resize', checkScreen);
+        return () => window.removeEventListener('resize', checkScreen);
+    }, []);
+    return isLarge;
+}
+
 const About = (): JSX.Element => {
+    const isLargeScreen = useIsLargeScreen();
     return (
         <section className="w-full  mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start  ">
@@ -15,7 +29,11 @@ const About = (): JSX.Element => {
                         {/* Main large image - spans 2 rows */}
                         <div className="row-span-2">
                             <LazyLoadImage
-                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                className={
+                                    isLargeScreen
+                                        ? "w-full h-[87%] mt-10 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                        : "w-full h-full mt-0 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                }
                                 alt="Main temple view showcasing traditional architecture"
                                 src={tempImage4}
                                 loading="lazy"
@@ -81,7 +99,7 @@ const About = (): JSX.Element => {
                                 <LazyLoadImage
                                     className="w-[50px] h-[50px] object-cover"
                                     alt="Image"
-                                    src={image3}
+                                    src={image2}
                                     loading="lazy"
                                 />
                             </div>
@@ -100,7 +118,7 @@ const About = (): JSX.Element => {
                                 <LazyLoadImage
                                     className="w-[50px] h-[50px] object-cover"
                                     alt="Image"
-                                    src={image2}
+                                    src={image3}
                                     loading="lazy"
                                 />
                             </div>

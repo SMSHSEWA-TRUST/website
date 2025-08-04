@@ -196,7 +196,7 @@ const LiveDarshan = (): JSX.Element => {
     }, []);
 
     return (
-        <section className="relative w-full bg-red-800 overflow-hidden">
+        <section className="relative w-full overflow-hidden" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}>
             {/* Background Decorative Images */}
             <div className="absolute inset-0 pointer-events-none">
                 <LazyLoadImage
@@ -222,16 +222,33 @@ const LiveDarshan = (): JSX.Element => {
                     </h2>
 
                     {/* Decorative Line */}
-                    <div className="flex items-center justify-center space-x-2 mb-6">
-                        <div className="h-0.5 bg-white flex-1 max-w-[150px]"></div>
-                        <div className="flex items-center space-x-1">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-                            <div className="w-2 h-2 bg-white rounded-full"></div>
-                            <div className="w-3 h-3 bg-white rounded-full"></div>
-                            <div className="w-2 h-2 bg-white rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                    <div className="flex items-center justify-center py-2 w-full">
+                        <div className="flex items-center w-full max-w-md">
+                            {/* Left arrow/diamond with connecting line */}
+                            <div className="flex items-center flex-1">
+                                <div className="w-2 h-2 bg-white transform rotate-45"></div>
+                                <div className="flex-1 h-px bg-white"></div>
+                            </div>
+
+                            {/* Center dots with continuous line: small-small-big-small-small */}
+                            <div className="flex items-center">
+                                <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: 'white' }}></div>
+                                <div className="w-3 h-px bg-white"></div>
+                                <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: 'white' }}></div>
+                                <div className="w-3 h-px bg-white"></div>
+                                <div className="w-3 h-3 rounded-full bg-white border-2" style={{ borderColor: 'white' }}></div>
+                                <div className="w-3 h-px bg-white"></div>
+                                <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: 'white' }}></div>
+                                <div className="w-3 h-px bg-white"></div>
+                                <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: 'white' }}></div>
+                            </div>
+
+                            {/* Right arrow/diamond with connecting line */}
+                            <div className="flex items-center flex-1">
+                                <div className="flex-1 h-px bg-white"></div>
+                                <div className="w-2 h-2 bg-white transform rotate-45"></div>
+                            </div>
                         </div>
-                        <div className="h-0.5 bg-white flex-1 max-w-[150px]"></div>
                     </div>
 
                     {/* Temple Selection Buttons */}

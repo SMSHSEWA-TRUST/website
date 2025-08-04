@@ -46,7 +46,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             {/* Abstract Floral Image */}
             {backgroundImage && (
                 <LazyLoadImage
-                    className="absolute left-[49%] top-[0%] -translate-x-1/2 h-[100%] object-contain opacity-100 pointer-events-none z-10"
+                    className="hidden lg:block absolute left-[49%] top-[0%] -translate-x-1/2 h-[100%] object-contain opacity-100 pointer-events-none z-10"
                     alt="Abstract floral"
                     src={abstractFloral}
                     style={{
