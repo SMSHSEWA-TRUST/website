@@ -1,4 +1,6 @@
 
+import diamondOrange from '@/assets/images/om-scroll.png'; // Example decorative image, replace with actual if needed
+
 const SubscriptionPlans = () => {
     const features = [
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -77,7 +79,7 @@ const SubscriptionPlans = () => {
             <div className="text-center mb-8">
                 <h1 className="text-3xl font-serif text-orange-600 mb-4">Subscription Plans</h1>
 
-                {/* Decorative line with dots */}
+                {/* Decorative line with dots and image */}
                 <div className="flex items-center justify-center py-8 w-full">
                     <div className="flex items-center w-full max-w-md">
                         {/* Left arrow/diamond with connecting line */}
@@ -92,7 +94,7 @@ const SubscriptionPlans = () => {
                             <div className="w-3 h-px bg-orange-500"></div>
                             <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
                             <div className="w-3 h-px bg-orange-500"></div>
-                            <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                            <img src={diamondOrange} alt="Decorative" className="w-6 h-6 mx-2" />
                             <div className="w-3 h-px bg-orange-500"></div>
                             <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
                             <div className="w-3 h-px bg-orange-500"></div>

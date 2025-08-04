@@ -1,11 +1,14 @@
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import pujaImageWebp from '@/assets/images/pujaImage.webp';
+
 const pujaData = [
-    { title: "Puja 1", description: "Lorem ipsum dolor sit amet...", image: "/pujaImage.webp", cta: "CTA Button" },
-    { title: "Puja 2", description: "Lorem ipsum dolor sit amet...", image: "/pujaImage.webp", cta: "CTA Button" },
-    { title: "Puja 3", description: "Lorem ipsum dolor sit amet...", image: "/pujaImage.webp", cta: "CTA Button" },
-    { title: "Puja 4", description: "Lorem ipsum dolor sit amet...", image: "/pujaImage.webp", cta: "CTA Button" },
+    { title: "Puja 1", description: "Lorem ipsum dolor sit amet...", image: pujaImageWebp, cta: "CTA Button" },
+    { title: "Puja 2", description: "Lorem ipsum dolor sit amet...", image: pujaImageWebp, cta: "CTA Button" },
+    { title: "Puja 3", description: "Lorem ipsum dolor sit amet...", image: pujaImageWebp, cta: "CTA Button" },
+    { title: "Puja 4", description: "Lorem ipsum dolor sit amet...", image: pujaImageWebp, cta: "CTA Button" },
 ];
 
 // The slide-up animation for the *incoming* card body

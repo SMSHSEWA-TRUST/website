@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Badge } from "../ui/badge";
 import {
@@ -6,6 +7,10 @@ import {
     CardHeader,
     CardTitle,
 } from "../ui/card";
+
+// Image imports
+import mand7Png from '@/assets/images/mand-7.png';
+import omPng from '@/assets/images/om.png';
 
 // Video Player Component - Reusable for both layouts
 const VideoPlayerSection = ({ selectedTemple, isDesktop }: {
@@ -77,7 +82,7 @@ const SevaSection = ({ isDesktop, upcomingSevas }: {
                         <img
                             className="w-7 h-7 object-contain text-red-800"
                             alt="Om Symbol"
-                            src="/om.png"
+                            src={omPng}
                             style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }} // ensures red color if SVG, else remove
                         />
                         <CardTitle className="text-[rgba(139,0,0,1)] font-marcellus text-[20px] lg:text-[24px] font-normal">
@@ -198,12 +203,12 @@ const LiveDarshan = (): JSX.Element => {
                 <img
                     className="absolute left-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
                     alt="Left Decoration"
-                    src="/mand-7.png"
+                    src={mand7Png}
                 />
                 <img
                     className="absolute right-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
                     alt="Right Decoration"
-                    src="/mand-7.png"
+                    src={mand7Png}
                 />
             </div>
 

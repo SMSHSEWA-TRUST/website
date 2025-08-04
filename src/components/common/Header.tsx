@@ -1,4 +1,6 @@
 import { useState } from "react";
+import tempLogo from '@/assets/images/temp-logo.png';
+import lineImage from '@/assets/images/line.png';
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
@@ -27,7 +29,7 @@ const Header = (): JSX.Element => {
                             <img
                                 className="w-20 h-20 object-cover"
                                 alt="Temple Logo"
-                                src="/temp-logo.png"
+                                src={tempLogo}
                             />
                         </div>
 
@@ -44,7 +46,7 @@ const Header = (): JSX.Element => {
                                     <img
                                         className="w-full h-3 object-cover"
                                         alt="Decorative Line"
-                                        src="/line.png"
+                                        src={lineImage}
                                     />
                                     {/* Center dot - largest */}
                                     <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
@@ -144,7 +146,7 @@ const Header = (): JSX.Element => {
                                 <img
                                     className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-cover"
                                     alt="Temple Logo"
-                                    src="/temp-logo.png"
+                                    src={tempLogo}
                                 />
                             </div>
 

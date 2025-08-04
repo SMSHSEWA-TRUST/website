@@ -1,5 +1,12 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from "../ui/button";
+
+// Image imports
+import abstractFloral from '@/assets/images/abstract-floral.png';
+import tempImageWebp from '@/assets/images/temp-image.webp';
+import deityPng from '@/assets/images/deity.png';
+import balajiPng from '@/assets/images/balaji.png';
 
 const Hero = (): JSX.Element => {
     const [textIndex, setTextIndex] = useState(0);
@@ -11,9 +18,9 @@ const Hero = (): JSX.Element => {
 
     // Array of deity images that will change with the text - using different actual images
     const deityImages = [
-        '/deity.png',        // For JAI SHRI MAHAKAL
-        '/balaji.png',       // For JAI SHRI SALASAR BALAJI
-        // Add more image paths as needed
+        deityPng,        // For JAI SHRI MAHAKAL
+        balajiPng,       // For JAI SHRI SALASAR BALAJI
+        // Add more image imports as needed
     ];
 
     useEffect(() => {
@@ -33,7 +40,7 @@ const Hero = (): JSX.Element => {
                     <img
                         className="absolute left-[48%] top-[-28%] -translate-x-1/2   object-contain pointer-events-none z-10"
                         alt="Abstract floral"
-                        src="/abstract-floral.png"
+                        src={abstractFloral}
                         style={{
                             clipPath: 'polygon(0 0, 100% 0, 100% 9.5%, 0 9.5%)'
                         }}
@@ -43,7 +50,7 @@ const Hero = (): JSX.Element => {
                     <img
                         className="absolute w-[67%] h-full top-0 left-0 object-cover object-center"
                         alt="Temple Image"
-                        src="/temp-image.webp"
+                        src={tempImageWebp}
                         style={{ objectPosition: 'center top' }}
                     />
 
@@ -106,7 +113,7 @@ const Hero = (): JSX.Element => {
                     <img
                         className="absolute inset-0 w-full h-full object-cover"
                         alt="Temple Image"
-                        src="/temp-image.webp"
+                        src={tempImageWebp}
                     />
 
                     {/* Text overlay */}
@@ -142,14 +149,14 @@ const Hero = (): JSX.Element => {
                     <img
                         className="absolute left-1/2 top-[-15%] -translate-x-1/2 w-[130%] h-[130%] object-cover opacity-30"
                         alt="Abstract floral"
-                        src="/abstract-floral.png"
+                        src={abstractFloral}
                     />
 
                     {/* Additional abstract floral positioning for better coverage */}
                     <img
                         className="absolute left-1/2 top-[-25%] -translate-x-1/2 w-[140%] h-[140%] object-cover opacity-20"
                         alt="Abstract floral overlay"
-                        src="/abstract-floral.png"
+                        src={abstractFloral}
                     />
 
                     {/* Deity image container - positioned above the abstract floral */}

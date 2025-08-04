@@ -1,11 +1,14 @@
 
+import bgShivWebp from '@/assets/images/bg-shiv.webp';
+import imageShivPng from '@/assets/images/image-shiv.png';
+
 const OmNamehShivaya = (): JSX.Element => {
     return (
         <section className="relative w-full aspect-[1440/634] max-h-[90vh] overflow-hidden">
             {/* Background Image */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: 'url(/bg-shiv.webp)' }}
+                style={{ backgroundImage: `url(${bgShivWebp})` }}
             />
 
             {/* Content Container */}
@@ -24,7 +27,7 @@ const OmNamehShivaya = (): JSX.Element => {
                     <img
                         className="w-full h-full object-cover object-left"
                         alt="Lord Shiva Statue"
-                        src="/image-shiv.png"
+                        src={imageShivPng}
                         loading="lazy"
                     />
                 </div>

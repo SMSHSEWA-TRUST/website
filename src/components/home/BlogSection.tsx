@@ -1,4 +1,5 @@
 import React from 'react';
+import ganeshImage from '@/assets/images/ganesh.webp';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 
@@ -25,19 +26,19 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
             id: 1,
             date: "Jan 01, 2025",
             title: "Lorem ipsum dolor sit",
-            image: "/ganesh.webp",
+            image: ganeshImage,
         },
         {
             id: 2,
             date: "Jan 02, 2025",
             title: "Lorem ipsum dolor sit",
-            image: "/ganesh.webp",
+            image: ganeshImage,
         },
         {
             id: 3,
             date: "Jan 03, 2025",
             title: "Lorem ipsum dolor sit",
-            image: "/ganesh.webp"
+            image: ganeshImage
         },
     ],
     className = ""
@@ -101,7 +102,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105"
                 style={{
-                    backgroundImage: `url(${article.image || '/ganesh.png'})`
+                    backgroundImage: `url(${article.image || ganeshImage})`
                 }}
             />
 

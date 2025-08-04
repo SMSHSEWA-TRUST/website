@@ -1,4 +1,8 @@
 
+
+import omScrollPng from '@/assets/images/om-scroll.png';
+import omPng from '@/assets/images/om.png';
+
 const ScrollingBanner = (): JSX.Element => {
     // Create array of repeated text for seamless scrolling
     const scrollText = "|| JAI SHREE SALASAR BALAJI ||";
@@ -22,7 +26,7 @@ const ScrollingBanner = (): JSX.Element => {
                             <img
                                 className="w-7 h-7 object-contain text-yellow-500 mr-2"
                                 alt="Om Symbol"
-                                src="om-scroll.png"
+                                src={omScrollPng}
                                 style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }}
                             />
                             {text}
@@ -37,7 +41,7 @@ const ScrollingBanner = (): JSX.Element => {
                             <img
                                 className="w-7 h-7 object-contain text-red-800 mr-2"
                                 alt="Om Symbol"
-                                src="/om.png"
+                                src={omPng}
                                 style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }}
                             />
                             {text}

@@ -1,8 +1,12 @@
+
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
+import contactBg from '@/assets/images/image-7.webp';
+import contactLine from '@/assets/images/line-4.png';
+import contactMain from '@/assets/images/image-6.webp';
 
 export const ContactSection: React.FC = () => {
     return (
@@ -11,7 +15,7 @@ export const ContactSection: React.FC = () => {
 
                 {/* Left Section - Background Image with Contact Form */}
                 <div className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center p-6 lg:p-8"
-                    style={{ backgroundImage: 'url(/image-7.webp)' }}>
+                    style={{ backgroundImage: `url(${contactBg})` }}>
 
                     {/* Overlay for better form visibility */}
                     <div className="absolute inset-0 bg-black/10" />
@@ -31,7 +35,7 @@ export const ContactSection: React.FC = () => {
                                     <img
                                         className="w-64 h-4 object-contain"
                                         alt="Decorative Line"
-                                        src="/line-4.png"
+                                        src={contactLine}
                                     />
                                 </div>
 
@@ -99,7 +103,7 @@ export const ContactSection: React.FC = () => {
                     <img
                         className="w-full h-full object-cover"
                         alt="Temple Architecture"
-                        src="/image-6.webp"
+                        src={contactMain}
                         loading="lazy"
                     />
 

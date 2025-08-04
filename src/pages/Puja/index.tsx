@@ -1,5 +1,7 @@
+
 import React, { Suspense } from "react";
 import { SectionLoader, ComponentLoader } from "../../components/ui/LoadingComponents";
+import pujaWebp from '@/assets/images/puja.webp';
 
 // Lazy load components
 const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
@@ -16,7 +18,7 @@ export const PujaPage = (): JSX.Element => {
                 <HeroSection
                     title="Puja'S"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                    backgroundImage="/puja.webp"
+                    backgroundImage={pujaWebp}
                 />
             </Suspense>
 

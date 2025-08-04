@@ -1,5 +1,7 @@
+
 import React, { Suspense } from "react";
 import { ComponentLoader, BlogDetailsLoader } from "../../components/ui/LoadingComponents";
+import BlogdetailWebp from '@/assets/images/Blogdetail.webp';
 
 // Lazy load components
 const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
@@ -11,7 +13,7 @@ export const BlogDetailsPage = (): JSX.Element => {
             <Suspense fallback={<ComponentLoader height="h-96" />}>
                 <HeroSection
                     title="Blog Details"
-                    backgroundImage="/Blogdetail.webp"
+                    backgroundImage={BlogdetailWebp}
                 />
             </Suspense>
 

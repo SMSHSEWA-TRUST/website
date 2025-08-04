@@ -1,5 +1,7 @@
+
 import React, { Suspense } from "react";
 import { SectionLoader, ComponentLoader } from "../../components/ui/LoadingComponents";
+import membershipPng from '@/assets/images/membership.png';
 
 // Lazy load components
 const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
@@ -15,7 +17,7 @@ export const ContactPage = (): JSX.Element => {
         <HeroSection
           title="contact "
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          backgroundImage="/membership.png"
+          backgroundImage={membershipPng}
         />
       </Suspense>
 

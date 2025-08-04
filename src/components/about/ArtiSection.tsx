@@ -1,4 +1,6 @@
 
+import aboutArtiImage from '@/assets/images/aboutArtiImage.webp';
+
 const ArtiSection = () => {
     return (
         <section className="w-full bg-gray-50 flex items-center justify-center py-4 px-2 sm:px-6 lg:px-[80px]">
@@ -40,7 +42,7 @@ const ArtiSection = () => {
                         {/* Image */}
                         <div className="relative h-48 bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
                             <img
-                                src="/aboutArtiImage.webp"
+                                src={aboutArtiImage}
                                 alt="Prayer hands representing spiritual devotion"
                                 className="w-full h-full object-cover drop-shadow-xl opacity-90"
                                 loading="lazy"
@@ -94,7 +96,7 @@ const ArtiSection = () => {
                             {/* Image */}
                             <div className="relative bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
                                 <img
-                                    src="/aboutArtiImage.webp"
+                                    src={aboutArtiImage}
                                     alt="Prayer hands representing spiritual devotion"
                                     className="w-full h-full object-cover drop-shadow-xl opacity-90"
                                     loading="lazy"

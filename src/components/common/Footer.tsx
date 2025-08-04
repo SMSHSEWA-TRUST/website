@@ -1,4 +1,13 @@
 import React from 'react';
+import facebookIcon from '@/assets/images/Facebook.png';
+import twitterIcon from '@/assets/images/Twitter.png';
+import instagramIcon from '@/assets/images/Instagram.png';
+import linkedinIcon from '@/assets/images/LinkedIn.png';
+import youtubeIcon from '@/assets/images/YouTube.png';
+import tempLogo from '@/assets/images/temp-logo.png';
+import footerLine from '@/assets/images/footer-line.png';
+import footerLine2 from '@/assets/images/footer-line-2.png';
+import indiaFlag from '@/assets/images/india.png';
 
 interface SocialLink {
     name: string;
@@ -25,11 +34,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
     ];
 
     const socialLinks: SocialLink[] = [
-        { name: 'Facebook', icon: '/Facebook.png', url: '#' },
-        { name: 'Twitter', icon: '/Twitter.png', url: '#' },
-        { name: 'Instagram', icon: '/Instagram.png', url: '#' },
-        { name: 'LinkedIn', icon: '/LinkedIn.png', url: '#' },
-        { name: 'YouTube', icon: '/YouTube.png', url: '#' },
+        { name: 'Facebook', icon: facebookIcon, url: '#' },
+        { name: 'Twitter', icon: twitterIcon, url: '#' },
+        { name: 'Instagram', icon: instagramIcon, url: '#' },
+        { name: 'LinkedIn', icon: linkedinIcon, url: '#' },
+        { name: 'YouTube', icon: youtubeIcon, url: '#' },
     ];
 
     const bottomLinks: FooterLink[] = [
@@ -75,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     <div className="relative w-16 h-16">
                                         <div className="absolute inset-1 bg-white rounded-full" />
                                         <img
-                                            src="/temp-logo.png"
+                                            src={tempLogo}
                                             alt="Shree Mahakaleshwar Salasar Hanuman Sewa Trust Logo"
                                             className="relative w-full h-full object-cover rounded-full"
                                             loading="lazy"
@@ -93,7 +102,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 {/* Decorative Line */}
                                 <div className="flex justify-center items-center mb-3">
                                     <img
-                                        src="/footer-line.png"
+                                        src={footerLine}
                                         alt=""
                                         className="h-1.5 w-auto"
                                         loading="lazy"
@@ -211,7 +220,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             {/* Decorative Line */}
                             <div className="w-full flex justify-center items-center">
                                 <img
-                                    src="/footer-line-2.png"
+                                    src={footerLine2}
                                     alt=""
                                     className="h-2 w-full max-w-4xl object-contain"
                                     loading="lazy"
@@ -226,7 +235,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     <span>by Nexteir Technologies Pvt. Ltd. in India</span>
                                     <div className="flex items-center ml-2">
                                         <img
-                                            src="/india.png"
+                                            src={indiaFlag}
                                             alt="India Flag"
                                             className="w-6 h-4"
                                             loading="lazy"
@@ -257,7 +266,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 <div className="relative w-12 h-12">
                                     <div className="absolute inset-0.5 bg-white rounded-full" />
                                     <img
-                                        src="/temp-logo.png"
+                                        src={tempLogo}
                                         alt="Shree Mahakaleshwar Salasar Hanuman Sewa Trust Logo"
                                         className="relative w-full h-full object-cover rounded-full"
                                         loading="lazy"
@@ -397,7 +406,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     <span className="text-sm">🧡</span>
                                     <span>by Nexteir Technologies Pvt. Ltd. in India</span>
                                     <div className="flex items-center ml-1">
-                                        <img src="/india.png" alt="India Flag" className="w-4 h-3" loading="lazy" />
+                                        <img src={indiaFlag} alt="India Flag" className="w-4 h-3" loading="lazy" />
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-1">

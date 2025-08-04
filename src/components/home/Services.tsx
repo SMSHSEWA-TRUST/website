@@ -1,6 +1,14 @@
+
+import tempImage7Webp from '@/assets/images/temp-image-7.webp';
+import tempImage6Webp from '@/assets/images/temp-image-6.webp';
+import tempImage5Webp from '@/assets/images/temp-image-5.webp';
+import bgcardImagePng from '@/assets/images/bgcardImage.png';
+import linePng from '@/assets/images/line.png';
+import omPng from '@/assets/images/om.png';
+
 const services = [
     {
-        image: "/temp-image-7.webp",
+        image: tempImage7Webp,
         title: "Lorem ipsum dolor sit amet, consectetur",
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -12,7 +20,7 @@ const services = [
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
-        image: "/temp-image-6.webp",
+        image: tempImage6Webp,
         title: "Lorem ipsum dolor sit amet, consectetur",
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -24,7 +32,7 @@ const services = [
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
-        image: "/temp-image-5.webp",
+        image: tempImage5Webp,
         title: "Lorem ipsum dolor sit amet, consectetur",
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -44,7 +52,7 @@ const Services = (): JSX.Element => {
             <img
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[962px] h-auto object-contain opacity-5 pointer-events-none select-none z-0"
                 alt="Decorative background"
-                src="/bgcardImage.png"
+                src={bgcardImagePng}
                 aria-hidden="true"
             />
             <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-8 z-10">
@@ -60,7 +68,7 @@ const Services = (): JSX.Element => {
                         <img
                             className="absolute w-full h-1.5 top-1 left-0 object-cover"
                             alt="Section divider"
-                            src="/line.png"
+                            src={linePng}
                         />
                         <div className="absolute left-1/2 -translate-x-1/2 bg-[#8b0000] w-3 h-3 rounded-full border border-solid border-[#8b0000]" />
                         <div className="absolute left-[45%] bg-[#8b0000] w-2 h-2 rounded-full border border-solid border-[#8b0000]" />
@@ -75,19 +83,19 @@ const Services = (): JSX.Element => {
                         <img
                             className="absolute top-0 left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
                             alt="Background 1"
-                            src="/temp-image-7.webp"
+                            src={tempImage7Webp}
                         />
                         {/* Second background image for cards 3-4 */}
                         <img
                             className="absolute top-[calc(50%+12px)] left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
                             alt="Background 2"
-                            src="/temp-image-6.webp"
+                            src={tempImage6Webp}
                         />
                         {/* Third background image for cards 5-6 */}
                         <img
                             className="absolute top-[calc(100%+24px)] left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
                             alt="Background 3"
-                            src="/temp-image-5.webp"
+                            src={tempImage5Webp}
                         />
                     </div>
 
@@ -104,7 +112,7 @@ const Services = (): JSX.Element => {
                         ) : (
                             <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center relative z-10">
                                 <img
-                                    src="/om.png"
+                                    src={omPng}
                                     alt="Om symbol"
                                     className="w-12 h-12 mb-4 text-[#8b0000]"
                                     loading="lazy"

@@ -1,3 +1,9 @@
+import tempImage4 from '@/assets/images/temp-image-4.webp';
+import tempImage3 from '@/assets/images/temp-image-3.webp';
+import tempImage2 from '@/assets/images/temp-image-2.png';
+import image3 from '@/assets/images/image 3.png';
+import image2 from '@/assets/images/image 2.png';
+
 const About = (): JSX.Element => {
     return (
         <section className="w-full  mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
@@ -10,7 +16,7 @@ const About = (): JSX.Element => {
                             <img
                                 className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 alt="Main temple view showcasing traditional architecture"
-                                src="/temp-image-4.webp"
+                                src={tempImage4}
                                 loading="lazy"
                             />
                         </div>
@@ -20,7 +26,7 @@ const About = (): JSX.Element => {
                             <img
                                 className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 alt="Temple detail view"
-                                src="/temp-image-3.webp"
+                                src={tempImage3}
                                 loading="lazy"
                             />
                         </div>
@@ -30,7 +36,7 @@ const About = (): JSX.Element => {
                             <img
                                 className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 alt="Temple courtyard view"
-                                src="/temp-image-2.png"
+                                src={tempImage2}
                                 loading="lazy"
                             />
                         </div>
@@ -74,7 +80,7 @@ const About = (): JSX.Element => {
                                 <img
                                     className="w-[50px] h-[50px] object-cover"
                                     alt="Image"
-                                    src="/image 3.png"
+                                    src={image3}
                                 />
                             </div>
                             <div className="flex-1">
@@ -92,7 +98,7 @@ const About = (): JSX.Element => {
                                 <img
                                     className="w-[50px] h-[50px] object-cover"
                                     alt="Image"
-                                    src="/image 2.png"
+                                    src={image2}
                                 />
                             </div>
                             <div className="flex-1">

@@ -1,9 +1,12 @@
 import React from "react";
+import aboutSection1 from "@/assets/images/aboutSection1.png";
+import aboutSection2 from "@/assets/images/aboutSection2.webp";
+import aboutSection3 from "@/assets/images/aboutSection3.png";
 
 const images = [
-    "/public/aboutSection1.png", // left card image
-    "/public/aboutSection2.webp", // middle card image
-    "/public/aboutSection3.png", // right card image (repeat for demo)
+    aboutSection1, // left card image
+    aboutSection2, // middle card image
+    aboutSection3, // right card image
 ];
 
 const cardData = [

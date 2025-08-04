@@ -1,6 +1,16 @@
+
 import { useState, useEffect, } from "react";
 import { Avatar } from "../ui/avatar";
 import { Button } from "../ui/button";
+
+// Image imports
+import image4 from '@/assets/images/image-4.png';
+import image5Webp from '@/assets/images/image-5.webp';
+import mand9Min1 from '@/assets/images/mand-9-min 1.png';
+import mand9Min2 from '@/assets/images/mand-9-min 2.png';
+import mand9Min3 from '@/assets/images/mand-9-min 3.png';
+import mand9Min4 from '@/assets/images/mand-9-min 4.png';
+import mand9Min5 from '@/assets/images/mand-9-min 5.png';
 
 
 // Custom hook for counter animation
@@ -173,7 +183,7 @@ export default function DonationSection() {
                     </div>
                     <div className="flex flex-col md:flex-row gap-6 items-center w-full">
                         <img
-                            src="/image-4.png"
+                            src={image4}
                             alt="Profile"
                             className="w-48 h-56 object-cover rounded-md shadow-md bg-gray-200"
                         />
@@ -224,18 +234,18 @@ export default function DonationSection() {
                         <img
                             className="absolute w-[60px] h-[70px] top-2 left-2"
                             alt="Decorative Image"
-                            src="/mand-9-min 2.png"
+                            src={mand9Min2}
                         />
                         <img
                             className="absolute w-[100px] h-[100px] bottom-2 right-2"
                             alt="Decorative Image"
-                            src="/mand-9-min 3.png"
+                            src={mand9Min3}
                         />
                         {/* Center Top Decorative Image - Half inside, half outside */}
                         <img
                             className="absolute w-[120px] h-[120px] top-[-60px] left-1/2 transform -translate-x-1/2 object-cover opacity-80 z-10"
                             alt="Decorative Image"
-                            src="/mand-9-min 1.png"
+                            src={mand9Min1}
                         />
 
                         <div className="relative z-10 space-y-4">
@@ -272,7 +282,7 @@ export default function DonationSection() {
                         <img
                             className="w-full h-[250px] object-cover"
                             alt="Main Background Image"
-                            src="/image-5.webp"
+                            src={image5Webp}
                         />
                     </div>
 
@@ -281,12 +291,12 @@ export default function DonationSection() {
                         <img
                             className="absolute w-[60px] h-[70px] top-2 left-2"
                             alt="Decorative Image"
-                            src="/mand-9-min 4.png"
+                            src={mand9Min4}
                         />
                         <img
                             className="absolute w-[60px] h-[70px] bottom-2 right-2"
                             alt="Decorative Image"
-                            src="/mand-9-min 5.png"
+                            src={mand9Min5}
                         />
 
                         <div className="flex flex-row justify-around items-center gap-2 relative z-10">
@@ -310,7 +320,7 @@ export default function DonationSection() {
                     <img
                         className="w-full h-[400px] lg:h-[500px] object-cover"
                         alt="Main Background Image"
-                        src="/image-5.webp"
+                        src={image5Webp}
                     />
 
                     {/* Red Donation Section - Overlapping top-left */}
@@ -318,18 +328,18 @@ export default function DonationSection() {
                         <img
                             className="absolute w-[84px] h-[92px] top-0 left-0"
                             alt="Decorative Image"
-                            src="/mand-9-min 2.png"
+                            src={mand9Min2}
                         />
                         <img
                             className="absolute w-[145px] h-[145px] bottom-0 right-4"
                             alt="Decorative Image"
-                            src="/mand-9-min 3.png"
+                            src={mand9Min3}
                         />
                         {/* Center Top Decorative Image - Half inside, half outside */}
                         <img
                             className="absolute w-[200px] h-[200px] top-[-100px] left-1/2 transform -translate-x-1/2 object-cover opacity-80 z-10"
                             alt="Decorative Image"
-                            src="/mand-9-min 1.png"
+                            src={mand9Min1}
                         />
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center relative z-10">
@@ -366,12 +376,12 @@ export default function DonationSection() {
                         <img
                             className="absolute w-[84px] h-[92px] top-4 left-4"
                             alt="Decorative Image"
-                            src="/mand-9-min 4.png"
+                            src={mand9Min4}
                         />
                         <img
                             className="absolute w-[84px] h-[92px] bottom-4 right-4"
                             alt="Decorative Image"
-                            src="/mand-9-min 5.png"
+                            src={mand9Min5}
                         />
 
                         <div className="flex flex-col md:flex-row justify-around items-center gap-6 relative z-10">

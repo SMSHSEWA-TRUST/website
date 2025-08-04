@@ -1,6 +1,13 @@
+
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
+
+// Image imports
+import callPng from '@/assets/images/call.png';
+import connectPng from '@/assets/images/connect.png';
+import donatePng from '@/assets/images/donate.png';
+import timePng from '@/assets/images/time.png';
 
 export const InfoCards: React.FC = () => {
     return (
@@ -23,14 +30,14 @@ export const InfoCards: React.FC = () => {
                         <img
                             className="absolute w-[33px] h-[33px] top-0 left-0"
                             alt="Phone icon"
-                            src="/call.png"
+                            src={callPng}
                         />
                     </div>
                     <div className="absolute w-14 h-14 top-[22px] left-[25px]">
                         <img
                             className="absolute w-[52px] h-[52px] top-0 left-0"
                             alt="Connect icon"
-                            src="/connect.png"
+                            src={connectPng}
                         />
                     </div>
                 </CardContent>
@@ -49,7 +56,7 @@ export const InfoCards: React.FC = () => {
                     <img
                         className="absolute w-[52px] h-[52px] top-[25px] left-[25px]"
                         alt="Charity icon"
-                        src="/donate.png"
+                        src={donatePng}
                     />
                     <Button className="w-24 h-[30px] absolute top-[214px] left-[31px] bg-[#8b0000] rounded-none">
                         <span className="relative w-fit mt-[-4.17px] mb-[-2.77px] [font-family:'Tenor_Sans',Helvetica] font-normal text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap">
@@ -80,7 +87,7 @@ export const InfoCards: React.FC = () => {
                     <img
                         className="absolute w-[47px] h-[47px] top-[35px] left-[31px]"
                         alt="Time icon"
-                        src="/time.png"
+                        src={timePng}
                     />
                 </CardContent>
             </Card>

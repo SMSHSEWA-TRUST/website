@@ -1,4 +1,5 @@
 import React from 'react';
+import abstractFloral from '@/assets/images/abstract-floral.png';
 
 interface HeroSectionProps {
     title?: string;
@@ -15,7 +16,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
     return (
         <section
-            className={`w-full ${className} lg:px-[80px]` }
+            className={`w-full ${className} lg:px-[80px]`}
             role="banner"
             aria-labelledby="hero-section-title"
         >
@@ -28,7 +29,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                         className="w-full h-full object-cover object-center"
                         loading="eager"
                         decoding="async"
-                        
+
                     />
                     {/* Title overlaid on image */}
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -47,7 +48,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 <img
                     className="absolute left-[49%] top-[0%] -translate-x-1/2 h-[100%] object-contain opacity-100 pointer-events-none z-10"
                     alt="Abstract floral"
-                    src="/abstract-floral.png"
+                    src={abstractFloral}
                     style={{
                         clipPath: 'polygon(0 0, 100% 0, 100% 20%, 0 20%)'
                     }}

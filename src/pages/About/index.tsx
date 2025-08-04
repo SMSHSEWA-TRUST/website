@@ -1,5 +1,7 @@
 import React, { Suspense } from "react";
 import { ComponentLoader, SectionLoader, ServicesLoader, BlogListingLoader } from "../../components/ui/LoadingComponents";
+// Production-level image import
+import aboutImage from "@/assets/images/About.webp";
 
 // Lazy load components
 const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
@@ -20,7 +22,7 @@ export const AboutPage = (): JSX.Element => {
                 <HeroSection
                     title="About"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                    backgroundImage="/About.webp"
+                    backgroundImage={aboutImage}
                 />
             </Suspense>
 

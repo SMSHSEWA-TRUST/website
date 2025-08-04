@@ -1,4 +1,7 @@
 
+import divinePng from '@/assets/images/divine-2.png';
+import divineWebp from '@/assets/images/divine-2.webp';
+
 const DivinePower = (): JSX.Element => {
     return (
         <section className="relative w-full flex flex-col items-center justify-center mt-10">
@@ -10,7 +13,7 @@ const DivinePower = (): JSX.Element => {
                     aria-hidden="true"
                     style={{
                         backgroundImage:
-                            "linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,rgba(0,0,0,0),rgba(139,0,0,0.75)),url('/divine-2.png')",
+                            `linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,rgba(0,0,0,0),rgba(139,0,0,0.75)),url(${divinePng})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                     }}
@@ -34,7 +37,7 @@ const DivinePower = (): JSX.Element => {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 <img
-                    src="/divine-2.webp"
+                    src={divineWebp}
                     alt="Divine temple"
                     className="w-full h-56 sm:h-72 object-cover rounded-lg mt-6 shadow"
                     loading="lazy"
