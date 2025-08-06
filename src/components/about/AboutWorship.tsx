@@ -49,9 +49,9 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                 {/* Main Container */}
                 <div className="w-full p-4 sm:p-6 lg:p-8 bg-white">
                     {/* Flex Container */}
-                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-x-4 lg:gap-x-6 justify-center">
+                    <div className="flex flex-col-reverse lg:flex-row items-center lg:items-start gap-x-32  justify-center gap-y-6 md:gap-y-8">
                         {/* Left Content Section - Using Flex */}
-                        <div className="flex-1  max-w-[546px] flex flex-col gap-6">
+                        <div className="flex-1  max-w-[700px] flex flex-col gap-6">
                             {/* Title and Subtitle Container - Using Flex */}
                             <div className="flex flex-col gap-3">
                                 <h1 className="font-marcellus font-normal lg:text-[36px] text-[24px] leading-tight">
@@ -71,29 +71,20 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                                 <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                                     {description}
                                 </p>
-                                <LazyLoadImage
-                                    src={worshipImage}
-                                    alt="Spiritual worship scene with hands holding flower and sacred fire"
-                                    className="h-auto object-cover transition-all duration-[1200ms] ease-in-out"
-                                    style={{
-                                        width: inView ? 'clamp(250px, 40vw, 350px)' : '50px',
-                                        height: 'auto'
-                                    }}
-                                    loading="lazy"
-                                    decoding="async"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={onButtonClick}
-                                    className="mt-4 px-6 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded shadow hover:from-orange-600 hover:to-red-700 transition-colors"
-                                    aria-label={`Learn more about ${buttonText}`}
-                                >
-                                    {buttonText}
-                                </button>
+
+
                             </div>
+                            <button
+                                type="button"
+                                onClick={onButtonClick}
+                                className="mt-4 w-[150px] py-1.5 bg-[#8b0000] text-white font-bold text-base leading-tight rounded-md shadow-none hover:bg-[#a32d13] transition-colors duration-200 text-center"
+                                aria-label={`Learn more about ${buttonText}`}
+                            >
+                                {buttonText}
+                            </button>
                         </div>
                         {/* Right Image Section */}
-                        <div className="flex-shrink-0">
+                        <div className="flex-shrink-0 mb-6 lg:mb-0">
                             <div className="relative" ref={imageRef}>
                                 {/* Natural Format Image */}
                                 <div className="overflow-hidden rounded-lg shadow-lg">

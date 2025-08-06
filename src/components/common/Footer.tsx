@@ -6,8 +6,6 @@ import instagramIcon from '@/assets/images/Instagram.png';
 import linkedinIcon from '@/assets/images/LinkedIn.png';
 import youtubeIcon from '@/assets/images/YouTube.png';
 import tempLogo from '@/assets/images/temp-logo.png';
-import footerLine from '@/assets/images/footer-line.png';
-import footerLine2 from '@/assets/images/footer-line-2.png';
 import indiaFlag from '@/assets/images/india.png';
 
 interface SocialLink {
@@ -55,11 +53,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                 <div className="hidden lg:block">
                     <div className="container mx-auto px-6 py-6">
                         {/* Main Grid: 3 Equal Columns */}
-                        <div className="grid grid-cols-3 gap-8 mb-6">
+                        <div className="grid grid-cols-[1fr_1.5fr_1.2fr] gap-8 mb-6">
                             {/* Left Column: Special Links */}
                             <div className="flex flex-col">
                                 <div className="flex items-center mb-4">
-                                    <h3 className="font-['Marcellus_SC'] text-lg text-white [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000]">
+                                    <h3 className="font-['Marcellus_SC'] text-lg text-white">
                                         Special Links
                                     </h3>
                                 </div>
@@ -79,7 +77,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             </div>
 
                             {/* Center Column: Logo & Main Content */}
-                            <div className="flex flex-col items-center text-center">
+                            <div className="flex flex-col items-center text-center w-full max-w-3xl mx-auto">
                                 {/* Logo */}
                                 <div className="flex justify-center items-center mb-3">
                                     <div className="relative w-16 h-16">
@@ -94,21 +92,52 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 </div>
 
                                 {/* Organization Title */}
-                                <div className="flex flex-col items-center mb-3">
-                                    <h1 className="font-['Marcellus_SC'] text-lg [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000] leading-tight">
-                                        Shree Mahakaleshwar Salasar<br />Hanuman Sewa Trust
+                                <div className="flex flex-col items-center mb-3 ">
+                                    <h1
+                                        className="font-['Marcellus_SC'] font-normal text-center"
+                                        style={{
+                                            color: "#fff",
+                                            fontSize: "32px",
+                                            textShadow: "0px 4px 4px #daa52040",
+                                            WebkitTextStroke: "1px #9a0000",
+
+
+                                        }}
+                                    >
+                                        Shree Mahakaleshwar Salasar Hanuman Sewa Trust
                                     </h1>
                                 </div>
 
                                 {/* Decorative Line */}
-                                <div className="flex justify-center items-center mb-3">
-                                    <LazyLoadImage
-                                        src={footerLine}
-                                        alt=""
-                                        className="h-1.5 w-auto"
-                                        loading="lazy"
-                                    />
+                                <div className="flex items-center justify-center py-2 w-full">
+                                    <div className="flex items-center w-full max-w-md">
+                                        {/* Left arrow/diamond with connecting line */}
+                                        <div className="flex items-center flex-1">
+                                            <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                        </div>
+
+                                        {/* Center dots with continuous line: small-small-big-small-small */}
+                                        <div className="flex items-center">
+                                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-3 h-3 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                        </div>
+
+                                        {/* Right arrow/diamond with connecting line */}
+                                        <div className="flex items-center flex-1">
+                                            <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                        </div>
+                                    </div>
                                 </div>
+
 
                                 {/* Description */}
                                 <div className="flex justify-center mb-4">
@@ -169,7 +198,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             {/* Right Column: Info */}
                             <div className="flex flex-col items-end text-right">
                                 <div className="flex items-center justify-end mb-4">
-                                    <h3 className="font-['Marcellus_SC'] text-lg text-white [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000]">
+                                    <h3 className="font-['Marcellus_SC'] text-lg text-white">
                                         Info
                                     </h3>
                                 </div>
@@ -219,14 +248,16 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                         {/* Bottom Section */}
                         <div className="flex flex-col items-center space-y-3">
                             {/* Decorative Line */}
-                            <div className="w-full flex justify-center items-center">
-                                <LazyLoadImage
-                                    src={footerLine2}
-                                    alt=""
-                                    className="h-2 w-full max-w-4xl object-contain"
-                                    loading="lazy"
-                                />
+                            <div className="flex items-center justify-center py-2 w-full">
+                                <div className="flex items-center w-full">
+                                    {/* Left arrow/diamond with connecting line */}
+                                    <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                    <div className="flex-1 h-0.5 " style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                    {/* Right arrow/diamond with connecting line */}
+                                    <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                </div>
                             </div>
+
 
                             {/* Copyright Section */}
                             <div className="w-full flex justify-between items-center font-['Tenor_Sans'] text-sm">
@@ -277,7 +308,15 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                             {/* Organization Title */}
                             <div className="flex flex-col items-center">
-                                <h1 className="font-['Marcellus_SC'] text-base leading-tight [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#9a0000]">
+                                <h1 className="font-['Marcellus_SC'] font-normal text-center"
+                                    style={{
+                                        color: "#fff",
+                                        fontSize: "32px",
+                                        textShadow: "0px 4px 4px #daa52040",
+                                        WebkitTextStroke: "1px #9a0000",
+
+
+                                    }}>
                                     Shree Mahakaleshwar Salasar<br />Hanuman Sewa Trust
                                 </h1>
                             </div>
@@ -423,4 +462,4 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
             </div>
         </footer>
     );
-}; 
+};

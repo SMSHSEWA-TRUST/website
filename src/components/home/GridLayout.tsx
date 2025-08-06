@@ -1,4 +1,3 @@
-
 import { Button } from "../ui/button";
 
 // Image imports
@@ -10,14 +9,14 @@ import tempImage9Webp from '@/assets/images/temp-image-9.webp';
 
 const GridLayout = (): JSX.Element => {
     return (
-        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-8 h-auto lg:h-[600px]">
+        <section className="w-full  ">
+            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-24 h-auto lg:h-[680px]">
 
                 {/* Left Side */}
                 <div className="flex flex-col gap-4 lg:gap-8">
 
                     {/* Content Section */}
-                    <div className="bg-[#f4f0ec] p-4 sm:p-6 lg:p-12 rounded-lg lg:rounded-none flex-1 lg:min-h-[280px] flex flex-col justify-center">
+                    <div className="bg-[#f4f0ec] pl-16 rounded-lg lg:rounded-none flex-1 lg:min-h-[280px] flex flex-col justify-center">
                         <div className="max-w-lg">
                             <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-[#4c291e] font-['Marcellus',serif] leading-tight mb-3 lg:mb-6">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing eli
@@ -34,17 +33,17 @@ const GridLayout = (): JSX.Element => {
                     </div>
 
                     {/* Two Images Bottom - Always side by side */}
-                    <div className="grid grid-cols-2  flex-1">
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none group">
+                    <div className="grid grid-cols-2 flex-1 gap-2 mb-2 p-0 m-0">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none group flex items-center justify-center h-32 sm:h-40 lg:h-full mb-2">
                             <img
-                                className="w-full h-32 sm:h-40 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
                                 alt="Temple Image 1"
                                 src={tempImage8Webp}
                             />
                         </div>
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-white p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-white p-2 sm:p-4 lg:p-6 flex items-center justify-center group h-28 sm:h-36 lg:h-full mb-2">
                             <img
-                                className="w-full h-28 sm:h-36 lg:h-full max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] object-cover transition-transform duration-300 group-hover:scale-105"
+                                className="w-full h-full max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] object-contain transition-transform duration-300 group-hover:scale-105"
                                 alt="Portrait Image"
                                 src={tempImage2Png}
                             />
@@ -90,4 +89,4 @@ const GridLayout = (): JSX.Element => {
     );
 };
 
-export default GridLayout; 
+export default GridLayout;

@@ -11,7 +11,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export const ContactSection: React.FC = () => {
     return (
-        <section className="w-full  py-8 lg:py-12">
+        <section className="w-full  ">
             <div className="grid grid-cols-1 lg:grid-cols-[42%_58%] gap-0 min-h-[600px] lg:min-h-[700px] overflow-hidden rounded-lg lg:rounded-none shadow-lg lg:shadow-none">
 
                 {/* Left Section - Background Image with Contact Form */}

@@ -71,6 +71,7 @@ const ImageSection: React.FC = () => {
                                 {card.desc && (
                                     <p className={`text-base text-center ${card.text} opacity-80 mb-2`}>{card.desc}</p>
                                 )}
+                               
                             </div>
                         );
                     }
@@ -97,7 +98,7 @@ const ImageSection: React.FC = () => {
                     return (
                         <div
                             key={idx}
-                            className={`flex flex-col items-center justify-start rounded-xl shadow-lg overflow-hidden ${card.bg} p-6 md:p-8 md:h-[598px]`}
+                            className={`flex flex-col items-center justify-start rounded-xl  overflow-hidden ${card.bg} p-6 md:p-8 md:h-[598px]`}
                         >
                             <div className="w-full flex justify-center">
                                 <div

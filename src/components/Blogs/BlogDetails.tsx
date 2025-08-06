@@ -1,4 +1,3 @@
-
 import BlogSidebar from "./BlogSidebar";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import blogDetails1 from '@/assets/images/BlogDetails1.webp';
@@ -32,10 +31,10 @@ const latestPosts = [
 
 const BlogDetails = () => {
     return (
-        <div className="mx-auto p-6 bg-white">
-            <div className="flex flex-col lg:flex-row gap-4">
+        <div className="mx-auto p-6  ">
+            <div className="flex flex-col lg:flex-row gap-24">
                 {/* Main Blog Details Section */}
-                <div className="w-full max-w-3xl mx-auto mb-8">
+                <div className=" pl-14 max-w-[729px]  mb-8">
                     <div className="flex flex-col gap-6">
                         <p className="text-xs text-gray-700 leading-relaxed">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

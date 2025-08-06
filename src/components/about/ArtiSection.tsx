@@ -87,8 +87,12 @@ const ArtiSection = () => {
                                 Journey through centuries of spiritual knowledge that continues to guide millions
                                 in their quest for inner peace and enlightenment.
                             </p>
-                            <button className="bg-red-700 hover:bg-red-800 text-white px-6 py-3 text-sm font-medium rounded-lg shadow-lg transition-all duration-200 w-fit hover:shadow-xl transform hover:-translate-y-0.5">
-                                Explore Wisdom
+                            <button
+                                type="button"
+                                className="mt-4 w-[150px] py-2 text-white font-bold text-lg leading-tight rounded-none shadow-none transition-colors duration-200 text-center "
+                                style={{ background: "rgba(139, 0, 0, 1)" }}
+                            >
+                                CTA Button
                             </button>
                         </div>
 

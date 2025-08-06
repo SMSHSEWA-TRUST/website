@@ -1,4 +1,3 @@
-
 import React, { Suspense } from "react";
 import { ComponentLoader, BlogDetailsLoader } from "../../components/ui/LoadingComponents";
 import BlogdetailWebp from '@/assets/images/Blogdetail.webp';

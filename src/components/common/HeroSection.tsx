@@ -36,7 +36,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                         <div className="absolute inset-0 bg-black/30" />
                         <h1
                             id="hero-section-title"
-                            className="relative z-10 font-marcellus font-normal text-[32px] lg:text-[64px] text-white text-center drop-shadow-lg"
+                            className="relative z-10  font-normal text-[32px] lg:text-[64px] text-white text-center drop-shadow-lg"
                         >
                             {title}
                         </h1>

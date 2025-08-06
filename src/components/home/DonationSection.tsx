@@ -1,4 +1,3 @@
-
 import { useState, useEffect, } from "react";
 import { Avatar } from "../ui/avatar";
 import { Button } from "../ui/button";
@@ -149,7 +148,7 @@ export default function DonationSection() {
     });
 
     return (
-        <section ref={setRef} className="w-full bg-[#f7f3ef] py-16 px-4 md:px-0">
+        <section ref={setRef} className="w-full bg-white py-16 px-4 md:px-0">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">
@@ -227,7 +226,7 @@ export default function DonationSection() {
             </div>
 
             {/* Main Background Image with Overlapping Sections */}
-            <div className="relative w-full mt-8 mb-4 lg:mt-[300px] lg:mb-[100px]">
+            <div className="relative w-full mt-8 mb-4 lg:mt-[300px] lg:mb-[80px]">
 
                 {/* Mobile Layout - Vertical Stack */}
                 <div className="block lg:hidden">
@@ -323,7 +322,7 @@ export default function DonationSection() {
                 </div>
 
                 {/* Desktop Layout - Overlapping */}
-                <div className="hidden lg:block">
+                <div className="hidden lg:block  ">
                     {/* Main Background Image */}
                     <LazyLoadImage
                         className="w-full h-[400px] lg:h-[500px] object-cover"
@@ -333,7 +332,7 @@ export default function DonationSection() {
                     />
 
                     {/* Red Donation Section - Overlapping top-left */}
-                    <div className="absolute top-[-50%] left-7 w-[80%] bg-[#8b0000] py-8 px-8 z-20">
+                    <div className="absolute top-[-30%] left-7 w-[80%] bg-[#8b0000] py-8 px-8 z-20">
                         <LazyLoadImage
                             className="absolute w-[84px] h-[92px] top-0 left-0"
                             alt="Decorative Image"

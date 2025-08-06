@@ -75,37 +75,37 @@ const SubscriptionPlans = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100 py-12 px-4">
+        <div className="min-h-screen bg-gradient-to-b  py-12 mb-24  px-4">
             {/* Title */}
             <div className="text-center mb-8">
                 <h1 className="text-3xl font-serif text-orange-600 mb-4">Subscription Plans</h1>
 
                 {/* Decorative line with dots and image */}
-                <div className="flex items-center justify-center py-8 w-full">
+                <div className="flex items-center justify-center py-2 w-full">
                     <div className="flex items-center w-full max-w-md">
                         {/* Left arrow/diamond with connecting line */}
                         <div className="flex items-center flex-1">
-                            <div className="w-2 h-2 bg-orange-500 transform rotate-45"></div>
-                            <div className="flex-1 h-px bg-orange-500"></div>
+                            <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
                         </div>
 
                         {/* Center dots with continuous line: small-small-big-small-small */}
                         <div className="flex items-center">
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                            <div className="w-3 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                            <div className="w-3 h-px bg-orange-500"></div>
-                            <LazyLoadImage src={diamondOrange} alt="Decorative" className="w-6 h-6 mx-2" loading="lazy" />
-                            <div className="w-3 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                            <div className="w-3 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-3 h-3 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
                         </div>
 
                         {/* Right arrow/diamond with connecting line */}
                         <div className="flex items-center flex-1">
-                            <div className="flex-1 h-px bg-orange-500"></div>
-                            <div className="w-2 h-2 bg-orange-500 transform rotate-45"></div>
+                            <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                            <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
                         </div>
                     </div>
                 </div>

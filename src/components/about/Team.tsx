@@ -69,12 +69,12 @@ export default function Team() {
     };
 
     return (
-        <section className="w-full py-6 px-4 bg-white">
+        <section className="w-full pt-6 px-4 bg-white">
             <div className="max-w-7xl mx-auto">
                 {/* Dashed Border Box Heading */}
                 <div className="flex justify-center mt-4">
                     <div className=" px-8 py-2 inline-block relative" style={{ minWidth: 510 }}>
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-xs text-gray-500 font-light tracking-wide bg-white px-2">
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 font-light tracking-wide bg-white px-2" style={{ fontSize: '16px', color: 'rgba(76, 41, 30, 1)' }}>
                             Lorem Ipsum odor
                         </div>
                         <h2 className="text-[36px] font-serif font-normal text-[#4c291e] text-center leading-tight tracking-wide select-none">
@@ -83,34 +83,35 @@ export default function Team() {
                     </div>
                 </div>
                 {/* Custom Divider with Dots */}
-                <div className="flex items-center justify-center py-8">
-                    <div className="flex items-center">
+                <div className="flex items-center justify-center py-2 w-full">
+                    <div className="flex items-center w-full max-w-md">
                         {/* Left arrow/diamond with connecting line */}
-                        <div className="flex items-center">
-                            <div className="w-3 h-3 bg-orange-500 transform rotate-45"></div>
-                            <div className="w-16 h-px bg-orange-500"></div>
+                        <div className="flex items-center flex-1">
+                            <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
                         </div>
 
                         {/* Center dots with continuous line: small-small-big-small-small */}
                         <div className="flex items-center">
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                            <div className="w-4 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                            <div className="w-4 h-px bg-orange-500"></div>
-                            <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                            <div className="w-4 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                            <div className="w-4 h-px bg-orange-500"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(139, 0, 0, 1)', borderColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(139, 0, 0, 1)', borderColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-3 h-3 rounded-full border-2" style={{ backgroundColor: 'rgba(139, 0, 0, 1)', borderColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(139, 0, 0, 1)', borderColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(139, 0, 0, 1)', borderColor: 'rgba(139, 0, 0, 1)' }}></div>
                         </div>
 
                         {/* Right arrow/diamond with connecting line */}
-                        <div className="flex items-center">
-                            <div className="w-16 h-px bg-orange-500"></div>
-                            <div className="w-3 h-3 bg-orange-500 transform rotate-45"></div>
+                        <div className="flex items-center flex-1">
+                            <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
+                            <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(139, 0, 0, 1)' }}></div>
                         </div>
                     </div>
                 </div>
+
 
                 {/* Description */}
                 <p className="text-gray-700 max-w-3xl mx-auto text-center text-[15px] font-light mb-7" style={{ lineHeight: "1.6" }}>

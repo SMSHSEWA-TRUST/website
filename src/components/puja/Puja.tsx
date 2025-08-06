@@ -6,7 +6,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import pujaImageWebp from '@/assets/images/pujaImage.webp';
 
 const pujaData = [
-    { title: "Puja 1", description: "Lorem ipsum dolor sit amet...", image: pujaImageWebp, cta: "CTA Button" },
+    { title: "Puja 1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ", image: pujaImageWebp, cta: "CTA Button" },
     { title: "Puja 2", description: "Lorem ipsum dolor sit amet...", image: pujaImageWebp, cta: "CTA Button" },
     { title: "Puja 3", description: "Lorem ipsum dolor sit amet...", image: pujaImageWebp, cta: "CTA Button" },
     { title: "Puja 4", description: "Lorem ipsum dolor sit amet...", image: pujaImageWebp, cta: "CTA Button" },
@@ -44,8 +44,8 @@ export default function Puja() {
 
     return (
         <div className="min-h-screen bg-white flex flex-col items-center py-8 ">
-            <h2 className="text-[28px] font-serif text-[#B91C1C] text-center mb-8">Puja's at Temple</h2>
-            <div className="flex items-center justify-center py-8 w-full">
+            <h2 className="text-[28px] font-serif text-[#B91C1C] text-center mb-2">Puja's at Temple</h2>
+            <div className="flex items-center justify-center pb-4 w-full">
                 <div className="flex items-center w-full max-w-md">
                     {/* Left arrow/diamond with connecting line */}
                     <div className="flex items-center flex-1">
@@ -56,13 +56,13 @@ export default function Puja() {
                     {/* Center dots with continuous line: small-small-big-small-small */}
                     <div className="flex items-center">
                         <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                        <div className="w-3 h-px bg-orange-500"></div>
+                        <div className="w-1.5 h-px bg-orange-500"></div>
                         <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                        <div className="w-3 h-px bg-orange-500"></div>
+                        <div className="w-1.5 h-px bg-orange-500"></div>
                         <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                        <div className="w-3 h-px bg-orange-500"></div>
+                        <div className="w-1.5 h-px bg-orange-500"></div>
                         <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                        <div className="w-3 h-px bg-orange-500"></div>
+                        <div className="w-1.5 h-px bg-orange-500"></div>
                         <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
                     </div>
 
@@ -125,13 +125,15 @@ export default function Puja() {
                                                     style={{ opacity: 0.7 }}
                                                     loading="lazy"
                                                 />
-                                                <div className="absolute inset-0 flex flex-col items-center justify-end px-6 pb-6">
-                                                    <p className="text-white text-xs md:text-base font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
-                                                        {puja.description}
-                                                    </p>
-                                                    <button className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded text-xs font-semibold shadow transition-colors duration-200">
-                                                        {puja.cta}
-                                                    </button>
+                                                <div className="absolute inset-0 flex flex-col items-start justify-end px-6 pb-6 w-full">
+                                                    <div className="w-full max-w-[793px] flex flex-col items-start">
+                                                        <p className="text-white text-xs md:text-base font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
+                                                            {puja.description}
+                                                        </p>
+                                                        <button className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded text-xs font-semibold shadow transition-colors duration-200 self-start">
+                                                            {puja.cta}
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -162,13 +164,15 @@ export default function Puja() {
                                                         style={{ opacity: 0.7 }}
                                                         loading="lazy"
                                                     />
-                                                    <div className="absolute inset-0 flex flex-col items-center justify-end px-6 pb-6">
-                                                        <p className="text-white text-xs md:text-base font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
-                                                            {puja.description}
-                                                        </p>
-                                                        <button className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded text-xs font-semibold shadow transition-colors duration-200">
-                                                            {puja.cta}
-                                                        </button>
+                                                    <div className="absolute inset-0 flex flex-col items-start justify-end px-6 pb-6 w-full">
+                                                        <div className="w-full max-w-[793px] flex flex-col items-start">
+                                                            <p className="text-white text-xs md:text-base font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
+                                                                {puja.description}
+                                                            </p>
+                                                            <button className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded text-xs font-semibold shadow transition-colors duration-200 self-start">
+                                                                {puja.cta}
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </motion.div>
