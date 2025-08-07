@@ -11,8 +11,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export const ContactSection: React.FC = () => {
     return (
-        <section className="w-full  ">
-            <div className="grid grid-cols-1 lg:grid-cols-[42%_58%] gap-0 min-h-[600px] lg:min-h-[700px] overflow-hidden rounded-lg lg:rounded-none shadow-lg lg:shadow-none">
+        <section className="w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-[42%_58%] gap-0 min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] overflow-hidden rounded-lg lg:rounded-none shadow-lg lg:shadow-none">
 
                 {/* Left Section - Background Image with Contact Form */}
                 <div className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center p-6 lg:p-8"
@@ -23,7 +23,7 @@ export const ContactSection: React.FC = () => {
 
                     {/* Contact Form Card */}
                     <Card className="relative z-10 w-full max-w-md bg-[#ece5df] shadow-xl rounded-lg lg:rounded-none border-0">
-                        <CardContent className="p-6 sm:p-8">
+                        <CardContent className="p-2 sm:p-4 md:p-6 lg:p-8">
 
                             {/* Header Section */}
                             <div className="text-center mb-8">
@@ -53,7 +53,7 @@ export const ContactSection: React.FC = () => {
                             {/* Contact Form */}
                             <form className="space-y-4">
                                 {/* Name Fields */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-2 gap-2 sm:gap-4">
                                     <Input
                                         className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-[#8b0000] focus:border-transparent transition-all duration-200"
                                         placeholder="First Name"

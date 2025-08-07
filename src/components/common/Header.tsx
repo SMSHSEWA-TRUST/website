@@ -175,6 +175,29 @@ const Header = (): JSX.Element => {
                             </div>
                         </div>
 
+                        {/* Decorative Line for Mobile & Tablet */}
+                        <div className="relative mb-2 mt-2 px-4">
+                            <div className="relative w-full h-3 max-w-xs mx-auto">
+                                <LazyLoadImage
+                                    className="w-full h-3 object-cover"
+                                    alt="Decorative Line"
+                                    src={lineImage}
+                                    loading="lazy"
+                                />
+                                {/* Center dot - largest */}
+                                <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                {/* Medium dots near center */}
+                                <div className="absolute w-2 h-2 top-0.5 left-[calc(50%+12px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-2 h-2 top-0.5 left-[calc(50%-12px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                {/* Small dots further from center */}
+                                <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%+24px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%-24px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                {/* End dots */}
+                                <div className="absolute w-3 h-3 top-0 left-0 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-3 h-3 top-0 right-0 bg-[#d05e2d] rounded-full" />
+                            </div>
+                        </div>
+
                         {/* Mobile Navigation Menu */}
                         <div className={`${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100`}>
                             <nav className={`py-4 space-y-2 ${isMobileMenuOpen ? 'max-h-80 overflow-y-auto' : ''}`}>

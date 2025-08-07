@@ -10,10 +10,10 @@ import tempImage9Webp from '@/assets/images/temp-image-9.webp';
 const GridLayout = (): JSX.Element => {
     return (
         <section className="w-full  ">
-            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-24 h-auto lg:h-[680px]">
+            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-1 lg:gap-24 h-auto lg:h-[680px]">
 
                 {/* Left Side */}
-                <div className="flex flex-col gap-4 lg:gap-8">
+                <div className="flex flex-col gap-8">
 
                     {/* Content Section */}
                     <div className="bg-[#f4f0ec] pl-16 rounded-lg lg:rounded-none flex-1 lg:min-h-[280px] flex flex-col justify-center">
@@ -74,7 +74,7 @@ const GridLayout = (): JSX.Element => {
                     </div>
 
                     {/* One Large Image Bottom */}
-                    <div className="relative overflow-hidden rounded-lg lg:rounded-none flex-1 group mb-4">
+                    <div className="relative overflow-hidden rounded-lg lg:rounded-none flex-1 group lg:mb-4">
                         <img
                             className="w-full h-40 sm:h-48 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             alt="Large Temple Image"

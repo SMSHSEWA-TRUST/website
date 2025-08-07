@@ -56,9 +56,9 @@ const latestPosts = [
 const Blogs = () => {
     return (
         <div className="mx-auto p-6 bg-white">
-            <div className="flex flex-col lg:flex-row gap-28">
+            <div className="flex flex-col lg:flex-row  gap-10 lg:gap-28">
                 {/* Main Blog Posts Section */}
-                <div className="w-full pl-10 max-w-[729px] ">
+                <div className="w-full lg:pl-10 lg:max-w-[729px] ">
                     <div className="space-y-6">
                         {blogPosts.map((post) => (
                             <div key={post.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col">

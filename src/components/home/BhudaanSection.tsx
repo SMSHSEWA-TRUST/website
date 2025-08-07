@@ -57,16 +57,31 @@ const BhudaanSection: React.FC = () => {
                     Donate Now
                 </button>
             </div>
-            <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mx-auto">
-                <div className="flex items-center justify-center h-[451px] w-full overflow-hidden">
-                    <LazyLoadImage src={bhudaan1} alt="Temple 1" className="w-full h-full object-cover shadow-lg" loading="lazy" />
+            <div className="max-w-5xl w-full grid grid-cols-2 gap-1 lg:gap-6 mt-8 mx-auto">
+                <div className="flex items-center justify-center h-[180px] sm:h-[220px] md:h-[300px] lg:h-[451px] w-full overflow-hidden">
+                    <LazyLoadImage
+                        src={bhudaan1}
+                        alt="Temple 1"
+                        className="w-full h-full object-cover shadow-lg"
+                        loading="lazy"
+                    />
                 </div>
-                <div className="flex flex-col h-[451px] w-full overflow-hidden gap-4">
+                <div className="flex flex-col h-[180px] sm:h-[220px] md:h-[300px] lg:h-[451px] w-full overflow-hidden gap-4">
                     <div className="flex-1 flex items-center justify-center overflow-hidden">
-                        <LazyLoadImage src={bhudaan2} alt="Temple 2" className="w-full h-full object-cover shadow-lg" loading="lazy" />
+                        <LazyLoadImage
+                            src={bhudaan2}
+                            alt="Temple 2"
+                            className="w-full h-full object-cover shadow-lg"
+                            loading="lazy"
+                        />
                     </div>
                     <div className="flex-1 flex items-center justify-center overflow-hidden">
-                        <LazyLoadImage src={bhudaan3} alt="Temple 3" className="w-full h-full object-cover shadow-lg" loading="lazy" />
+                        <LazyLoadImage
+                            src={bhudaan3}
+                            alt="Temple 3"
+                            className="w-full h-full object-cover shadow-lg"
+                            loading="lazy"
+                        />
                     </div>
                 </div>
             </div>

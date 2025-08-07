@@ -43,7 +43,7 @@ export default function Puja() {
     }, [prev]);
 
     return (
-        <div className="min-h-screen bg-white flex flex-col items-center py-8 ">
+        <div className="lg:min-h-screen bg-white flex flex-col items-center py-8">
             <h2 className="text-[28px] font-serif text-[#B91C1C] text-center mb-2">Puja's at Temple</h2>
             <div className="flex items-center justify-center pb-4 w-full">
                 <div className="flex items-center w-full max-w-md">
@@ -73,11 +73,13 @@ export default function Puja() {
                     </div>
                 </div>
             </div>
-            <div className="relative w-full mx-auto flex flex-col items-stretch min-h-[400px]">
+            <div className="relative w-full mx-auto flex flex-col items-stretch lg:min-h-[520px] md:min-h-[400px]">
                 {pujaData.map((puja, idx) => {
                     if (idx > shown) return null;
+                    // Remove extra space below last card
+                    const isLastCard = idx === shown && idx === pujaData.length - 1;
                     return (
-                        <div key={puja.title} className="w-full" style={{ zIndex: idx + 1, position: "relative" }}>
+                        <div key={puja.title} className="w-full" style={{ zIndex: idx + 1, position: "relative", marginBottom: isLastCard ? 0 : 16 }}>
                             {/* Header always visible, stacked */}
                             <div
                                 className={`bg-[#7B1313] text-white py-2 font-serif text-lg flex items-center justify-center px-4

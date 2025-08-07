@@ -15,7 +15,7 @@ interface BlogSidebarProps {
 
 const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
     return (
-        <div className="w-full max-w-[320px] mx-auto lg:w-80 lg:mx-0">
+        <div className="w-full max-w-[400px] mx-auto lg:w-80 lg:mx-0">
             <div className="bg-white border border-gray-200 rounded-lg p-4">
                 {/* Search Bar */}
                 <form className="mb-4">

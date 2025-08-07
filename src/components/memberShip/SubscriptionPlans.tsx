@@ -11,7 +11,7 @@ const SubscriptionPlans = () => {
 
     const SubscriptionCard = ({ highlight = false, price = "₹1199" }) => {
         return (
-            <div className={`rounded-lg shadow-lg p-6 w-full max-w-[280px] min-h-[400px] ${highlight
+            <div className={`rounded-lg shadow-lg p-6 w-full max-w-[387px] min-h-[400px] ${highlight
                 ? "bg-gradient-to-b from-red-800 to-red-900 text-white"
                 : "bg-white text-gray-700"
                 }`}>
@@ -112,7 +112,7 @@ const SubscriptionPlans = () => {
             </div>
 
             {/* Cards Container */}
-            <div className="max-w-6xl mx-auto">
+            <div className="w-full lg:pl-16 mx-auto">
                 {/* Top Row - 3 Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                     <SubscriptionCard highlight={true} />

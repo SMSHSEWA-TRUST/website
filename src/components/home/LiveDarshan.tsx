@@ -216,13 +216,13 @@ const LiveDarshan = (): JSX.Element => {
             {/* Main Content Container */}
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                 {/* Header Section */}
-                <div className="text-center mb-8 lg:mb-12">
-                    <h2 className="font-marcellus text-[20px] lg:text-[36px] font-normal text-white mb-4 tracking-wide">
+                <div className="text-center mb-4 lg:mb-12">
+                    <h2 className="font-marcellus text-[20px] lg:text-[36px] mb-2 font-normal text-white tracking-wide">
                         Live Darshan
                     </h2>
 
                     {/* Decorative Line */}
-                    <div className="flex items-center justify-center py-2 w-full">
+                    <div className="flex items-center justify-center py-3 lg:py-2 w-[50%] sm:w-[50%] lg:w-full mx-auto">
                         <div className="flex items-center w-full max-w-md">
                             {/* Left arrow/diamond with connecting line */}
                             <div className="flex items-center flex-1">
@@ -253,24 +253,24 @@ const LiveDarshan = (): JSX.Element => {
 
                     {/* Temple Selection Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-                        <button
-                            className={`px-6 py-3 border border-white text-white font-tenor-sans font-normal text-[12px] lg:text-[20px] transition-all duration-300 hover:scale-105 ${selectedTemple === 'mahakaleshwar'
-                                ? 'bg-yellow-600 text-white'
-                                : 'bg-transparent hover:bg-white hover:text-red-800'
-                                }`}
-                            onClick={() => handleButtonClick('mahakaleshwar')}
-                        >
-                            Shree Mahakaleshwar Mandir
-                        </button>
-                        <button
-                            className={`px-6 py-3 border border-white text-white font-tenor-sans font-normal text-[12px] lg:text-[20px] transition-all duration-300 hover:scale-105 ${selectedTemple === 'salasar'
-                                ? 'bg-yellow-600 text-white'
-                                : 'bg-transparent hover:bg-white hover:text-red-800'
-                                }`}
-                            onClick={() => handleButtonClick('salasar')}
-                        >
-                            Shree Salasar Balaji Mandir
-                        </button>
+                        <div className="flex flex-row gap-2 w-full justify-center items-center">
+                            <button
+                                className={`border border-white text-white font-tenor-sans font-normal transition-all duration-300 hover:scale-105
+                                    ${selectedTemple === 'mahakaleshwar' ? 'bg-yellow-600 text-white' : 'bg-transparent hover:bg-white hover:text-red-800'}
+                                    px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
+                                onClick={() => handleButtonClick('mahakaleshwar')}
+                            >
+                                Shree Mahakaleshwar Mandir
+                            </button>
+                            <button
+                                className={`border border-white text-white font-tenor-sans font-normal transition-all duration-300 hover:scale-105
+                                    ${selectedTemple === 'salasar' ? 'bg-yellow-600 text-white' : 'bg-transparent hover:bg-white hover:text-red-800'}
+                                    px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
+                                onClick={() => handleButtonClick('salasar')}
+                            >
+                                Shree Salasar Balaji Mandir
+                            </button>
+                        </div>
                     </div>
                 </div>
 
