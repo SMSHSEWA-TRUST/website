@@ -75,7 +75,7 @@ const Hero = (): JSX.Element => {
                     {/* Text content - responsive positioning */}
                     <div className="absolute w-[34.4%] h-[39%] top-[35.4%] left-[5.8%] z-20">
                         <div className="relative w-full h-full">
-                            <div className="absolute w-full top-0 left-0 font-tenor-sans text-[16px] text-white tracking-[0] leading-[normal]">
+                            <div className="absolute w-full  lg:top-[-50px] left-0 font-tenor-sans text-[16px] text-white tracking-[0] leading-[normal]">
                                 Feel Lord Shiva&apos;s Power
                                 <div className="relative w-full h-full">
                                     <div

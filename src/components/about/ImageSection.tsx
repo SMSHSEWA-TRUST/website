@@ -51,8 +51,7 @@ const ImageSection: React.FC = () => {
                             >
                                 <div className="w-full flex justify-center">
                                     <div
-                                        className="w-[220px]  flex items-center justify-center bg-transparent"
-
+                                        className="w-[250px] h-[290px] flex items-center justify-center bg-transparent"
                                     >
                                         <LazyLoadImage
                                             src={card.image}
@@ -71,7 +70,7 @@ const ImageSection: React.FC = () => {
                                 {card.desc && (
                                     <p className={`text-base text-center ${card.text} opacity-80 mb-2`}>{card.desc}</p>
                                 )}
-                               
+
                             </div>
                         );
                     }
@@ -102,8 +101,7 @@ const ImageSection: React.FC = () => {
                         >
                             <div className="w-full flex justify-center">
                                 <div
-                                    className="w-[220px] h-[260px] flex items-center justify-center bg-transparent"
-
+                                    className="w-[250px] h-[290px] flex items-center justify-center bg-transparent"
                                 >
                                     <LazyLoadImage
                                         src={card.image}

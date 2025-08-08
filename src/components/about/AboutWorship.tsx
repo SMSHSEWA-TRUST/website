@@ -1,7 +1,6 @@
 import React from 'react';
 import aboutWorshipImage from '@/assets/images/Aboutworship.webp';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-
+import aboutworshipbgImage from '@/assets/images/aboutworshipbg.png';
 interface AboutWorshipProps {
     title?: string;
     highlightedText?: string;
@@ -87,14 +86,28 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                         <div className="flex-shrink-0 mb-6 lg:mb-0">
                             <div className="relative" ref={imageRef}>
                                 {/* Natural Format Image */}
-                                <div className="overflow-hidden rounded-lg shadow-lg">
+                                <div className="overflow-hidden rounded-lg  relative">
+                                    {/* Background image */}
+                                    <img
+                                        src={aboutworshipbgImage}
+                                        alt="Decorative worship background"
+                                        className="absolute inset-0 w-full h-full object-cover z-0 opacity-2000 "
+                                        aria-hidden="true"
+                                        draggable="false"
+                                    />
+                                    {/* Foreground worship image */}
                                     <img
                                         src={worshipImage}
                                         alt="Spiritual worship scene with hands holding flower and sacred fire"
-                                        className="h-auto object-cover transition-all duration-[1200ms] ease-in-out"
+                                        className="relative h-auto object-cover transition-all duration-[1200ms] ease-in-out z-10"
                                         style={{
-                                            width: inView ? 'clamp(250px, 40vw, 350px)' : '50px',
-                                            height: 'auto'
+                                            width: inView ? 'clamp(300px, 45vw, 420px)' : '80px',
+                                            maxWidth: '100%',
+                                            height: 'auto',
+                                            margin: '0 auto',
+                                            display: 'block',
+                                            position: 'relative',
+                                            boxShadow: '0 4px 24px 0 rgba(0,0,0,0.10)'
                                         }}
                                         loading="lazy"
                                         decoding="async"

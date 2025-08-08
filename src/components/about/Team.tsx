@@ -114,7 +114,7 @@ export default function Team() {
 
 
                 {/* Description */}
-                <p className="text-gray-700 max-w-3xl mx-auto text-center text-[15px] font-light mb-7" style={{ lineHeight: "1.6" }}>
+                <p className="text-gray-700 max-w-[983px] mx-auto text-center text-[15px] font-light mb-7" style={{ lineHeight: "1.6" }}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 {/* Carousel */}
