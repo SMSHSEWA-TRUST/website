@@ -144,7 +144,7 @@ const Hero = (): JSX.Element => {
                 </div>
 
                 {/* Bottom Section - Red background with abstract floral and deity image */}
-                <div className="relative w-full bg-[#8b0000] py-8 sm:py-12 md:py-16 flex justify-center items-center overflow-hidden">
+                <div className="relative w-full bg-[#8b0000] pt-16 pb-10 sm:pt-20 sm:pb-14 md:pt-24 md:pb-20 flex justify-center items-start overflow-visible" style={{ minHeight: '160px' }}>
                     {/* Abstract floral background - centered and extending beyond top */}
                     <img
                         className="absolute left-1/2 top-[-15%] -translate-x-1/2 w-[130%] h-[130%] object-cover opacity-30"
@@ -159,8 +159,8 @@ const Hero = (): JSX.Element => {
                         src={abstractFloral}
                     />
 
-                    {/* Deity image container - positioned above the abstract floral */}
-                    <div className="relative z-10 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72">
+                    {/* Deity image container - half overlaps red and normal section */}
+                    <div className="absolute left-1/2 -translate-x-1/2 z-10 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 -top-24 sm:-top-28 md:-top-32" style={{ minHeight: '0', marginBottom: 0 }}>
                         {/* Golden circular frame background */}
                         <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#daa520] to-[#b8941c] p-1 shadow-2xl">
                             <div className="w-full h-full rounded-full overflow-hidden bg-white">

@@ -34,16 +34,16 @@ const GridLayout = (): JSX.Element => {
 
                     {/* Two Images Bottom - Always side by side */}
                     <div className="grid grid-cols-2 flex-1 gap-2 mb-2 p-0 m-0">
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none group flex items-center justify-center h-32 sm:h-40 lg:h-full mb-2">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none group flex items-center justify-center h-40 sm:h-52 lg:h-[340px] mb-2">
                             <img
                                 className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
                                 alt="Temple Image 1"
                                 src={tempImage8Webp}
                             />
                         </div>
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-white p-2 sm:p-4 lg:p-6 flex items-center justify-center group h-28 sm:h-36 lg:h-full mb-2">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-white p-2 sm:p-4 lg:p-6 flex items-center justify-center group h-36 sm:h-48 lg:h-[340px] mb-2">
                             <img
-                                className="w-full h-full max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] object-contain transition-transform duration-300 group-hover:scale-105"
+                                className="w-full h-full max-w-[200px] sm:max-w-[240px] lg:max-w-[400px] object-contain transition-transform duration-300 group-hover:scale-105"
                                 alt="Portrait Image"
                                 src={tempImage2Png}
                             />

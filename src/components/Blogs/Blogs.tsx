@@ -55,13 +55,13 @@ const latestPosts = [
 
 const Blogs = () => {
     return (
-        <div className="mx-auto p-6 bg-white">
+        <div className="mx-auto pl-14 pt-10 pb-10 bg-white">
             <div className="flex flex-col lg:flex-row  gap-10 lg:gap-28">
                 {/* Main Blog Posts Section */}
                 <div className="w-full lg:pl-10 lg:max-w-[729px] ">
                     <div className="space-y-6">
                         {blogPosts.map((post) => (
-                            <div key={post.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col">
+                            <div key={post.id} className="bg-white   overflow-hidden flex flex-col">
                                 <div className="w-full aspect-[16/10] bg-gray-100 flex items-center justify-center">
                                     <LazyLoadImage
                                         src={post.image}
@@ -70,7 +70,7 @@ const Blogs = () => {
                                         loading="lazy"
                                     />
                                 </div>
-                                <div className="p-6 flex flex-col items-center justify-center flex-1">
+                                <div className="pt-6 pb-2 flex flex-col items-center justify-center flex-1">
                                     <h2 className="text-xl font-serif text-red-700 mb-2 text-center w-full">
                                         {post.title}
                                     </h2>

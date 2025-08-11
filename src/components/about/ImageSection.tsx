@@ -51,7 +51,7 @@ const ImageSection: React.FC = () => {
                             >
                                 <div className="w-full flex justify-center">
                                     <div
-                                        className="w-[250px] h-[290px] flex items-center justify-center bg-transparent"
+                                        className="w-[320px] h-[370px] flex items-center justify-center bg-transparent"
                                     >
                                         <LazyLoadImage
                                             src={card.image}
@@ -101,7 +101,7 @@ const ImageSection: React.FC = () => {
                         >
                             <div className="w-full flex justify-center">
                                 <div
-                                    className="w-[250px] h-[290px] flex items-center justify-center bg-transparent"
+                                    className="w-[320px] h-[370px] flex items-center justify-center bg-transparent"
                                 >
                                     <LazyLoadImage
                                         src={card.image}
