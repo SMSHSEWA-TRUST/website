@@ -245,12 +245,14 @@ export default function DonationSection() {
                             loading="lazy"
                         />
                         {/* Center Top Decorative Image - Half inside, half outside */}
-                        <LazyLoadImage
-                            className="absolute w-[120px] h-[120px] top-[-60px] left-1/2 transform -translate-x-1/2 object-cover opacity-80 z-10"
-                            alt="Decorative Image"
-                            src={mand9Min1}
-                            loading="lazy"
-                        />
+                        <div className="absolute w-[900px] top-[-120px] left-[40%] transform -translate-x-1/2 z-10 overflow-hidden" style={{ height: '120px' }}>
+                            <LazyLoadImage
+                                className="w-full object-cover opacity-80"
+                                alt="Decorative Image"
+                                src={mand9Min1}
+                                loading="lazy"
+                            />
+                        </div>
 
                         <div className="relative z-10 space-y-4">
                             <div className="text-white mb-4">
@@ -346,12 +348,14 @@ export default function DonationSection() {
                             loading="lazy"
                         />
                         {/* Center Top Decorative Image - Half inside, half outside */}
-                        <LazyLoadImage
-                            className="absolute w-[200px] h-[200px] top-[-100px] left-1/2 transform -translate-x-1/2 object-cover opacity-80 z-10"
-                            alt="Decorative Image"
-                            src={mand9Min1}
-                            loading="lazy"
-                        />
+                        <div className="absolute w-[900px] top-[-170px] left-[35%] transform -translate-x-1/2 z-10 overflow-hidden" style={{ height: '170px' }}>
+                            <LazyLoadImage
+                                className="w-full object-cover opacity-80"
+                                alt="Decorative Image"
+                                src={mand9Min1}
+                                loading="lazy"
+                            />
+                        </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center relative z-10">
                             <div className="text-white">
@@ -385,13 +389,13 @@ export default function DonationSection() {
                     {/* Orange Avatar Section - Overlapping bottom-right */}
                     <div className="absolute bottom-[-20%] right-0 w-3/5 bg-[#d05e2d] py-8 px-8 z-20">
                         <LazyLoadImage
-                            className="absolute w-[84px] h-[92px] top-4 left-4"
+                            className="absolute w-[84px] h-[92px] top-0 left-0"
                             alt="Decorative Image"
                             src={mand9Min4}
                             loading="lazy"
                         />
                         <LazyLoadImage
-                            className="absolute w-[84px] h-[92px] bottom-4 right-4"
+                            className="absolute w-[84px] h-[92px] bottom-0 right-0"
                             alt="Decorative Image"
                             src={mand9Min5}
                             loading="lazy"

@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -22,28 +22,75 @@ const bodyVariants = {
 export default function Puja() {
     const [shown, setShown] = useState(0);
     const [prev, setPrev] = useState<number | null>(null);
+    const [inView, setInView] = useState(false);
+    const [scrollDir, setScrollDir] = useState<'down' | 'up'>('down');
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const lastScrollY = useRef(typeof window !== 'undefined' ? window.scrollY : 0);
 
-    // For premium cover effect: track previous card index during animation
+    // Detect scroll direction
     useEffect(() => {
-        if (shown < pujaData.length - 1) {
-            const timer = setTimeout(() => {
-                setPrev(shown);
-                setShown(shown + 1);
-            }, 1800); // Adjust for slower/cleaner effect
-            return () => clearTimeout(timer);
-        }
-    }, [shown]);
+        const handleScroll = () => {
+            const currentY = window.scrollY;
+            if (currentY > lastScrollY.current) {
+                setScrollDir('down');
+            } else if (currentY < lastScrollY.current) {
+                setScrollDir('up');
+            }
+            lastScrollY.current = currentY;
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
-    // After animation, clear prev (so only top card's body is visible)
+    // Intersection Observer to detect when section is in viewport
+    useEffect(() => {
+        const observer = new window.IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setInView(true);
+                } else {
+                    setInView(false);
+                }
+            },
+            { threshold: 0.3 }
+        );
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+        return () => {
+            if (sectionRef.current) observer.unobserve(sectionRef.current);
+        };
+    }, []);
+
+    // Animation logic for down and up scroll
+    useEffect(() => {
+        if (inView) {
+            if (scrollDir === 'down' && shown < pujaData.length - 1) {
+                const timer = setTimeout(() => {
+                    setPrev(shown);
+                    setShown(shown + 1);
+                }, 1800);
+                return () => clearTimeout(timer);
+            }
+            if (scrollDir === 'up' && shown > 0) {
+                const timer = setTimeout(() => {
+                    setPrev(shown);
+                    setShown(shown - 1);
+                }, 1800);
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [shown, inView, scrollDir]);
+
     useEffect(() => {
         if (prev !== null) {
-            const timer = setTimeout(() => setPrev(null), 1200); // Should match animation duration
+            const timer = setTimeout(() => setPrev(null), 1200);
             return () => clearTimeout(timer);
         }
     }, [prev]);
 
     return (
-        <div className="lg:min-h-screen bg-white flex flex-col items-center py-8">
+        <div className="lg:min-h-screen bg-white flex flex-col items-center py-8" ref={sectionRef}>
             <h2 className="text-[28px] font-serif text-[#B91C1C] text-center mb-2">Puja's at Temple</h2>
             <div className="flex items-center justify-center pb-4 w-full">
                 <div className="flex items-center w-full max-w-md">
@@ -83,19 +130,19 @@ export default function Puja() {
                             {/* Header always visible, stacked */}
                             <div
                                 className={`bg-[#7B1313] text-white py-2 font-serif text-lg flex items-center justify-center px-4
-                  ${idx === 0 ? "rounded-t-2xl" : ""}
-                  shadow-sm
-                `}
+                                                    shadow-sm
+                                                `}
                                 style={{
                                     position: "relative",
                                     marginTop: idx === 0 ? 0 : -12,
-                                    borderTopLeftRadius: idx === 0 ? "1.2rem" : "0",
-                                    borderTopRightRadius: idx === 0 ? "1.2rem" : "0",
-                                    borderBottomLeftRadius: idx === shown ? "0" : "0.85rem",
-                                    borderBottomRightRadius: idx === shown ? "0" : "0.85rem",
+                                    borderTopLeftRadius: "0",
+                                    borderTopRightRadius: "0",
+                                    borderBottomLeftRadius: "0",
+                                    borderBottomRightRadius: "0",
                                     boxShadow: idx === shown ? "0 4px 12px rgba(185,28,28,0.13)" : "0 2px 4px rgba(0,0,0,0.03)",
                                     zIndex: 30 + idx,
                                     userSelect: "none",
+                                    maxHeight: "610px"
                                 }}
                             >
                                 <span className="w-full text-center">{puja.title}</span>
@@ -114,8 +161,8 @@ export default function Puja() {
                                         <div className="absolute left-0 right-0 top-0 w-full"
                                             style={{
                                                 zIndex: 5,
-                                                borderBottomLeftRadius: idx === pujaData.length - 1 ? "1.2rem" : "0.85rem",
-                                                borderBottomRightRadius: idx === pujaData.length - 1 ? "1.2rem" : "0.85rem",
+                                                borderBottomLeftRadius: "0",
+                                                borderBottomRightRadius: "0",
                                                 boxShadow: "0 12px 32px rgba(185,28,28,0.09)",
                                                 background: "#fff"
                                             }}>
@@ -152,8 +199,8 @@ export default function Puja() {
                                                 className="absolute left-0 right-0 top-0 w-full"
                                                 style={{
                                                     zIndex: 10,
-                                                    borderBottomLeftRadius: idx === pujaData.length - 1 ? "1.2rem" : "0.85rem",
-                                                    borderBottomRightRadius: idx === pujaData.length - 1 ? "1.2rem" : "0.85rem",
+                                                    borderBottomLeftRadius: "0",
+                                                    borderBottomRightRadius: "0",
                                                     boxShadow: "0 16px 48px rgba(185,28,28,0.13)",
                                                     background: "#fff"
                                                 }}

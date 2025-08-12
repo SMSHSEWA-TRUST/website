@@ -7,6 +7,7 @@ import {
     CardTitle,
 } from "../ui/card";
 import mand7Png from '@/assets/images/mand-7.png';
+import sevaBg from '@/assets/images/sevabg.png';
 import omPng from '@/assets/images/om.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -94,21 +95,38 @@ const SevaSection = ({ isDesktop, upcomingSevas }: {
                     </div>
                 </CardHeader>
 
-                <CardContent className={`space-y-4 ${isDesktop ? "max-h-[450px] overflow-y-auto" : ""}`}>
-                    {upcomingSevas.map((seva, index) => (
-                        <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
-                            <h4 className="font-marcellus font-normal text-[rgba(76, 41, 30, 1)] text-[16px] mb-2">
-                                {seva.title}
-                            </h4>
-                            <p className="font-marcellus font-normal text-[rgba(30, 30, 30, 0.5)] text-[10px] leading-relaxed mb-3">
-                                {seva.description}
-                            </p>
-                            <div className="flex justify-between font-tenor-sans font-normal text-[rgba(76, 41, 30, 1)] text-[10px]">
-                                <span>{seva.date}</span>
-                                <span>{seva.time}</span>
+                <CardContent
+                    className={`${isDesktop ? "max-h-[450px] overflow-y-auto" : ""} relative overflow-hidden`}
+                >
+                    {/* Background image layer with low opacity */}
+                    <div
+                        className="absolute inset-0 bg-no-repeat opacity-10 pointer-events-none"
+                        style={{
+                            backgroundImage: `url(${sevaBg})`,
+                            // 80% sized image, centered horizontally and shifted slightly down
+                            backgroundSize: '90% auto',
+                            backgroundPosition: 'center 60%'
+                        }}
+                        aria-hidden
+                    />
+
+                    {/* Foreground content */}
+                    <div className="relative z-10 space-y-4">
+                        {upcomingSevas.map((seva, index) => (
+                            <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
+                                <h4 className="font-marcellus font-normal text-[rgba(76, 41, 30, 1)] text-[16px] mb-2">
+                                    {seva.title}
+                                </h4>
+                                <p className="font-marcellus font-normal text-[rgba(30, 30, 30, 0.5)] text-[10px] leading-relaxed mb-3">
+                                    {seva.description}
+                                </p>
+                                <div className="flex justify-between font-tenor-sans font-normal text-[rgba(76, 41, 30, 1)] text-[10px]">
+                                    <span>{seva.date}</span>
+                                    <span>{seva.time}</span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </CardContent>
             </Card>
         </div>
@@ -132,12 +150,7 @@ const CountdownTimer = ({ countdown, isDesktop }: {
 
 const LiveDarshan = (): JSX.Element => {
     const [selectedTemple, setSelectedTemple] = useState<string>('mahakaleshwar');
-    const [videoUrl, setVideoUrl] = useState('');
     const [countdown, setCountdown] = useState('00:00:00');
-
-    // Video URLs
-    const mahakaleshwarVideo = "https://www.youtube.com/watch?v=SyvlfWBCw7I";
-    const salasarBalajiVideo = "https://www.youtube.com/watch?v=lW--ukmD8Wc&t=1s";
 
     // Upcoming Seva data
     const upcomingSevas = [
@@ -164,13 +177,7 @@ const LiveDarshan = (): JSX.Element => {
         },
     ];
 
-    useEffect(() => {
-        if (selectedTemple === 'mahakaleshwar') {
-            setVideoUrl(mahakaleshwarVideo);
-        } else if (selectedTemple === 'salasar') {
-            setVideoUrl(salasarBalajiVideo);
-        }
-    }, [selectedTemple]);
+    // selectedTemple drives the iframe src in VideoPlayerSection directly
 
     // Handle button click to change selected temple and video URL
     const handleButtonClick = (temple: string) => {

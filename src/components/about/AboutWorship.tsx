@@ -87,13 +87,15 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                             <div className="relative" ref={imageRef}>
                                 {/* Natural Format Image */}
                                 <div className="overflow-hidden rounded-lg  relative">
-                                    {/* Background image */}
-                                    <img
-                                        src={aboutworshipbgImage}
-                                        alt="Decorative worship background"
-                                        className="absolute inset-0 w-full h-full object-cover z-0 opacity-2000 "
-                                        aria-hidden="true"
-                                        draggable="false"
+                                    {/* Background image layer */}
+                                    <div
+                                        className="absolute inset-0 z-0 pointer-events-none bg-no-repeat bg-center bg-contain opacity-20"
+                                        style={{
+                                            backgroundImage: `url(${aboutworshipbgImage})`,
+                                            // ensure it doesn't stretch; tweak size if needed
+                                            backgroundSize: '80% auto'
+                                        }}
+                                        aria-hidden
                                     />
                                     {/* Foreground worship image */}
                                     <img
