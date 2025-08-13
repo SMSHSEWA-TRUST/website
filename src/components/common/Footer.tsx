@@ -51,7 +51,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
             <div className="w-full max-w-none">
                 {/* Large Screen Layout (Desktop) */}
                 <div className="hidden lg:block">
-                    <div className="container mx-auto px-6 py-6">
+                    <div className="w-full px-6 py-6">
                         {/* Main Grid: 3 Equal Columns */}
                         <div className="grid grid-cols-[1fr_1.5fr_1.2fr] gap-8 mb-6">
                             {/* Left Column: Special Links */}
@@ -290,7 +290,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                 {/* Small Screen Layout (Mobile/Tablet) */}
                 <div className="block lg:hidden">
-                    <div className="container mx-auto px-4 py-4">
+                    <div className="w-full px-4 py-4">
                         {/* Compact Center Layout */}
                         <div className="flex flex-col items-center text-center space-y-4">
 
@@ -313,7 +313,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     style={{
                                         color: "#fff",
                                         fontSize: "20px",
-                                       
+
 
 
                                     }}>

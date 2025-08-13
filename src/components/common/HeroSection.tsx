@@ -58,11 +58,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             {description && description.trim() !== "" && (
                 <div className="w-full bg-white ">
                     <div className=" bg-gray-50 rounded-lg pt-9 px-4 sm:px-6   max-w-[1083px] mx-auto">
-                       
-                            <p className="font-tenor-sans font-normal lg:text-[16px] text-[12px] text-[rgba(0, 0, 0, 0.5)] leading-relaxed text-justify">
-                                {description}
-                            </p>
-                       
+
+                        <p className="font-tenor-sans font-normal lg:text-[16px] text-[12px] text-[rgba(0, 0, 0, 0.5)] leading-relaxed text-center">
+                            {description}
+                        </p>
+
                     </div>
                 </div>
             )}
