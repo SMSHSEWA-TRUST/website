@@ -23,7 +23,7 @@ export const PujaPage = (): JSX.Element => {
             </Suspense>
 
             {/* Puja Section */}
-            <div className="mb-10 lg:mb-[200px]">
+            <div className="mb-10 lg:mb-[270px]">
                 <Suspense fallback={<SectionLoader />}>
                     <Puja />
                 </Suspense>

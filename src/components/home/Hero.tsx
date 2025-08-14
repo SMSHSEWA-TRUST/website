@@ -46,14 +46,14 @@ const Hero = (): JSX.Element => {
                                 clipPath: 'polygon(0 0, 100% 0, 100% 25%, 0 25%)'
                             }}
                         />
-                        {/* Right section only: crop to the red area width using an overflow-hidden container */}
+                        {/* Right section only: crop to the red area width using an overflow-hidden container
                         <div className="absolute top-0 right-0 h-full" style={{ width: '34%', overflow: 'hidden' }}>
                             <img
                                 className="absolute left-[15%] top-[-28%] -translate-x-1/2 object-contain"
                                 alt="Abstract floral right"
                                 src={abstractFloral}
                             />
-                        </div>
+                        </div> */}
                     </div>
                     {/* Red section - responsive width with no gap */}
                     <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]">

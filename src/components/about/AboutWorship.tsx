@@ -86,16 +86,16 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                         <div className="flex-shrink-0 mb-6 lg:mb-0">
                             <div className="relative" ref={imageRef}>
                                 {/* Natural Format Image */}
-                                <div className="overflow-hidden rounded-lg  relative">
+                                <div className="relative overflow-hidden rounded-lg p-6 md:p-8 min-h-[300px] sm:min-h-[360px]">
                                     {/* Background image layer */}
                                     <div
-                                        className="absolute inset-0 z-0 pointer-events-none bg-no-repeat bg-center bg-contain opacity-20"
+                                        className="absolute inset-0 z-0 pointer-events-none bg-no-repeat bg-center opacity-15"
                                         style={{
                                             backgroundImage: `url(${aboutworshipbgImage})`,
                                             // ensure it doesn't stretch; tweak size if needed
                                             backgroundSize: '80% auto'
                                         }}
-                                        aria-hidden
+                                        aria-hidden="true"
                                     />
                                     {/* Foreground worship image */}
                                     <img
@@ -104,12 +104,12 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                                         className="relative h-auto object-cover transition-all duration-[1200ms] ease-in-out z-10"
                                         style={{
                                             width: inView ? 'clamp(300px, 45vw, 420px)' : '80px',
-                                            maxWidth: '100%',
+                                            maxWidth: '85%',
                                             height: 'auto',
                                             margin: '0 auto',
                                             display: 'block',
                                             position: 'relative',
-                                            boxShadow: '0 4px 24px 0 rgba(0,0,0,0.10)'
+                                          
                                         }}
                                         loading="lazy"
                                         decoding="async"

@@ -56,7 +56,7 @@ const latestPosts = [
 const Blogs = () => {
     return (
         <div className="mx-auto pt-2 md:pl-14 md:pt-10 md:pb-10 bg-white">
-            <div className="flex flex-col lg:flex-row  gap-10 lg:gap-28">
+            <div className="flex flex-col lg:flex-row  gap-10 lg:gap-12 lg:mr-44">
                 {/* Main Blog Posts Section */}
                 <div className="w-[90%] md:w-full lg:pl-10 lg:max-w-[729px] m-auto">
                     <div className="space-y-6">
