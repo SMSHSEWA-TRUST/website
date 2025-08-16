@@ -19,7 +19,7 @@ const Header = (): JSX.Element => {
     const currentPath = location.pathname;
 
     return (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center font-secondaryFont">
             <header className="w-full bg-white sticky top-0 shadow-sm max-w-[891px]">
                 {/* Main Header Container */}
                 <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,7 +38,7 @@ const Header = (): JSX.Element => {
                         {/* Center Content - Title, Decorative Line, and Navigation */}
                         <div className="flex flex-col items-center lg:gap-2">
                             {/* Title */}
-                            <h1 className="text-center mb-2 text-[32px] font-normal text-[#4c291e] [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#8b0000] font-marcellus leading-tight max-w-4xl">
+                            <h1 className="font-primaryFont text-center mb-2 text-[32px] font-normal text-[#4c291e] [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#8b0000] leading-tight max-w-4xl">
                                 Shree Mahakaleshwar Salasar Hanuman Sewa Trust
                             </h1>
 
@@ -72,7 +72,7 @@ const Header = (): JSX.Element => {
                                         <Link to="/">
                                             <Button
                                                 variant="link"
-                                                className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Home
                                             </Button>
@@ -82,7 +82,7 @@ const Header = (): JSX.Element => {
                                         <Link to="/about">
                                             <Button
                                                 variant="link"
-                                                className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 About
                                             </Button>
@@ -92,7 +92,7 @@ const Header = (): JSX.Element => {
                                         <Link to="/puja">
                                             <Button
                                                 variant="link"
-                                                className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Puja's
                                             </Button>
@@ -102,7 +102,7 @@ const Header = (): JSX.Element => {
                                         <Link to="/membership">
                                             <Button
                                                 variant="link"
-                                                className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Membership
                                             </Button>
@@ -112,7 +112,7 @@ const Header = (): JSX.Element => {
                                         <Link to="/blogs">
                                             <Button
                                                 variant="link"
-                                                className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Blogs
                                             </Button>
@@ -122,7 +122,7 @@ const Header = (): JSX.Element => {
                                         <Link to="/contact">
                                             <Button
                                                 variant="link"
-                                                className={`text-[20px] font-tenor-sans font-normal transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                             >
                                                 Contact us
                                             </Button>
@@ -134,7 +134,7 @@ const Header = (): JSX.Element => {
 
                         {/* Register/Login Button */}
                         <div className="flex-shrink-0">
-                            <Button className="bg-[#8b0000] hover:bg-[#660000] text-white px-3 py-2 text-[13px] font-tenor-sans font-normal transition-colors">
+                            <Button className="font-secondaryFont bg-[#8b0000] hover:bg-[#660000] text-white px-3 py-2 text-[13px] font-normal transition-colors">
                                 Register/Login
                             </Button>
                         </div>
@@ -156,7 +156,7 @@ const Header = (): JSX.Element => {
 
                             {/* Centered Title */}
                             <div className="flex-1 flex justify-center px-2 sm:px-4">
-                                <h1 className="text-center text-[17px] font-marcellus text-[#4c291e] [text-shadow:0px_1px_1px_#daa52040] [-webkit-text-stroke:0.3px_#8b0000] leading-tight max-w-xs sm:max-w-sm">
+                                <h1 className="font-primaryFont text-center text-[17px] text-[#4c291e] [text-shadow:0px_1px_1px_#daa52040] [-webkit-text-stroke:0.3px_#8b0000] leading-tight max-w-xs sm:max-w-sm">
                                     Shree Mahakaleshwar Salasar Hanuman Sewa Trust
                                 </h1>
                             </div>
@@ -204,7 +204,7 @@ const Header = (): JSX.Element => {
                                 <Link to="/">
                                     <Button
                                         variant="link"
-                                        className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Home
                                     </Button>
@@ -212,7 +212,7 @@ const Header = (): JSX.Element => {
                                 <Link to="/about">
                                     <Button
                                         variant="link"
-                                        className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         About
                                     </Button>
@@ -220,7 +220,7 @@ const Header = (): JSX.Element => {
                                 <Link to="/puja">
                                     <Button
                                         variant="link"
-                                        className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Puja's
                                     </Button>
@@ -228,7 +228,7 @@ const Header = (): JSX.Element => {
                                 <Link to="/membership">
                                     <Button
                                         variant="link"
-                                        className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Membership
                                     </Button>
@@ -236,7 +236,7 @@ const Header = (): JSX.Element => {
                                 <Link to="/blogs">
                                     <Button
                                         variant="link"
-                                        className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Blogs
                                     </Button>
@@ -244,14 +244,14 @@ const Header = (): JSX.Element => {
                                 <Link to="/contact">
                                     <Button
                                         variant="link"
-                                        className={`w-full text-center text-[10px] font-tenor-sans font-normal py-2 px-4 transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                        className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                     >
                                         Contact us
                                     </Button>
                                 </Link>
                                 {/* Mobile Register/Login in menu */}
                                 <div className="px-4 pt-2">
-                                    <Button className="w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-tenor-sans font-normal ">
+                                    <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-normal ">
                                         Register/Login
                                     </Button>
                                 </div>

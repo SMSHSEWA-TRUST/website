@@ -27,7 +27,7 @@ export const ContactSection: React.FC = () => {
 
                             {/* Header Section */}
                             <div className="text-center mb-8">
-                                <h3 className="font-marcellus font-normal text-[rgba(255, 255, 255, 1)] text-lg sm:text-xl mb-3">
+                                <h3 className="font-primaryFont font-normal text-[rgba(255, 255, 255, 1)] text-lg sm:text-xl mb-3">
                                     Reach Out to us
                                 </h3>
 
@@ -41,11 +41,11 @@ export const ContactSection: React.FC = () => {
                                     />
                                 </div>
 
-                                <h2 className="font-['Marcellus',serif] font-normal text-[#4c291e] text-2xl sm:text-3xl lg:text-4xl leading-tight mb-4">
+                                <h2 className="font-primaryFont font-normal text-[#4c291e] text-2xl sm:text-3xl lg:text-4xl leading-tight mb-4">
                                     We will get Back to You
                                 </h2>
 
-                                <p className="font-['Tenor_Sans',sans-serif] font-normal text-[#1e1e1e]/50 text-sm leading-relaxed">
+                                <p className="font-secondaryFont font-normal text-[#1e1e1e]/50 text-sm leading-relaxed">
                                     Your bridge to meaningful communication and personalized assistance, we're here to listen and assist you
                                 </p>
                             </div>
@@ -90,7 +90,7 @@ export const ContactSection: React.FC = () => {
                                 <div className="pt-6 flex justify-center">
                                     <Button
                                         type="submit"
-                                        className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-8 py-3 rounded-sm transition-colors duration-200 font-['Tenor_Sans',sans-serif] font-normal text-sm tracking-wide shadow-md hover:shadow-lg"
+                                        className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-8 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg"
                                     >
                                         Submit
                                     </Button>

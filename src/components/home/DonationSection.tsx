@@ -148,11 +148,11 @@ export default function DonationSection() {
     });
 
     return (
-    <section ref={setRef} className="w-full bg-[rgba(244,240,236,1)] py-8 lg:py-16 px-4 md:px-0">
+        <section ref={setRef} className="w-full bg-[rgba(244,240,236,1)] py-8 lg:py-16 px-4 md:px-0">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">
-                    <p className="text-[rgba(76,41,30,1)] font-marcellus text-[17px] lg:text-[20px] max-w-xs mb-4">
+                    <p className="text-[rgba(76,41,30,1)] font-primaryFont text-[17px] lg:text-[20px] max-w-xs mb-4">
                         Lorem ipsum dolor sit amet, consectetur adipiscing eli
                     </p>
                     <ul className="flex flex-col gap-6">
@@ -169,7 +169,7 @@ export default function DonationSection() {
 
                 {/* Right: Main Content */}
                 <div className="flex flex-col items-start gap-6 w-full">
-                    <h2 className="text-[rgba(76, 41, 30, 1)] text-[26px] lg:text-[36px] font-marcellus font-normal leading-tight mb-2">
+                    <h2 className="text-[rgba(76, 41, 30, 1)] text-[26px] lg:text-[36px] font-primaryFont font-normal leading-tight mb-2">
                         Lorem ipsum dolor sit amet, <br className="hidden md:block" />
                         consectetur adipiscing eli
                     </h2>
@@ -189,7 +189,7 @@ export default function DonationSection() {
                             loading="lazy"
                         />
                         <div className="flex-1 flex flex-col gap-3 w-full">
-                            <p className="text-[rgba(30,30,30,0.5)] lg:text-[16px] text-[14px]  leading-relaxed">
+                            <p className="text-[rgba(30,30,30,0.5)] lg:text-[16px] text-[14px]  leading-relaxed font-secondaryFont">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing eli.
                             </p>
                             {/* Decorative line after paragraph */}
@@ -198,23 +198,23 @@ export default function DonationSection() {
                                     <span className="flex-1 h-[2px] bg-[#e07a4c] rounded"></span>
                                 </div>
                             </div>
-                            <span className="text-[rgba(139,0,0,1)] font-normal font-marcellus text-[16px] lg:text-[20px]">
+                            <span className="text-[rgba(139,0,0,1)] font-normal font-primaryFont text-[16px] lg:text-[20px]">
                                 John Doe
                             </span>
                             <div className="flex items-center justify-between w-full mt-2 gap-2">
-                                <button className="px-5 py-2 bg-[rgba(139,0,0,1)] text-white  hover:bg-[#a32d13] transition-colors lg:text-[14px] text-[12px] font-semibold w-max">
+                                <button className="px-5 py-2 bg-[rgba(139,0,0,1)] text-white  hover:bg-[#a32d13] transition-colors lg:text-[14px] text-[12px] font-secondaryFont font-semibold w-max">
                                     Know More
                                 </button>
                                 <div className="flex gap-2 ml-auto">
                                     <button
                                         aria-label="Previous"
-                                        className="w-8 h-8 flex items-center justify-center bg-[rgba(139,0,0,1)] text-white rounded hover:bg-[#a32d13] transition-colors"
+                                        className="w-8 h-8 flex items-center justify-center bg-[rgba(139,0,0,1)] text-white rounded hover:bg-[#a32d13] transition-colors font-secondaryFont"
                                     >
                                         <span className="text-xl">&#8592;</span>
                                     </button>
                                     <button
                                         aria-label="Next"
-                                        className="w-8 h-8 flex items-center justify-center bg-white border border-[#7c0a02] text-[#7c0a02] rounded hover:bg-[#f7e6e0] transition-colors"
+                                        className="w-8 h-8 flex items-center justify-center bg-white border border-[#7c0a02] text-[#7c0a02] rounded hover:bg-[#f7e6e0] transition-colors font-secondaryFont"
                                     >
                                         <span className="text-xl">&#8594;</span>
                                     </button>
@@ -256,7 +256,7 @@ export default function DonationSection() {
 
                         <div className="relative z-10 space-y-4">
                             <div className="text-white mb-4">
-                                <h3 className="text-xl font-normal tracking-wide [-webkit-text-stroke:1px_#daa520] font-['Marcellus',serif]">
+                                <h3 className="text-xl font-normal tracking-wide [-webkit-text-stroke:1px_#daa520] font-primaryFont">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing eli
                                 </h3>
                             </div>
@@ -265,15 +265,15 @@ export default function DonationSection() {
                                 {donations.map((donation, index) => (
                                     <div key={index} className="flex items-center justify-between border-b border-white/20 pb-2 last:border-b-0">
                                         <div className="flex flex-col">
-                                            <div className="font-['Tenor_Sans',sans-serif] font-normal text-white text-sm">
+                                            <div className="font-secondaryFont font-normal text-white text-sm">
                                                 {donation.title}
                                             </div>
-                                            <div className="font-['Tenor_Sans',sans-serif] font-normal text-white/50 text-xs">
+                                            <div className="font-secondaryFont font-normal text-white/50 text-xs">
                                                 {donation.description}
                                             </div>
                                         </div>
-                                        <Button className="w-16 h-[26px] bg-white rounded-none hover:bg-gray-100">
-                                            <span className="font-['Tenor_Sans',sans-serif] font-normal text-[#8b0000] text-xs">
+                                        <Button className="w-16 h-[26px] bg-white rounded-none hover:bg-gray-100 font-secondaryFont">
+                                            <span className="font-secondaryFont font-normal text-[#8b0000] text-xs">
                                                 Donate
                                             </span>
                                         </Button>
@@ -359,7 +359,7 @@ export default function DonationSection() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center relative z-10">
                             <div className="text-white">
-                                <h3 className="text-2xl lg:text-3xl font-normal tracking-wide [-webkit-text-stroke:1px_#daa520] font-['Marcellus',serif]">
+                                <h3 className="text-2xl lg:text-3xl font-normal tracking-wide [-webkit-text-stroke:1px_#daa520] font-primaryFont">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing eli
                                 </h3>
                             </div>
@@ -368,15 +368,15 @@ export default function DonationSection() {
                                 {donations.map((donation, index) => (
                                     <div key={index} className="flex items-center justify-between border-b border-white/20 pb-3 last:border-b-0">
                                         <div className="flex flex-col">
-                                            <div className="font-['Tenor_Sans',sans-serif] font-normal text-white text-sm">
+                                            <div className="font-secondaryFont font-normal text-white text-sm">
                                                 {donation.title}
                                             </div>
-                                            <div className="font-['Tenor_Sans',sans-serif] font-normal text-white/50 text-xs">
+                                            <div className="font-secondaryFont font-normal text-white/50 text-xs">
                                                 {donation.description}
                                             </div>
                                         </div>
-                                        <Button className="w-20 h-[28px] bg-white rounded-none hover:bg-gray-100">
-                                            <span className="font-['Tenor_Sans',sans-serif] font-normal text-[#8b0000] text-xs">
+                                        <Button className="w-20 h-[28px] bg-white rounded-none hover:bg-gray-100 font-secondaryFont">
+                                            <span className="font-secondaryFont font-normal text-[#8b0000] text-xs">
                                                 Donate
                                             </span>
                                         </Button>
@@ -407,7 +407,7 @@ export default function DonationSection() {
                                 .map((_, index) => (
                                     <div key={index} className="flex flex-col items-center text-center">
                                         <Avatar className="w-[60px] h-[60px] bg-[#8b000080] rounded-full border border-white mb-3" />
-                                        <div className="max-w-[120px] font-['Tenor_Sans',sans-serif] font-normal text-white text-sm">
+                                        <div className="max-w-[120px] font-secondaryFont font-normal text-white text-sm">
                                             Lorem Ispum Dolor
                                         </div>
                                     </div>

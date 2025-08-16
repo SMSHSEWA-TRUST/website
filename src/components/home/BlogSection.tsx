@@ -52,14 +52,14 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
 
                 {/* Title - Left Column */}
                 <div className="lg:col-span-1">
-                    <h2 className="font-['Marcellus',serif] text-[#8b0000] text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-normal leading-tight">
+                    <h2 className="font-primaryFont text-[#8b0000] text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-normal leading-tight">
                         {title}
                     </h2>
                 </div>
 
                 {/* Description - Center Column */}
                 <div className="lg:col-span-1">
-                    <p className="font-['Tenor_Sans',sans-serif] text-[#1e1e1e]/50 text-sm sm:text-base lg:text-base leading-relaxed">
+                    <p className="font-secondaryFont text-[#1e1e1e]/50 text-sm sm:text-base lg:text-base leading-relaxed">
                         {description}
                     </p>
                 </div>
@@ -67,7 +67,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                 {/* Button - Right Column */}
                 <div className="lg:col-span-1 flex justify-start lg:justify-end items-center">
                     <Button
-                        className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-6 py-3 rounded-sm transition-colors duration-200 font-['Tenor_Sans',sans-serif] font-normal text-sm tracking-wide shadow-md hover:shadow-lg "
+                        className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-6 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg "
                         aria-label="Read all articles"
                     >
                         Read Articles
@@ -114,25 +114,25 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
             <CardContent className="relative z-10 flex flex-col justify-end h-64 sm:h-72 lg:h-80 p-6">
 
                 {/* Date */}
-                <div className="text-white/80 text-xs sm:text-sm font-['Tenor_Sans',sans-serif] mb-2">
+                <div className="text-white/80 text-xs sm:text-sm font-secondaryFont mb-2">
                     {article.date || "Jan 01, 2025"}
                 </div>
 
                 {/* Title */}
-                <h3 className="text-[#daa520] text-lg sm:text-xl font-semibold mb-4 font-['Marcellus',serif] leading-tight">
+                <h3 className="text-[#daa520] text-lg sm:text-xl font-semibold mb-4 font-primaryFont leading-tight">
                     {article.title || "Lorem ipsum dolor sit"}
                 </h3>
 
                 {/* Excerpt (if provided) */}
                 {article.excerpt && (
-                    <p className="text-white/70 text-sm mb-4 line-clamp-2">
+                    <p className="text-white/70 text-sm mb-4 line-clamp-2 font-secondaryFont">
                         {article.excerpt}
                     </p>
                 )}
 
                 {/* Read More Button */}
                 <Button
-                    className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-sm transition-colors duration-200 font-['Tenor_Sans',sans-serif] font-normal text-xs sm:text-sm"
+                    className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-xs sm:text-sm"
                     aria-label={`Read article: ${article.title}`}
                 >
                     Read Articles

@@ -66,7 +66,7 @@ const About = (): JSX.Element => {
                 <div className="order-2 lg:order-2 space-y-8">
                     {/* Heading */}
                     <div className="space-y-6">
-                        <h2 className="font-marcellus text-[24px] sm:text-[28px] lg:text-[36px] font-normal text-[rgba(76, 41, 30, 1)] leading-tight">
+                        <h2 className="font-primaryFont text-[24px] sm:text-[28px] lg:text-[36px] font-normal text-[rgba(76, 41, 30, 1)] leading-tight">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit
                         </h2>
 
@@ -80,7 +80,7 @@ const About = (): JSX.Element => {
                     </div>
 
                     {/* Description */}
-                    <p className="text-[rgba(30, 30, 30, 0.5)] font-tenor-sans text-[10px]  sm:text-[12px] lg:text-[16px] font-normal leading-relaxed max-w-[500px]">
+                    <p className="text-[rgba(30, 30, 30, 0.5)] font-secondaryFont text-[10px]  sm:text-[12px] lg:text-[16px] font-normal leading-relaxed max-w-[500px]">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                         enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -104,8 +104,8 @@ const About = (): JSX.Element => {
                                 />
                             </div>
                             <div className="flex-1">
-                                <h3 className="text-[rgba(76, 41, 30, 1)] font-marcellus text-[10px] sm:text-[12px] lg:text-[16px] mb-2">Lorem Ipsum</h3>
-                                <p className="text-[rgba(30, 30, 30, 0.5)] font-tenor-sans text-[10px] sm:text-[12px] lg:text-[12px] leading-relaxed">
+                                <h3 className="text-[rgba(76, 41, 30, 1)] font-primaryFont text-[10px] sm:text-[12px] lg:text-[16px] mb-2">Lorem Ipsum</h3>
+                                <p className="text-[rgba(30, 30, 30, 0.5)] font-secondaryFont text-[10px] sm:text-[12px] lg:text-[12px] leading-relaxed">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                     eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
@@ -123,8 +123,8 @@ const About = (): JSX.Element => {
                                 />
                             </div>
                             <div className="flex-1">
-                                <h3 className="text-[rgba(76, 41, 30, 1)] font-marcellus text-[10px] sm:text-[12px] lg:text-[16px] mb-2">Lorem Ipsum</h3>
-                                <p className="text-[rgba(30, 30, 30, 0.5)] font-tenor-sans text-[10px] sm:text-[12px] lg:text-[12px] leading-relaxed">
+                                <h3 className="text-[rgba(76, 41, 30, 1)] font-primaryFont text-[10px] sm:text-[12px] lg:text-[16px] mb-2">Lorem Ipsum</h3>
+                                <p className="text-[rgba(30, 30, 30, 0.5)] font-secondaryFont text-[10px] sm:text-[12px] lg:text-[12px] leading-relaxed">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                     eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
@@ -134,7 +134,7 @@ const About = (): JSX.Element => {
 
                     {/* Aarti Timings Button */}
                     <div className="mt-8 flex justify-start">
-                        <button className="bg-[rgba(139,0,0,1)] text-white  text-[16px] sm:text-[18px] lg:text-[20px]  px-3 py-2 rounded-md shadow-md hover:bg-[#a83232] transition-colors duration-200">
+                        <button className="bg-[rgba(139,0,0,1)] text-white  text-[16px] sm:text-[18px] lg:text-[20px]  px-3 py-2 rounded-md shadow-md hover:bg-[#a83232] transition-colors duration-200 font-secondaryFont">
                             Aarti Timings
                         </button>
                     </div>

@@ -22,7 +22,7 @@ const ScrollingBanner = (): JSX.Element => {
                     {repeatedText.map((text, index) => (
                         <span
                             key={index}
-                            className="flex items-center font-['Tenor_Sans',sans-serif] font-normal text-white text-sm tracking-wider px-6"
+                            className="flex items-center font-primaryFont font-normal text-white text-sm tracking-wider px-6"
                         >
                             <LazyLoadImage
                                 className="w-7 h-7 object-contain text-yellow-500 mr-2"
@@ -38,7 +38,7 @@ const ScrollingBanner = (): JSX.Element => {
                     {repeatedText.map((text, index) => (
                         <span
                             key={`duplicate-${index}`}
-                            className="flex items-center font-tenor-sans lg:text-[14px] text-[6px] font-normal text-white text-sm tracking-wider px-6"
+                            className="flex items-center font-secondaryFont lg:text-[14px] text-[6px] font-normal text-white text-sm tracking-wider px-6"
                         >
                             <LazyLoadImage
                                 className="w-7 h-7 object-contain text-red-800 mr-2"

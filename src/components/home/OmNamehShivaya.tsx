@@ -17,7 +17,7 @@ const OmNamehShivaya = (): JSX.Element => {
 
                 {/* Om Namah Shivaya Text - Proportional positioning */}
                 <div className="absolute left-[8.75%] top-[13.4%] z-10">
-                    <h1 className="font-['Tiro_Devanagari_Hindi',serif] text-white font-normal leading-none tracking-wide drop-shadow-[10px_10px_4px_rgba(0,0,0,0.25)]"
+                    <h1 className="font-primaryFont text-white font-normal leading-none tracking-wide drop-shadow-[10px_10px_4px_rgba(0,0,0,0.25)]"
                         style={{ fontSize: 'clamp(1rem, 12vw, 173.3px)' }}>
                         ॐ नमः शिवाय
                     </h1>

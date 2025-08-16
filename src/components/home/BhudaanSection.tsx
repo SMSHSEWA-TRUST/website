@@ -9,7 +9,7 @@ const BhudaanSection: React.FC = () => {
         <section className="bg-[#8B0000] py-6 px-4 md:px-0 flex flex-col items-center w-full min-h-screen relative overflow-hidden">
             <div className="max-w-[1300px] mx-auto text-center">
                 <h2
-                    className="text-5xl md:text-6xl font-bold font-serif"
+                    className="text-5xl md:text-6xl font-bold font-primaryFont"
                     style={{
                         color: '#fff',
                         WebkitTextStroke: '2px #d05e2d',
@@ -47,13 +47,13 @@ const BhudaanSection: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <p className="text-[#FFE4C4] text-base md:text-lg leading-relaxed mb-2 font-light">
+                <p className="text-[#FFE4C4] text-base md:text-lg leading-relaxed mb-2 font-light font-secondaryFont">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
-                <p className="text-white text-lg font-semibold mb-4">
+                <p className="text-white text-lg font-semibold mb-4 font-primaryFont">
                     Donate a Portion of Land towards the Temple Construction
                 </p>
-                <button className="bg-white text-[#8B0000] font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition ">
+                <button className="bg-white text-[#8B0000] font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont">
                     Donate Now
                 </button>
             </div>

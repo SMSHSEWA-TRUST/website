@@ -15,14 +15,14 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Temple Icon" src={connectIcon} loading="lazy" />
-                        <h3 className="text-white font-marcellus lg:text-[24px] text-[17px]  mb-3 ">Connect with Us</h3>
-                        <p className="text-white text-[12px] lg:text-[16px] font-normal mb-6 font-tenor-sans">
+                        <h3 className="text-white font-primaryFont lg:text-[24px] text-[17px]  mb-3 ">Connect with Us</h3>
+                        <p className="text-white text-[12px] lg:text-[16px] font-normal mb-6 font-secondaryFont">
                             Reach out and connect with our church community. We're here to welcome, assist, and share in your journey of faith.
                         </p>
                     </div>
                     <div className="flex items-center mt-auto">
                         <LazyLoadImage className="w-7 h-7 mr-3" alt="Phone" src={callIcon} loading="lazy" />
-                        <span className="text-white font-normal font-tenor-sans text-[17px] lg:text-[24px]">+91 9876543210</span>
+                        <span className="text-white font-normal font-secondaryFont text-[17px] lg:text-[24px]">+91 9876543210</span>
                     </div>
                 </CardContent>
             </Card>
@@ -32,13 +32,13 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Charity Icon" src={donateIcon} loading="lazy" />
-                        <h3 className="text-[#4c291e] font-marcellus lg:text-[24px] text-[17px] mb-3">Donate for Cause</h3>
-                        <p className="text-[#4c291e] text-[12px] lg:text-[16px] font-normal mb-6 font-tenor-sans">
+                        <h3 className="text-[#4c291e] font-primaryFont lg:text-[24px] text-[17px] mb-3">Donate for Cause</h3>
+                        <p className="text-[#4c291e] text-[12px] lg:text-[16px] font-normal mb-6 font-secondaryFont">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq
                         </p>
                     </div>
                     <div className="mt-auto">
-                        <Button className="w-24 h-10 bg-[#8b0000] rounded-md text-white text-[17px] lg:text-[24px] font-tenor-sans font-normal hover:bg-[#7a0000] transition-colors">
+                        <Button className="w-24 h-10 bg-[#8b0000] rounded-md text-white text-[17px] lg:text-[24px] font-secondaryFont font-normal hover:bg-[#7a0000] transition-colors">
                             Donate
                         </Button>
                     </div>
@@ -50,13 +50,13 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Time Icon" src={timeIcon} loading="lazy" />
-                        <h3 className="text-white font-marcellus lg:text-[24px] text-[17px] mb-6">Office Timings</h3>
+                        <h3 className="text-white font-primaryFont lg:text-[24px] text-[17px] mb-6">Office Timings</h3>
                         <div className="space-y-3">
-                            <div className="flex justify-between text-white text-[12px] lg:text-[16px] font-tenor-sans font-normal">
+                            <div className="flex justify-between text-white text-[12px] lg:text-[16px] font-secondaryFont font-normal">
                                 <span>Monday - Friday</span>
                                 <span>8:00 AM - 8:00 PM</span>
                             </div>
-                            <div className="flex justify-between text-white text-[12px] lg:text-[16px] font-tenor-sans font-normal">
+                            <div className="flex justify-between text-white text-[12px] lg:text-[16px] font-secondaryFont font-normal">
                                 <span>Saturday - Sunday</span>
                                 <span>10:00 AM - 6:00 PM</span>
                             </div>

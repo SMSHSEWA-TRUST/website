@@ -15,7 +15,7 @@ interface BlogSidebarProps {
 
 const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
     return (
-        <div className="w-full max-w-[400px] mx-auto lg:w-80 lg:mx-0">
+        <div className="w-full max-w-[400px] mx-auto lg:w-80 lg:mx-0 font-secondaryFont">
             <div className="bg-white border border-gray-200 rounded-lg p-4">
                 {/* Search Bar */}
                 <form className="mb-4">
@@ -36,7 +36,7 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
                 </form>
 
                 {/* Latest Posts Header */}
-                <h3 className="text-lg font-serif text-gray-800 mb-4">Latest Posts</h3>
+                <h3 className="font-primaryFont text-lg text-gray-800 mb-4">Latest Posts</h3>
 
                 {/* Latest Posts List */}
                 <div className="flex flex-col gap-4 mb-6">
@@ -49,10 +49,10 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
                                 loading="lazy"
                             />
                             <div className="flex flex-col justify-center flex-1">
-                                <h4 className="text-sm font-medium text-red-700 mb-1">
+                                <h4 className="font-primaryFont text-sm font-medium text-red-700 mb-1">
                                     {post.title}
                                 </h4>
-                                <p className="text-xs text-gray-600 leading-relaxed">
+                                <p className="font-secondaryFont text-xs text-gray-600 leading-relaxed">
                                     {post.description}
                                 </p>
                             </div>
@@ -63,7 +63,7 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
                 {/* See All Blogs Button */}
                 <a
                     href="#"
-                    className="block w-full bg-orange-500 text-white text-center py-2 text-sm font-medium hover:bg-orange-600 transition-colors"
+                    className="font-secondaryFont block w-full bg-orange-500 text-white text-center py-2 text-sm font-medium hover:bg-orange-600 transition-colors"
                 >
                     See All Blogs
                 </a>

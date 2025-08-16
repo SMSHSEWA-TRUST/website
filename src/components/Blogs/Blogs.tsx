@@ -55,7 +55,7 @@ const latestPosts = [
 
 const Blogs = () => {
     return (
-        <div className="mx-auto pt-2 md:pl-14 md:pt-10 md:pb-10 bg-white">
+        <div className="mx-auto pt-2 md:pl-14 md:pt-10 md:pb-10 bg-white font-secondaryFont">
             <div className="flex flex-col lg:flex-row  gap-10 lg:gap-12 lg:mr-44">
                 {/* Main Blog Posts Section */}
                 <div className="w-[90%] md:w-full lg:pl-10 lg:max-w-[729px] m-auto">
@@ -71,16 +71,16 @@ const Blogs = () => {
                                     />
                                 </div>
                                 <div className="pt-6 pb-2 flex flex-col items-center justify-center flex-1">
-                                    <h2 className="text-xl font-serif text-red-700 mb-2 text-center w-full">
+                                    <h2 className="font-primaryFont text-xl text-red-700 mb-2 text-center w-full">
                                         {post.title}
                                     </h2>
-                                    <p className="text-sm text-gray-700 leading-relaxed mb-3 text-center w-full">
+                                    <p className="font-secondaryFont text-sm text-gray-700 leading-relaxed mb-3 text-center w-full">
                                         {post.description}
                                     </p>
                                     <div className="flex justify-center w-full">
                                         <a
                                             href={post.link}
-                                            className="bg-red-700 text-white px-4 py-2 text-sm font-medium rounded hover:bg-red-800 transition-colors"
+                                            className="font-secondaryFont bg-red-700 text-white px-4 py-2 text-sm font-medium rounded hover:bg-red-800 transition-colors"
                                         >
                                             Read Article
                                         </a>

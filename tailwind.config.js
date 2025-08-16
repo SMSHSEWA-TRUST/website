@@ -50,24 +50,16 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: [
-          'Tenor Sans',
-          'ui-sans-serif',
-          'system-ui',
-          'sans-serif',
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
-          '"Noto Color Emoji"',
-        ],
-        marcellus: [
-          'Marcellus SC',
+       
+        primaryFont: [
+          'Marmelad',
           
         ],
-        'tenor-sans': [
-          'Tenor Sans',
-          
+        secondaryFont: [
+          'Figtree',
+         
         ],
+      
       },
       // Usage: className="font-marcellus" or className="font-tenor" or className="font-sans"
       keyframes: {

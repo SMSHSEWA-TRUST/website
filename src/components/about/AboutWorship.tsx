@@ -43,7 +43,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
     }, []);
 
     return (
-        <section className={`w-full py-8 sm:py-12 lg:py-16 bg-gray-50 ${className}`}>
+        <section className={`w-full py-8 sm:py-12 lg:py-16 bg-gray-50 ${className} font-secondaryFont`}>
             <div className="w-full mx-auto px-2 sm:px-4 lg:px-6">
                 {/* Main Container */}
                 <div className="w-full p-4 sm:p-6 lg:p-8 bg-white">
@@ -53,21 +53,20 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                         <div className="flex-1  max-w-[700px] flex flex-col gap-6">
                             {/* Title and Subtitle Container - Using Flex */}
                             <div className="flex flex-col gap-3">
-                                <h1 className="font-marcellus font-normal lg:text-[36px] text-[24px] leading-tight">
+                                <h1 className="font-primaryFont font-normal lg:text-[36px] text-[24px] leading-tight">
                                     {title}{' '}
-                                    <span className="inline-block bg-gradient-to-r from-orange-500 to-red-600 text-white px-2 py-1 rounded text-lg sm:text-xl lg:text-2xl xl:text-3xl">
+                                    <span className="font-primaryFont inline-block bg-gradient-to-r from-orange-500 to-red-600 text-white px-2 py-1 rounded text-lg sm:text-xl lg:text-2xl xl:text-3xl">
                                         {highlightedText}
                                     </span>
                                 </h1>
                                 {/* Subtitle */}
-                                <h2 className="font-marcellus font-normal lg:text-[36px] text-[24px] leading-tight 
-                            ">
+                                <h2 className="font-primaryFont font-normal lg:text-[36px] text-[24px] leading-tight ">
                                     {subtitle}
                                 </h2>
                             </div>
                             {/* Description Container - Using Flex */}
                             <div className="flex flex-col gap-4">
-                                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                                <p className="font-secondaryFont text-sm sm:text-base text-gray-600 leading-relaxed">
                                     {description}
                                 </p>
 
@@ -76,7 +75,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                             <button
                                 type="button"
                                 onClick={onButtonClick}
-                                className="mt-4 w-[150px] py-1.5 bg-[#8b0000] text-white font-bold text-base leading-tight rounded-md shadow-none hover:bg-[#a32d13] transition-colors duration-200 text-center"
+                                className="font-secondaryFont mt-4 w-[150px] py-1.5 bg-[#8b0000] text-white font-bold text-base leading-tight rounded-md shadow-none hover:bg-[#a32d13] transition-colors duration-200 text-center"
                                 aria-label={`Learn more about ${buttonText}`}
                             >
                                 {buttonText}
@@ -109,7 +108,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                                             margin: '0 auto',
                                             display: 'block',
                                             position: 'relative',
-                                          
+
                                         }}
                                         loading="lazy"
                                         decoding="async"

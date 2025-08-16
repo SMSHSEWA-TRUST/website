@@ -38,7 +38,7 @@ const cardData = [
 
 const ImageSection: React.FC = () => {
     return (
-        <section className="w-full py-8 px-2 sm:px-6 lg:px-[80px] ">
+        <section className="w-full py-8 px-2 sm:px-6 lg:px-[80px] font-secondaryFont ">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
                 {cardData.map((card, idx) => {
                     // First card: custom background
@@ -63,12 +63,12 @@ const ImageSection: React.FC = () => {
                                     </div>
                                 </div>
                                 {card.title && (
-                                    <h3 className={`mt-6 mb-2 text-2xl font-serif font-semibold text-center ${card.text}`}>
+                                    <h3 className={`font-primaryFont mt-6 mb-2 text-2xl font-semibold text-center ${card.text}`}>
                                         {card.title}
                                     </h3>
                                 )}
                                 {card.desc && (
-                                    <p className={`text-base text-center ${card.text} opacity-80 mb-2`}>{card.desc}</p>
+                                    <p className={`font-secondaryFont text-base text-center ${card.text} opacity-80 mb-2`}>{card.desc}</p>
                                 )}
 
                             </div>
@@ -113,12 +113,12 @@ const ImageSection: React.FC = () => {
                                 </div>
                             </div>
                             {card.title && (
-                                <h3 className={`mt-6 mb-2 text-2xl font-serif font-semibold text-center ${card.text}`}>
+                                <h3 className={`font-primaryFont mt-6 mb-2 text-2xl font-semibold text-center ${card.text}`}>
                                     {card.title}
                                 </h3>
                             )}
                             {card.desc && (
-                                <p className={`text-base text-center ${card.text} opacity-80 mb-2`}>{card.desc}</p>
+                                <p className={`font-secondaryFont text-base text-center ${card.text} opacity-80 mb-2`}>{card.desc}</p>
                             )}
                         </div>
                     );

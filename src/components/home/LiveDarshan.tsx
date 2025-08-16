@@ -85,7 +85,7 @@ const SevaSection = ({ isDesktop, upcomingSevas }: {
                             style={{ filter: 'invert(16%) sepia(97%) saturate(7492%) hue-rotate(353deg) brightness(90%) contrast(98%)' }} // ensures red color if SVG, else remove
                             loading="lazy"
                         />
-                        <CardTitle className="text-[rgba(139,0,0,1)] font-marcellus text-[20px] lg:text-[24px] font-normal">
+                        <CardTitle className="text-[rgba(139,0,0,1)] font-primaryFont text-[20px] lg:text-[24px] font-normal">
                             Upcoming Seva's
                         </CardTitle>
                     </div>
@@ -114,13 +114,13 @@ const SevaSection = ({ isDesktop, upcomingSevas }: {
                     <div className="relative z-10 space-y-4">
                         {upcomingSevas.map((seva, index) => (
                             <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
-                                <h4 className="font-marcellus font-normal text-[rgba(76, 41, 30, 1)] text-[16px] mb-2">
+                                <h4 className="font-primaryFont font-normal text-[rgba(76, 41, 30, 1)] text-[16px] mb-2">
                                     {seva.title}
                                 </h4>
-                                <p className="font-marcellus font-normal text-[rgba(30, 30, 30, 0.5)] text-[10px] leading-relaxed mb-3">
+                                <p className="font-secondaryFont font-normal text-[rgba(30, 30, 30, 0.5)] text-[10px] leading-relaxed mb-3">
                                     {seva.description}
                                 </p>
-                                <div className="flex justify-between font-tenor-sans font-normal text-[rgba(76, 41, 30, 1)] text-[10px]">
+                                <div className="flex justify-between font-secondaryFont font-normal text-[rgba(76, 41, 30, 1)] text-[10px]">
                                     <span>{seva.date}</span>
                                     <span>{seva.time}</span>
                                 </div>
@@ -224,7 +224,7 @@ const LiveDarshan = (): JSX.Element => {
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                 {/* Header Section */}
                 <div className="text-center mb-4 lg:mb-12">
-                    <h2 className="font-marcellus text-[20px] lg:text-[36px] mb-2 font-normal text-white tracking-wide">
+                    <h2 className="font-primaryFont text-[20px] lg:text-[36px] mb-2 font-normal text-white tracking-wide">
                         Live Darshan
                     </h2>
 
@@ -262,17 +262,17 @@ const LiveDarshan = (): JSX.Element => {
                     <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
                         <div className="flex flex-row gap-2 w-full justify-center items-center">
                             <button
-                                className={`border border-white text-white font-tenor-sans font-normal transition-all duration-300 hover:scale-105
-                                    ${selectedTemple === 'mahakaleshwar' ? 'bg-yellow-600 text-white' : 'bg-transparent hover:bg-white hover:text-red-800'}
-                                    px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
+                                className={`border border-white text-white font-secondaryFont font-normal transition-all duration-300 hover:scale-105
+                                        ${selectedTemple === 'mahakaleshwar' ? 'bg-yellow-600 text-white' : 'bg-transparent hover:bg-white hover:text-red-800'}
+                                        px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
                                 onClick={() => handleButtonClick('mahakaleshwar')}
                             >
                                 Shree Mahakaleshwar Mandir
                             </button>
                             <button
-                                className={`border border-white text-white font-tenor-sans font-normal transition-all duration-300 hover:scale-105
-                                    ${selectedTemple === 'salasar' ? 'bg-yellow-600 text-white' : 'bg-transparent hover:bg-white hover:text-red-800'}
-                                    px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
+                                className={`border border-white text-white font-secondaryFont font-normal transition-all duration-300 hover:scale-105
+                                        ${selectedTemple === 'salasar' ? 'bg-yellow-600 text-white' : 'bg-transparent hover:bg-white hover:text-red-800'}
+                                        px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
                                 onClick={() => handleButtonClick('salasar')}
                             >
                                 Shree Salasar Balaji Mandir
