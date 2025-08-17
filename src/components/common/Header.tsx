@@ -52,16 +52,16 @@ const Header = (): JSX.Element => {
                                         loading="lazy"
                                     />
                                     {/* Center dot - largest */}
-                                    <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                    <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-secondaryColor rounded-full" />
                                     {/* Medium dots near center - repositioned to be equidistant from center */}
-                                    <div className="absolute w-2 h-2 top-0.5 left-[calc(50%+12px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
-                                    <div className="absolute w-2 h-2 top-0.5 left-[calc(50%-12px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                    <div className="absolute w-2 h-2 top-0.5 left-[calc(50%+12px)] transform -translate-x-1/2 bg-secondaryColor rounded-full" />
+                                    <div className="absolute w-2 h-2 top-0.5 left-[calc(50%-12px)] transform -translate-x-1/2 bg-secondaryColor rounded-full" />
                                     {/* Small dots further from center */}
-                                    <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%+24px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
-                                    <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%-24px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                    <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%+24px)] transform -translate-x-1/2 bg-secondaryColor rounded-full" />
+                                    <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%-24px)] transform -translate-x-1/2 bg-secondaryColor rounded-full" />
                                     {/* End dots - at both ends of the line */}
-                                    <div className="absolute w-3 h-3 top-0 left-0 bg-[#d05e2d] rounded-full" />
-                                    <div className="absolute w-3 h-3 top-0 right-0 bg-[#d05e2d] rounded-full" />
+                                    <div className="absolute w-3 h-3 top-0 left-0 bg-secondaryColor rounded-full" />
+                                    <div className="absolute w-3 h-3 top-0 right-0 bg-secondaryColor rounded-full" />
                                 </div>
                             </div>
 
@@ -185,16 +185,16 @@ const Header = (): JSX.Element => {
                                     loading="lazy"
                                 />
                                 {/* Center dot - largest */}
-                                <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-3 h-3 top-0 left-1/2 transform -translate-x-1/2 bg-secondaryColor rounded-full" />
                                 {/* Medium dots near center */}
-                                <div className="absolute w-2 h-2 top-0.5 left-[calc(50%+12px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
-                                <div className="absolute w-2 h-2 top-0.5 left-[calc(50%-12px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-2 h-2 top-0.5 left-[calc(50%+12px)] transform -translate-x-1/2 bg-secondaryColor rounded-full" />
+                                <div className="absolute w-2 h-2 top-0.5 left-[calc(50%-12px)] transform -translate-x-1/2 bg-secondaryColor rounded-full" />
                                 {/* Small dots further from center */}
-                                <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%+24px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
-                                <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%-24px)] transform -translate-x-1/2 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%+24px)] transform -translate-x-1/2 bg-secondaryColor rounded-full" />
+                                <div className="absolute w-1.5 h-1.5 top-1 left-[calc(50%-24px)] transform -translate-x-1/2 bg-secondaryColor rounded-full" />
                                 {/* End dots */}
-                                <div className="absolute w-3 h-3 top-0 left-0 bg-[#d05e2d] rounded-full" />
-                                <div className="absolute w-3 h-3 top-0 right-0 bg-[#d05e2d] rounded-full" />
+                                <div className="absolute w-3 h-3 top-0 left-0 bg-secondaryColor rounded-full" />
+                                <div className="absolute w-3 h-3 top-0 right-0 bg-secondaryColor rounded-full" />
                             </div>
                         </div>
 

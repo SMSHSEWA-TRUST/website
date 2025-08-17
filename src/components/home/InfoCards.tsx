@@ -70,7 +70,7 @@ export const InfoCards: React.FC = () => {
             </Card>
 
             {/* Office Timings Card */}
-            <Card className="w-[413px] h-[295px] bg-[#d05e2d] rounded-none">
+            <Card className="w-[413px] h-[295px] bg-secondaryColor rounded-none">
                 <CardContent className="p-0">
                     <div className="absolute w-[182px] top-[100px] left-7 font-primaryFont font-normal text-white text-2xl tracking-[0] leading-[normal]">
                         Office Timings

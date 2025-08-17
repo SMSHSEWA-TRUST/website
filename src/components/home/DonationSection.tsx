@@ -256,7 +256,7 @@ export default function DonationSection() {
 
                         <div className="relative z-10 space-y-4">
                             <div className="text-white mb-4">
-                                <h3 className="text-xl font-normal tracking-wide [-webkit-text-stroke:1px_#daa520] font-primaryFont">
+                                <h3 className="text-xl font-normal tracking-wide [-webkit-text-stroke:1px_#d05e2d] font-primaryFont text-secondaryColor">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing eli
                                 </h3>
                             </div>
@@ -294,7 +294,7 @@ export default function DonationSection() {
                     </div>
 
                     {/* Orange Avatar Section - Mobile */}
-                    <div className="w-full bg-[#d05e2d] py-6 px-4 mt-0">
+                    <div className="w-full bg-secondaryColor py-6 px-4 mt-0">
                         <LazyLoadImage
                             className="absolute w-[60px] h-[70px] top-2 left-2"
                             alt="Decorative Image"
@@ -359,7 +359,7 @@ export default function DonationSection() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center relative z-10">
                             <div className="text-white">
-                                <h3 className="text-2xl lg:text-3xl font-normal tracking-wide [-webkit-text-stroke:1px_#daa520] font-primaryFont">
+                                <h3 className="text-2xl lg:text-3xl font-normal tracking-wide [-webkit-text-stroke:1px_#d05e2d] font-primaryFont text-secondaryColor">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing eli
                                 </h3>
                             </div>
@@ -387,7 +387,7 @@ export default function DonationSection() {
                     </div>
 
                     {/* Orange Avatar Section - Overlapping bottom-right */}
-                    <div className="absolute bottom-[-20%] right-0 w-3/5 bg-[#d05e2d] py-8 px-8 z-20">
+                    <div className="absolute bottom-[-20%] right-0 w-3/5 bg-secondaryColor py-8 px-8 z-20">
                         <LazyLoadImage
                             className="absolute w-[84px] h-[92px] top-0 left-0"
                             alt="Decorative Image"

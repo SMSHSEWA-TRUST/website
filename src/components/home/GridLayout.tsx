@@ -18,7 +18,7 @@ const GridLayout = (): JSX.Element => {
                     {/* Content Section */}
                     <div className="bg-[#f4f0ec] pl-16 rounded-lg lg:rounded-none flex-1 lg:min-h-[280px] flex flex-col justify-center">
                         <div className="max-w-lg">
-                            <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-[#4c291e] font-primaryFont leading-tight mb-3 lg:mb-6">
+                            <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-secondaryColor font-primaryFont leading-tight mb-3 lg:mb-6">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing eli
                             </h2>
                             <p className="text-sm sm:text-base lg:text-lg text-[#1e1e1e]/50 font-secondaryFont leading-relaxed mb-4 lg:mb-8">
@@ -57,7 +57,7 @@ const GridLayout = (): JSX.Element => {
 
                     {/* Two Images Top - Always side by side */}
                     <div className="grid grid-cols-2 flex-1">
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-[#8b0000] p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-secondaryColor p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
                             <img
                                 className="w-full h-28 sm:h-36 lg:h-full max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Portrait Image 2"

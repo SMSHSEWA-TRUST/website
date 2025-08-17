@@ -98,7 +98,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         style={{
                                             color: "#fff",
                                             fontSize: "32px",
-                                            textShadow: "0px 4px 4px #daa52040",
+                                            textShadow: "0px 4px 4px #d05e2d40",
                                             WebkitTextStroke: "1px #9a0000",
 
 
@@ -178,7 +178,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             <React.Fragment key={index}>
                                                 {index > 0 && (
                                                     <div className="flex items-center justify-center">
-                                                        <div className="w-2.5 h-2.5 bg-[#d05e2d] rounded-full flex-shrink-0" />
+                                                        <div className="w-2.5 h-2.5 bg-secondaryColor rounded-full flex-shrink-0" />
                                                     </div>
                                                 )}
                                                 <div className="flex items-center">
@@ -453,7 +453,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     <React.Fragment key={index}>
                                         {index > 0 && (
                                             <div className="flex items-center justify-center mx-2">
-                                                <div className="w-2 h-2 bg-[#d05e2d] rounded-full" />
+                                                <div className="w-2 h-2 bg-secondaryColor rounded-full" />
                                             </div>
                                         )}
                                         <div className="flex items-center">

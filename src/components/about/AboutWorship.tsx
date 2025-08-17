@@ -55,7 +55,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                             <div className="flex flex-col gap-3">
                                 <h1 className="font-primaryFont font-normal lg:text-[36px] text-[24px] leading-tight">
                                     {title}{' '}
-                                    <span className="font-primaryFont inline-block bg-gradient-to-r from-orange-500 to-red-600 text-white px-2 py-1 rounded text-lg sm:text-xl lg:text-2xl xl:text-3xl">
+                                    <span className="font-primaryFont inline-block bg-gradient-to-r from-secondaryColor to-red-600 text-white px-2 py-1 rounded text-lg sm:text-xl lg:text-2xl xl:text-3xl">
                                         {highlightedText}
                                     </span>
                                 </h1>

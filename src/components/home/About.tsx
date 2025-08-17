@@ -72,10 +72,10 @@ const About = (): JSX.Element => {
 
                         {/* Decorative line */}
                         <div className="flex items-center ">
-                            <div className="h-[2px] bg-orange-500 flex-1"></div>
-                            <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                            <div className="h-[2px] bg-secondaryColor flex-1"></div>
+                            <div className="w-3 h-3 bg-secondaryColor rounded-full"></div>
+                            <div className="w-2 h-2 bg-secondaryColor rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-secondaryColor rounded-full"></div>
                         </div>
                     </div>
 

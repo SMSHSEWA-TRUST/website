@@ -54,7 +54,7 @@ const ArtiSection = () => {
                         </div>
                         {/* Text */}
                         <div className="bg-gradient-to-br from-orange-500 to-red-500 p-4 text-orange-100">
-                            <div className="font-secondaryFont text-xs leading-relaxed space-y-2 opacity-90">
+                            <div className="font-secondaryFont text-xs leading-relaxed space-y-2 opacity-90 text-secondaryColor">
                                 <p>
                                     The ancient scriptures teach us that true wisdom comes from understanding
                                     the interconnectedness of all beings and the divine essence that permeates everything.
@@ -113,7 +113,7 @@ const ArtiSection = () => {
 
                             {/* Text */}
                             <div className="flex flex-col justify-center bg-gradient-to-br from-orange-500 to-red-500 p-4 lg:p-5 text-orange-100">
-                                <div className="font-secondaryFont text-xs lg:text-sm leading-relaxed space-y-2 opacity-90">
+                                <div className="font-secondaryFont text-xs lg:text-sm leading-relaxed space-y-2 opacity-90 text-secondaryColor">
                                     <p>
                                         The ancient scriptures teach us that true wisdom comes from understanding
                                         the interconnectedness of all beings.

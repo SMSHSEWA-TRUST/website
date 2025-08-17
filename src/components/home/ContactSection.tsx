@@ -55,12 +55,12 @@ export const ContactSection: React.FC = () => {
                                 {/* Name Fields */}
                                 <div className="grid grid-cols-2 gap-2 sm:gap-4">
                                     <Input
-                                        className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-[#8b0000] focus:border-transparent transition-all duration-200"
+                                        className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-secondaryColor focus:border-transparent transition-all duration-200"
                                         placeholder="First Name"
                                         type="text"
                                     />
                                     <Input
-                                        className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-[#8b0000] focus:border-transparent transition-all duration-200"
+                                        className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-secondaryColor focus:border-transparent transition-all duration-200"
                                         placeholder="Last Name"
                                         type="text"
                                     />
@@ -68,21 +68,21 @@ export const ContactSection: React.FC = () => {
 
                                 {/* Mobile Number */}
                                 <Input
-                                    className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-[#8b0000] focus:border-transparent transition-all duration-200"
+                                    className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-secondaryColor focus:border-transparent transition-all duration-200"
                                     placeholder="Mobile Number"
                                     type="tel"
                                 />
 
                                 {/* Email */}
                                 <Input
-                                    className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-[#8b0000] focus:border-transparent transition-all duration-200"
+                                    className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-secondaryColor focus:border-transparent transition-all duration-200"
                                     placeholder="Email ID"
                                     type="email"
                                 />
 
                                 {/* Message */}
                                 <Textarea
-                                    className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-[#8b0000] focus:border-transparent transition-all duration-200 min-h-[100px] resize-none"
+                                    className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-secondaryColor focus:border-transparent transition-all duration-200 min-h-[100px] resize-none"
                                     placeholder="Message"
                                 />
 
@@ -90,7 +90,7 @@ export const ContactSection: React.FC = () => {
                                 <div className="pt-6 flex justify-center">
                                     <Button
                                         type="submit"
-                                        className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-8 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg"
+                                        className="bg-secondaryColor hover:bg-[#a32d13] text-white px-8 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg"
                                     >
                                         Submit
                                     </Button>

@@ -23,27 +23,27 @@ const BhudaanSection: React.FC = () => {
                     <div className="flex items-center w-full max-w-md">
                         {/* Left arrow/diamond with connecting line */}
                         <div className="flex items-center flex-1">
-                            <div className="w-2 h-2 bg-orange-500 transform rotate-45"></div>
-                            <div className="flex-1 h-px bg-orange-500"></div>
+                            <div className="w-2 h-2 bg-secondaryColor transform rotate-45"></div>
+                            <div className="flex-1 h-px bg-secondaryColor"></div>
                         </div>
 
                         {/* Center dots with continuous line: small-small-big-small-small */}
                         <div className="flex items-center">
                             <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
-                            <div className="w-3 h-px bg-orange-500"></div>
+                            <div className="w-3 h-px bg-secondaryColor"></div>
                             <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
-                            <div className="w-3 h-px bg-orange-500"></div>
+                            <div className="w-3 h-px bg-secondaryColor"></div>
                             <div className="w-3 h-3 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
-                            <div className="w-3 h-px bg-orange-500"></div>
+                            <div className="w-3 h-px bg-secondaryColor"></div>
                             <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
-                            <div className="w-3 h-px bg-orange-500"></div>
+                            <div className="w-3 h-px bg-secondaryColor"></div>
                             <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
                         </div>
 
                         {/* Right arrow/diamond with connecting line */}
                         <div className="flex items-center flex-1">
-                            <div className="flex-1 h-px bg-orange-500"></div>
-                            <div className="w-2 h-2 bg-orange-500 transform rotate-45"></div>
+                            <div className="flex-1 h-px bg-secondaryColor"></div>
+                            <div className="w-2 h-2 bg-secondaryColor transform rotate-45"></div>
                         </div>
                     </div>
                 </div>

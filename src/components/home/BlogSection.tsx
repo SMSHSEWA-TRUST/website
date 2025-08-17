@@ -119,7 +119,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-[#daa520] text-lg sm:text-xl font-semibold mb-4 font-primaryFont leading-tight">
+                <h3 className="text-secondaryColor text-lg sm:text-xl font-semibold mb-4 font-primaryFont leading-tight">
                     {article.title || "Lorem ipsum dolor sit"}
                 </h3>
 

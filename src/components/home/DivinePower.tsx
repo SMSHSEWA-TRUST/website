@@ -31,10 +31,10 @@ const DivinePower = (): JSX.Element => {
             </div>
             {/* Mobile/Small screen: text above image */}
             <div className="flex flex-col md:hidden w-full items-center justify-center px-4 py-10">
-                <h2 className="font-primaryFont text-[16px] sm:text-[32px] lg:text-[48px] text-[#4c291e] text-center font-normal max-w-2xl mx-auto">
+                <h2 className="font-primaryFont text-[16px] sm:text-[32px] lg:text-[48px] text-secondaryColor text-center font-normal max-w-2xl mx-auto">
                     Feel the Surreal Divine Power
                 </h2>
-                <p className="mt-4 max-w-md text-[#4c291e] text-[10px] sm:text-[12px] text-center font-secondaryFont leading-relaxed">
+                <p className="mt-4 max-w-md text-secondaryColor text-[10px] sm:text-[12px] text-center font-secondaryFont leading-relaxed">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 <LazyLoadImage

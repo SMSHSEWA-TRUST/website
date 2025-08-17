@@ -47,7 +47,7 @@ const ContactCards = (): JSX.Element => {
 
             {/* Office Timings */}
             <Card className="flex-1 bg-[#d05e2d] rounded-lg shadow-md flex flex-col justify-between">
-                <CardContent className="p-6 flex flex-col h-full">
+                <CardContent className="p-6 flex flex-col h-full bg-secondaryColor">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Time Icon" src={timeIcon} loading="lazy" />
                         <h3 className="text-white font-primaryFont lg:text-[24px] text-[17px] mb-6">Office Timings</h3>

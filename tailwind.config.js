@@ -1,3 +1,5 @@
+const { p, s } = require("framer-motion/client");
+
 module.exports = {
   content: [
     "./src/**/*.{html,js,ts,jsx,tsx}",
@@ -43,6 +45,8 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        primaryColor: "#AD2F16",
+        secondaryColor: "#D05E2D",
       },
       borderRadius: {
         lg: "var(--radius)",
