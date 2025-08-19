@@ -32,29 +32,11 @@ const Hero = (): JSX.Element => {
     }, []);
 
     return (
-        <section className="w-full mt-4 lg:mt-[10px] border-b-4 border-[#daa520] relative">
+        <section className="w-full mt-4  border-b-4 border-[#daa520] relative">
             {/* Desktop Layout - Responsive Design */}
             <div className="hidden lg:block relative w-full mx-auto">
                 <div className="relative w-full h-[610px] overflow-visible">
-                    {/* Abstract floral - show only at the very top and inside the right red section (not on the left) */}
-                    <div className="pointer-events-none absolute inset-0 z-10">
-                        <LazyLoadImage
-                            className="hidden lg:block absolute left-[49%] top-[-25%] -translate-x-1/2 h-[100%] object-contain opacity-100 pointer-events-none z-10"
-                            alt="Abstract floral"
-                            src={abstractFloral}
-                            style={{
-                                clipPath: 'polygon(0 0, 100% 0, 100% 25%, 0 25%)'
-                            }}
-                        />
-                        {/* Right section only: crop to the red area width using an overflow-hidden container
-                        <div className="absolute top-0 right-0 h-full" style={{ width: '34%', overflow: 'hidden' }}>
-                            <img
-                                className="absolute left-[15%] top-[-28%] -translate-x-1/2 object-contain"
-                                alt="Abstract floral right"
-                                src={abstractFloral}
-                            />
-                        </div> */}
-                    </div>
+
                     {/* Red section - responsive width with no gap */}
                     <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]">
                     </div>                    {/* Temple image - responsive with slight overlap to prevent gap */}

@@ -123,7 +123,7 @@ const Services = (): JSX.Element => {
 
                     {services.map((service, idx) =>
                         service.image ? (
-                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10">
+                            <div key={idx} className=" w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10">
                                 <LazyLoadImage
                                     src={service.image}
                                     alt={service.title}
@@ -132,7 +132,7 @@ const Services = (): JSX.Element => {
                                 />
                             </div>
                         ) : (
-                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center relative z-10">
+                            <div key={idx} className=" w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center relative z-10">
                                 <LazyLoadImage
                                     src={omPng}
                                     alt="Om symbol"

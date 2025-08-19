@@ -1,6 +1,5 @@
 import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import abstractFloral from '@/assets/images/abstract-floral.png';
 
 interface HeroSectionProps {
     title?: string;
@@ -43,17 +42,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     </div>
                 </div>
             )}
-            {/* Abstract Floral Image */}
-            {backgroundImage && (
-                <LazyLoadImage
-                    className="hidden lg:block absolute left-[49%] top-[0%] -translate-x-1/2 h-[100%] object-contain opacity-100 pointer-events-none z-10"
-                    alt="Abstract floral"
-                    src={abstractFloral}
-                    style={{
-                        clipPath: 'polygon(0 0, 100% 0, 100% 20%, 0 20%)'
-                    }}
-                />
-            )}
+          
             {/* Text Content Section Below Image */}
             {description && description.trim() !== "" && (
                 <div className="w-full bg-white ">

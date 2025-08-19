@@ -13,12 +13,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
             <div className={`bg-white overflow-hidden ${className}`}>
                 {/* Header Section */}
                 <Header />
-                
+
                 {/* Main Content */}
-                <main className="min-h-screen">
+                <main className="min-h-screen lg:mt-[147px] ">
                     {children}
                 </main>
-                
+
                 {/* Footer Section */}
                 <Footer />
             </div>
