@@ -9,7 +9,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const ContactCards = (): JSX.Element => {
     return (
-        <section className="w-full flex flex-col gap-6 lg:flex-row md:gap-6 mt-10 px-4 md:px-10 lg:px-20 xl:px-32">
+        <section className="w-full flex flex-col gap-6 lg:flex-row md:gap-6 mt-10 px-10 md:px-10 lg:px-20 xl:px-32">
             {/* Connect with Us */}
             <Card className="flex-1 bg-[#8b0000] rounded-lg shadow-md flex flex-col justify-between">
                 <CardContent className="p-6 flex flex-col h-full">

@@ -100,12 +100,12 @@ const SevaSection = ({ isDesktop, upcomingSevas }: {
                 >
                     {/* Background image layer with low opacity */}
                     <div
-                        className="absolute inset-0 bg-no-repeat opacity-10 pointer-events-none"
+                        className="absolute inset-0 bg-no-repeat pointer-events-none"
                         style={{
                             backgroundImage: `url(${sevaBg})`,
-                            // 80% sized image, centered horizontally and shifted slightly down
                             backgroundSize: '90% auto',
-                            backgroundPosition: 'center 60%'
+                            backgroundPosition: 'center 60%',
+                            opacity: 0.09
                         }}
                         aria-hidden
                     />
@@ -141,8 +141,8 @@ const CountdownTimer = ({ countdown, isDesktop }: {
     return (
         <div className={`bg-yellow-600 text-white py-3 px-6 ${isDesktop ? "w-[320px]" : ""}`}>
             <div className="flex items-center justify-between">
-                <span className="font-tenor-sans font-normal text-[12px] text-[rgba(139,0,0,1)]">Countdown Ends In:</span>
-                <span className="font-tenor-sans font-normal text-[20px] text-[rgba(139,0,0,1)]">{countdown}</span>
+                <span className="font-tenor-sans font-bold text-[12px] text-white">Countdown Ends In:</span>
+                <span className="font-tenor-sans font-bold text-[20px] text-white">{countdown}</span>
             </div>
         </div>
     );
@@ -224,12 +224,12 @@ const LiveDarshan = (): JSX.Element => {
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                 {/* Header Section */}
                 <div className="text-center mb-4 lg:mb-12">
-                    <h2 className="font-primaryFont text-[20px] lg:text-[36px] mb-2 font-normal text-white tracking-wide">
+                    <h2 className="font-primaryFont text-[20px] lg:text-[36px]  font-normal text-white tracking-wide">
                         Live Darshan
                     </h2>
 
                     {/* Decorative Line */}
-                    <div className="flex items-center justify-center py-3 lg:py-2 w-[50%] sm:w-[50%] lg:w-full mx-auto">
+                    <div className="flex items-center justify-center py-2 lg:py-1 w-[50%] sm:w-[50%] lg:w-full mx-auto">
                         <div className="flex items-center w-full max-w-md">
                             {/* Left arrow/diamond with connecting line */}
                             <div className="flex items-center flex-1">
@@ -259,7 +259,7 @@ const LiveDarshan = (): JSX.Element => {
                     </div>
 
                     {/* Temple Selection Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4 lg:pt-8">
                         <div className="flex flex-row gap-2 w-full justify-center items-center">
                             <button
                                 className={`border border-white text-white font-secondaryFont font-normal transition-all duration-300 hover:scale-105

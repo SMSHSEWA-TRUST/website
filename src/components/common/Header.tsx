@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import tempLogo from '@/assets/images/temp-logo.png';
 import lineImage from '@/assets/images/line.png';
@@ -19,9 +19,15 @@ const Header = (): JSX.Element => {
     const location = useLocation();
     const currentPath = location.pathname;
 
+    // Scroll to top on route change
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "auto" });
+    }, [location.pathname]);
+
     return (
         <header
-            className="w-full bg-white top-0  relative  lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-50 font-secondaryFont"
+            className="w-full bg-white top-0 fixed left-0 right-0 z-50 font-secondaryFont"
         >
             <div className="w-full flex justify-center">
                 <div className="w-full max-w-[891px]">
@@ -31,7 +37,7 @@ const Header = (): JSX.Element => {
                         <div
                             className="hidden lg:flex lg:items-center lg:justify-center lg:py-2 gap-6"
                             style={{
-                                backgroundImage: `linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url(${headerbg})`,
+                                backgroundImage: `linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url(${headerbg})`,
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: '30% 10%',
                                 backgroundSize: '700px',

@@ -62,7 +62,7 @@ const BhudaanSection: React.FC = () => {
                     <LazyLoadImage
                         src={bhudaan1}
                         alt="Temple 1"
-                        className="w-full h-full object-cover shadow-lg"
+                        className="w-full h-full object-cover shadow-lg rounded-md"
                         loading="lazy"
                     />
                 </div>
@@ -71,7 +71,7 @@ const BhudaanSection: React.FC = () => {
                         <LazyLoadImage
                             src={bhudaan2}
                             alt="Temple 2"
-                            className="w-full h-full object-cover shadow-lg"
+                            className="w-full h-full object-cover shadow-lg rounded-md"
                             loading="lazy"
                         />
                     </div>
@@ -79,7 +79,7 @@ const BhudaanSection: React.FC = () => {
                         <LazyLoadImage
                             src={bhudaan3}
                             alt="Temple 3"
-                            className="w-full h-full object-cover shadow-lg"
+                            className="w-full h-full object-cover shadow-lg rounded-md"
                             loading="lazy"
                         />
                     </div>

@@ -265,10 +265,10 @@ export default function DonationSection() {
                                 {donations.map((donation, index) => (
                                     <div key={index} className="flex items-center justify-between border-b border-white/20 pb-2 last:border-b-0">
                                         <div className="flex flex-col">
-                                            <div className="font-secondaryFont font-normal text-white text-sm">
+                                            <div className="font-secondaryFont font-normal text-white text-[16px]">
                                                 {donation.title}
                                             </div>
-                                            <div className="font-secondaryFont font-normal text-white/50 text-xs">
+                                            <div className="font-secondaryFont font-normal text-white/50 text-[12px]">
                                                 {donation.description}
                                             </div>
                                         </div>

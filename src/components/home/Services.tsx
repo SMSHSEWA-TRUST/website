@@ -56,7 +56,7 @@ const Services = (): JSX.Element => {
                 aria-hidden="true"
                 loading="lazy"
             />
-            <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-8 z-10">
+            <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-6 z-10">
                 {/* Section Header */}
                 <div className="flex flex-col items-center gap-2 w-full">
                     <span className="text-sm md:text-base font-secondaryFont text-[#4c291e] tracking-wide">
@@ -65,7 +65,7 @@ const Services = (): JSX.Element => {
                     <h2 className="font-primaryFont text-2xl md:text-4xl text-[#4c291e] text-center font-normal">
                         Lorem ipsum dolor sit amet, consectetur
                     </h2>
-                    <div className="flex items-center justify-center py-8 w-full">
+                    <div className="flex items-center justify-center  w-full">
                         <div className="flex items-center w-full max-w-md">
                             {/* Left arrow/diamond with connecting line */}
                             <div className="flex items-center flex-1">
@@ -95,39 +95,33 @@ const Services = (): JSX.Element => {
                     </div>
                 </div>
                 {/* Services Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-8 relative">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-6 relative px-4 lg:px-0">
                     {/* Background images for small screens - each covers 2 cards */}
                     <div className="absolute inset-0 lg:hidden">
                         {/* First background image for cards 1-2 */}
                         <LazyLoadImage
-                            className="absolute top-0 left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
+                            className="absolute top-0 left-0 w-full h-1/2 object-cover opacity-10 pointer-events-none"
                             alt="Background 1"
-                            src={tempImage7Webp}
+                            src={bgcardImagePng}
                             loading="lazy"
                         />
                         {/* Second background image for cards 3-4 */}
                         <LazyLoadImage
-                            className="absolute top-[calc(50%+12px)] left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
+                            className="absolute top-1/2 left-0 w-full h-1/2 object-cover opacity-10 pointer-events-none"
                             alt="Background 2"
-                            src={tempImage6Webp}
-                            loading="lazy"
-                        />
-                        {/* Third background image for cards 5-6 */}
-                        <LazyLoadImage
-                            className="absolute top-[calc(100%+24px)] left-0 w-full h-[calc(50%+12px)] object-cover opacity-10 pointer-events-none"
-                            alt="Background 3"
-                            src={tempImage5Webp}
+                            src={bgcardImagePng}
                             loading="lazy"
                         />
                     </div>
 
                     {services.map((service, idx) =>
                         service.image ? (
-                            <div key={idx} className=" w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10">
+                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10" style={{ background: '#fff' }}>
                                 <LazyLoadImage
                                     src={service.image}
                                     alt={service.title}
                                     className="w-full h-full object-cover"
+                                    style={{ opacity: 1 }}
                                     loading="lazy"
                                 />
                             </div>
