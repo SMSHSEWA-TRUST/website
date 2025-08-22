@@ -51,13 +51,13 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
             <div className="w-full max-w-none font-secondaryFont">
                 {/* Large Screen Layout (Desktop) */}
                 <div className="hidden lg:block">
-                    <div className="w-full px-6 py-6">
+                    <div className="w-full px-20  py-6">
                         {/* Main Grid: 3 Equal Columns */}
                         <div className="grid grid-cols-[1fr_1.5fr_1.2fr] gap-8 mb-6">
                             {/* Left Column: Special Links */}
-                            <div className="flex flex-col">
+                            <div className="flex flex-col py-10">
                                 <div className="flex items-center mb-4">
-                                    <h3 className="font-primaryFont text-lg text-white">
+                                    <h3 className="font-primaryFont text-[24px] text-white">
                                         Special Links
                                     </h3>
                                 </div>
@@ -80,7 +80,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             <div className="flex flex-col items-center text-center w-full max-w-3xl mx-auto">
                                 {/* Logo */}
                                 <div className="flex justify-center items-center mb-3">
-                                    <div className="relative w-16 h-16">
+                                    <div className="relative w-20 h-20">
                                         <div className="absolute inset-1 bg-white rounded-full" />
                                         <LazyLoadImage
                                             src={tempLogo}
@@ -94,13 +94,12 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 {/* Organization Title */}
                                 <div className="flex flex-col items-center mb-3 ">
                                     <h1
-                                        className="font-primaryFont font-normal text-center"
+                                        className="font-primaryFont  text-center font-semibold"
                                         style={{
                                             color: "#fff",
                                             fontSize: "32px",
                                             textShadow: "0px 4px 4px #d05e2d40",
                                             WebkitTextStroke: "1px #9a0000",
-
 
                                         }}
                                     >
@@ -141,7 +140,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                                 {/* Description */}
                                 <div className="flex justify-center mb-4">
-                                    <p className="font-secondaryFont text-sm max-w-sm leading-relaxed text-gray-100 text-center">
+                                    <p className="font-secondaryFont text-sm leading-relaxed text-gray-100 text-center">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
                                         ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -196,47 +195,47 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             </div>
 
                             {/* Right Column: Info */}
-                            <div className="flex flex-col items-end text-right">
+                            <div className="flex flex-col items-end text-right py-10">
                                 <div className="flex items-center justify-end mb-4">
-                                    <h3 className="font-primaryFont text-lg text-white">
+                                    <h3 className="font-primaryFont text-[24px] text-white">
                                         Info
                                     </h3>
                                 </div>
                                 <div className="flex flex-col space-y-3 font-secondaryFont text-sm">
                                     <div className="flex flex-col items-end space-y-1">
                                         <div className="flex items-center">
-                                            <span className="font-secondaryFont text-gray-100">Email:</span>
+                                            <span className="font-secondaryFont text-gray-100">Email:  info@support.com</span>
                                         </div>
-                                        <div className="flex items-center">
+                                        {/* <div className="flex items-center">
                                             <a
                                                 href="mailto:info@support.com"
                                                 className="font-secondaryFont text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
                                             >
                                                 info@support.com
                                             </a>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="flex flex-col items-end space-y-1">
                                         <div className="flex items-center">
-                                            <span className="font-secondaryFont text-gray-100">Phone No:</span>
+                                            <span className="font-secondaryFont text-gray-100">Phone No: 9876543210</span>
                                         </div>
-                                        <div className="flex items-center">
+                                        {/* <div className="flex items-center">
                                             <a
                                                 href="tel:+919876543210"
                                                 className="font-secondaryFont text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
                                             >
                                                 9876543210
                                             </a>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="flex flex-col items-end space-y-2">
                                         <div className="flex items-center">
-                                            <span className="font-secondaryFont text-gray-100">Address:</span>
+                                            <span className="font-secondaryFont text-gray-100">Address:1080 Brickell Ave,<br /></span>
                                         </div>
                                         <div className="flex items-end">
                                             <address className="font-secondaryFont not-italic leading-relaxed text-white text-right">
-                                                1080 Brickell Ave,<br />
-                                                Miami (Florida)<br />
+                                                
+                                                Miami (Florida)
                                                 United States
                                             </address>
                                         </div>

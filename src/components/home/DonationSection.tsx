@@ -10,6 +10,10 @@ import mand9Min2 from '@/assets/images/mand-9-min 2.png';
 import mand9Min3 from '@/assets/images/mand-9-min 3.png';
 import mand9Min4 from '@/assets/images/mand-9-min 4.png';
 import mand9Min5 from '@/assets/images/mand-9-min 5.png';
+import tempImage from '@/assets/images/temp-image.webp';
+import tempImage2 from '@/assets/images/temp-image-2.png';
+import tempImage3 from '@/assets/images/temp-image-3.webp';
+import tempImage4 from '@/assets/images/temp-image-4.webp';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
@@ -139,13 +143,84 @@ const donations = [
     },
 ];
 
+// Demo testimonial data
+const testimonials = [
+    {
+        id: 1,
+        image: image4,
+        name: "John Doe",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    },
+    {
+        id: 2,
+        image: tempImage,
+        name: "Jane Smith",
+        text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+    },
+    {
+        id: 3,
+        image: tempImage2,
+        name: "Mike Johnson",
+        text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident."
+    },
+    {
+        id: 4,
+        image: tempImage3,
+        name: "Sarah Williams",
+        text: "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer."
+    },
+    {
+        id: 5,
+        image: tempImage4,
+        name: "David Brown",
+        text: "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure great pleasure."
+    }
+];
+
 
 export default function DonationSection() {
     const [shouldStartAnimation, setShouldStartAnimation] = useState(false);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const [activeButton, setActiveButton] = useState<'prev' | 'next' | null>(null);
 
     const setRef = useIntersectionObserver(() => {
         setShouldStartAnimation(true);
     });
+
+    const nextSlide = () => {
+        if (isTransitioning) return;
+        console.log('Next slide clicked, current:', currentSlide);
+        setIsTransitioning(true);
+        setActiveButton('next');
+        setCurrentSlide((prev) => {
+            const newSlide = (prev + 1) % testimonials.length;
+            console.log('Moving to slide:', newSlide);
+            return newSlide;
+        });
+        setTimeout(() => {
+            setIsTransitioning(false);
+            setActiveButton(null);
+        }, 300);
+    };
+
+    const prevSlide = () => {
+        if (isTransitioning) return;
+        console.log('Previous slide clicked, current:', currentSlide);
+        setIsTransitioning(true);
+        setActiveButton('prev');
+        setCurrentSlide((prev) => {
+            const newSlide = (prev - 1 + testimonials.length) % testimonials.length;
+            console.log('Moving to slide:', newSlide);
+            return newSlide;
+        });
+        setTimeout(() => {
+            setIsTransitioning(false);
+            setActiveButton(null);
+        }, 300);
+    };
+
+    const currentTestimonial = testimonials[currentSlide];
 
     return (
         <section ref={setRef} className="w-full bg-[rgba(244,240,236,1)] py-8 lg:py-16 px-4 md:px-0">
@@ -181,40 +256,55 @@ export default function DonationSection() {
                             <span className="w-2 h-2 bg-[#e07a4c] rotate-45 block" style={{ borderRadius: '2px' }}></span>
                         </div>
                     </div>
-                    <div className="flex flex-col md:flex-row gap-6 items-center w-full">
-                        <LazyLoadImage
-                            src={image4}
-                            alt="Profile"
-                            className="w-48 h-56 object-cover rounded-md shadow-md bg-gray-200"
-                            loading="lazy"
-                        />
-                        <div className="flex-1 flex flex-col gap-3 w-full">
-                            <p className="text-[rgba(30,30,30,0.5)] lg:text-[16px] text-[14px]  leading-relaxed font-secondaryFont">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing eli.
-                            </p>
-                            {/* Decorative line after paragraph */}
-                            <div className="w-full flex justify-start my-2">
-                                <div className="flex items-center w-[60%]">
-                                    <span className="flex-1 h-[2px] bg-[#e07a4c] rounded"></span>
+                    <div className="flex flex-col md:flex-row gap-6 w-full h-auto md:h-64">
+                        <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+                            <LazyLoadImage
+                                src={currentTestimonial.image}
+                                alt={`Profile of ${currentTestimonial.name}`}
+                                className="w-full md:w-64 h-64 object-cover rounded-md shadow-md bg-gray-200"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div className={`flex-1 flex flex-col justify-between h-full md:h-64 gap-3 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+                            <div className="flex-1">
+                                <p className="text-[rgba(30,30,30,0.5)] lg:text-[16px] text-[14px] leading-relaxed font-secondaryFont mb-4">
+                                    {currentTestimonial.text}
+                                </p>
+                                {/* Decorative line after paragraph */}
+                                <div className="w-full flex justify-start mb-3">
+                                    <div className="flex items-center w-[60%]">
+                                        <span className="flex-1 h-[2px] bg-[#e07a4c] rounded"></span>
+                                    </div>
                                 </div>
+                                <span className="text-[rgba(139,0,0,1)] font-normal font-primaryFont text-[16px] lg:text-[20px]">
+                                    {currentTestimonial.name}
+                                </span>
                             </div>
-                            <span className="text-[rgba(139,0,0,1)] font-normal font-primaryFont text-[16px] lg:text-[20px]">
-                                John Doe
-                            </span>
-                            <div className="flex items-center justify-between w-full mt-2 gap-2">
-                                <button className="px-5 py-2 bg-[rgba(139,0,0,1)] text-white  hover:bg-[#a32d13] transition-colors lg:text-[14px] text-[12px] font-secondaryFont font-semibold w-max">
+                            <div className="flex items-center justify-end w-full mt-auto">
+                                {/* <button className="px-5 py-2 bg-[rgba(139,0,0,1)] text-white hover:bg-[#a32d13] transition-colors lg:text-[14px] text-[12px] font-secondaryFont font-semibold">
                                     Know More
-                                </button>
-                                <div className="flex gap-2 ml-auto">
+                                </button> */}
+                                <div className="flex gap-2">
                                     <button
-                                        aria-label="Previous"
-                                        className="w-8 h-8 flex items-center justify-center bg-[rgba(139,0,0,1)] text-white rounded hover:bg-[#a32d13] transition-colors font-secondaryFont"
+                                        onClick={prevSlide}
+                                        disabled={isTransitioning}
+                                        aria-label="Previous testimonial"
+                                        className={`w-8 h-8 flex items-center justify-center rounded border border-[#7c0a02] transition-all duration-200 font-secondaryFont disabled:opacity-50 transform 
+                                            ${activeButton === 'prev'
+                                                ? 'bg-[rgba(139,0,0,1)] text-white scale-95 shadow-inner'
+                                                : 'bg-white text-[#7c0a02] hover:bg-[rgba(139,0,0,1)] hover:text-white active:scale-95 active:shadow-inner'
+                                            }`}
                                     >
                                         <span className="text-xl">&#8592;</span>
                                     </button>
                                     <button
-                                        aria-label="Next"
-                                        className="w-8 h-8 flex items-center justify-center bg-white border border-[#7c0a02] text-[#7c0a02] rounded hover:bg-[#f7e6e0] transition-colors font-secondaryFont"
+                                        onClick={nextSlide}
+                                        disabled={isTransitioning}
+                                        aria-label="Next testimonial"
+                                        className={`w-8 h-8 flex items-center justify-center rounded border border-[#7c0a02] transition-all duration-200 font-secondaryFont disabled:opacity-50 transform ${activeButton === 'next'
+                                                ? 'bg-[rgba(139,0,0,1)] text-white scale-95 shadow-inner'
+                                                : 'bg-white text-[#7c0a02] hover:bg-[rgba(139,0,0,1)] hover:text-white active:scale-95 active:shadow-inner'
+                                            }`}
                                     >
                                         <span className="text-xl">&#8594;</span>
                                     </button>
@@ -222,6 +312,8 @@ export default function DonationSection() {
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
 

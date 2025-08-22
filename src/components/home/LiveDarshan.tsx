@@ -18,7 +18,7 @@ const VideoPlayerSection = ({ selectedTemple, isDesktop }: {
 }) => {
     return (
         <div className={isDesktop ? "flex-shrink-0 h-full flex-1 flex flex-col" : ""}>
-            <div className={`relative bg-gray-900 overflow-hidden shadow-2xl ${isDesktop ? "w-[800px] h-full" : "rounded-lg"}`} style={isDesktop ? { height: '100%' } : {}}>
+            <div className={`relative bg-gray-900 overflow-hidden shadow-2xl ${isDesktop ? " h-full" : "rounded-lg"}`} style={isDesktop ? { height: '100%' } : {}}>
                 {/* Video Player */}
                 <div className={isDesktop ? "relative w-full h-full" : "relative aspect-video"}>
                     {selectedTemple === 'mahakaleshwar' && (
@@ -74,7 +74,7 @@ const SevaSection = ({ isDesktop, upcomingSevas }: {
     }>;
 }) => {
     return (
-        <div className={isDesktop ? "flex-shrink-0 w-[320px]" : ""}>
+        <div className={isDesktop ? "flex-shrink-0 " : ""}>
             <Card className={`bg-white shadow-lg ${isDesktop ? "h-full" : ""}`}>
                 <CardHeader className="pb-4">
                     <div className="flex items-center gap-2">
@@ -117,10 +117,10 @@ const SevaSection = ({ isDesktop, upcomingSevas }: {
                                 <h4 className="font-primaryFont font-normal text-[rgba(76, 41, 30, 1)] text-[16px] mb-2">
                                     {seva.title}
                                 </h4>
-                                <p className="font-secondaryFont font-normal text-[rgba(30, 30, 30, 0.5)] text-[10px] leading-relaxed mb-3">
+                                <p className="font-secondaryFont font-normal text-[rgba(30, 30, 30, 0.5)] text-[12px] leading-relaxed mb-3">
                                     {seva.description}
                                 </p>
-                                <div className="flex justify-between font-secondaryFont font-normal text-[rgba(76, 41, 30, 1)] text-[10px]">
+                                <div className="flex justify-between font-secondaryFont font-normal text-[rgba(76, 41, 30, 1)] text-[12px]">
                                     <span>{seva.date}</span>
                                     <span>{seva.time}</span>
                                 </div>
@@ -139,7 +139,7 @@ const CountdownTimer = ({ countdown, isDesktop }: {
     isDesktop: boolean;
 }) => {
     return (
-        <div className={`bg-yellow-600 text-white py-3 px-6 ${isDesktop ? "w-[320px]" : ""}`}>
+        <div className={`bg-yellow-600 text-white py-3 px-6 ${isDesktop ? "w-[290px]" : ""}`}>
             <div className="flex items-center justify-between">
                 <span className="font-tenor-sans font-bold text-[12px] text-white">Countdown Ends In:</span>
                 <span className="font-tenor-sans font-bold text-[20px] text-white">{countdown}</span>
@@ -221,7 +221,7 @@ const LiveDarshan = (): JSX.Element => {
             </div>
 
             {/* Main Content Container */}
-            <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+            <div className="relative z-10 container mx-auto  py-8 lg:py-12">
                 {/* Header Section */}
                 <div className="text-center mb-4 lg:mb-12">
                     <h2 className="font-primaryFont text-[20px] lg:text-[36px]  font-normal text-white tracking-wide">
@@ -284,12 +284,14 @@ const LiveDarshan = (): JSX.Element => {
                 {/* Video and Seva Section */}
                 <div className="relative">
                     {/* Desktop Layout */}
-                    <div className="hidden xl:flex xl:justify-center xl:items-start xl:gap-8 h-[600px]">
-                        <VideoPlayerSection
-                            selectedTemple={selectedTemple}
-                            isDesktop={true}
-                        />
-                        <div className="flex flex-col gap-2 h-full flex-1 justify-between">
+                    <div className="hidden xl:flex xl:justify-center xl:items-start gap-4 h-[600px] max-w-full mx-auto">
+                        <div className="h-full flex flex-col " style={{ width: '900px' }}>
+                            <VideoPlayerSection
+                                selectedTemple={selectedTemple}
+                                isDesktop={true}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-8 h-full" style={{ width: '290px' }}>
                             <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} />
                             <CountdownTimer countdown={countdown} isDesktop={true} />
                         </div>

@@ -90,7 +90,7 @@ const Header = (): JSX.Element => {
                                             <Link to="/">
                                                 <Button
                                                     variant="link"
-                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/' ? 'text-[#8b0000] underline' : 'text-[#333333] hover:text-[#8b0000] '} `}
                                                 >
                                                     Home
                                                 </Button>
@@ -100,7 +100,7 @@ const Header = (): JSX.Element => {
                                             <Link to="/about">
                                                 <Button
                                                     variant="link"
-                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/about' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/about' ? 'text-[#8b0000] underline' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                                 >
                                                     About
                                                 </Button>
@@ -110,7 +110,7 @@ const Header = (): JSX.Element => {
                                             <Link to="/puja">
                                                 <Button
                                                     variant="link"
-                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/puja' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/puja' ? 'text-[#8b0000] underline' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                                 >
                                                     Puja's
                                                 </Button>
@@ -120,7 +120,7 @@ const Header = (): JSX.Element => {
                                             <Link to="/membership">
                                                 <Button
                                                     variant="link"
-                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/membership' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/membership' ? 'text-[#8b0000] underline' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                                 >
                                                     Membership
                                                 </Button>
@@ -130,7 +130,7 @@ const Header = (): JSX.Element => {
                                             <Link to="/blogs">
                                                 <Button
                                                     variant="link"
-                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/blogs' ? 'text-[#8b0000] underline' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                                 >
                                                     Blogs
                                                 </Button>
@@ -140,7 +140,7 @@ const Header = (): JSX.Element => {
                                             <Link to="/contact">
                                                 <Button
                                                     variant="link"
-                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/contact' ? 'text-[#8b0000]' : 'text-[#333333] hover:text-[#8b0000]'}`}
+                                                    className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === '/contact' ? 'text-[#8b0000] underline' : 'text-[#333333] hover:text-[#8b0000]'}`}
                                                 >
                                                     Contact us
                                                 </Button>

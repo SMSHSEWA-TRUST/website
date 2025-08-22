@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ganeshImage from '@/assets/images/ganesh.webp';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
@@ -66,12 +67,14 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
 
                 {/* Button - Right Column */}
                 <div className="lg:col-span-1 flex justify-start lg:justify-end items-center">
-                    <Button
-                        className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-6 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg "
-                        aria-label="Read all articles"
-                    >
-                        Read Articles
-                    </Button>
+                    <Link to="/blogs">
+                        <Button
+                            className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-6 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg "
+                            aria-label="Read all articles"
+                        >
+                            Read  All Blogs
+                        </Button>
+                    </Link>
                 </div>
 
             </div>
@@ -131,12 +134,14 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 )}
 
                 {/* Read More Button */}
-                <Button
-                    className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-xs sm:text-sm"
-                    aria-label={`Read article: ${article.title}`}
-                >
-                    Read Articles
-                </Button>
+                <Link to="/blog-details">
+                    <Button
+                        className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-xs sm:text-sm"
+                        aria-label={`Read article: ${article.title}`}
+                    >
+                        Read Articles
+                    </Button>
+                </Link>
 
             </CardContent>
         </Card>

@@ -9,7 +9,7 @@ const SubscriptionPlans = () => {
 
     const SubscriptionCard = ({ highlight = false, price = "₹1199" }) => {
         return (
-            <div className={`font-secondaryFont rounded-lg shadow-lg p-6 w-full max-w-[387px] min-h-[400px] ${highlight
+            <div className={`font-secondaryFont rounded-lg  p-6 w-[341px] lg:max-w-[387px] min-h-[400px] ${highlight
                 ? "bg-gradient-to-b from-red-800 to-red-900 text-white"
                 : "bg-white text-gray-700"
                 }`}>
@@ -73,7 +73,7 @@ const SubscriptionPlans = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b  py-12 mb-24  px-4">
+        <div className="min-h-screen bg-gradient-to-b  py-12  px-4">
             {/* Title */}
             <div className="text-center mb-8 font-secondaryFont">
                 <h1 className="font-primaryFont text-3xl text-secondaryColor mb-4">Subscription Plans</h1>
@@ -110,18 +110,16 @@ const SubscriptionPlans = () => {
             </div>
 
             {/* Cards Container */}
-            <div className="w-full lg:pl-16 mx-auto">
+            <div className="w-full mx-auto max-w-[1200px]">
                 {/* Top Row - 3 Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                <div className="flex flex-wrap justify-center gap-8  ">
                     <SubscriptionCard highlight={true} />
                     <SubscriptionCard />
                     <SubscriptionCard />
-                </div>
-                {/* Bottom Row - 2 Cards, centered on large screens */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 justify-center lg:mx-auto lg:w-2/3">
                     <SubscriptionCard price="₹1109" />
                     <SubscriptionCard price="₹1109" />
                 </div>
+               
             </div>
         </div>
     );
