@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [mobileNumber, setMobileNumber] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMobileNumber(e.target.value);
@@ -11,8 +13,8 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login Submitted:", { mobileNumber });
-    // Call your login API here
+    // Just navigate to OTP page when Sign In is clicked
+    navigate("/otp");
   };
 
   return (
@@ -51,13 +53,11 @@ export default function LoginPage() {
 
         {/* Right section (Login Form) */}
         <div className="min-h-screen flex items-end justify-center px-6">
-       <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-10 w-full h-[70vh] max-w-5xl shadow-2xl">
-
-            
+          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-10 w-full h-[70vh] max-w-5xl shadow-2xl">
             {/* Top text */}
             <div className="mb-6 text-left px-10 pt-0">
               <h2 className="text-3xl font- text-gray-900">Welcome Back</h2>
-              <p className="text-base  text-gray-500 mt-2">
+              <p className="text-base text-gray-500 mt-2">
                 Please enter your mobile no. to continue Login
               </p>
             </div>
@@ -85,7 +85,7 @@ export default function LoginPage() {
               <div className="py-20">
                 <button
                   type="submit"
-                  className="w-full bg-red-800 hover:bg-red-900 text-white py-5 rounded-xl font-semibold text-.5xl transition-colors duration-200"
+                  className="w-full bg-red-800 hover:bg-red-900 text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200"
                 >
                   Sign In
                 </button>
