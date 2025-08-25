@@ -1,0 +1,147 @@
+import React from 'react';
+import tempImage4 from '@/assets/images/temp-image-4.webp';
+import tempImage3 from '@/assets/images/temp-image-3.webp';
+import tempImage2 from '@/assets/images/temp-image-2.png';
+import image3 from '@/assets/images/image 3.png';
+import image2 from '@/assets/images/image 2.png';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
+// Custom hook to detect large screen
+function useIsLargeScreen() {
+    const [isLarge, setIsLarge] = React.useState(false);
+    React.useEffect(() => {
+        const checkScreen = () => setIsLarge(window.innerWidth >= 1024);
+        checkScreen();
+        window.addEventListener('resize', checkScreen);
+        return () => window.removeEventListener('resize', checkScreen);
+    }, []);
+    return isLarge;
+}
+
+const About = (): JSX.Element => {
+    const isLargeScreen = useIsLargeScreen();
+    return (
+        <section className="w-full  mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start  ">
+                {/* Left Side - Image Gallery */}
+                <div className="order-2 lg:order-1">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4  ">
+                        {/* Main large image - spans 2 rows */}
+                        <div className="row-span-2">
+                            <LazyLoadImage
+                                className={
+                                    isLargeScreen
+                                        ? "w-full h-[87%] mt-10 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                        : "w-full h-full mt-0 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                }
+                                alt="Main temple view showcasing traditional architecture"
+                                src={tempImage4}
+                                loading="lazy"
+                            />
+                        </div>
+
+                        {/* Top right image */}
+                        <div className="row-span-1">
+                            <LazyLoadImage
+                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                alt="Temple detail view"
+                                src={tempImage3}
+                                loading="lazy"
+                            />
+                        </div>
+
+                        {/* Bottom right image */}
+                        <div className="row-span-1">
+                            <LazyLoadImage
+                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                alt="Temple courtyard view"
+                                src={tempImage2}
+                                loading="lazy"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Side - Content */}
+                <div className="order-2 lg:order-2 space-y-8">
+                    {/* Heading */}
+                    <div className="space-y-6">
+                        <h2 className="font-primaryFont text-[24px] sm:text-[28px] lg:text-[36px] font-normal text-[rgba(76, 41, 30, 1)] leading-tight">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        </h2>
+
+                        {/* Decorative line */}
+                        <div className="flex items-center ">
+                            <div className="h-[2px] bg-secondaryColor flex-1"></div>
+                            <div className="w-3 h-3 bg-secondaryColor rounded-full"></div>
+                            <div className="w-2 h-2 bg-secondaryColor rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-secondaryColor rounded-full"></div>
+                        </div>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-[rgba(30, 30, 30, 0.5)] font-secondaryFont text-[10px]  sm:text-[12px] lg:text-[16px] font-normal leading-relaxed max-w-[500px]">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                        enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                        nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                        amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                        ex ea commodo consequat.
+                    </p>
+
+                    {/* Feature List */}
+                    <div className="space-y-8 pt-8">
+                        <div className="flex items-start space-x-4">
+                            {/* Lotus Flower Icon */}
+                            <div className="flex-shrink-0 mt-1">
+                                <LazyLoadImage
+                                    className="w-[50px] h-[50px] object-cover"
+                                    alt="Image"
+                                    src={image2}
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-[rgba(76, 41, 30, 1)] font-primaryFont text-[10px] sm:text-[12px] lg:text-[16px] mb-2">Lorem Ipsum</h3>
+                                <p className="text-[rgba(30, 30, 30, 0.5)] font-secondaryFont text-[10px] sm:text-[12px] lg:text-[12px] leading-relaxed">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start space-x-4">
+                            {/* Person Icon */}
+                            <div className="flex-shrink-0 mt-1">
+                                <LazyLoadImage
+                                    className="w-[50px] h-[50px] object-cover"
+                                    alt="Image"
+                                    src={image3}
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-[rgba(76, 41, 30, 1)] font-primaryFont text-[10px] sm:text-[12px] lg:text-[16px] mb-2">Lorem Ipsum</h3>
+                                <p className="text-[rgba(30, 30, 30, 0.5)] font-secondaryFont text-[10px] sm:text-[12px] lg:text-[12px] leading-relaxed">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Aarti Timings Button */}
+                    {/* <div className="mt-8 flex justify-start">
+                        <button className="bg-[rgba(139,0,0,1)] text-white  text-[16px] sm:text-[18px] lg:text-[20px]  px-3 py-2 rounded-md shadow-md hover:bg-[#a83232] transition-colors duration-200 font-secondaryFont">
+                            Aarti Timings
+                        </button>
+                    </div> */}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default About;
