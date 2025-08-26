@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '../components/common/Header';
 import { Footer } from '../components/common/Footer';
 
@@ -8,19 +9,28 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
+    const location = useLocation();
+
+    // Do not show header/footer on the signup, login and otp pages
+    const hiddenPaths = ['/signup', '/login', '/otp'];
+    const hideHeaderFooter = hiddenPaths.includes(location.pathname);
+
     return (
         <div className="bg-white flex flex-row justify-center w-full">
-            <div className={`bg-white overflow-hidden ${className}`}>
+            {/* make inner wrapper full width so pages can span edge-to-edge */}
+            <div className={`bg-white overflow-hidden w-full ${className}`}>
                 {/* Header Section */}
-                <Header />
+                {!hideHeaderFooter && <Header />}
 
                 {/* Main Content */}
-                <main className="min-h-screen lg:mt-[147px] mt-[100px] md:mt-[120px] ">
+                <main
+                    className={`min-h-screen ${!hideHeaderFooter ? 'lg:mt-[147px] mt-[100px] md:mt-[120px]' : ''} ${className}`.trim()}
+                >
                     {children}
                 </main>
 
                 {/* Footer Section */}
-                <Footer />
+                {!hideHeaderFooter && <Footer />}
             </div>
         </div>
     );

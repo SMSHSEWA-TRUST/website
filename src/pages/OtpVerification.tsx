@@ -1,11 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function OtpVerification() {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const handleChange = (element: HTMLInputElement, index: number) => {
     if (isNaN(Number(element.value))) return false;
@@ -21,7 +26,8 @@ export default function OtpVerification() {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === "Backspace" && otp[index] === "" && index !== 0) {
-      (e.target.previousSibling as HTMLInputElement)?.focus();
+      const prev = (e.target as HTMLInputElement).previousElementSibling as HTMLInputElement | null;
+      prev?.focus();
     }
   };
 
@@ -35,11 +41,49 @@ export default function OtpVerification() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("OTP Submitted:", otp.join(""));
-    // Navigate to next page after OTP verification
-    // navigate("/dashboard"); // Uncomment and replace with actual page
+    setError(null);
+    setSuccess(null);
+
+    const code = otp.join("").trim();
+    if (code.length !== 6 || !/^\d{6}$/.test(code)) {
+      setError("Please enter the 6-digit OTP");
+      return;
+    }
+
+    // Try to get mobile passed via navigation state (from login/signup)
+    const mobile = (location.state as any)?.mobile || "";
+    if (!mobile) {
+      setError("Mobile number not available. Please go back and retry.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("https://api.smshsewatrust.com/api/user/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile, otp: code }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const msg = (data && (data.message || data.error)) || `Request failed with status ${res.status}`;
+        throw new Error(msg);
+      }
+
+      setSuccess("OTP verified. Redirecting...");
+
+      // Adjust navigation target as needed; currently redirect to home
+      setTimeout(() => navigate("/", { replace: true }), 800);
+    } catch (err: any) {
+      setError(err?.message || "OTP verification failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -74,7 +118,7 @@ export default function OtpVerification() {
 
         {/* Right Section (OTP Form) */}
         <div className="min-h-screen flex items-end justify-center px-6">
-          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-10 w-full h-[70vh] max-w-5xl shadow-2xl">
+          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-10 w-full h-[80vh] max-w-5xl shadow-2xl">
             <div className="mb-6 text-left px-10 pt-0">
               <h2 className="text-3xl font- text-gray-900">OTP Verification</h2>
               <p className="text-base text-gray-500 mt-2">
@@ -105,12 +149,16 @@ export default function OtpVerification() {
                 ))}
               </div>
 
+              {error && <div className="text-sm text-red-600">{error}</div>}
+              {success && <div className="text-sm text-green-700">{success}</div>}
+
               <div className="py-10">
                 <button
                   type="submit"
-                  className="w-full bg-red-800 hover:bg-red-900 text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200"
+                  disabled={loading}
+                  className={`w-full ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-800 hover:bg-red-900'} text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200`}
                 >
-                  Verify OTP
+                  {loading ? 'Verifying...' : 'Verify OTP'}
                 </button>
               </div>
             </form>
