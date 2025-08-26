@@ -83,11 +83,9 @@ export default function SignupPage() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      {/* Main container */}
-      <div className="relative z-10 flex items-start justify-between w-full max-w-7xl px-8 pt-20">
-        {/* Left section (Logo + Text) */}
+      <div className="relative z-10 flex items-center justify-between w-full max-w-7xl px-8">
+        {/* Left Section */}
         <div className="text-white max-w-lg text-center">
-          {/* Logo */}
           <div className="w-40 h-40 mx-auto mb-6">
             <img
               src="src/assets/images/Group 48095638.png"
@@ -95,105 +93,103 @@ export default function SignupPage() {
               className="w-full h-full object-contain"
             />
           </div>
-
           <h1 className="text-4xl font-bold mb-6 leading-tight text-orange-100">
             Shree Mahakaleshwar Salasar <br />
             Hanuman Sewa Trust
           </h1>
-
           <p className="text-gray-200 text-sm leading-relaxed max-w-sm opacity-90 mx-auto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
 
-        {/* Right section (Signup Form) */}
-        <div className="flex items-start justify-end w-full max-w-2xl">
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl px-8 py-10 w-full max-w-lg shadow-2xl">
-
-            {/* Top text */}
-            <div className="mb-8 text-center">
+        {/* Right Section (Signup Form) */}
+        <div className="min-h-screen flex items-end justify-center px-6">
+          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-8 w-full h-[85vh] max-w-5xl shadow-2xl flex flex-col">
+            <div className="mb-4 text-left px-10 pt-0">
               <p className="text-sm text-gray-600 mb-3 uppercase tracking-wide font-medium">
                 LET'S GET YOU STARTED
               </p>
-              <h2 className="text-3xl font-bold text-gray-900">Create an Account</h2>
+              <h2 className="text-3xl font- text-gray-900">Create an Account</h2>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Johnson Doe"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:border-red-600 focus:bg-white outline-none transition-all"
-                />
-              </div>
-
-              {/* Mobile */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Mobile Number
-                </label>
-                <input
-                  type="tel"
-                  name="mobile"
-                  placeholder="Enter mobile number"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:border-red-600 focus:bg-white outline-none transition-all"
-                />
-              </div>
-
-              {/* Email */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email ID
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="johnson@gmail.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:border-red-600 focus:bg-white outline-none transition-all"
-                />
-              </div>
-
-              {error && <div className="text-sm text-red-600">{error}</div>}
-              {success && <div className="text-sm text-green-700">{success}</div>}
-
-              {/* Submit Button */}
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`w-full ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-800 hover:bg-red-900'} text-white py-3 rounded-lg font-semibold text-sm transition-colors duration-200`}
-                >
-                  {loading ? 'Submitting...' : 'GET STARTED'}
-                </button>
-              </div>
-            </form>
-
-            {/* Bottom text */}
-            <p className="text-center text-gray-600 mt-4 text-sm">
-              Already have an account?{" "}
-              <a
-                href="/login"
-                className="text-red-700 font-semibold hover:underline"
+            <div className="flex-1 flex flex-col justify-between px-10">
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-4 w-full"
               >
-                Login Here
-              </a>
-            </p>
+                {/* Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Johnson Doe"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                  />
+                </div>
+
+                {/* Mobile */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="mobile"
+                    placeholder="Enter mobile number"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email ID
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="johnson@gmail.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                  />
+                </div>
+
+                {error && <div className="text-sm text-red-600">{error}</div>}
+                {success && <div className="text-sm text-green-700">{success}</div>}
+
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`w-full ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-800 hover:bg-red-900'} text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200`}
+                  >
+                    {loading ? 'Submitting...' : 'GET STARTED'}
+                  </button>
+                </div>
+              </form>
+
+              <p className="text-left text-base text-gray-600 mt-4 px-10">
+                Already have an account?{" "}
+                <a
+                  href="/login"
+                  className="text-red-700 font-semibold hover:underline"
+                >
+                  Login Here
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

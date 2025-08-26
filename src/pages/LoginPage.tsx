@@ -58,84 +58,74 @@ export default function LoginPage() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      {/* Main container */}
-      <div className="relative z-10 flex items-center justify-center w-full min-h-screen px-8">
-
-        {/* Left section - Logo and text */}
-        <div className="hidden lg:flex flex-col items-center text-white mr-16 max-w-md">
-          {/* Logo - Centered */}
-          <div className="w-24 h-24 mb-8">
+      <div className="relative z-10 flex items-center justify-between w-full max-w-7xl px-8">
+        {/* Left Section */}
+        <div className="text-white max-w-lg text-center">
+          <div className="w-40 h-40 mx-auto mb-6">
             <img
               src="src/assets/images/Group 48095638.png"
               alt="Trust Logo"
               className="w-full h-full object-contain"
             />
           </div>
-
-          <h1 className="text-3xl font-bold mb-6 leading-tight text-center text-orange-100">
+          <h1 className="text-4xl font-bold mb-6 leading-tight text-orange-100">
             Shree Mahakaleshwar Salasar <br />
             Hanuman Sewa Trust
           </h1>
-
-          <p className="text-gray-200 text-sm leading-relaxed opacity-90 text-center">
+          <p className="text-gray-200 text-sm leading-relaxed max-w-sm opacity-90 mx-auto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
 
-        {/* Right section - Login Form Card with proper height */}
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl w-full max-w-sm shadow-2xl"
-          style={{ height: '500px' }}>
-
-          {/* Card content with proper vertical spacing */}
-          <div className="h-full flex flex-col justify-between p-8">
-
-            {/* Top section - Welcome text */}
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Welcome Back</h2>
-              <p className="text-sm text-gray-600">Please enter your mobile no. to continue Login</p>
-            </div>
-
-            {/* Middle section - Form */}
-            <div className="flex-1 flex flex-col justify-center">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Mobile Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="mobileNumber"
-                    placeholder="Johnson Doe"
-                    value={mobileNumber}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
-                  />
-                </div>
-
-                {error && <div className="text-sm text-red-600">{error}</div>}
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`w-full ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-800 hover:bg-red-900'} text-white py-3 rounded-lg font-semibold text-base transition-colors duration-200 mt-12`}
-                >
-                  {loading ? 'Sending...' : 'Sign In'}
-                </button>
-              </form>
-            </div>
-
-            {/* Bottom section - Sign up link */}
-            <div className="text-center">
-              <p className="text-sm text-gray-600">
-                Don't have an account?{' '}
-                <a href="/signup" className="text-red-700 font-semibold hover:underline">
-                  Sign Up Here
-                </a>
+        {/* Right Section (Login Form) */}
+        <div className="min-h-screen flex items-end justify-center px-6">
+          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-10 w-full h-[80vh] max-w-5xl shadow-2xl">
+            <div className="mb-6 text-left px-10 pt-0">
+              <h2 className="text-3xl font- text-gray-900">Welcome Back</h2>
+              <p className="text-base text-gray-500 mt-2">
+                Please enter your mobile no. to continue Login
               </p>
             </div>
 
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-10 w-full px-10 py-10 flex-grow flex flex-col justify-center"
+            >
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Mobile Number
+                </label>
+                <input
+                  type="tel"
+                  name="mobileNumber"
+                  placeholder="Enter your mobile number"
+                  value={mobileNumber}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                />
+              </div>
+
+              {error && <div className="text-sm text-red-600">{error}</div>}
+
+              <div className="py-10">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-800 hover:bg-red-900'} text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200`}
+                >
+                  {loading ? 'Sending...' : 'Sign In'}
+                </button>
+              </div>
+            </form>
+
+            <p className="text-left text-base text-gray-600 mt-6 px-20">
+              Don't have an account?{" "}
+              <a href="/signup" className="text-red-700 font-semibold hover:underline">
+                Sign Up Here
+              </a>
+            </p>
           </div>
         </div>
       </div>
