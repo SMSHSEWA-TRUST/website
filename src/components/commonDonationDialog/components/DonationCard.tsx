@@ -28,7 +28,7 @@ export const donationOptions = [
 const DonationCard: React.FC<DonationCardProps> = ({data}) => {
   const formatPrice = (price: number) => `₹${price.toLocaleString("en-IN")}`;
   return (
-    <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl p-4 text-white max-w-md max-h-fit">
+    <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl p-4 text-white max-h-fit">
       <div className="flex justify-between items-start">
         <div className="space-y-2">
           {data?.daanTypes?.map((selectedOption: selectedOptionTypes) => (

@@ -1,40 +1,30 @@
 import React, {useState} from "react";
-import {useForm, Controller} from "react-hook-form";
+import {Controller} from "react-hook-form";
+import {DialogTypesForDonation} from ".";
+import BhumiDaanPlotSection from "./components/LandDonationSelector";
 
 type DonationFormProps = {
   onSubmit: (data: any) => void;
   category: string;
   onAmountChange?: (amount: number) => void;
   data: any;
+  handleSubmit: any;
+  setValue: any;
+  control: any;
+  errors: any;
 };
 
-type userProps = {
-  name: string;
-  phone: string;
-  email: string;
-};
-
-const DonationForm: React.FC<DonationFormProps> = ({onSubmit, onAmountChange, data}) => {
+const DonationForm: React.FC<DonationFormProps> = ({
+  onSubmit,
+  onAmountChange,
+  data,
+  handleSubmit,
+  setValue,
+  control,
+  errors,
+}) => {
   const [selectedOption, setSelectedOption] = useState(data?.daanTypes?.[0] ?? null);
-  const storedUser = localStorage.getItem("user");
-  const user = storedUser ? (JSON.parse(storedUser) as userProps) : null;
-  const DefaultValues = {
-    donationDocId: data?.daanTypes?.[0]?._id ?? "",
-    name: user?.name ?? "",
-    fatherName: "",
-    motherName: "",
-    phoneNumber: user?.phone ?? "",
-    email: user?.email ?? "",
-    address: "",
-  };
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-    setValue,
-  } = useForm({
-    defaultValues: DefaultValues,
-  });
+
   const handleDonationSelect = (option: {_id: string; name: string; amount: number}) => {
     setSelectedOption(option);
     setValue("donationDocId", option._id);
@@ -75,8 +65,12 @@ const DonationForm: React.FC<DonationFormProps> = ({onSubmit, onAmountChange, da
           ))}
       </div>
 
+      {data?.title === DialogTypesForDonation.BHUDAAN && (
+        <BhumiDaanPlotSection onAmountChange={onAmountChange} plots={data?.plots ?? []} />
+      )}
+
       {/* Contact Details Form */}
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" id="donationForm">
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-red-700 mb-4">Contact Details</h3>
         </div>

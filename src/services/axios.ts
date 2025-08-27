@@ -29,9 +29,34 @@ authTokenAxios.interceptors.response.use(
   async error => {
     const prevRequest = error?.config;
     if (error?.response?.status === 401 && !prevRequest?.sent) {
-      console.log("Unauthorized");
-      localStorage.clear();
+      prevRequest.sent = true;
+      try {
+        const refreshResponse = await axios.post(
+          `${BASE_URL}/user/refresh-token`,
+          {
+            refreshToken: localStorage.getItem("refreshToken"),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
+
+        prevRequest.headers["Authorization"] = `Bearer ${refreshResponse?.data?.token}`;
+        authTokenAxios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${refreshResponse?.data?.token}`;
+
+        localStorage.setItem("authToken", refreshResponse?.data?.token);
+        localStorage.setItem("refreshToken", refreshResponse?.data?.refreshToken);
+
+        return authTokenAxios(prevRequest);
+      } catch (refreshResponseError) {
+        console.log(refreshResponseError);
+      }
     }
+    toast.error(error?.response?.data?.message ?? "Something went wrong");
     return Promise.reject(error);
   }
 );

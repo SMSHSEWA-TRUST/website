@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const DialogTypesForDonation = {
-  BHUDAAN: "Bhudaan",
+  BHUDAAN: "Bhumi Daan",
   GAUDAAN: "Gaudaan",
   BHOJANDAAN: "Bhojandaan",
   ANNDAAN: "Anndaan",
@@ -26,10 +26,18 @@ const CommonDonationDialog: React.FC<Props> = ({selectedCategory, setOpenDialog}
   const {data, isFetching} = useDaanDetailsByDocId(selectedCategory._id);
   const key = selectedCategory?.title?.toUpperCase() as DonationKey;
   const DialogType = DialogTypesForDonation[key];
+
   const renderComponent = () => {
     switch (DialogType) {
       default:
-        return <DaanContent daanContent={data?.data} handleSubmit={() => setOpenDialog(false)} />;
+        return (
+          <DaanContent
+            daanContent={data?.data}
+            handleBack={() => {
+              setOpenDialog(false);
+            }}
+          />
+        );
     }
   };
   if (isFetching) return null;
