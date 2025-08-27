@@ -34,17 +34,17 @@ const BlogDetails = () => {
         <div className="mx-auto p-6 font-secondaryFont ">
             <div className="flex flex-col lg:flex-row gap-24">
                 {/* Main Blog Details Section */}
-                <div className=" pl-14 max-w-[729px]  mb-8">
+                <div className="  max-w-[900px] lg:pl-28 mb-8 mx-auto lg:mx-0">
                     <div className="flex flex-col gap-6">
                         <p className="font-secondaryFont text-xs text-gray-700 leading-relaxed">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
+                         </p>
                         <h2 className="font-primaryFont text-lg text-[#B91C1C] mb-1 mt-2">Sub Heading 1</h2>
                         <p className="font-secondaryFont text-xs text-gray-700 leading-relaxed">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         </p>
                         <div className="flex justify-center">
-                            <div className="w-full max-w-[729px] aspect-[4/3]  overflow-hidden flex items-center justify-center">
+                            <div className="w-full max-w-[900px] aspect-[4/3]  overflow-hidden flex items-center justify-center">
                                 <LazyLoadImage src={blogDetails1} alt="Main" className="w-full h-full object-cover object-center" loading="lazy" />
                             </div>
                         </div>

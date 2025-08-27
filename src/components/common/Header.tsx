@@ -1,11 +1,11 @@
-import {useState, useEffect} from "react";
-import {LazyLoadImage} from "react-lazy-load-image-component";
+import { useState, useEffect } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import tempLogo from "@/assets/images/temp-logo.png";
 import lineImage from "@/assets/images/line.png";
 import headerbg from "@/assets/images/headerbg.png";
-import {useLocation, Link} from "react-router-dom";
-import {Button} from "../ui/button";
-import {NavigationMenu, NavigationMenuItem, NavigationMenuList} from "../ui/navigation-menu";
+import { useLocation, Link } from "react-router-dom";
+import { Button } from "../ui/button";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "../ui/navigation-menu";
 
 const Header = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,7 +17,7 @@ const Header = (): JSX.Element => {
   const isLoggedIn = Boolean(localStorage.getItem("authToken"));
 
   useEffect(() => {
-    window.scrollTo({top: 0, behavior: "auto"});
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname]);
 
   return (
@@ -25,7 +25,7 @@ const Header = (): JSX.Element => {
       <div className="w-full flex justify-center">
         <div className="w-full max-w-[891px]">
           {/* Main Header Container */}
-          <div className="mx-auto px-4 sm:px-6 lg:px-8" style={{position: "relative", zIndex: 1}}>
+          <div className="mx-auto px-4 sm:px-6 lg:px-8" style={{ position: "relative", zIndex: 1 }}>
             {/* Desktop Layout */}
             <div
               className="hidden lg:flex lg:items-center lg:justify-center lg:py-2 gap-6"
@@ -82,11 +82,10 @@ const Header = (): JSX.Element => {
                       <Link to="/">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${
-                            currentPath === "/"
+                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/"
                               ? "text-[#8b0000] underline"
                               : "text-[#333333] hover:text-[#8b0000] "
-                          } `}>
+                            } `}>
                           Home
                         </Button>
                       </Link>
@@ -95,11 +94,10 @@ const Header = (): JSX.Element => {
                       <Link to="/about">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${
-                            currentPath === "/about"
+                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/about"
                               ? "text-[#8b0000] underline"
                               : "text-[#333333] hover:text-[#8b0000]"
-                          }`}>
+                            }`}>
                           About
                         </Button>
                       </Link>
@@ -108,11 +106,10 @@ const Header = (): JSX.Element => {
                       <Link to="/puja">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${
-                            currentPath === "/puja"
+                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/puja"
                               ? "text-[#8b0000] underline"
                               : "text-[#333333] hover:text-[#8b0000]"
-                          }`}>
+                            }`}>
                           Puja's
                         </Button>
                       </Link>
@@ -121,11 +118,10 @@ const Header = (): JSX.Element => {
                       <Link to="/membership">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${
-                            currentPath === "/membership"
+                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/membership"
                               ? "text-[#8b0000] underline"
                               : "text-[#333333] hover:text-[#8b0000]"
-                          }`}>
+                            }`}>
                           Membership
                         </Button>
                       </Link>
@@ -134,11 +130,10 @@ const Header = (): JSX.Element => {
                       <Link to="/blogs">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${
-                            currentPath === "/blogs"
+                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/blogs"
                               ? "text-[#8b0000] underline"
                               : "text-[#333333] hover:text-[#8b0000]"
-                          }`}>
+                            }`}>
                           Blogs
                         </Button>
                       </Link>
@@ -147,11 +142,10 @@ const Header = (): JSX.Element => {
                       <Link to="/contact">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${
-                            currentPath === "/contact"
+                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/contact"
                               ? "text-[#8b0000] underline"
                               : "text-[#333333] hover:text-[#8b0000]"
-                          }`}>
+                            }`}>
                           Contact us
                         </Button>
                       </Link>
@@ -195,7 +189,7 @@ const Header = (): JSX.Element => {
 
                 {/* Centered Title */}
                 <div className="flex-1 flex justify-center px-2 sm:px-4">
-                  <h1 className="font-primaryFont text-center text-[17px] text-[#4c291e] [text-shadow:0px_1px_1px_#daa52040] [-webkit-text-stroke:0.3px_#8b0000] leading-tight max-w-xs sm:max-w-sm">
+                  <h1 className="font-primaryFont text-center text-[17px] text-[#4c291e] [text-shadow:0px_2px_2px_#daa52040] [-webkit-text-stroke:0.3px_#8b0000] leading-tight font-semibold max-w-xs sm:max-w-sm">
                     Shree Mahakaleshwar Salasar Hanuman Sewa Trust
                   </h1>
                 </div>
@@ -207,17 +201,14 @@ const Header = (): JSX.Element => {
                     className="flex flex-col items-center justify-center w-8 h-8 space-y-1 text-[#333333] focus:outline-none"
                     aria-label="Toggle navigation menu">
                     <span
-                      className={`block w-6 h-0.5 bg-current transition-transform ${
-                        isMobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
-                      }`}></span>
+                      className={`block w-6 h-0.5 bg-current transition-transform ${isMobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                        }`}></span>
                     <span
-                      className={`block w-6 h-0.5 bg-current transition-opacity ${
-                        isMobileMenuOpen ? "opacity-0" : ""
-                      }`}></span>
+                      className={`block w-6 h-0.5 bg-current transition-opacity ${isMobileMenuOpen ? "opacity-0" : ""
+                        }`}></span>
                     <span
-                      className={`block w-6 h-0.5 bg-current transition-transform ${
-                        isMobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
-                      }`}></span>
+                      className={`block w-6 h-0.5 bg-current transition-transform ${isMobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                        }`}></span>
                   </button>
                 </div>
               </div>
@@ -247,82 +238,74 @@ const Header = (): JSX.Element => {
 
               {/* Mobile Navigation Menu */}
               <div
-                className={`${
-                  isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                } overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100`}>
+                className={`${isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  } overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100`}>
                 <nav
-                  className={`py-4 space-y-2 ${
-                    isMobileMenuOpen ? "max-h-80 overflow-y-auto" : ""
-                  }`}>
-                  <Link to="/">
+                  className={`py-4 space-y-2 ${isMobileMenuOpen ? "max-h-80 overflow-y-auto" : ""
+                    }`}>
+                  <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${
-                        currentPath === "/"
+                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/"
                           ? "text-[#8b0000]"
                           : "text-[#333333] hover:text-[#8b0000]"
-                      }`}>
+                        }`}>
                       Home
                     </Button>
                   </Link>
-                  <Link to="/about">
+                  <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${
-                        currentPath === "/about"
+                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/about"
                           ? "text-[#8b0000]"
                           : "text-[#333333] hover:text-[#8b0000]"
-                      }`}>
+                        }`}>
                       About
                     </Button>
                   </Link>
-                  <Link to="/puja">
+                  <Link to="/puja" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${
-                        currentPath === "/puja"
+                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/puja"
                           ? "text-[#8b0000]"
                           : "text-[#333333] hover:text-[#8b0000]"
-                      }`}>
+                        }`}>
                       Puja's
                     </Button>
                   </Link>
-                  <Link to="/membership">
+                  <Link to="/membership" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${
-                        currentPath === "/membership"
+                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/membership"
                           ? "text-[#8b0000]"
                           : "text-[#333333] hover:text-[#8b0000]"
-                      }`}>
+                        }`}>
                       Membership
                     </Button>
                   </Link>
-                  <Link to="/blogs">
+                  <Link to="/blogs" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${
-                        currentPath === "/blogs"
+                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/blogs"
                           ? "text-[#8b0000]"
                           : "text-[#333333] hover:text-[#8b0000]"
-                      }`}>
+                        }`}>
                       Blogs
                     </Button>
                   </Link>
-                  <Link to="/contact">
+                  <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${
-                        currentPath === "/contact"
+                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/contact"
                           ? "text-[#8b0000]"
                           : "text-[#333333] hover:text-[#8b0000]"
-                      }`}>
+                        }`}>
                       Contact us
                     </Button>
                   </Link>
                   {/* Mobile Register/Login in menu */}
                   {!isLoggedIn ? (
-                    <Link to="/login">
+                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
                       <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-normal ">
                         Register/Login
                       </Button>
@@ -330,6 +313,7 @@ const Header = (): JSX.Element => {
                   ) : (
                     <Button
                       onClick={() => {
+                        setIsMobileMenuOpen(false);
                         localStorage.clear();
                         window.location.reload();
                       }}

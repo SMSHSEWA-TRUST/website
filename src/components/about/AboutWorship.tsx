@@ -85,7 +85,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                         <div className="flex-shrink-0 mb-6 lg:mb-0">
                             <div className="relative" ref={imageRef}>
                                 {/* Natural Format Image */}
-                                <div className="relative overflow-hidden rounded-lg p-6 md:p-8 min-h-[300px] sm:min-h-[360px]">
+                                <div className="relative overflow-hidden rounded-lg p-6 md:p-8 min-h-[300px] sm:min-h-[360px] flex items-center justify-center">
                                     {/* Background image layer */}
                                     <div
                                         className="absolute inset-0 z-0 pointer-events-none bg-no-repeat bg-center opacity-15"
@@ -100,15 +100,10 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                                     <img
                                         src={worshipImage}
                                         alt="Spiritual worship scene with hands holding flower and sacred fire"
-                                        className="relative h-auto object-cover transition-all duration-[1200ms] ease-in-out z-10"
+                                        className="h-auto object-contain transition-all duration-[1200ms] ease-in-out z-10"
                                         style={{
                                             width: inView ? 'clamp(300px, 45vw, 420px)' : '80px',
                                             maxWidth: '85%',
-                                            height: 'auto',
-                                            margin: '0 auto',
-                                            display: 'block',
-                                            position: 'relative',
-
                                         }}
                                         loading="lazy"
                                         decoding="async"

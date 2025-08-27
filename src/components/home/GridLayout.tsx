@@ -13,12 +13,12 @@ const GridLayout = (): JSX.Element => {
             <div className="flex flex-col lg:grid lg:grid-cols-2 gap-1 lg:gap-24 h-auto lg:h-[680px]">
 
                 {/* Left Side */}
-                <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-8 mt-5">
 
                     {/* Content Section */}
-                    <div className="bg-[#f4f0ec] pl-16 rounded-lg lg:rounded-none flex-1 lg:min-h-[280px] flex flex-col justify-center">
+                    <div className="bg-[#f4f0ec] pl-8  md:pl-16 rounded-lg lg:rounded-none flex-1 flex flex-col justify-center ">
                         <div className="max-w-lg">
-                            <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-secondaryColor font-primaryFont leading-tight mb-3 lg:mb-6">
+                            <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-[rgba(76,41,30,1)] font-primaryFont leading-tight mb-3 lg:mb-6">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing eli
                             </h2>
                             <p className="text-sm sm:text-base lg:text-lg text-[#1e1e1e]/50 font-secondaryFont leading-relaxed mb-4 lg:mb-8">

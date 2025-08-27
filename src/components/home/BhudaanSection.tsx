@@ -17,7 +17,7 @@ const BhudaanSection: React.FC = () => {
                         letterSpacing: '0.04em',
                     }}
                 >
-                    Bhudaan
+                    Bhumi Daan
                 </h2>
                 <div className="flex items-center justify-center py-2 w-full">
                     <div className="flex items-center w-full max-w-md">
