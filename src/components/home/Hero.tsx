@@ -66,7 +66,7 @@ const Hero = (): JSX.Element => {
                 <span className="font-secondaryFont">Feel Lord Shiva&apos;s Power</span>
                 <div className="relative w-full h-full">
                   <div
-                    className="absolute w-[110.6%] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] font-primaryFont font-normal text-white text-[64px] tracking-[0] leading-[normal] animate-slideUpText"
+                    className="absolute w-[110.6%] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] font-primaryFont font-semibold text-white text-[64px] tracking-[0] leading-[normal] animate-slideUpText"
                     key={texts[textIndex]}>
                     {texts[textIndex]}
                   </div>

@@ -5,7 +5,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const DivinePower = (): JSX.Element => {
     return (
-        <section className="relative w-full flex flex-col items-center justify-center mt-10">
+        <section className="relative w-full flex flex-col items-center justify-center mt-10 md:ml-6 md:mr-6">
             {/* Desktop/Large screen: text overlays image */}
             <div className="hidden md:flex relative w-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px] items-center justify-center overflow-hidden">
                 {/* Background image with overlay */}
@@ -30,11 +30,12 @@ const DivinePower = (): JSX.Element => {
                 </div>
             </div>
             {/* Mobile/Small screen: text above image */}
-            <div className="flex flex-col md:hidden w-full items-center justify-center px-4 py-10">
-                <h2 className="font-primaryFont text-[16px] sm:text-[32px] lg:text-[48px] text-secondaryColor text-center font-normal max-w-2xl mx-auto">
+            <div className="flex flex-col md:hidden w-full items-center justify-center px-4 py-10 ">
+                <h2 className="font-primaryFont text-[16px] sm:text-[32px] lg:text-[48px] text-[rgba(76,41,30,1)] text-center font-semibold
+                 max-w-2xl mx-auto">
                     Feel the Surreal Divine Power
                 </h2>
-                <p className="mt-4 max-w-md text-secondaryColor text-[10px] sm:text-[12px] text-center font-secondaryFont leading-relaxed">
+                <p className="mt-4 max-w-md text-[rgba(76,41,30,1)] text-[10px] sm:text-[12px] text-center font-secondaryFont leading-relaxed">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 <LazyLoadImage

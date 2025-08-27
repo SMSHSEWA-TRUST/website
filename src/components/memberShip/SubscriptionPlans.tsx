@@ -1,47 +1,82 @@
 
+import React, { useState } from "react";
 
-const SubscriptionPlans = () => {
+const SubscriptionPlans: React.FC = () => {
     const features = [
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ];
 
-    const SubscriptionCard = ({ highlight = false, price = "₹1199" }) => {
+    // Prices / plans data (5 cards based on original layout)
+    const plans = [
+        { price: "₹1199" },
+        { price: "₹1199" },
+        { price: "₹1199" },
+        { price: "₹1109" },
+        { price: "₹1109" },
+    ];
+
+    const [selectedIndex, setSelectedIndex] = useState<number>(0); // first card selected by default
+
+    const SubscriptionCard: React.FC<{
+        selected?: boolean;
+        price?: string;
+        onClick?: () => void;
+    }> = ({ selected = false, price = "₹1199", onClick }) => {
+        const baseClasses = `font-secondaryFont rounded-lg p-6 w-[341px] lg:max-w-[387px] min-h-[400px] transition-shadow transition-colors duration-200 cursor-pointer overflow-hidden transform hover:-translate-y-1 hover:shadow-xl`;
+
+
+        const inlineStyle: React.CSSProperties = selected
+            ? {
+                backgroundColor: "rgba(139,0,0,1)",
+                color: "white",
+                boxShadow: "0 12px 30px rgba(139,0,0,0.18)",
+                border: "1px solid rgba(139,0,0,0.12)"
+            }
+            : {
+                backgroundColor: "#ffffff",
+                /* stronger but still subtle darker shadow so card separates from white background */
+                boxShadow: "0 10px 30px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04)",
+                border: "1px solid rgba(0,0,0,0.06)",
+                zIndex: 10
+            };
+
         return (
-            <div className={`font-secondaryFont rounded-lg  p-6 w-[341px] lg:max-w-[387px] min-h-[400px] ${highlight
-                ? "bg-gradient-to-b from-red-800 to-red-900 text-white"
-                : "bg-white text-gray-700"
-                }`}>
+            <div
+                role="button"
+                tabIndex={0}
+                onClick={onClick}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick && onClick(); }}
+                className={baseClasses}
+                style={inlineStyle}
+            >
                 {/* Plan Name */}
-                <h3 className={`font-primaryFont text-xl font-medium mb-3 ${highlight ? "text-white" : "text-secondaryColor"}`}>
+                <h3 className={`font-primaryFont text-xl font-medium mb-3 ${selected ? "text-white" : "text-secondaryColor"}`}>
                     Plan Name
                 </h3>
 
                 {/* Description */}
-                <p className={`font-secondaryFont text-sm mb-4 leading-relaxed ${highlight ? "text-white/90" : "text-gray-600"}`}>
+                <p className={`font-secondaryFont text-sm mb-4 leading-relaxed ${selected ? "text-white/90" : "text-gray-600"}`}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
 
                 {/* Price */}
                 <div className="mb-4">
-                    <span className={`font-primaryFont text-4xl font-bold ${highlight ? "text-white" : "text-red-700"}`}>
+                    <span className={`font-primaryFont text-4xl font-bold ${selected ? "text-white" : "text-red-700"}`}>
                         {price}
                     </span>
-                    <span className={`font-secondaryFont text-sm ml-1 ${highlight ? "text-white/80" : "text-gray-500"}`}>
+                    <span className={`font-secondaryFont text-sm ml-1 ${selected ? "text-white/80" : "text-gray-500"}`}>
                         /month
                     </span>
                 </div>
 
                 {/* Plan Type Buttons */}
                 <div className="flex gap-2 mb-4">
-                    <button className={`font-secondaryFont px-3 py-1.5 text-xs font-medium rounded ${highlight
-                        ? "bg-yellow-400 text-red-800"
-                        : "bg-yellow-400 text-red-800"
-                        }`}>
+                    <button className={`font-secondaryFont px-3 py-1.5 text-xs font-medium rounded bg-yellow-400 text-red-800`}>
                         Monthly
                     </button>
-                    <button className={`font-secondaryFont px-3 py-1.5 text-xs font-medium rounded ${highlight
+                    <button className={`font-secondaryFont px-3 py-1.5 text-xs font-medium rounded ${selected
                         ? "bg-yellow-400 text-red-800"
                         : "bg-yellow-400 text-red-800"
                         }`}>
@@ -50,7 +85,7 @@ const SubscriptionPlans = () => {
                 </div>
 
                 {/* Buy Now Button */}
-                <button className={`font-secondaryFont w-full py-2.5 rounded font-medium text-sm mb-4 ${highlight
+                <button className={`font-secondaryFont w-full py-2.5 rounded font-medium text-sm mb-4 ${selected
                     ? "bg-white text-red-800 hover:bg-gray-100"
                     : "bg-red-800 text-white hover:bg-red-900"
                     }`}>
@@ -60,9 +95,9 @@ const SubscriptionPlans = () => {
                 {/* Features List */}
                 <ul className="space-y-2">
                     {features.map((feature, idx) => (
-                        <li key={idx} className={`font-secondaryFont text-xs leading-relaxed flex items-start ${highlight ? "text-white/90" : "text-gray-600"
+                        <li key={idx} className={`font-secondaryFont text-xs leading-relaxed flex items-start ${selected ? "text-white/90" : "text-gray-600"
                             }`}>
-                            <span className={`inline-block w-1.5 h-1.5 rounded-full mt-1.5 mr-2 flex-shrink-0 ${highlight ? "bg-white" : "bg-red-600"
+                            <span className={`inline-block w-1.5 h-1.5 rounded-full mt-1.5 mr-2 flex-shrink-0 ${selected ? "bg-white" : "bg-red-600"
                                 }`}></span>
                             {feature}
                         </li>
@@ -73,7 +108,7 @@ const SubscriptionPlans = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b  py-12  px-4">
+        <div className="min-h-screen bg-gradient-to-b  py-12  px-4 bg-[#F8F5F0]">
             {/* Title */}
             <div className="text-center mb-8 font-secondaryFont">
                 <h1 className="font-primaryFont text-3xl text-secondaryColor mb-4">Subscription Plans</h1>
@@ -112,14 +147,17 @@ const SubscriptionPlans = () => {
             {/* Cards Container */}
             <div className="w-full mx-auto max-w-[1200px]">
                 {/* Top Row - 3 Cards */}
-                <div className="flex flex-wrap justify-center gap-8  ">
-                    <SubscriptionCard highlight={true} />
-                    <SubscriptionCard />
-                    <SubscriptionCard />
-                    <SubscriptionCard price="₹1109" />
-                    <SubscriptionCard price="₹1109" />
+                <div className="flex flex-wrap justify-center gap-8">
+                    {plans.map((p, idx) => (
+                        <SubscriptionCard
+                            key={idx}
+                            price={p.price}
+                            selected={selectedIndex === idx}
+                            onClick={() => setSelectedIndex(idx)}
+                        />
+                    ))}
                 </div>
-               
+
             </div>
         </div>
     );

@@ -133,11 +133,11 @@ const About = (): JSX.Element => {
                     </div>
 
                     {/* Aarti Timings Button */}
-                    {/* <div className="mt-8 flex justify-start">
+                    <div className="mt-8 flex justify-start">
                         <button className="bg-[rgba(139,0,0,1)] text-white  text-[16px] sm:text-[18px] lg:text-[20px]  px-3 py-2 rounded-md shadow-md hover:bg-[#a83232] transition-colors duration-200 font-secondaryFont">
                             Aarti Timings
                         </button>
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </section>
