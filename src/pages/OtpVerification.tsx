@@ -77,9 +77,9 @@ export default function OtpVerification() {
       }
 
       setSuccess("OTP verified. Redirecting...");
-      console.log("OTP verification response:", data);
       //Stored token and user data in localStorage
       localStorage.setItem("authToken", data?.data?.token || "");
+      localStorage.setItem("refreshToken", data?.data?.refreshToken || "");
       localStorage.setItem("user", JSON.stringify(data?.data || {}));
       setTimeout(() => navigate("/", {replace: true}), 800);
     } catch (err: any) {
