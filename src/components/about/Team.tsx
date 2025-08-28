@@ -129,7 +129,7 @@ export default function Team() {
                         {allMembers.map((member, idx) => (
                             <div
                                 key={idx}
-                                className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
+                                className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col "
                                 style={{
                                     minWidth: cardWidth,
                                     maxWidth: cardWidth,

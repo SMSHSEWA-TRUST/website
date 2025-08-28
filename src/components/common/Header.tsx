@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import tempLogo from "@/assets/images/temp-logo.png";
 import lineImage from "@/assets/images/line.png";
@@ -16,12 +16,51 @@ const Header = (): JSX.Element => {
   const currentPath = location.pathname;
   const isLoggedIn = Boolean(localStorage.getItem("authToken"));
 
+  // Auto-hide header state
+  const [isHidden, setIsHidden] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const lastScrollY = useRef(0);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname]);
 
+  // Hide header on scroll down, show on scroll up. Lightweight throttle via rAF.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let ticking = false;
+
+    const handleScroll = () => {
+      const currentY = window.scrollY || 0;
+      setIsScrolled(currentY > 10);
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // If scrolled down and past small threshold, hide header
+          if (currentY > lastScrollY.current && currentY > 50) {
+            setIsHidden(true);
+          } else {
+            setIsHidden(false);
+          }
+
+          lastScrollY.current = currentY;
+          ticking = false;
+        });
+
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="w-full bg-white top-0 fixed left-0 right-0 z-50 font-secondaryFont">
+    <header
+      className={`w-full bg-white top-0 fixed left-0 right-0 z-50 font-secondaryFont transform transition-transform duration-300 ${isHidden ? "-translate-y-full" : "translate-y-0"}`}
+      aria-hidden={isHidden}
+      style={{ boxShadow: isScrolled ? "0 2px 8px rgba(0,0,0,0.08)" : undefined }}>
       <div className="w-full flex justify-center">
         <div className="w-full max-w-[891px]">
           {/* Main Header Container */}
@@ -83,8 +122,8 @@ const Header = (): JSX.Element => {
                         <Button
                           variant="link"
                           className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/"
-                              ? "text-[#8b0000] underline"
-                              : "text-[#333333] hover:text-[#8b0000] "
+                            ? "text-[#8b0000] underline"
+                            : "text-[#333333] hover:text-[#8b0000] "
                             } `}>
                           Home
                         </Button>
@@ -95,8 +134,8 @@ const Header = (): JSX.Element => {
                         <Button
                           variant="link"
                           className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/about"
-                              ? "text-[#8b0000] underline"
-                              : "text-[#333333] hover:text-[#8b0000]"
+                            ? "text-[#8b0000] underline"
+                            : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
                           About
                         </Button>
@@ -107,8 +146,8 @@ const Header = (): JSX.Element => {
                         <Button
                           variant="link"
                           className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/puja"
-                              ? "text-[#8b0000] underline"
-                              : "text-[#333333] hover:text-[#8b0000]"
+                            ? "text-[#8b0000] underline"
+                            : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
                           Puja's
                         </Button>
@@ -119,8 +158,8 @@ const Header = (): JSX.Element => {
                         <Button
                           variant="link"
                           className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/membership"
-                              ? "text-[#8b0000] underline"
-                              : "text-[#333333] hover:text-[#8b0000]"
+                            ? "text-[#8b0000] underline"
+                            : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
                           Membership
                         </Button>
@@ -131,8 +170,8 @@ const Header = (): JSX.Element => {
                         <Button
                           variant="link"
                           className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/blogs"
-                              ? "text-[#8b0000] underline"
-                              : "text-[#333333] hover:text-[#8b0000]"
+                            ? "text-[#8b0000] underline"
+                            : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
                           Blogs
                         </Button>
@@ -143,8 +182,8 @@ const Header = (): JSX.Element => {
                         <Button
                           variant="link"
                           className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/contact"
-                              ? "text-[#8b0000] underline"
-                              : "text-[#333333] hover:text-[#8b0000]"
+                            ? "text-[#8b0000] underline"
+                            : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
                           Contact us
                         </Button>
@@ -247,8 +286,8 @@ const Header = (): JSX.Element => {
                     <Button
                       variant="link"
                       className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/"
-                          ? "text-[#8b0000]"
-                          : "text-[#333333] hover:text-[#8b0000]"
+                        ? "text-[#8b0000]"
+                        : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
                       Home
                     </Button>
@@ -257,8 +296,8 @@ const Header = (): JSX.Element => {
                     <Button
                       variant="link"
                       className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/about"
-                          ? "text-[#8b0000]"
-                          : "text-[#333333] hover:text-[#8b0000]"
+                        ? "text-[#8b0000]"
+                        : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
                       About
                     </Button>
@@ -267,8 +306,8 @@ const Header = (): JSX.Element => {
                     <Button
                       variant="link"
                       className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/puja"
-                          ? "text-[#8b0000]"
-                          : "text-[#333333] hover:text-[#8b0000]"
+                        ? "text-[#8b0000]"
+                        : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
                       Puja's
                     </Button>
@@ -277,8 +316,8 @@ const Header = (): JSX.Element => {
                     <Button
                       variant="link"
                       className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/membership"
-                          ? "text-[#8b0000]"
-                          : "text-[#333333] hover:text-[#8b0000]"
+                        ? "text-[#8b0000]"
+                        : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
                       Membership
                     </Button>
@@ -287,8 +326,8 @@ const Header = (): JSX.Element => {
                     <Button
                       variant="link"
                       className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/blogs"
-                          ? "text-[#8b0000]"
-                          : "text-[#333333] hover:text-[#8b0000]"
+                        ? "text-[#8b0000]"
+                        : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
                       Blogs
                     </Button>
@@ -297,8 +336,8 @@ const Header = (): JSX.Element => {
                     <Button
                       variant="link"
                       className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/contact"
-                          ? "text-[#8b0000]"
-                          : "text-[#333333] hover:text-[#8b0000]"
+                        ? "text-[#8b0000]"
+                        : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
                       Contact us
                     </Button>

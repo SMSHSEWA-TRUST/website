@@ -23,24 +23,11 @@ export default function Puja() {
     const [shown, setShown] = useState(0);
     const [prev, setPrev] = useState<number | null>(null);
     const [inView, setInView] = useState(false);
-    const [scrollDir, setScrollDir] = useState<'down' | 'up'>('down');
     const sectionRef = useRef<HTMLDivElement>(null);
-    const lastScrollY = useRef(typeof window !== 'undefined' ? window.scrollY : 0);
+    const throttleRef = useRef(false);
+    const touchStartY = useRef<number | null>(null);
 
-    // Detect scroll direction
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentY = window.scrollY;
-            if (currentY > lastScrollY.current) {
-                setScrollDir('down');
-            } else if (currentY < lastScrollY.current) {
-                setScrollDir('up');
-            }
-            lastScrollY.current = currentY;
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    // No global auto-advance: we'll advance one card per user gesture (wheel / touch)
 
     // Intersection Observer to detect when section is in viewport
     useEffect(() => {
@@ -62,25 +49,76 @@ export default function Puja() {
         };
     }, []);
 
-    // Animation logic for down and up scroll
+    // Listen for wheel and touch gestures on the section to advance one card per gesture
     useEffect(() => {
-        if (inView) {
-            if (scrollDir === 'down' && shown < pujaData.length - 1) {
-                const timer = setTimeout(() => {
-                    setPrev(shown);
-                    setShown(shown + 1);
-                }, 1800);
-                return () => clearTimeout(timer);
+        const el = sectionRef.current;
+        if (!el) return;
+
+        const advanceDown = () => {
+            if (shown < pujaData.length - 1) {
+                setPrev(shown);
+                setShown((s) => s + 1);
             }
-            if (scrollDir === 'up' && shown > 0) {
-                const timer = setTimeout(() => {
-                    setPrev(shown);
-                    setShown(shown - 1);
-                }, 1800);
-                return () => clearTimeout(timer);
+        };
+        const advanceUp = () => {
+            if (shown > 0) {
+                setPrev(shown);
+                setShown((s) => s - 1);
             }
-        }
-    }, [shown, inView, scrollDir]);
+        };
+
+        const resetThrottle = () => {
+            throttleRef.current = false;
+        };
+
+        const handleWheel = (e: WheelEvent) => {
+            if (!inView) return;
+            if (throttleRef.current) return;
+            const delta = e.deltaY;
+            if (delta > 10) {
+                advanceDown();
+                throttleRef.current = true;
+                window.setTimeout(resetThrottle, 600);
+            } else if (delta < -10) {
+                advanceUp();
+                throttleRef.current = true;
+                window.setTimeout(resetThrottle, 600);
+            }
+        };
+
+        const handleTouchStart = (e: TouchEvent) => {
+            touchStartY.current = e.touches[0]?.clientY ?? null;
+        };
+
+        const handleTouchEnd = (e: TouchEvent) => {
+            if (!inView) return;
+            if (throttleRef.current) return;
+            if (touchStartY.current === null) return;
+            const endY = e.changedTouches[0]?.clientY ?? 0;
+            const diff = (touchStartY.current ?? 0) - endY;
+            // swipe up -> show next (diff > 30)
+            if (diff > 30) {
+                advanceDown();
+                throttleRef.current = true;
+                window.setTimeout(resetThrottle, 600);
+            } else if (diff < -30) {
+                advanceUp();
+                throttleRef.current = true;
+                window.setTimeout(resetThrottle, 600);
+            }
+            touchStartY.current = null;
+        };
+
+        el.addEventListener('wheel', handleWheel, { passive: true });
+        el.addEventListener('touchstart', handleTouchStart, { passive: true });
+        el.addEventListener('touchend', handleTouchEnd);
+
+        return () => {
+            el.removeEventListener('wheel', handleWheel);
+            el.removeEventListener('touchstart', handleTouchStart);
+            el.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, [inView, shown]);
 
     useEffect(() => {
         if (prev !== null) {

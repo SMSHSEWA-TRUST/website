@@ -22,9 +22,9 @@ const DonationSection = () => {
       )}
 
       <section
-        className="relative w-full overflow-hidden py-16"
+        className="relative w-full overflow-hidden py-16  "
         style={{
-          background: "linear-gradient(135deg, #8B0000 0%, #B22222 50%, #DC143C 100%)",
+          background: "rgba(139, 0, 0, 1)",
         }}>
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 pointer-events-none">
@@ -34,10 +34,10 @@ const DonationSection = () => {
           <div className="absolute bottom-1/3 left-1/4 w-4 h-4 bg-white/10 rounded-full"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10   px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-wide">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-wide font-primaryFont">
               DONATIONS
             </h2>
             <div className="flex items-center justify-center mb-6">
@@ -65,7 +65,7 @@ const DonationSection = () => {
                 <div
                   key={category.id}
                   className={
-                    "group relative overflow-hidden rounded-xl transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl  bg-gradient-to-b from-orange-600/90 to-orange-600/90 hover:bg-white *:hover:bg-white hover:shadow-x"
+                    "group relative overflow-hidden rounded-xl transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl  bg-[#AD2F16] hover:bg-white *:hover:bg-white hover:shadow-x"
                   }>
                   {/* Card Content */}
                   <div className="p-6 text-center">

@@ -5,7 +5,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const DivinePower = (): JSX.Element => {
     return (
-        <section className="relative w-full flex flex-col items-center justify-center mt-10 md:ml-6 md:mr-6">
+        <section className="relative w-full flex flex-col items-center justify-center  ">
             {/* Desktop/Large screen: text overlays image */}
             <div className="hidden md:flex relative w-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px] items-center justify-center overflow-hidden">
                 {/* Background image with overlay */}

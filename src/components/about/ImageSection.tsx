@@ -38,7 +38,7 @@ const cardData = [
 
 const ImageSection: React.FC = () => {
     return (
-        <section className="w-full py-8 px-2 sm:px-6 lg:px-[80px] font-secondaryFont ">
+        <section className="w-full py-8 px-4 md:px-16 lg:px-24 font-secondaryFont ">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
                 {cardData.map((card, idx) => {
                     // First card: custom background
@@ -46,7 +46,7 @@ const ImageSection: React.FC = () => {
                         return (
                             <div
                                 key={idx}
-                                className={`flex flex-col items-center justify-start overflow-hidden p-6 md:p-8 md:h-[598px]`}
+                                className={`flex flex-col items-center justify-start overflow-hidden p-6 md:p-8 md:h-[598px] `}
                                 style={{ background: "rgba(139,0,0,1)" }}
                             >
                                 <div className="w-full flex justify-center">
@@ -82,14 +82,16 @@ const ImageSection: React.FC = () => {
                                 className="flex items-center justify-center w-full md:h-[598px]"
                                 style={{ background: "transparent" }}
                             >
-                                <LazyLoadImage
-                                    src={card.image}
-                                    alt="Worship scene"
-                                    className="w-full h-auto md:h-full object-cover"
-                                    style={{ borderRadius: 0, boxShadow: "none" }}
-                                    loading="lazy"
-                                    decoding="async"
-                                />
+                              
+                                <div className="w-full h-auto md:h-full overflow-hidden">
+                                    <LazyLoadImage
+                                        src={card.image}
+                                        alt="Worship scene"
+                                        className="w-full h-auto md:h-full object-cover"
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                </div>
                             </div>
                         );
                     }
@@ -97,7 +99,7 @@ const ImageSection: React.FC = () => {
                     return (
                         <div
                             key={idx}
-                            className={`flex flex-col items-center justify-start rounded-xl  overflow-hidden ${card.bg} p-6 md:p-8 md:h-[598px]`}
+                            className={`flex flex-col items-center justify-start rounded-xl  overflow-hidden ${card.bg} p-6 md:p-8 md:h-[598px] rounded-md`}
                         >
                             <div className="w-full flex justify-center">
                                 <div

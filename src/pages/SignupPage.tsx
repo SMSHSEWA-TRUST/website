@@ -1,7 +1,7 @@
 "use client";
 
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   // Basic client-side validation
@@ -71,7 +71,7 @@ export default function SignupPage() {
 
       // Navigate to OTP page, pass phone in location state for convenience
       setTimeout(() => {
-        navigate("/otp", {state: {phone: formData.phone}});
+        navigate("/otp", { state: { phone: formData.phone } });
       }, 800);
     } catch (err: any) {
       setError(err?.message || "Something went wrong");
@@ -90,6 +90,17 @@ export default function SignupPage() {
       style={{
         backgroundImage: `url('src/assets/images/image (2).png')`,
       }}>
+      {/* Go to Home button (top-left) */}
+      <button
+        type="button"
+        onClick={() => navigate('/')}
+        className="absolute top-6 left-6 z-30 bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+        <span className="text-sm font-medium">Go to Home</span>
+      </button>
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
@@ -225,9 +236,8 @@ export default function SignupPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full ${
-                  loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
-                } text-white py-4 rounded-xl font-semibold text-lg transition-colors duration-200`}>
+                className={`w-full ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
+                  } text-white py-4 rounded-xl font-semibold text-lg transition-colors duration-200`}>
                 {loading ? "Submitting..." : "GET STARTED"}
               </button>
             </div>
@@ -273,7 +283,7 @@ export default function SignupPage() {
               <h2 className="text-2xl xl:text-3xl font-bold text-gray-900">Create an Account</h2>
             </div>
 
-            <div className="flex-1 flex flex-col justify-between px-8 xl:px-10">
+            <div className="flex-1 flex flex-col justify-between px-8 xl:px-10 overflow-y-auto pr-3">
               <form onSubmit={handleSubmit} className="space-y-5 w-full">
                 {/* Name */}
                 <div>
@@ -388,9 +398,8 @@ export default function SignupPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`w-full ${
-                      loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
-                    } text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200`}>
+                    className={`w-full ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
+                      } text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200`}>
                     {loading ? "Submitting..." : "GET STARTED"}
                   </button>
                 </div>

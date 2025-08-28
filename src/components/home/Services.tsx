@@ -47,7 +47,7 @@ const services = [
 
 const Services = (): JSX.Element => {
     return (
-        <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-8 lg:px-0 overflow-hidden">
+        <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-16 lg:px-24 overflow-hidden">
             {/* Decorative background image for large screens */}
             <LazyLoadImage
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[962px] h-auto object-contain opacity-5 pointer-events-none select-none z-0"
@@ -56,7 +56,7 @@ const Services = (): JSX.Element => {
                 aria-hidden="true"
                 loading="lazy"
             />
-            <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-6 z-10">
+            <div className="relative  flex flex-col items-center gap-6 z-10">
                 {/* Section Header */}
                 <div className="flex flex-col items-center gap-2 w-full">
                     <span className="text-sm md:text-base font-secondaryFont text-[#4c291e] tracking-wide">

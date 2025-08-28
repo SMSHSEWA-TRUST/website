@@ -4,7 +4,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const ArtiSection = () => {
     return (
-        <section className="w-full bg-gray-50 flex items-center justify-center py-4 px-2 sm:px-6 lg:px-[80px] font-secondaryFont">
+        <section className="w-full bg-gray-50 flex items-center justify-center py-4 px-4 md:px-16 lg:px-24 font-secondaryFont">
             <div className="w-full bg-white overflow-hidden">
 
                 {/* Mobile/Small Screen Layout */}
@@ -19,12 +19,12 @@ const ArtiSection = () => {
                             Journey through centuries of spiritual knowledge that continues to guide millions
                             in their quest for inner peace and enlightenment.
                         </p>
-                        <button
+                        {/* <button
                             className="font-secondaryFont text-white px-4 py-2 text-sm font-medium rounded-lg shadow transition-colors duration-200 w-fit"
                             style={{ background: "rgba(139, 0, 0, 1)" }}
                         >
                             Explore Wisdom
-                        </button>
+                        </button> */}
                     </div>
 
                     {/* Video Section - Mobile */}
@@ -90,19 +90,19 @@ const ArtiSection = () => {
                                 Journey through centuries of spiritual knowledge that continues to guide millions
                                 in their quest for inner peace and enlightenment.
                             </p>
-                            <button
+                            {/* <button
                                 type="button"
                                 className="font-secondaryFont mt-4 w-[150px] py-2 text-white font-bold text-lg leading-tight rounded-none shadow-none transition-colors duration-200 text-center "
                                 style={{ background: "rgba(139, 0, 0, 1)" }}
                             >
                                 CTA Button
-                            </button>
+                            </button> */}
                         </div>
 
                         {/* Bottom Content */}
                         <div className="flex-1 grid grid-cols-2 h-full">
                             {/* Image */}
-                            <div className="relative bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden">
+                            <div className="relative bg-gradient-to-br from-amber-800 to-orange-600 flex items-center justify-center overflow-hidden rounded-md">
                                 <LazyLoadImage
                                     src={aboutArtiImage}
                                     alt="Prayer hands representing spiritual devotion"
@@ -112,7 +112,7 @@ const ArtiSection = () => {
                             </div>
 
                             {/* Text */}
-                            <div className="flex flex-col justify-center bg-gradient-to-br from-orange-500 to-red-500 p-4 lg:p-5 ">
+                            <div className="flex flex-col justify-center bg-gradient-to-br from-orange-500 to-red-500 p-4 lg:p-5 rounded-md ">
                                 <div className="font-secondaryFont text-xs lg:text-sm leading-relaxed space-y-2 opacity-90 text-white">
                                     <p>
                                         The ancient scriptures teach us that true wisdom comes from understanding
@@ -136,7 +136,7 @@ const ArtiSection = () => {
                     </div>
 
                     {/* Right Side - Video */}
-                    <div className="flex items-center justify-center bg-gray-800 p-4 lg:p-6">
+                    <div className="flex items-center justify-center bg-gray-800 p-4 lg:p-6 rounded-md">
                         <div className="w-full h-full flex items-center justify-center">
                             <div className="relative w-full max-w-md" style={{ paddingBottom: '45%' }}>
                                 <iframe

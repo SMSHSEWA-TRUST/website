@@ -46,16 +46,16 @@ export const ContactSection: React.FC = () => {
 
   return (
     <section className="w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-[42%_58%] gap-0 min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] overflow-hidden rounded-lg lg:rounded-none shadow-lg lg:shadow-none">
+      <div className="grid grid-cols-1 lg:grid-cols-[42%_58%] gap-0 min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] overflow-hidden rounded-lg  ">
         {/* Left Section - Background Image with Contact Form */}
         <div
-          className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center p-6 lg:p-8"
+          className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center p-6 lg:p-8  rounded-lg "
           style={{backgroundImage: `url(${contactBg})`}}>
           {/* Overlay for better form visibility */}
           <div className="absolute inset-0 bg-black/10" />
 
           {/* Contact Form Card */}
-          <Card className="relative z-10 w-full max-w-md bg-[#ece5df] shadow-xl rounded-lg lg:rounded-none border-0">
+          <Card className="relative z-10 w-full max-w-md bg-[#ece5df] shadow-xl rounded-lg  ">
             <CardContent className="p-2 sm:p-4 md:p-6 lg:p-8">
               {/* Header Section */}
               <div className="text-center mb-8">
@@ -171,7 +171,7 @@ export const ContactSection: React.FC = () => {
                 <div className="pt-6 flex justify-center">
                   <Button
                     type="submit"
-                    className="bg-secondaryColor hover:bg-[#a32d13] text-white px-8 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg">
+                    className="bg-[#8B0000] hover:bg-[#a32d13] text-white px-8 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg">
                     Submit
                   </Button>
                 </div>

@@ -9,16 +9,16 @@ import tempImage9Webp from '@/assets/images/temp-image-9.webp';
 
 const GridLayout = (): JSX.Element => {
     return (
-        <section className="w-full  ">
+        <section className="w-full mt-4 ">
             <div className="flex flex-col lg:grid lg:grid-cols-2 gap-1 lg:gap-24 h-auto lg:h-[680px]">
 
                 {/* Left Side */}
                 <div className="flex flex-col gap-8 mt-5">
 
                     {/* Content Section */}
-                    <div className="bg-[#f4f0ec] pl-8  md:pl-16 rounded-lg lg:rounded-none flex-1 flex flex-col justify-center ">
+                    <div className=" pl-8  md:pl-16 rounded-lg lg:rounded-none flex-1 flex flex-col justify-center ">
                         <div className="max-w-lg">
-                            <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-[rgba(76,41,30,1)] font-primaryFont leading-tight mb-3 lg:mb-6">
+                            <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-[rgba(76,41,30,1)] font-primaryFont leading-tight  ">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing eli
                             </h2>
                             <p className="text-sm sm:text-base lg:text-lg text-[#1e1e1e]/50 font-secondaryFont leading-relaxed mb-4 lg:mb-8">
@@ -26,22 +26,22 @@ const GridLayout = (): JSX.Element => {
                             </p>
                             <Button className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 lg:px-6 lg:py-3 rounded-none transition-colors duration-200 font-secondaryFont">
                                 <span className="font-secondaryFont font-normal text-xs lg:text-sm tracking-wide">
-                                    CTA Button
+                                   View  Gallery
                                 </span>
                             </Button>
                         </div>
                     </div>
 
                     {/* Two Images Bottom - Always side by side */}
-                    <div className="grid grid-cols-2 flex-1 gap-2 mb-2 p-0 m-0">
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none group flex items-center justify-center h-40 sm:h-52 lg:h-[340px] mb-2">
+                    <div className="grid grid-cols-2 flex-1 gap-2 p-0 m-0">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none group flex items-center justify-center h-40 sm:h-52 lg:h-[340px]">
                             <img
                                 className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
                                 alt="Temple Image 1"
                                 src={tempImage8Webp}
                             />
                         </div>
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-white p-2 sm:p-4 lg:p-6 flex items-center justify-center group h-36 sm:h-48 lg:h-[340px] mb-2">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none  p-2 sm:p-4 lg:p-6 flex items-center justify-center group h-36 sm:h-48 lg:h-[340px]">
                             <img
                                 className="w-full h-full max-w-[200px] sm:max-w-[240px] lg:max-w-[400px] object-contain transition-transform duration-300 group-hover:scale-105"
                                 alt="Portrait Image"
@@ -57,7 +57,7 @@ const GridLayout = (): JSX.Element => {
 
                     {/* Two Images Top - Always side by side */}
                     <div className="grid grid-cols-2 flex-1">
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-secondaryColor p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-[#8b0000] p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
                             <img
                                 className="w-full h-28 sm:h-36 lg:h-full max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Portrait Image 2"
@@ -74,7 +74,7 @@ const GridLayout = (): JSX.Element => {
                     </div>
 
                     {/* One Large Image Bottom */}
-                    <div className="relative overflow-hidden rounded-lg lg:rounded-none flex-1 group lg:mb-4">
+                    <div className="relative overflow-hidden rounded-lg lg:rounded-none flex-1 group">
                         <img
                             className="w-full h-40 sm:h-48 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             alt="Large Temple Image"

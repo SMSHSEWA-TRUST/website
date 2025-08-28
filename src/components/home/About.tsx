@@ -21,7 +21,7 @@ function useIsLargeScreen() {
 const About = (): JSX.Element => {
     const isLargeScreen = useIsLargeScreen();
     return (
-        <section className="w-full  mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <section className="w-full px-4 md:px-16 lg:px-24   py-9 lg:py-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start  ">
                 {/* Left Side - Image Gallery */}
                 <div className="order-2 lg:order-1">
@@ -31,7 +31,7 @@ const About = (): JSX.Element => {
                             <LazyLoadImage
                                 className={
                                     isLargeScreen
-                                        ? "w-full h-[87%] mt-10 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                        ? "w-full h-[100%]  object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                         : "w-full h-full mt-0 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                                 }
                                 alt="Main temple view showcasing traditional architecture"
@@ -80,7 +80,7 @@ const About = (): JSX.Element => {
                     </div>
 
                     {/* Description */}
-                    <p className="text-[rgba(30, 30, 30, 0.5)] font-secondaryFont text-[10px]  sm:text-[12px] lg:text-[16px] font-normal leading-relaxed max-w-[500px]">
+                    <p className="text-[rgba(30, 30, 30, 0.5)] font-secondaryFont text-[10px]  sm:text-[12px] lg:text-[16px] font-normal leading-relaxed max-w-[600px]">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                         enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -133,11 +133,11 @@ const About = (): JSX.Element => {
                     </div>
 
                     {/* Aarti Timings Button */}
-                    <div className="mt-8 flex justify-start">
+                    {/* <div className="mt-8 flex justify-start">
                         <button className="bg-[rgba(139,0,0,1)] text-white  text-[16px] sm:text-[18px] lg:text-[20px]  px-3 py-2 rounded-md shadow-md hover:bg-[#a83232] transition-colors duration-200 font-secondaryFont">
                             Aarti Timings
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </section>
