@@ -1,5 +1,4 @@
 
-import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import connectIcon from '@/assets/images/connect.png';
 import callIcon from '@/assets/images/call.png';
@@ -9,10 +8,10 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const ContactCards = (): JSX.Element => {
     return (
-        <section className="w-full flex flex-col gap-6 lg:flex-row md:gap-6 mt-10 px-10 md:px-10 lg:px-20 xl:px-32">
+        <section className="w-full flex flex-col gap-6 lg:flex-row md:gap-6 mt-10 px-4 md:px-16 lg:px-24  mb-10">
             {/* Connect with Us */}
-            <Card className="flex-1 bg-[#8b0000] rounded-lg shadow-md flex flex-col justify-between">
-                <CardContent className="p-6 flex flex-col h-full">
+            <Card className="flex-1 bg-[#8b0000]   flex flex-col justify-between">
+                <CardContent className="p-6 flex flex-col h-full rounded-md shadow-md">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Temple Icon" src={connectIcon} loading="lazy" />
                         <h3 className="text-white font-primaryFont lg:text-[24px] text-[17px]  mb-3 ">Connect with Us</h3>
@@ -28,8 +27,8 @@ const ContactCards = (): JSX.Element => {
             </Card>
 
             {/* Donate for Cause */}
-            <Card className="flex-1 bg-[#ece5df] rounded-lg shadow-md flex flex-col justify-between">
-                <CardContent className="p-6 flex flex-col h-full">
+            <Card className="flex-1 bg-[#ece5df]   flex flex-col justify-between">
+                <CardContent className="p-6 flex flex-col h-full shadow-md rounded-md">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Charity Icon" src={donateIcon} loading="lazy" />
                         <h3 className="text-[#4c291e] font-primaryFont lg:text-[24px] text-[17px] mb-3">Donate for Cause</h3>
@@ -37,17 +36,17 @@ const ContactCards = (): JSX.Element => {
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq
                         </p>
                     </div>
-                    <div className="mt-auto">
+                    {/* <div className="mt-auto">
                         <Button className="w-24 h-10 bg-[#8b0000] rounded-md text-white text-[17px] lg:text-[24px] font-secondaryFont font-normal hover:bg-[#7a0000] transition-colors">
                             Donate
                         </Button>
-                    </div>
+                    </div> */}
                 </CardContent>
             </Card>
 
             {/* Office Timings */}
-            <Card className="flex-1 bg-[#d05e2d] rounded-lg shadow-md flex flex-col justify-between">
-                <CardContent className="p-6 flex flex-col h-full bg-secondaryColor">
+            <Card className="flex-1 bg-[#d05e2d] rounded-md  flex flex-col justify-between">
+                <CardContent className="p-6 flex flex-col h-full shadow-md bg-secondaryColor rounded-md">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Time Icon" src={timeIcon} loading="lazy" />
                         <h3 className="text-white font-primaryFont lg:text-[24px] text-[17px] mb-6">Office Timings</h3>

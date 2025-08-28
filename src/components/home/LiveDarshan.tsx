@@ -1,10 +1,10 @@
-import {useState, useEffect} from "react";
-import {Badge} from "../ui/badge";
-import {Card, CardContent, CardHeader, CardTitle} from "../ui/card";
+import { useState, useEffect } from "react";
+import { Badge } from "../ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import mand7Png from "@/assets/images/mand-7.png";
 import sevaBg from "@/assets/images/sevabg.png";
 import omPng from "@/assets/images/om.png";
-import {LazyLoadImage} from "react-lazy-load-image-component";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 // Video Player Component - Reusable for both layouts
 const VideoPlayerSection = ({
@@ -15,12 +15,11 @@ const VideoPlayerSection = ({
   isDesktop: boolean;
 }) => {
   return (
-    <div className={isDesktop ? "flex-shrink-0 h-full flex-1 flex flex-col" : ""}>
+    <div className={isDesktop ? "flex-shrink-0 h-full flex-1 flex flex-col " : ""}>
       <div
-        className={`relative bg-gray-900 overflow-hidden shadow-2xl ${
-          isDesktop ? " h-full" : "rounded-lg"
-        }`}
-        style={isDesktop ? {height: "100%"} : {}}>
+        className={`relative bg-gray-900 overflow-hidden shadow-2xl rounded-md ${isDesktop ? " h-full" : "rounded-lg"
+          }`}
+        style={isDesktop ? { height: "100%" } : {}}>
         {/* Video Player */}
         <div className={isDesktop ? "relative w-full h-full" : "relative aspect-video"}>
           {selectedTemple === "mahakaleshwar" && (
@@ -108,9 +107,8 @@ const SevaSection = ({
         </CardHeader>
 
         <CardContent
-          className={`${
-            isDesktop ? "max-h-[450px] overflow-y-auto" : ""
-          } relative overflow-hidden`}>
+          className={`${isDesktop ? "max-h-[450px] overflow-y-auto" : ""
+            } relative overflow-hidden`}>
           {/* Background image layer with low opacity */}
           <div
             className="absolute inset-0 bg-no-repeat pointer-events-none"
@@ -147,9 +145,9 @@ const SevaSection = ({
 };
 
 // Countdown Timer Component - Separate component
-const CountdownTimer = ({countdown, isDesktop}: {countdown: string; isDesktop: boolean}) => {
+const CountdownTimer = ({ countdown }: { countdown: string; isDesktop: boolean }) => {
   return (
-    <div className={`bg-yellow-600 text-white py-3 px-6 ${isDesktop ? "w-[290px]" : ""}`}>
+    <div className={`bg-yellow-600 text-white py-3 px-6 rounded-md `}>
       <div className="flex items-center justify-between">
         <span className="font-tenor-sans font-bold text-[12px] text-white">Countdown Ends In:</span>
         <span className="font-tenor-sans font-bold text-[20px] text-white">{countdown}</span>
@@ -219,7 +217,7 @@ const LiveDarshan = (): JSX.Element => {
   return (
     <section
       className="relative w-full overflow-hidden"
-      style={{backgroundColor: "rgba(139, 0, 0, 1)"}}>
+      style={{ backgroundColor: "rgba(139, 0, 0, 1)" }}>
       {/* Background Decorative Images */}
       <div className="absolute inset-0 pointer-events-none">
         <LazyLoadImage
@@ -237,7 +235,7 @@ const LiveDarshan = (): JSX.Element => {
       </div>
 
       {/* Main Content Container */}
-      <div className="relative z-10 container mx-auto  py-8 lg:py-12">
+      <div className="relative z-10 w-full py-8  ">
         {/* Header Section */}
         <div className="text-center mb-4 lg:mb-12">
           <h2 className="font-primaryFont text-[20px] lg:text-[36px]  font-normal text-white tracking-wide">
@@ -257,23 +255,23 @@ const LiveDarshan = (): JSX.Element => {
               <div className="flex items-center">
                 <div
                   className="w-1.5 h-1.5 rounded-full bg-white border-2"
-                  style={{borderColor: "white"}}></div>
+                  style={{ borderColor: "white" }}></div>
                 <div className="w-3 h-px bg-white"></div>
                 <div
                   className="w-1.5 h-1.5 rounded-full bg-white border-2"
-                  style={{borderColor: "white"}}></div>
+                  style={{ borderColor: "white" }}></div>
                 <div className="w-3 h-px bg-white"></div>
                 <div
                   className="w-3 h-3 rounded-full bg-white border-2"
-                  style={{borderColor: "white"}}></div>
+                  style={{ borderColor: "white" }}></div>
                 <div className="w-3 h-px bg-white"></div>
                 <div
                   className="w-1.5 h-1.5 rounded-full bg-white border-2"
-                  style={{borderColor: "white"}}></div>
+                  style={{ borderColor: "white" }}></div>
                 <div className="w-3 h-px bg-white"></div>
                 <div
                   className="w-1.5 h-1.5 rounded-full bg-white border-2"
-                  style={{borderColor: "white"}}></div>
+                  style={{ borderColor: "white" }}></div>
               </div>
 
               {/* Right arrow/diamond with connecting line */}
@@ -289,22 +287,20 @@ const LiveDarshan = (): JSX.Element => {
             <div className="flex flex-row gap-2 w-full justify-center items-center">
               <button
                 className={`border border-white text-white font-secondaryFont font-normal transition-all duration-300 hover:scale-105
-                                        ${
-                                          selectedTemple === "mahakaleshwar"
-                                            ? "bg-yellow-600 text-white"
-                                            : "bg-transparent hover:bg-white hover:text-red-800"
-                                        }
+                                        ${selectedTemple === "mahakaleshwar"
+                    ? "bg-yellow-600 text-white"
+                    : "bg-transparent hover:bg-white hover:text-red-800"
+                  }
                                         px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
                 onClick={() => handleButtonClick("mahakaleshwar")}>
                 Shree Mahakaleshwar Mandir
               </button>
               <button
                 className={`border border-white text-white font-secondaryFont font-normal transition-all duration-300 hover:scale-105
-                                        ${
-                                          selectedTemple === "salasar"
-                                            ? "bg-yellow-600 text-white"
-                                            : "bg-transparent hover:bg-white hover:text-red-800"
-                                        }
+                                        ${selectedTemple === "salasar"
+                    ? "bg-yellow-600 text-white"
+                    : "bg-transparent hover:bg-white hover:text-red-800"
+                  }
                                         px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
                 onClick={() => handleButtonClick("salasar")}>
                 Shree Salasar Balaji Mandir
@@ -314,20 +310,20 @@ const LiveDarshan = (): JSX.Element => {
         </div>
 
         {/* Video and Seva Section */}
-        <div className="relative">
+        <div className="relative ">
           {/* Desktop Layout */}
-          <div className="hidden xl:flex xl:justify-center xl:items-start gap-4 h-[600px] max-w-full mx-auto">
-            <div className="h-full flex flex-col " style={{width: "900px"}}>
+          <div className="hidden xl:flex xl:justify-center xl:items-start gap-4 h-[600px] max-w-full mx-28 ">
+            <div className="h-full flex flex-col w-[73%] " >
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} />
             </div>
-            <div className="flex flex-col gap-8 h-full" style={{width: "290px"}}>
+            <div className="flex flex-col gap-12 h-full w-[28%] " >
               <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} />
               <CountdownTimer countdown={countdown} isDesktop={true} />
             </div>
           </div>
 
           {/* Mobile Layout */}
-          <div className="xl:hidden grid grid-cols-1 gap-6">
+          <div className="xl:hidden grid grid-cols-1 gap-6 mx-4">
             <div>
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={false} />
             </div>

@@ -6,8 +6,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const BhudaanSection: React.FC = () => {
     return (
-        <section className="bg-[#8B0000] py-6 px-4 md:px-0 flex flex-col items-center w-full min-h-screen relative overflow-hidden">
-            <div className="max-w-[1300px] mx-auto text-center">
+        <section className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden px-4 md:px-16 lg:px-24">
+            <div className=" text-center">
                 <h2
                     className="text-5xl md:text-6xl font-bold font-primaryFont"
                     style={{
@@ -57,7 +57,7 @@ const BhudaanSection: React.FC = () => {
                     Donate Now
                 </button>
             </div>
-            <div className="max-w-5xl w-full grid grid-cols-2 gap-1 lg:gap-6 mt-8 mx-auto">
+            <div className=" w-full grid grid-cols-2 gap-1 lg:gap-6 mt-8 ">
                 <div className="flex items-center justify-center h-[180px] sm:h-[220px] md:h-[300px] lg:h-[451px] w-full overflow-hidden">
                     <LazyLoadImage
                         src={bhudaan1}

@@ -1,7 +1,7 @@
 "use client";
 
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -28,8 +28,8 @@ export default function LoginPage() {
     try {
       const res = await fetch("https://api.smshsewatrust.com/api/user/login", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({phone: mobileNumber}),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: mobileNumber }),
       });
 
       const data = await res.json().catch(() => ({}));
@@ -40,7 +40,7 @@ export default function LoginPage() {
         throw new Error(msg);
       }
 
-      navigate("/otp", {state: {mobile: mobileNumber, server: data}});
+      navigate("/otp", { state: { mobile: mobileNumber, server: data } });
     } catch (err: any) {
       setError(err?.message || "Something went wrong");
     } finally {
@@ -106,9 +106,8 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full ${
-                  loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
-                } text-white py-4 rounded-xl font-semibold text-lg transition-colors duration-200`}>
+                className={`w-full ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
+                  } text-white py-4 rounded-xl font-semibold text-lg transition-colors duration-200`}>
                 {loading ? "Sending..." : "Sign In"}
               </button>
             </div>
@@ -127,7 +126,7 @@ export default function LoginPage() {
       <div className="relative z-10 hidden lg:flex items-center justify-between w-full max-w-7xl px-8">
         {/* Left Section - Desktop */}
         <div className="text-white max-w-lg text-center xl:text-left">
-          <div className="w-32 h-32 xl:w-40 xl:h-40 mx-auto xl:mx-0 mb-6">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 mx-auto mb-4 lg:mb-6 flex items-center justify-center">
             <img
               src="src/assets/images/Group 48095638.png"
               alt="Trust Logo"
@@ -179,9 +178,8 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`w-full ${
-                      loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
-                    } text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200`}>
+                    className={`w-full ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
+                      } text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200`}>
                     {loading ? "Sending..." : "Sign In"}
                   </button>
                 </div>

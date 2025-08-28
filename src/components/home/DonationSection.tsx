@@ -198,14 +198,14 @@ export default function DonationSection() {
     const currentTestimonial = testimonials[currentSlide];
 
     return (
-        <section ref={setRef} className="w-full  py-8 lg:py-16 px-8 lg:px-0 bg-[#F8F5F0]">
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <section ref={setRef} className="w-full py-4 px-4 md:px-16 lg:px-24 bg-[#F8F5F0] ">
+            <div className=" grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">
                     <p className="text-[rgba(76,41,30,1)] font-primaryFont text-[17px] lg:text-[20px] max-w-xs mb-4">
                         Lorem ipsum dolor sit amet, consectetur adipiscing eli
                     </p>
-                    <ul className="flex flex-col gap-6">
+                    <ul className="flex flex-col gap-3">
                         {donationStats.map((stat, idx) => (
                             <AnimatedStat
                                 key={idx}
@@ -218,7 +218,7 @@ export default function DonationSection() {
                 </div>
 
                 {/* Right: Main Content */}
-                <div className="flex flex-col items-start gap-6 w-full">
+                <div className="flex flex-col items-start gap-6 w-full mb-4 md:mb-0">
                     <h2 className="text-[rgba(76, 41, 30, 1)] text-[26px] lg:text-[36px] font-primaryFont font-normal leading-tight mb-2">
                         Lorem ipsum dolor sit amet, <br className="hidden md:block" />
                         consectetur adipiscing eli
@@ -231,7 +231,7 @@ export default function DonationSection() {
                             <span className="w-2 h-2 bg-[#e07a4c] rotate-45 block" style={{ borderRadius: '2px' }}></span>
                         </div>
                     </div>
-                    <div className="flex flex-col md:flex-row gap-6 w-full h-auto md:h-64">
+                    <div className="flex flex-col md:flex-row gap-6 w-full h-auto md:h-66">
                         <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <LazyLoadImage
                                 src={currentTestimonial.image}

@@ -1,5 +1,4 @@
-import {useState, useEffect} from "react";
-import {Button} from "../ui/button";
+import { useState, useEffect } from "react";
 import abstractFloral from "@/assets/images/abstract-floral.png";
 import tempImageWebp from "@/assets/images/temp-image.webp";
 import deityPng from "@/assets/images/deity.png";
@@ -7,11 +6,18 @@ import balajiPng from "@/assets/images/balaji.png";
 
 const Hero = (): JSX.Element => {
   const [textIndex, setTextIndex] = useState(0);
-  const isLoggedIn = Boolean(localStorage.getItem("authToken"));
+//  const isLoggedIn = Boolean(localStorage.getItem("authToken"));
   const texts = [
     "JAI SHRI MAHAKAL",
     "JAI SHRI SALASAR BALAJI",
     // Add more text items as needed
+  ];
+
+  // Descriptions that correspond to each text entry and change with textIndex
+  const descriptions = [
+    "Experience the divine energy and blessings of Lord Mahakal. Join us in prayers and offerings.",
+    "Celebrate the devotion of Salasar Balaji — seek blessings and participate in our community events.",
+    // Add more description strings matching the texts array
   ];
 
   // Array of deity images that will change with the text - using different actual images
@@ -35,22 +41,21 @@ const Hero = (): JSX.Element => {
       <div className="hidden lg:block relative w-full mx-auto">
         <div className="relative w-full h-[610px] overflow-visible">
           {/* Red section - responsive width with no gap */}
-          <div className="absolute w-[34%] h-full top-0 right-0 bg-[#8b0000]"></div>{" "}
+          <div className="absolute w-[25%] h-full top-0 right-0 bg-[#8b0000]"></div>{" "}
           {/* Temple image - responsive with slight overlap to prevent gap */}
           <img
-            className="absolute w-[67%] h-full top-0 left-0 object-cover object-center"
+            className="absolute w-[75%] h-full top-0 left-0 object-cover object-center"
             alt="Temple Image"
             src={tempImageWebp}
-            style={{objectPosition: "center top"}}
+            style={{ objectPosition: "center top" }}
           />
           {/* Desktop Deity Images - responsive positioning and scaling */}
-          <div className="absolute w-[40.6%] h-[75%] top-[8%] left-[46.5%] overflow-hidden z-20">
+          <div className="absolute w-[40.6%] h-[75%] top-[12%] left-[54.7%] overflow-hidden z-20">
             {deityImages.map((imageSrc, index) => (
               <img
                 key={index}
-                className={`absolute w-full h-full object-contain transition-all duration-1000 ease-in-out transform ${
-                  index === textIndex ? "opacity-100 scale-100" : "opacity-0 scale-105"
-                }`}
+                className={`absolute w-full h-full object-contain transition-all duration-1000 ease-in-out transform ${index === textIndex ? "opacity-100 scale-100" : "opacity-0 scale-105"
+                  }`}
                 alt={`Deity Image ${index + 1}`}
                 src={imageSrc}
                 style={{
@@ -60,7 +65,7 @@ const Hero = (): JSX.Element => {
             ))}
           </div>
           {/* Text content - responsive positioning */}
-          <div className="absolute w-[34.4%] h-[39%] top-[35.4%] left-[5.8%] z-20">
+          <div className="absolute w-[34.4%] h-[39%] top-[35.4%] left-[8%] z-20 ">
             <div className="relative w-full h-full">
               <div className="absolute w-full  lg:top-[-50px] left-0 font-tenor-sans text-[16px] text-white tracking-[0] leading-[normal]">
                 <span className="font-secondaryFont">Feel Lord Shiva&apos;s Power</span>
@@ -73,15 +78,17 @@ const Hero = (): JSX.Element => {
                 </div>
               </div>
 
-              <p className="absolute w-full top-[68.5%] left-0 font-secondaryFont text-[16px] text-[rgba(255,255,255,0.9)] leading-[normal] font-normal tracking-[0]">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              <p
+                className="absolute w-full top-[68.5%] left-0 font-secondaryFont text-[16px] text-[rgba(255,255,255,0.9)] leading-[normal] font-normal tracking-[0]"
+                key={`desc-${textIndex}`}
+                aria-live="polite"
+              >
+                {descriptions[textIndex]}
               </p>
             </div>
 
             {/* Responsive button */}
-            {!isLoggedIn ? (
+            {/* {!isLoggedIn ? (
               <Button
                 onClick={() => {
                   window.location.href = "/login";
@@ -92,15 +99,15 @@ const Hero = (): JSX.Element => {
                 </span>
               </Button>
             ) : null
-            // <Button
-            //   onClick={() => {
-            //     localStorage.clear();
-            //     window.location.reload();
-            //   }}
-            //   className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-normal ">
-            //   Logout
-            // </Button>
-            }
+              // <Button
+              //   onClick={() => {
+              //     localStorage.clear();
+              //     window.location.reload();
+              //   }}
+              //   className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-normal ">
+              //   Logout
+              // </Button>
+            } */}
           </div>
         </div>
       </div>
@@ -129,10 +136,12 @@ const Hero = (): JSX.Element => {
                 {texts[textIndex]}
               </div>
 
-              <p className="text-white text-[7px] font-secondaryFont font-normal leading-relaxed mb-6 sm:mb-8 opacity-90">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation.
+              <p
+                className="text-white text-[7px] font-secondaryFont font-normal leading-relaxed mb-6 sm:mb-8 opacity-90"
+                key={`mobile-desc-${textIndex}`}
+                aria-live="polite"
+              >
+                {descriptions[textIndex]}
               </p>
               {/* Responsive button */}
               {/* {!isLoggedIn ? (
@@ -147,7 +156,7 @@ const Hero = (): JSX.Element => {
         {/* Bottom Section - Red background with abstract floral and deity image */}
         <div
           className="relative w-full bg-[#8b0000] pt-16 pb-10 sm:pt-20 sm:pb-14 md:pt-24 md:pb-20 flex justify-center items-start overflow-visible"
-          style={{minHeight: "160px"}}>
+          style={{ minHeight: "160px" }}>
           {/* Abstract floral background - centered and extending beyond top */}
           <img
             className="absolute left-1/2 top-[-15%] -translate-x-1/2 w-[130%] h-[130%] object-cover opacity-30"
@@ -165,7 +174,7 @@ const Hero = (): JSX.Element => {
           {/* Deity image container - half overlaps red and normal section */}
           <div
             className="absolute left-1/2 -translate-x-1/2 z-10 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 -top-24 sm:-top-28 md:-top-32"
-            style={{minHeight: "0", marginBottom: 0}}>
+            style={{ minHeight: "0", marginBottom: 0 }}>
             {/* Golden circular frame background */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#daa520] to-[#b8941c] p-1 shadow-2xl">
               <div className="w-full h-full rounded-full overflow-hidden bg-white">
@@ -173,9 +182,8 @@ const Hero = (): JSX.Element => {
                 {deityImages.map((imageSrc, index) => (
                   <img
                     key={index}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out transform ${
-                      index === textIndex ? "opacity-100 scale-100" : "opacity-0 scale-105"
-                    }`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out transform ${index === textIndex ? "opacity-100 scale-100" : "opacity-0 scale-105"
+                      }`}
                     alt={`Deity Image ${index + 1}`}
                     src={imageSrc}
                     style={{
