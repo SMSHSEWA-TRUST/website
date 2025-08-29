@@ -52,31 +52,31 @@ const SubscriptionPlans: React.FC = () => {
                 style={inlineStyle}
             >
                 {/* Plan Name */}
-                <h3 className={`font-primaryFont text-xl font-medium mb-3 ${selected ? "text-white" : "text-secondaryColor"}`}>
+                <h3 className={`font-primaryFont textHeading font-medium mb-3 ${selected ? "text-white" : "text-secondaryColor"}`}>
                     Plan Name
                 </h3>
 
                 {/* Description */}
-                <p className={`font-secondaryFont text-sm mb-4 leading-relaxed ${selected ? "text-white/90" : "text-gray-600"}`}>
+                <p className={`font-secondaryFont textDescription  mb-4 leading-relaxed ${selected ? "text-white/90" : "text-gray-600"}`}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
 
                 {/* Price */}
                 <div className="mb-4">
-                    <span className={`font-primaryFont text-4xl font-bold ${selected ? "text-white" : "text-red-700"}`}>
+                    <span className={`font-primaryFont textHeading  font-bold ${selected ? "text-white" : "text-red-700"}`}>
                         {price}
                     </span>
-                    <span className={`font-secondaryFont text-sm ml-1 ${selected ? "text-white/80" : "text-gray-500"}`}>
+                    <span className={`font-secondaryFont textDescription  ml-1 ${selected ? "text-white/80" : "text-gray-500"}`}>
                         /month
                     </span>
                 </div>
 
                 {/* Plan Type Buttons */}
                 <div className="flex gap-2 mb-4">
-                    <button className={`font-secondaryFont px-3 py-1.5 text-xs font-medium rounded bg-yellow-400 text-red-800`}>
+                    <button className={`font-secondaryFont px-3 py-1.5  textDescription  font-medium rounded bg-yellow-400 text-red-800`}>
                         Monthly
                     </button>
-                    <button className={`font-secondaryFont px-3 py-1.5 text-xs font-medium rounded ${selected
+                    <button className={`font-secondaryFont px-3 py-1.5 textDescription  font-medium rounded ${selected
                         ? "bg-yellow-400 text-red-800"
                         : "bg-yellow-400 text-red-800"
                         }`}>
@@ -85,7 +85,7 @@ const SubscriptionPlans: React.FC = () => {
                 </div>
 
                 {/* Buy Now Button */}
-                <button className={`font-secondaryFont w-full py-2.5 rounded font-medium text-sm mb-4 ${selected
+                <button className={`font-secondaryFont w-full py-2.5 rounded font-medium textDescription  mb-4 ${selected
                     ? "bg-white text-red-800 hover:bg-gray-100"
                     : "bg-red-800 text-white hover:bg-red-900"
                     }`}>
@@ -95,7 +95,7 @@ const SubscriptionPlans: React.FC = () => {
                 {/* Features List */}
                 <ul className="space-y-2">
                     {features.map((feature, idx) => (
-                        <li key={idx} className={`font-secondaryFont text-xs leading-relaxed flex items-start ${selected ? "text-white/90" : "text-gray-600"
+                        <li key={idx} className={`font-secondaryFont text-[12px] lg:text-[16px] leading-relaxed flex items-start ${selected ? "text-white/90" : "text-gray-600"
                             }`}>
                             <span className={`inline-block w-1.5 h-1.5 rounded-full mt-1.5 mr-2 flex-shrink-0 ${selected ? "bg-white" : "bg-red-600"
                                 }`}></span>

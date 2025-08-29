@@ -47,13 +47,13 @@ const BhudaanSection: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <p className="text-[#FFE4C4] text-base md:text-lg leading-relaxed mb-2 font-light font-secondaryFont">
+                <p className="text-[#FFE4C4] textDescription leading-relaxed mb-2 font-light font-secondaryFont">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
-                <p className="text-white text-lg font-semibold mb-4 font-primaryFont">
+                <p className="text-white textHeading font-semibold mb-4 font-primaryFont">
                     Donate a Portion of Land towards the Temple Construction
                 </p>
-                <button className="bg-white text-[#8B0000] font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont">
+                <button className="bg-white text-[#8B0000] textDescription font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont">
                     Donate Now
                 </button>
             </div>

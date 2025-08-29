@@ -37,19 +37,47 @@ const DonationSection = () => {
         <div className="relative z-10   px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-wide font-primaryFont">
-              DONATIONS
+            <h2
+              className="text-5xl md:text-6xl font-bold font-primaryFont"
+              style={{
+                color: '#fff',
+                WebkitTextStroke: '2px #d05e2d',
+                textShadow: '0px 2px 4px rgba(139,0,0,0.5), 0px 0.5px 0px #fff',
+                letterSpacing: '0.04em',
+              }}
+            >
+              Donations
+
             </h2>
-            <div className="flex items-center justify-center mb-6">
-              <div className="h-px bg-white/30 flex-1 max-w-32"></div>
-              <div className="flex space-x-1 mx-4">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-                <div className="w-2 h-2 bg-white rounded-full"></div>
+            <div className="flex items-center justify-center py-2 w-full">
+              <div className="flex items-center w-full max-w-md">
+                {/* Left arrow/diamond with connecting line */}
+                <div className="flex items-center flex-1">
+                  <div className="w-2 h-2 bg-secondaryColor transform rotate-45"></div>
+                  <div className="flex-1 h-px bg-secondaryColor"></div>
+                </div>
+
+                {/* Center dots with continuous line: small-small-big-small-small */}
+                <div className="flex items-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                  <div className="w-3 h-px bg-secondaryColor"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                  <div className="w-3 h-px bg-secondaryColor"></div>
+                  <div className="w-3 h-3 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                  <div className="w-3 h-px bg-secondaryColor"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                  <div className="w-3 h-px bg-secondaryColor"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                </div>
+
+                {/* Right arrow/diamond with connecting line */}
+                <div className="flex items-center flex-1">
+                  <div className="flex-1 h-px bg-secondaryColor"></div>
+                  <div className="w-2 h-2 bg-secondaryColor transform rotate-45"></div>
+                </div>
               </div>
-              <div className="h-px bg-white/30 flex-1 max-w-32"></div>
             </div>
-            <p className="text-white/90 text-lg max-w-4xl mx-auto leading-relaxed">
+            <p className="text-white/90 textDescription max-w-4xl mx-auto leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
               exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -78,7 +106,7 @@ const DonationSection = () => {
 
                     {/* Title */}
                     <h3
-                      className={`text-xl font-light mb-2 transition-colors duration-300 text-white group-hover:text-red-800 hover:text-red-800`}>
+                      className={`textHeading font-light mb-2 transition-colors duration-300 text-white group-hover:text-red-800 hover:text-red-800`}>
                       {category.title}
                     </h3>
 
@@ -96,7 +124,7 @@ const DonationSection = () => {
 
                     {/* Description */}
                     <p
-                      className={`text-xs leading-relaxed mb-6 transition-colors duration-300 text-white/90 group-hover:text-gray-600 
+                      className={`textDescription leading-relaxed mb-6 transition-colors duration-300 text-white/90 group-hover:text-gray-600 
                       `}>
                       {category.description}
                     </p>
@@ -107,7 +135,7 @@ const DonationSection = () => {
                         setSelectedCategory(category);
                         setOpenDialog(true);
                       }}
-                      className={`w-full py-2.5 px-4 rounded font-semibold text-xs transition-all duration-300  "bg-red-800 text-white bg-red-900 group-hover:bg-red-800 hover:text-white hover:shadow-lg   
+                      className={`w-full py-2.5 px-4 rounded font-semibold textDescription transition-all duration-300  "bg-red-800 text-white bg-red-900 group-hover:bg-red-800 hover:text-white hover:shadow-lg   
                       `}>
                       Donate Now
                     </button>

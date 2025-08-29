@@ -11,10 +11,10 @@ const ArtiSection = () => {
                 <div className="md:hidden">
                     {/* Top Content - Mobile */}
                     <div className="p-4">
-                        <h1 className="font-primaryFont text-2xl sm:text-3xl font-semibold text-gray-800 mb-3">
+                        <h1 className="font-primaryFont textHeadingLg font-semibold text-gray-800 mb-3">
                             Essence of Hindu Wisdom
                         </h1>
-                        <p className="font-secondaryFont text-gray-600 text-sm mb-4 leading-relaxed">
+                        <p className="font-secondaryFont text-gray-600 textDescription mb-4 leading-relaxed">
                             Discover the profound teachings and timeless wisdom of ancient Hindu philosophy.
                             Journey through centuries of spiritual knowledge that continues to guide millions
                             in their quest for inner peace and enlightenment.
@@ -54,7 +54,7 @@ const ArtiSection = () => {
                         </div>
                         {/* Text */}
                         <div className="bg-gradient-to-br from-orange-500 to-red-500 p-4 ">
-                            <div className="font-secondaryFont text-xs leading-relaxed space-y-2 opacity-90 text-white" style={{ color: '#fff' }}>
+                            <div className="font-secondaryFont textDescription leading-relaxed space-y-2 opacity-90 text-white" style={{ color: '#fff' }}>
                                 <p>
                                     The ancient scriptures teach us that true wisdom comes from understanding
                                     the interconnectedness of all beings and the divine essence that permeates everything.
@@ -82,10 +82,10 @@ const ArtiSection = () => {
                     <div className="flex flex-col h-full">
                         {/* Top Content */}
                         <div className="flex-1 flex flex-col justify-center p-6 lg:p-8">
-                            <h1 className="font-primaryFont text-3xl lg:text-4xl font-semibold text-gray-800 mb-4 leading-tight">
+                            <h1 className="font-primaryFont textHeadingLg font-semibold text-gray-800 mb-4 leading-tight">
                                 Essence of Hindu Wisdom
                             </h1>
-                            <p className="font-secondaryFont text-gray-600 text-sm lg:text-base mb-6 leading-relaxed">
+                            <p className="font-secondaryFont text-gray-600 textDescription  mb-6 leading-relaxed">
                                 Discover the profound teachings and timeless wisdom of ancient Hindu philosophy.
                                 Journey through centuries of spiritual knowledge that continues to guide millions
                                 in their quest for inner peace and enlightenment.
@@ -113,7 +113,7 @@ const ArtiSection = () => {
 
                             {/* Text */}
                             <div className="flex flex-col justify-center bg-gradient-to-br from-orange-500 to-red-500 p-4 lg:p-5 rounded-md ">
-                                <div className="font-secondaryFont text-xs lg:text-sm leading-relaxed space-y-2 opacity-90 text-white">
+                                <div className="font-secondaryFont textDescription  leading-relaxed space-y-2 opacity-90 text-white">
                                     <p>
                                         The ancient scriptures teach us that true wisdom comes from understanding
                                         the interconnectedness of all beings.

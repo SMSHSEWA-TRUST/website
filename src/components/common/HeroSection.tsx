@@ -48,7 +48,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 <div className="w-full bg-white ">
                     <div className=" pt-9 px-4 md:px-16 lg:px-24   ">
 
-                        <p className="font-secondaryFont font-normal lg:text-[16px] text-[12px] text-[rgba(0, 0, 0, 0.5)] leading-relaxed text-center">
+                        <p className="font-secondaryFont font-normal textDescription text-[rgba(0, 0, 0, 0.5)] leading-relaxed text-center">
                             {description}
                         </p>
 

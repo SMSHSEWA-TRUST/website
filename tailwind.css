@@ -18,6 +18,47 @@
 @tailwind utilities;
 
 @layer base {
+
+  /* Responsive global font-size variables
+     - Mobile (base): heading 18px, desc 14px, large heading 22px
+     - Tablet (md, >=768px): heading 22px, desc 16px, large heading 28px
+     - Desktop (lg, >=1024px): heading 28px, desc 18px, large heading 36px
+  */
+  :root {
+    --font-heading: 18px;
+    --font-desc: 14px;
+    --font-heading-lg: 22px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --font-heading: 22px;
+      --font-desc: 16px;
+      --font-heading-lg: 28px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --font-heading: 28px;
+      --font-desc: 18px;
+      --font-heading-lg: 36px;
+    }
+  }
+
+  
+  .textHeading {
+    font-size: var(--font-heading);
+  }
+
+  .textDescription {
+    font-size: var(--font-desc);
+  }
+
+  .textHeadingLg {
+    font-size: var(--font-heading-lg);
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;

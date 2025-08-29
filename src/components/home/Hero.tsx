@@ -6,7 +6,7 @@ import balajiPng from "@/assets/images/balaji.png";
 
 const Hero = (): JSX.Element => {
   const [textIndex, setTextIndex] = useState(0);
-//  const isLoggedIn = Boolean(localStorage.getItem("authToken"));
+  //  const isLoggedIn = Boolean(localStorage.getItem("authToken"));
   const texts = [
     "JAI SHRI MAHAKAL",
     "JAI SHRI SALASAR BALAJI",
@@ -67,7 +67,7 @@ const Hero = (): JSX.Element => {
           {/* Text content - responsive positioning */}
           <div className="absolute w-[34.4%] h-[39%] top-[35.4%] left-[8%] z-20 ">
             <div className="relative w-full h-full">
-              <div className="absolute w-full  lg:top-[-50px] left-0 font-tenor-sans text-[16px] text-white tracking-[0] leading-[normal]">
+              <div className="absolute w-full  lg:top-[-50px] left-0 font-tenor-sans textDescription  text-white tracking-[0] leading-[normal]">
                 <span className="font-secondaryFont">Feel Lord Shiva&apos;s Power</span>
                 <div className="relative w-full h-full">
                   <div
@@ -79,7 +79,7 @@ const Hero = (): JSX.Element => {
               </div>
 
               <p
-                className="absolute w-full top-[68.5%] left-0 font-secondaryFont text-[16px] text-[rgba(255,255,255,0.9)] leading-[normal] font-normal tracking-[0]"
+                className="absolute w-full top-[68.5%] left-0 font-secondaryFont textDescription text-[rgba(255,255,255,0.9)] leading-[normal] font-normal tracking-[0]"
                 key={`desc-${textIndex}`}
                 aria-live="polite"
               >
@@ -126,18 +126,18 @@ const Hero = (): JSX.Element => {
           {/* Text overlay */}
           <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col justify-center items-start px-6 sm:px-8">
             <div className="w-full max-w-sm">
-              <p className="text-white text-[7px] font-tenor-sans font-normal mb-2 sm:mb-3">
+              <p className="text-white textDescription font-tenor-sans font-normal mb-2 sm:mb-3">
                 <span className="font-secondaryFont">Feel Lord Shiva&apos;s Power</span>
               </p>
 
               <div
-                className="[-webkit-text-stroke:1px_#daa520] font-primaryFont text-[31px] font-normal text-white   leading-tight mb-4 sm:mb-6 animate-slideUpText"
+                className="[-webkit-text-stroke:1px_#daa520] font-primaryFont text-[36px] font-normal text-white   leading-tight mb-4 sm:mb-6 animate-slideUpText"
                 key={texts[textIndex]}>
                 {texts[textIndex]}
               </div>
 
               <p
-                className="text-white text-[7px] font-secondaryFont font-normal leading-relaxed mb-6 sm:mb-8 opacity-90"
+                className="text-white textDescription font-secondaryFont font-normal leading-relaxed mb-6 sm:mb-8 opacity-90"
                 key={`mobile-desc-${textIndex}`}
                 aria-live="polite"
               >

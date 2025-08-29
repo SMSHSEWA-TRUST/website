@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LogoImage from "../assets/images/Logo.png";
+import SignUpBgImage from "../assets/images/loginBg.png"
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -88,18 +90,18 @@ export default function SignupPage() {
     <div
       className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
       style={{
-        backgroundImage: `url('src/assets/images/image (2).png')`,
+        backgroundImage: `url(${SignUpBgImage})`,
       }}>
       {/* Go to Home button (top-left) */}
       <button
         type="button"
         onClick={() => navigate('/')}
-        className="absolute top-6 left-6 z-30 bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2"
+        className="absolute top-6 left-6 z-30 bg-red-800 hover:bg-red-900 text-white px-3 py-1 rounded-md shadow-md flex items-center space-x-2 text-xs sm:px-4 sm:py-2 sm:rounded-lg sm:text-sm"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
-        <span className="text-sm font-medium">Go to Home</span>
+        <span className="font-medium">Go to Home</span>
       </button>
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -110,12 +112,15 @@ export default function SignupPage() {
         <div className="flex-1 flex flex-col items-center justify-center text-white px-6 py-8">
           <div className="w-24 h-24 sm:w-32 sm:h-32 mb-6 flex items-center justify-center">
             <img
-              src="src/assets/images/Group 48095638.png"
+              src={LogoImage}
               alt="Trust Logo"
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold mb-4 leading-tight text-orange-100 text-center">
+          <h1
+            className="text-2xl sm:text-3xl font-bold mb-4 leading-tight text-orange-100 text-center"
+            style={{ color: '#fff', WebkitTextStroke: '1.2px #d35400' }}
+          >
             Shree Mahakaleshwar Salasar <br />
             Hanuman Sewa Trust
           </h1>
@@ -237,7 +242,7 @@ export default function SignupPage() {
                 type="submit"
                 disabled={loading}
                 className={`w-full ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"
-                  } text-white py-4 rounded-xl font-semibold text-lg transition-colors duration-200`}>
+                  } text-white py-3 rounded-lg font-semibold text-sm sm:py-4 sm:rounded-xl sm:text-lg transition-colors duration-200`}>
                 {loading ? "Submitting..." : "GET STARTED"}
               </button>
             </div>
@@ -258,16 +263,19 @@ export default function SignupPage() {
         <div className="text-white max-w-lg text-center xl:text-left">
           <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 mx-auto mb-4 lg:mb-6 flex items-center justify-center">
             <img
-              src="src/assets/images/Group 48095638.png"
+              src={LogoImage}
               alt="Trust Logo"
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-3xl xl:text-4xl font-bold mb-6 leading-tight text-orange-100">
+          <h1
+            className="text-3xl xl:text-4xl font-bold mb-6 leading-tight text-orange-100"
+            style={{ color: '#fff', WebkitTextStroke: '1.2px #d35400' }}
+          >
             Shree Mahakaleshwar Salasar <br />
             Hanuman Sewa Trust
           </h1>
-          <p className="text-gray-200 text-sm leading-relaxed max-w-sm opacity-90 mx-auto xl:mx-0">
+          <p className="text-gray-200 textDescription  leading-relaxed max-w-sm opacity-90 mx-auto xl:mx-0">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua.
           </p>

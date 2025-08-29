@@ -10,10 +10,12 @@ const teamMembers = [
 ];
 
 export default function Team() {
-    const visibleCount = 4;
-    const cardWidth = 308; // matches your blue selection box
-    const gap = 32; // gap between cards
-    // Repeat enough to look infinite
+    // responsive sizing: cardWidth, visibleCount and gap adapt to window width
+    const [cardWidth, setCardWidth] = useState(308);
+    const [visibleCount, setVisibleCount] = useState(4);
+    const [gap, setGap] = useState(32);
+
+    // compute members arrays after visibleCount is known
     const baseMembers = Array(6).fill(teamMembers).flat();
     const allMembers = [
         ...baseMembers.slice(-visibleCount),
@@ -32,6 +34,38 @@ export default function Team() {
         }, 2000);
         return () => clearInterval(interval);
     }, []);
+
+    // Update card sizing / visible count on resize (mobile adjustments)
+    useEffect(() => {
+        function updateSizes() {
+            const w = window.innerWidth;
+            if (w < 480) {
+                setCardWidth(220);
+                setVisibleCount(1);
+                setGap(16);
+            } else if (w < 768) {
+                setCardWidth(260);
+                setVisibleCount(2);
+                setGap(20);
+            } else if (w < 1024) {
+                setCardWidth(280);
+                setVisibleCount(3);
+                setGap(24);
+            } else {
+                setCardWidth(308);
+                setVisibleCount(4);
+                setGap(32);
+            }
+        }
+        updateSizes();
+        window.addEventListener('resize', updateSizes);
+        return () => window.removeEventListener('resize', updateSizes);
+    }, []);
+
+    // When visibleCount changes (responsive breakpoint), reset start index to avoid layout issues
+    useEffect(() => {
+        setStartIdx(visibleCount);
+    }, [visibleCount]);
 
     useEffect(() => {
         if (!isTransitioning) return;
@@ -74,10 +108,10 @@ export default function Team() {
                 {/* Dashed Border Box Heading */}
                 <div className="flex justify-center mt-4">
                     <div className=" px-8 py-2 inline-block relative" style={{ minWidth: 510 }}>
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 font-light tracking-wide bg-white px-2" style={{ fontSize: '16px', color: 'rgba(76, 41, 30, 1)' }}>
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 font-light tracking-wide textDescription  bg-white px-2" style={{ color: 'rgba(76, 41, 30, 1)' }}>
                             Lorem Ipsum odor
                         </div>
-                        <h2 className="font-primaryFont text-[36px] font-normal text-[#4c291e] text-center leading-tight tracking-wide select-none">
+                        <h2 className="font-primaryFont textHeadingLg font-normal text-[#4c291e] text-center leading-tight tracking-wide select-none">
                             Team at the Temple
                         </h2>
                     </div>
@@ -114,7 +148,7 @@ export default function Team() {
 
 
                 {/* Description */}
-                <p className="font-secondaryFont text-gray-700 max-w-[983px] mx-auto text-center text-[15px] font-light mb-7" style={{ lineHeight: "1.6" }}>
+                <p className="font-secondaryFont text-gray-700 max-w-[983px] mx-auto text-center textDescription  font-light mb-7" style={{ lineHeight: "1.6" }}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 {/* Carousel */}
@@ -152,10 +186,10 @@ export default function Team() {
                                     />
                                 </div>
                                 <div className="px-6 py-3 pb-2">
-                                    <h3 className="font-primaryFont text-[20px] font-semibold text-[#4c291e] mb-1 text-left">
+                                    <h3 className="font-primaryFont textDescription  font-semibold text-[#4c291e] mb-1 text-left">
                                         {member.name}
                                     </h3>
-                                    <p className="font-secondaryFont text-sm text-gray-500 text-left mt-0">
+                                    <p className="font-secondaryFont textDescription  text-gray-500 text-left mt-0">
                                         {member.role}
                                     </p>
                                 </div>

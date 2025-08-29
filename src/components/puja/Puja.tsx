@@ -129,7 +129,7 @@ export default function Puja() {
 
     return (
         <div className="lg:min-h-screen bg-white flex flex-col items-center py-8 font-secondaryFont" ref={sectionRef}>
-            <h2 className="font-primaryFont text-[28px] text-[#B91C1C] text-center mb-2">Puja's at Temple</h2>
+            <h2 className="font-primaryFont textHeadingLg text-[#B91C1C] text-center mb-2">Puja's at Temple</h2>
             <div className="flex items-center justify-center pb-4 w-full">
                 <div className="flex items-center w-full max-w-md">
                     {/* Left arrow/diamond with connecting line */}
@@ -183,7 +183,7 @@ export default function Puja() {
                                     maxHeight: "610px"
                                 }}
                             >
-                                <span className="font-primaryFont w-full text-center">{puja.title}</span>
+                                <span className="font-primaryFont textHeading w-full text-center">{puja.title}</span>
                             </div>
                             {/* Only active card or previous during animation shows body */}
                             {(idx === shown || (idx === prev && prev !== null)) && (
@@ -214,10 +214,10 @@ export default function Puja() {
                                                 />
                                                 <div className="absolute inset-0 flex flex-col items-start justify-end px-6 pb-6 w-full">
                                                     <div className="w-full max-w-[793px] flex flex-col items-start">
-                                                        <p className="font-secondaryFont text-white text-xs md:text-base font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
+                                                        <p className="font-secondaryFont text-white textDescription  font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
                                                             {puja.description}
                                                         </p>
-                                                        <button className="font-secondaryFont bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded text-xs font-semibold shadow transition-colors duration-200 self-start">
+                                                        <button className="font-secondaryFont bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded textDescription  font-semibold shadow transition-colors duration-200 self-start">
                                                             {puja.cta}
                                                         </button>
                                                     </div>
@@ -253,10 +253,10 @@ export default function Puja() {
                                                     />
                                                     <div className="absolute inset-0 flex flex-col items-start justify-end px-6 pb-6 w-full">
                                                         <div className="w-full max-w-[793px] flex flex-col items-start">
-                                                            <p className="font-secondaryFont text-white text-xs md:text-base font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
+                                                            <p className="font-secondaryFont text-white textDescription  font-light mb-3 bg-black/60 px-4 py-2 rounded w-full">
                                                                 {puja.description}
                                                             </p>
-                                                            <button className="font-secondaryFont bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded text-xs font-semibold shadow transition-colors duration-200 self-start">
+                                                            <button className="font-secondaryFont bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded textDescription  font-semibold shadow transition-colors duration-200 self-start">
                                                                 {puja.cta}
                                                             </button>
                                                         </div>

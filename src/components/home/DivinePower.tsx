@@ -21,21 +21,21 @@ const DivinePower = (): JSX.Element => {
                 />
                 <div className="absolute inset-0 bg-black/40 z-10" />
                 <div className="absolute bottom-0 left-0 right-0 z-20 w-full flex flex-col items-center justify-end px-4 py-10 md:py-14" style={{ background: 'linear-gradient(180deg,rgba(0,0,0,0),rgba(139,0,0,0.75))' }}>
-                    <h2 className="font-primaryFont text-[16px] sm:text-[32px] lg:text-[48px] text-white text-center font-normal drop-shadow-lg max-w-3xl mx-auto">
+                    <h2 className="font-primaryFont textHeadingLg  text-white text-center font-normal drop-shadow-lg max-w-3xl mx-auto">
                         Feel the Surreal Divine Power
                     </h2>
-                    <p className="mt-6 sm:mt-8 max-w-[1090px] text-white text-sm sm:text-base md:text-lg text-center font-secondaryFont leading-relaxed drop-shadow">
+                    <p className="mt-6 sm:mt-8 max-w-[1090px] text-white textDescription text-center font-secondaryFont leading-relaxed drop-shadow">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     </p>
                 </div>
             </div>
             {/* Mobile/Small screen: text above image */}
             <div className="flex flex-col md:hidden w-full items-center justify-center px-4 py-10 ">
-                <h2 className="font-primaryFont text-[16px] sm:text-[32px] lg:text-[48px] text-[rgba(76,41,30,1)] text-center font-semibold
+                <h2 className="font-primaryFont  textHeadingLg text-[rgba(76,41,30,1)] text-center font-semibold
                  max-w-2xl mx-auto">
                     Feel the Surreal Divine Power
                 </h2>
-                <p className="mt-4 max-w-md text-[rgba(76,41,30,1)] text-[10px] sm:text-[12px] text-center font-secondaryFont leading-relaxed">
+                <p className="mt-4 max-w-md text-[rgba(76,41,30,1)] textDescription text-center font-secondaryFont leading-relaxed">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 <LazyLoadImage

@@ -87,7 +87,7 @@ const Header = (): JSX.Element => {
               {/* Center Content - Title, Decorative Line, and Navigation */}
               <div className="flex flex-col items-center lg:gap-2">
                 {/* Title */}
-                <h1 className="font-primaryFont text-center mb-2 text-[32px] font-normal text-[#4c291e] [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#8b0000] leading-tight max-w-4xl">
+                <h1 className="font-primaryFont text-center mb-2 text-[34px] font-normal text-[#4c291e] [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#8b0000] leading-tight max-w-4xl">
                   Shree Mahakaleshwar Salasar Hanuman Sewa Trust
                 </h1>
 
@@ -116,12 +116,12 @@ const Header = (): JSX.Element => {
 
                 {/* Desktop Navigation */}
                 <NavigationMenu>
-                  <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-full justify-center">
+                  <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-full justify-center textHeading">
                     <NavigationMenuItem>
                       <Link to="/">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/"
+                          className={`font-secondaryFont   font-normal transition-colors ${currentPath === "/"
                             ? "text-[#8b0000] underline"
                             : "text-[#333333] hover:text-[#8b0000] "
                             } `}>
@@ -133,7 +133,7 @@ const Header = (): JSX.Element => {
                       <Link to="/about">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/about"
+                          className={`font-secondaryFont  font-normal transition-colors ${currentPath === "/about"
                             ? "text-[#8b0000] underline"
                             : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
@@ -145,7 +145,7 @@ const Header = (): JSX.Element => {
                       <Link to="/puja">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/puja"
+                          className={`font-secondaryFont  font-normal transition-colors ${currentPath === "/puja"
                             ? "text-[#8b0000] underline"
                             : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
@@ -157,7 +157,7 @@ const Header = (): JSX.Element => {
                       <Link to="/membership">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/membership"
+                          className={`font-secondaryFont  font-normal transition-colors ${currentPath === "/membership"
                             ? "text-[#8b0000] underline"
                             : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
@@ -169,7 +169,7 @@ const Header = (): JSX.Element => {
                       <Link to="/blogs">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/blogs"
+                          className={`font-secondaryFont  font-normal transition-colors ${currentPath === "/blogs"
                             ? "text-[#8b0000] underline"
                             : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
@@ -181,7 +181,7 @@ const Header = (): JSX.Element => {
                       <Link to="/contact">
                         <Button
                           variant="link"
-                          className={`font-secondaryFont text-[20px] font-normal transition-colors ${currentPath === "/contact"
+                          className={`font-secondaryFont  font-normal transition-colors ${currentPath === "/contact"
                             ? "text-[#8b0000] underline"
                             : "text-[#333333] hover:text-[#8b0000]"
                             }`}>
@@ -196,7 +196,7 @@ const Header = (): JSX.Element => {
               {/* Register/Login Button */}
               {!isLoggedIn ? (
                 <Link to="/login">
-                  <Button className="font-secondaryFont bg-[#8b0000] hover:bg-[#660000] text-white px-3 py-2 text-[13px] font-normal transition-colors">
+                  <Button className="font-secondaryFont bg-[#8b0000] hover:bg-[#660000] text-white px-3 py-2 textDescription  font-normal transition-colors">
                     Register/Login
                   </Button>
                 </Link>
@@ -206,7 +206,7 @@ const Header = (): JSX.Element => {
                     localStorage.clear();
                     window.location.reload();
                   }}
-                  className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-normal ">
+                    className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal ">
                   Logout
                 </Button>
               )}
@@ -278,14 +278,14 @@ const Header = (): JSX.Element => {
               {/* Mobile Navigation Menu */}
               <div
                 className={`${isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  } overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100`}>
+                  } overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100 textHeading`}>
                 <nav
                   className={`py-4 space-y-2 ${isMobileMenuOpen ? "max-h-80 overflow-y-auto" : ""
                     }`}>
                   <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/"
+                      className={`font-secondaryFont w-full text-center  font-normal py-2 px-4 transition-colors ${currentPath === "/"
                         ? "text-[#8b0000]"
                         : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
@@ -295,7 +295,7 @@ const Header = (): JSX.Element => {
                   <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/about"
+                      className={`font-secondaryFont w-full text-center  font-normal py-2 px-4 transition-colors ${currentPath === "/about"
                         ? "text-[#8b0000]"
                         : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
@@ -305,7 +305,7 @@ const Header = (): JSX.Element => {
                   <Link to="/puja" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/puja"
+                      className={`font-secondaryFont w-full text-center  font-normal py-2 px-4 transition-colors ${currentPath === "/puja"
                         ? "text-[#8b0000]"
                         : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
@@ -315,7 +315,7 @@ const Header = (): JSX.Element => {
                   <Link to="/membership" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/membership"
+                      className={`font-secondaryFont w-full text-center  font-normal py-2 px-4 transition-colors ${currentPath === "/membership"
                         ? "text-[#8b0000]"
                         : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
@@ -325,7 +325,7 @@ const Header = (): JSX.Element => {
                   <Link to="/blogs" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/blogs"
+                      className={`font-secondaryFont w-full text-center  font-normal py-2 px-4 transition-colors ${currentPath === "/blogs"
                         ? "text-[#8b0000]"
                         : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
@@ -335,7 +335,7 @@ const Header = (): JSX.Element => {
                   <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
-                      className={`font-secondaryFont w-full text-center text-[10px] font-normal py-2 px-4 transition-colors ${currentPath === "/contact"
+                      className={`font-secondaryFont w-full text-center  font-normal py-2 px-4 transition-colors ${currentPath === "/contact"
                         ? "text-[#8b0000]"
                         : "text-[#333333] hover:text-[#8b0000]"
                         }`}>
@@ -345,7 +345,7 @@ const Header = (): JSX.Element => {
                   {/* Mobile Register/Login in menu */}
                   {!isLoggedIn ? (
                     <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                      <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-normal ">
+                      <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal ">
                         Register/Login
                       </Button>
                     </Link>
@@ -356,7 +356,7 @@ const Header = (): JSX.Element => {
                         localStorage.clear();
                         window.location.reload();
                       }}
-                      className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 text-[10px] font-normal ">
+                        className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription  font-normal ">
                       Logout
                     </Button>
                   )}
