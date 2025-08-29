@@ -22,20 +22,20 @@ const ScrollingBanner = (): JSX.Element => {
                 {/* Continuous scrolling text */}
                 <div className="flex items-center whitespace-nowrap"
                     style={{
-                        animation: 'scroll-left 25s linear infinite',
+                        animation: 'scroll-left 60s linear infinite',
                         minWidth: 'max-content'
                     }}>
                     {repeatedPairs.map((pair, index) => (
                         <span
                             key={index}
-                            className="flex items-center font-primaryFont font-normal text-white text-sm tracking-wider "
+                            className="flex items-center font-primaryFont font-normal text-white textDescription tracking-wider "
                         >
                             {/* Render left, Om, right, and trailing Om so repeats also have an Om between them */}
                             <>
                                 {pair.left}
-                                <span className="text-yellow-500 font-semibold text-[18px] mx-4" aria-hidden="true">ॐ</span>
+                                <span className="text-yellow-500 font-semibold textDescription mx-4" aria-hidden="true">ॐ</span>
                                 {pair.right}
-                                <span className="text-yellow-500 font-semibold text-[18px] mx-4" aria-hidden="true">ॐ</span>
+                                <span className="text-yellow-500 font-semibold textDescription mx-4" aria-hidden="true">ॐ</span>
                             </>
                         </span>
                     ))}

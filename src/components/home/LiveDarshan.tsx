@@ -87,7 +87,7 @@ const SevaSection = ({
         <CardHeader className="pb-4">
           <div className="flex items-center gap-2">
             <LazyLoadImage
-              className="w-7 h-7 object-contain text-red-800"
+              className="w-10 h-10 object-contain text-red-800"
               alt="Om Symbol"
               src={omPng}
               style={{
@@ -96,7 +96,7 @@ const SevaSection = ({
               }} // ensures red color if SVG, else remove
               loading="lazy"
             />
-            <CardTitle className="text-[rgba(139,0,0,1)] font-primaryFont text-[20px] lg:text-[24px] font-normal">
+            <CardTitle className="text-[rgba(139,0,0,1)] font-primaryFont textHeadingLg font-normal">
               Upcoming Seva's
             </CardTitle>
           </div>
@@ -125,13 +125,13 @@ const SevaSection = ({
           <div className="relative z-10 space-y-4">
             {upcomingSevas.map((seva, index) => (
               <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
-                <h4 className="font-primaryFont font-normal text-[rgba(76, 41, 30, 1)] text-[16px] mb-2">
+                <h4 className="font-primaryFont font-normal text-[rgba(76, 41, 30, 1)] textHeading mb-2">
                   {seva.title}
                 </h4>
-                <p className="font-secondaryFont font-normal text-[rgba(30, 30, 30, 0.5)] text-[12px] leading-relaxed mb-3">
+                <p className="font-secondaryFont font-normal text-[rgba(30, 30, 30, 0.5)] textDescription leading-relaxed mb-3">
                   {seva.description}
                 </p>
-                <div className="flex justify-between font-secondaryFont font-normal text-[rgba(76, 41, 30, 1)] text-[12px]">
+                <div className="flex justify-between font-secondaryFont font-normal text-[rgba(76, 41, 30, 1)] textDescription">
                   <span>{seva.date}</span>
                   <span>{seva.time}</span>
                 </div>
@@ -149,8 +149,8 @@ const CountdownTimer = ({ countdown }: { countdown: string; isDesktop: boolean }
   return (
     <div className={`bg-yellow-600 text-white py-3 px-6 rounded-md `}>
       <div className="flex items-center justify-between">
-        <span className="font-tenor-sans font-bold text-[12px] text-white">Countdown Ends In:</span>
-        <span className="font-tenor-sans font-bold text-[20px] text-white">{countdown}</span>
+        <span className="font-tenor-sans font-bold textDescription text-white">Countdown Ends In:</span>
+        <span className="font-tenor-sans font-bold textDescription text-white">{countdown}</span>
       </div>
     </div>
   );
@@ -238,46 +238,44 @@ const LiveDarshan = (): JSX.Element => {
       <div className="relative z-10 w-full py-8  ">
         {/* Header Section */}
         <div className="text-center mb-4 lg:mb-12">
-          <h2 className="font-primaryFont text-[20px] lg:text-[36px]  font-normal text-white tracking-wide">
+          <h2
+            className="text-5xl md:text-6xl font-bold font-primaryFont"
+            style={{
+              color: '#fff',
+              WebkitTextStroke: '2px #d05e2d',
+              textShadow: '0px 2px 4px rgba(139,0,0,0.5), 0px 0.5px 0px #fff',
+              letterSpacing: '0.04em',
+            }}
+          >
             Live Darshan
+
           </h2>
 
-          {/* Decorative Line */}
-          <div className="flex items-center justify-center py-2 lg:py-1 w-[50%] sm:w-[50%] lg:w-full mx-auto">
+          <div className="flex items-center justify-center py-2 w-full">
             <div className="flex items-center w-full max-w-md">
               {/* Left arrow/diamond with connecting line */}
               <div className="flex items-center flex-1">
-                <div className="w-2 h-2 bg-white transform rotate-45"></div>
-                <div className="flex-1 h-px bg-white"></div>
+                <div className="w-2 h-2 bg-secondaryColor transform rotate-45"></div>
+                <div className="flex-1 h-px bg-secondaryColor"></div>
               </div>
 
               {/* Center dots with continuous line: small-small-big-small-small */}
               <div className="flex items-center">
-                <div
-                  className="w-1.5 h-1.5 rounded-full bg-white border-2"
-                  style={{ borderColor: "white" }}></div>
-                <div className="w-3 h-px bg-white"></div>
-                <div
-                  className="w-1.5 h-1.5 rounded-full bg-white border-2"
-                  style={{ borderColor: "white" }}></div>
-                <div className="w-3 h-px bg-white"></div>
-                <div
-                  className="w-3 h-3 rounded-full bg-white border-2"
-                  style={{ borderColor: "white" }}></div>
-                <div className="w-3 h-px bg-white"></div>
-                <div
-                  className="w-1.5 h-1.5 rounded-full bg-white border-2"
-                  style={{ borderColor: "white" }}></div>
-                <div className="w-3 h-px bg-white"></div>
-                <div
-                  className="w-1.5 h-1.5 rounded-full bg-white border-2"
-                  style={{ borderColor: "white" }}></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                <div className="w-3 h-px bg-secondaryColor"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                <div className="w-3 h-px bg-secondaryColor"></div>
+                <div className="w-3 h-3 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                <div className="w-3 h-px bg-secondaryColor"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
+                <div className="w-3 h-px bg-secondaryColor"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-white border-2" style={{ borderColor: '#d05e2d' }}></div>
               </div>
 
               {/* Right arrow/diamond with connecting line */}
               <div className="flex items-center flex-1">
-                <div className="flex-1 h-px bg-white"></div>
-                <div className="w-2 h-2 bg-white transform rotate-45"></div>
+                <div className="flex-1 h-px bg-secondaryColor"></div>
+                <div className="w-2 h-2 bg-secondaryColor transform rotate-45"></div>
               </div>
             </div>
           </div>
@@ -291,7 +289,7 @@ const LiveDarshan = (): JSX.Element => {
                     ? "bg-yellow-600 text-white"
                     : "bg-transparent hover:bg-white hover:text-red-800"
                   }
-                                        px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
+                                        px-1 py-2 textDescription sm:px-3 sm:py-2 lg:px-6 lg:py-3 `}
                 onClick={() => handleButtonClick("mahakaleshwar")}>
                 Shree Mahakaleshwar Mandir
               </button>
@@ -301,7 +299,7 @@ const LiveDarshan = (): JSX.Element => {
                     ? "bg-yellow-600 text-white"
                     : "bg-transparent hover:bg-white hover:text-red-800"
                   }
-                                        px-1 py-2 text-[10px] sm:px-3 sm:py-2 sm:text-[12px] lg:px-6 lg:py-3 lg:text-[20px]`}
+                                        px-1 py-2 textDescription sm:px-3 sm:py-2  lg:px-6 lg:py-3 `}
                 onClick={() => handleButtonClick("salasar")}>
                 Shree Salasar Balaji Mandir
               </button>
@@ -316,7 +314,7 @@ const LiveDarshan = (): JSX.Element => {
             <div className="h-full flex flex-col w-[73%] " >
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} />
             </div>
-            <div className="flex flex-col gap-12 h-full w-[28%] " >
+            <div className="flex flex-col gap-2 h-full w-[28%] " >
               <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} />
               <CountdownTimer countdown={countdown} isDesktop={true} />
             </div>

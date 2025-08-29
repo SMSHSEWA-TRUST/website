@@ -98,11 +98,11 @@ const AnimatedStat = ({ amount, label, shouldAnimate }: { amount: string; label:
 
     return (
         <li className="flex items-center gap-3">
-            <span className="text-[48px] font-marcellus  font-normal text-[rgba(76,41,30,1)]">
+            <span className="textHeadingLg font-marcellus  font-normal text-[rgba(76,41,30,1)]">
                 {displayValue}
                 <span className="text-xl md:text-3xl align-super">+</span>
             </span>
-            <span className="text-[rgba(76,41,30,1)] text-[17px] lg:text-[20px] font-normal font-tenor-sans">
+            <span className="text-[rgba(76,41,30,1)] textDescription font-normal font-tenor-sans">
                 {label}
             </span>
         </li>
@@ -202,7 +202,7 @@ export default function DonationSection() {
             <div className=" grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">
-                    <p className="text-[rgba(76,41,30,1)] font-primaryFont text-[17px] lg:text-[20px] max-w-xs mb-4">
+                    <p className="text-[rgba(76,41,30,1)] font-primaryFont textHeading max-w-xs mb-4">
                         Lorem ipsum dolor sit amet, consectetur adipiscing eli
                     </p>
                     <ul className="flex flex-col gap-3">
@@ -219,7 +219,7 @@ export default function DonationSection() {
 
                 {/* Right: Main Content */}
                 <div className="flex flex-col items-start gap-6 w-full mb-4 md:mb-0">
-                    <h2 className="text-[rgba(76, 41, 30, 1)] text-[26px] lg:text-[36px] font-primaryFont font-normal leading-tight mb-2">
+                    <h2 className="text-[rgba(76, 41, 30, 1)] textHeadingLg font-primaryFont font-normal leading-tight mb-2">
                         Lorem ipsum dolor sit amet, <br className="hidden md:block" />
                         consectetur adipiscing eli
                     </h2>
@@ -242,7 +242,7 @@ export default function DonationSection() {
                         </div>
                         <div className={`flex-1 flex flex-col justify-between h-full md:h-64 gap-3 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <div className="flex-1">
-                                <p className="text-[rgba(30,30,30,0.5)] lg:text-[16px] text-[14px] leading-relaxed font-secondaryFont mb-4">
+                                <p className="text-[rgba(30,30,30,0.5)] textDescription leading-relaxed font-secondaryFont mb-4">
                                     {currentTestimonial.text}
                                 </p>
                                 {/* Decorative line after paragraph */}
@@ -251,7 +251,7 @@ export default function DonationSection() {
                                         <span className="flex-1 h-[2px] bg-[#e07a4c] rounded"></span>
                                     </div>
                                 </div>
-                                <span className="text-[rgba(139,0,0,1)] font-normal font-primaryFont text-[16px] lg:text-[20px]">
+                                <span className="text-[rgba(139,0,0,1)] font-normal font-primaryFont textHeading">
                                     {currentTestimonial.name}
                                 </span>
                             </div>

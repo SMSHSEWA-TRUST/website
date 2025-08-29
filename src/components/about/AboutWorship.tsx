@@ -53,20 +53,20 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                     <div className="flex-1  flex flex-col gap-6 lg:py-20">
                         {/* Title and Subtitle Container - Using Flex */}
                         <div className="flex flex-col gap-3">
-                            <h1 className="font-primaryFont font-normal lg:text-[36px] text-[24px] leading-tight">
+                            <h1 className="font-primaryFont font-normal textHeadingLg leading-tight">
                                 {title}{' '}
-                                <span className="font-primaryFont inline-block bg-gradient-to-r from-secondaryColor to-red-600 text-white px-2 py-1 rounded text-lg sm:text-xl lg:text-2xl xl:text-3xl">
+                                <span className="font-primaryFont inline-block bg-gradient-to-r from-secondaryColor to-red-600 text-white px-2 py-1 rounded textHeadingLg ">
                                     {highlightedText}
                                 </span>
                             </h1>
                             {/* Subtitle */}
-                            <h2 className="font-primaryFont font-normal lg:text-[36px] text-[24px] leading-tight ">
+                            <h2 className="font-primaryFont font-normal textHeadingLg leading-tight ">
                                 {subtitle}
                             </h2>
                         </div>
                         {/* Description Container - Using Flex */}
                         <div className="flex flex-col gap-4">
-                            <p className="font-secondaryFont text-sm sm:text-base text-gray-600 leading-relaxed">
+                            <p className="font-secondaryFont textDescription  text-gray-600 leading-relaxed">
                                 {description}
                             </p>
 

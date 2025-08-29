@@ -57,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             {/* Left Column: Special Links */}
                             <div className="flex flex-col py-10">
                                 <div className="flex items-center mb-4">
-                                    <h3 className="font-primaryFont text-[24px] text-white">
+                                    <h3 className="font-primaryFont textHeading text-white">
                                         Special Links
                                     </h3>
                                 </div>
@@ -66,7 +66,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         <div key={index} className="flex items-center">
                                             <a
                                                 href={link.url}
-                                                className="font-secondaryFont text-sm text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
+                                                className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
                                                 aria-label={`Navigate to ${link.name}`}
                                             >
                                                 {link.name}
@@ -94,10 +94,10 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 {/* Organization Title */}
                                 <div className="flex flex-col items-center mb-3 ">
                                     <h1
-                                        className="font-primaryFont  text-center font-semibold"
+                                        className="font-primaryFont textHeadingLg  text-center font-semibold"
                                         style={{
                                             color: "#fff",
-                                            fontSize: "32px",
+                                            
                                             textShadow: "0px 4px 4px #d05e2d40",
                                             WebkitTextStroke: "1px #9a0000",
 
@@ -140,7 +140,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                                 {/* Description */}
                                 <div className="flex justify-center mb-4">
-                                    <p className="font-secondaryFont text-sm leading-relaxed text-gray-100 text-center">
+                                    <p className="font-secondaryFont textDescription leading-relaxed text-gray-100 text-center">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
                                         ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -183,7 +183,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                                 <div className="flex items-center">
                                                     <a
                                                         href={link.url}
-                                                        className="font-secondaryFont text-sm text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
+                                                        className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
                                                     >
                                                         {link.name}
                                                     </a>
@@ -197,11 +197,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             {/* Right Column: Info */}
                             <div className="flex flex-col items-end text-right py-10">
                                 <div className="flex items-center justify-end mb-4">
-                                    <h3 className="font-primaryFont text-[24px] text-white">
+                                    <h3 className="font-primaryFont textHeadingLg text-white">
                                         Info
                                     </h3>
                                 </div>
-                                <div className="flex flex-col space-y-3 font-secondaryFont text-sm">
+                                <div className="flex flex-col space-y-3 font-secondaryFont textDescription">
                                     <div className="flex flex-col items-end space-y-1">
                                         <div className="flex items-center">
                                             <span className="font-secondaryFont text-gray-100">Email:  info@support.com</span>
@@ -217,7 +217,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     </div>
                                     <div className="flex flex-col items-end space-y-1">
                                         <div className="flex items-center">
-                                            <span className="font-secondaryFont text-gray-100">Phone No: 9876543210</span>
+                                            <span className="font-secondaryFont textDescription  text-gray-100">Phone No: 9876543210</span>
                                         </div>
                                         {/* <div className="flex items-center">
                                             <a
@@ -230,10 +230,10 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     </div>
                                     <div className="flex flex-col items-end space-y-2">
                                         <div className="flex items-center">
-                                            <span className="font-secondaryFont text-gray-100">Address:1080 Brickell Ave,<br /></span>
+                                            <span className="font-secondaryFont textDescription  text-gray-100">Address:1080 Brickell Ave,<br /></span>
                                         </div>
                                         <div className="flex items-end">
-                                            <address className="font-secondaryFont not-italic leading-relaxed text-white text-right">
+                                            <address className="font-secondaryFont textDescription  not-italic leading-relaxed text-white text-right">
                                                 
                                                 Miami (Florida)
                                                 United States
@@ -259,10 +259,10 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
 
                             {/* Copyright Section */}
-                            <div className="w-full flex justify-between items-center font-secondaryFont text-sm">
+                            <div className="w-full flex justify-between items-center font-secondaryFont textDescription ">
                                 <div className="flex items-center space-x-2">
                                     <span>Made with</span>
-                                    <span className="text-xl">🧡</span>
+                                    <span className="textDescription ">🧡</span>
                                     <span>by Nexteir Technologies Pvt. Ltd. in India</span>
                                     <div className="flex items-center ml-2">
                                         <LazyLoadImage
@@ -273,7 +273,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         />
                                     </div>
                                 </div>
-                                <div className="flex items-center space-x-1">
+                                <div className="flex textDescription  items-center space-x-1">
                                     <span>All Rights Reserved © 2025 |</span>
                                     <a
                                         href="#"
@@ -308,10 +308,10 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                             {/* Organization Title */}
                             <div className="flex flex-col items-center">
-                                <h1 className="font-primaryFont font-normal text-center"
+                                <h1 className="font-primaryFont textHeadingLg font-normal text-center"
                                     style={{
                                         color: "#fff",
-                                        fontSize: "20px",
+                                       
                                     }}>
                                     Shree Mahakaleshwar Salasar<br />Hanuman Sewa Trust
                                 </h1>
@@ -349,7 +349,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                             {/* Description */}
                             <div className="flex justify-center">
-                                <p className="font-secondaryFont text-xs max-w-xs leading-relaxed text-gray-100 text-center">
+                                <p className="font-secondaryFont textDescription max-w-xs leading-relaxed text-gray-100 text-center">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                     eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
                                     ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -384,11 +384,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 {/* Left: Info */}
                                 <div className="flex flex-col text-left">
                                     <div className="flex items-center mb-2">
-                                        <h3 className="font-primaryFont text-sm">
+                                        <h3 className="font-primaryFont textHeading">
                                             Info
                                         </h3>
                                     </div>
-                                    <div className="flex flex-col space-y-2 font-secondaryFont text-xs">
+                                    <div className="flex flex-col space-y-2 font-secondaryFont textDescription">
                                         <div className="flex flex-col space-y-1">
                                             <div className="flex items-center">
                                                 <span className="font-secondaryFont text-gray-100">Email:</span>
@@ -401,7 +401,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         </div>
                                         <div className="flex flex-col space-y-1">
                                             <div className="flex items-center">
-                                                <span className="font-secondaryFont text-gray-100">Phone No:</span>
+                                                <span className="font-secondaryFont textDescription text-gray-100">Phone No:</span>
                                             </div>
                                             <div className="flex items-start">
                                                 <a href="tel:+919876543210" className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
@@ -411,7 +411,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         </div>
                                         <div className="flex flex-col space-y-2">
                                             <div className="flex items-center">
-                                                <span className="font-secondaryFont text-gray-100">Address:</span>
+                                                <span className="font-secondaryFont textDescription text-gray-100">Address:</span>
                                             </div>
                                             <div className="flex items-start">
                                                 <address className="font-secondaryFont not-italic text-white text-xs leading-relaxed">
@@ -425,7 +425,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 {/* Right: Special Links */}
                                 <div className="flex flex-col text-right">
                                     <div className="flex items-center justify-end mb-2">
-                                        <h3 className="font-primaryFont text-sm">
+                                        <h3 className="font-primaryFont textHeading">
                                             Special Links
                                         </h3>
                                     </div>
@@ -434,7 +434,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             <div key={index} className="flex justify-end">
                                                 <a
                                                     href={link.url}
-                                                    className="font-secondaryFont text-xs text-white hover:text-gray-200 transition-colors"
+                                                    className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"
                                                 >
                                                     {link.name}
                                                 </a>
@@ -458,7 +458,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         <div className="flex items-center">
                                             <a
                                                 href={link.url}
-                                                className="font-secondaryFont text-sm text-white hover:text-gray-200 transition-colors px-1"
+                                                className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors px-1"
                                             >
                                                 {link.name}
                                             </a>
@@ -483,7 +483,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
 
                             {/* Copyright */}
-                            <div className="flex flex-col items-center space-y-2 font-secondaryFont text-xs">
+                            <div className="flex flex-col items-center space-y-2 font-secondaryFont textDescription ">
 
                                 <div className="flex items-center space-x-1">
                                     <span>Made with</span>

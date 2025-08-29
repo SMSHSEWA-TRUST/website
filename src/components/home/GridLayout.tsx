@@ -18,14 +18,14 @@ const GridLayout = (): JSX.Element => {
                     {/* Content Section */}
                     <div className=" pl-8  md:pl-16 rounded-lg lg:rounded-none flex-1 flex flex-col justify-center ">
                         <div className="max-w-lg">
-                            <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-[rgba(76,41,30,1)] font-primaryFont leading-tight  ">
+                            <h2 className="textHeading font-normal text-[rgba(76,41,30,1)] font-primaryFont leading-tight  ">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing eli
                             </h2>
-                            <p className="text-sm sm:text-base lg:text-lg text-[#1e1e1e]/50 font-secondaryFont leading-relaxed mb-4 lg:mb-8">
+                            <p className=" textDescription text-[#1e1e1e]/50 font-secondaryFont leading-relaxed mb-4 lg:mb-8">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             </p>
                             <Button className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 lg:px-6 lg:py-3 rounded-none transition-colors duration-200 font-secondaryFont">
-                                <span className="font-secondaryFont font-normal text-xs lg:text-sm tracking-wide">
+                                <span className="font-secondaryFont font-normal textDescription tracking-wide">
                                    View  Gallery
                                 </span>
                             </Button>

@@ -14,14 +14,14 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full rounded-md shadow-md">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Temple Icon" src={connectIcon} loading="lazy" />
-                        <h3 className="text-white font-primaryFont lg:text-[24px] text-[17px]  mb-3 ">Connect with Us</h3>
-                        <p className="text-white text-[12px] lg:text-[16px] font-normal mb-6 font-secondaryFont">
+                        <h3 className="text-white font-primaryFont textHeading  mb-3 ">Connect with Us</h3>
+                        <p className="text-white textDescription font-normal mb-6 font-secondaryFont">
                             Reach out and connect with our church community. We're here to welcome, assist, and share in your journey of faith.
                         </p>
                     </div>
                     <div className="flex items-center mt-auto">
                         <LazyLoadImage className="w-7 h-7 mr-3" alt="Phone" src={callIcon} loading="lazy" />
-                        <span className="text-white font-normal font-secondaryFont text-[17px] lg:text-[24px]">+91 9876543210</span>
+                        <span className="text-white font-normal font-secondaryFont textDescription ">+91 9876543210</span>
                     </div>
                 </CardContent>
             </Card>
@@ -31,8 +31,8 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full shadow-md rounded-md">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Charity Icon" src={donateIcon} loading="lazy" />
-                        <h3 className="text-[#4c291e] font-primaryFont lg:text-[24px] text-[17px] mb-3">Donate for Cause</h3>
-                        <p className="text-[#4c291e] text-[12px] lg:text-[16px] font-normal mb-6 font-secondaryFont">
+                        <h3 className="text-[#4c291e] font-primaryFont textHeading mb-3">Donate for Cause</h3>
+                        <p className="text-[#4c291e] textDescription font-normal mb-6 font-secondaryFont">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq
                         </p>
                     </div>
@@ -49,13 +49,13 @@ const ContactCards = (): JSX.Element => {
                 <CardContent className="p-6 flex flex-col h-full shadow-md bg-secondaryColor rounded-md">
                     <div className="flex-1">
                         <LazyLoadImage className="w-12 h-12 mb-4" alt="Time Icon" src={timeIcon} loading="lazy" />
-                        <h3 className="text-white font-primaryFont lg:text-[24px] text-[17px] mb-6">Office Timings</h3>
+                        <h3 className="text-white font-primaryFont textHeading mb-6">Office Timings</h3>
                         <div className="space-y-3">
-                            <div className="flex justify-between text-white text-[12px] lg:text-[16px] font-secondaryFont font-normal">
+                            <div className="flex justify-between text-white textDescription font-secondaryFont font-normal">
                                 <span>Monday - Friday</span>
                                 <span>8:00 AM - 8:00 PM</span>
                             </div>
-                            <div className="flex justify-between text-white text-[12px] lg:text-[16px] font-secondaryFont font-normal">
+                            <div className="flex justify-between text-white textDescription font-secondaryFont font-normal">
                                 <span>Saturday - Sunday</span>
                                 <span>10:00 AM - 6:00 PM</span>
                             </div>

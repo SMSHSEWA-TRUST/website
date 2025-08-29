@@ -59,10 +59,10 @@ const Services = (): JSX.Element => {
             <div className="relative  flex flex-col items-center gap-6 z-10">
                 {/* Section Header */}
                 <div className="flex flex-col items-center gap-2 w-full">
-                    <span className="text-sm md:text-base font-secondaryFont text-[#4c291e] tracking-wide">
+                    <span className="textDescription font-secondaryFont text-[#4c291e] tracking-wide">
                         Lorem Ipsum odor
                     </span>
-                    <h2 className="font-primaryFont text-2xl md:text-4xl text-[#4c291e] text-center font-normal">
+                    <h2 className="font-primaryFont textHeadingLg text-[#4c291e] text-center font-normal">
                         Lorem ipsum dolor sit amet, consectetur
                     </h2>
                     <div className="flex items-center justify-center  w-full">
@@ -133,10 +133,10 @@ const Services = (): JSX.Element => {
                                     className="w-12 h-12 mb-4 text-[#8b0000]"
                                     loading="lazy"
                                 />
-                                <h3 className="font-primaryFont text-lg md:text-xl text-[#4c291e] text-center mb-3 font-medium">
+                                    <h3 className="font-primaryFont textHeading text-[#4c291e] text-center mb-3 font-medium">
                                     {service.title}
                                 </h3>
-                                <p className="font-secondaryFont text-sm text-[#666] text-center leading-relaxed">
+                                    <p className="font-secondaryFont textDescription text-[#666] text-center leading-relaxed">
                                     {service.description}
                                 </p>
                             </div>

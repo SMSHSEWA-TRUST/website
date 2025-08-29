@@ -53,14 +53,14 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
 
                 {/* Title - Left Column */}
                 <div className="lg:col-span-1">
-                    <h2 className="font-primaryFont text-[#8b0000] text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-normal leading-tight">
+                    <h2 className="font-primaryFont text-[#8b0000] textHeadingLg font-normal leading-tight">
                         {title}
                     </h2>
                 </div>
 
                 {/* Description - Center Column */}
                 <div className="lg:col-span-1">
-                    <p className="font-secondaryFont text-[#1e1e1e]/50 text-sm sm:text-base lg:text-base leading-relaxed">
+                    <p className="font-secondaryFont text-[#1e1e1e]/50 textDescription leading-relaxed">
                         {description}
                     </p>
                 </div>
@@ -69,7 +69,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                 <div className="lg:col-span-1 flex justify-start lg:justify-end items-center">
                     <Link to="/blogs">
                         <Button
-                            className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-6 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-sm tracking-wide shadow-md hover:shadow-lg "
+                            className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-6 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal textDescription tracking-wide shadow-md hover:shadow-lg "
                             aria-label="Read all articles"
                         >
                             Read  All Blogs
@@ -117,18 +117,18 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
             <CardContent className="relative z-10 flex flex-col justify-end h-64 sm:h-72 lg:h-80 p-6">
 
                 {/* Date */}
-                <div className="text-white/80 text-xs sm:text-sm font-secondaryFont mb-2">
+                <div className="text-white/80 textDescription font-secondaryFont mb-2">
                     {article.date || "Jan 01, 2025"}
                 </div>
 
                 {/* Title */}
-                <h3 className="text-secondaryColor text-lg sm:text-xl font-semibold mb-4 font-primaryFont leading-tight">
+                <h3 className="text-secondaryColor textHeading font-semibold mb-4 font-primaryFont leading-tight">
                     {article.title || "Lorem ipsum dolor sit"}
                 </h3>
 
                 {/* Excerpt (if provided) */}
                 {article.excerpt && (
-                    <p className="text-white/70 text-sm mb-4 line-clamp-2 font-secondaryFont">
+                    <p className="text-white/70 textDescription mb-4 line-clamp-2 font-secondaryFont">
                         {article.excerpt}
                     </p>
                 )}
@@ -136,7 +136,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 {/* Read More Button */}
                 <Link to="/blog-details">
                     <Button
-                        className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-sm transition-colors duration-200 font-secondaryFont font-normal text-xs sm:text-sm"
+                        className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-sm transition-colors duration-200 font-secondaryFont font-normal textDescription"
                         aria-label={`Read article: ${article.title}`}
                     >
                         Read Articles

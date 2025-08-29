@@ -34,21 +34,21 @@ const latestPosts = [
     {
         id: 1,
         title: "Title",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
         image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=80&h=60&fit=crop",
         link: "/blog-details"
     },
     {
         id: 2,
         title: "Title",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=80&h=60&fit=crop",
         link: "/blog-details"
     },
     {
         id: 3,
         title: "Title",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=80&h=60&fit=crop",
         link: "/blog-details"
     }
@@ -72,16 +72,16 @@ const Blogs = () => {
                                     />
                                 </div>
                                 <div className="pt-6 pb-2 flex flex-col items-center justify-center flex-1">
-                                    <h2 className="font-primaryFont text-xl text-red-700 mb-2 text-center w-full">
+                                    <h2 className="font-primaryFont textHeadingLg text-red-700 mb-2 text-center w-full">
                                         {post.title}
                                     </h2>
-                                    <p className="font-secondaryFont text-sm text-gray-700 leading-relaxed mb-3 text-center w-full">
+                                    <p className="font-secondaryFont textDescription leading-relaxed mb-3 text-center w-full">
                                         {post.description}
                                     </p>
                                     <div className="flex justify-center w-full">
                                         <Link
                                             to={post.link}
-                                            className="font-secondaryFont bg-red-700 text-white px-4 py-2 text-sm font-medium rounded hover:bg-red-800 transition-colors"
+                                            className="font-secondaryFont bg-red-700 text-white px-4 py-2 textDescription font-medium rounded hover:bg-red-800 transition-colors"
                                         >
                                             Read Article
                                         </Link>
