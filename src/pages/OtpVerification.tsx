@@ -80,7 +80,7 @@ export default function OtpVerification() {
 
       setSuccess("OTP verified. Redirecting...");
       //Stored token and user data in localStorage
-      localStorage.setItem("authToken", data?.data?.token || "");
+      localStorage.setItem("authToken", data?.data?.accessToken || "");
       localStorage.setItem("refreshToken", data?.data?.refreshToken || "");
       localStorage.setItem("user", JSON.stringify(data?.data || {}));
       setTimeout(() => navigate("/", { replace: true }), 800);
