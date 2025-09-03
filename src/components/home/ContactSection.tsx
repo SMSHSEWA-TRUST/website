@@ -1,13 +1,13 @@
 import React from "react";
-import {Card, CardContent} from "../ui/card";
-import {Textarea} from "../ui/textarea";
-import {Button} from "../ui/button";
+import { Card, CardContent } from "../ui/card";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
 import contactBg from "@/assets/images/image-7.webp";
 import contactLine from "@/assets/images/line-4.png";
 import contactMain from "@/assets/images/image-6.webp";
-import {LazyLoadImage} from "react-lazy-load-image-component";
-import {Controller, useForm} from "react-hook-form";
-import {useContactUSForm} from "@/api/ContactQueries";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Controller, useForm } from "react-hook-form";
+import { useContactUSForm } from "@/api/ContactQueries";
 
 type userProps = {
   name: string;
@@ -18,7 +18,7 @@ type userProps = {
 export const ContactSection: React.FC = () => {
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? (JSON.parse(storedUser) as userProps) : null;
-  const {mutate} = useContactUSForm();
+  const { mutate } = useContactUSForm();
 
   const DefaultValues = {
     name: user?.name ?? "",
@@ -30,7 +30,7 @@ export const ContactSection: React.FC = () => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     reset,
   } = useForm({
     defaultValues: DefaultValues,
@@ -50,7 +50,7 @@ export const ContactSection: React.FC = () => {
         {/* Left Section - Background Image with Contact Form */}
         <div
           className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center p-6 lg:p-8  rounded-lg "
-          style={{backgroundImage: `url(${contactBg})`}}>
+          style={{ backgroundImage: `url(${contactBg})` }}>
           {/* Overlay for better form visibility */}
           <div className="absolute inset-0 bg-black/10" />
 
@@ -96,7 +96,7 @@ export const ContactSection: React.FC = () => {
                     rules={{
                       required: "Name is required",
                     }}
-                    render={({field}) => (
+                    render={({ field }) => (
                       <input
                         {...field}
                         placeholder="Please enter your name"
@@ -114,8 +114,8 @@ export const ContactSection: React.FC = () => {
                   <Controller
                     name="phone"
                     control={control}
-                    rules={{required: "Phone number is required"}}
-                    render={({field}) => (
+                    rules={{ required: "Phone number is required" }}
+                    render={({ field }) => (
                       <input
                         {...field}
                         placeholder="Enter phone number"
@@ -140,7 +140,7 @@ export const ContactSection: React.FC = () => {
                         message: "Please enter a valid email",
                       },
                     }}
-                    render={({field}) => (
+                    render={({ field }) => (
                       <input
                         {...field}
                         type="email"
@@ -158,7 +158,7 @@ export const ContactSection: React.FC = () => {
                 <Controller
                   name="message"
                   control={control}
-                  render={({field}) => (
+                  render={({ field }) => (
                     <Textarea
                       {...field}
                       className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-secondaryColor focus:border-transparent transition-all duration-200 min-h-[100px] resize-none"

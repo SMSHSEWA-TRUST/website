@@ -11,7 +11,6 @@ const About = React.lazy(() => import("@/components/home/About"));
 const Services = React.lazy(() => import("@/components/home/Services"));
 const LiveDarshan = React.lazy(() => import("@/components/home/LiveDarshan"));
 const DivinePower = React.lazy(() => import("@/components/home/DivinePower"));
-const ContactCards = React.lazy(() => import("@/components/home/ContactCards"));
 const DonationSection = React.lazy(() => import("@/components/home/DonationSection"));
 const DaanSection = React.lazy(() => import("@/components/home/DaanSection"));
 const GridLayout = React.lazy(() => import("@/components/home/GridLayout"));
@@ -63,9 +62,9 @@ export const HomePage = (): JSX.Element => {
       </Suspense>
 
       {/* Contact Cards Section */}
-      <Suspense fallback={<SectionLoader />}>
+      {/* <Suspense fallback={<SectionLoader />}>
         <ContactCards />
-      </Suspense>
+      </Suspense> */}
       <Suspense fallback={<SectionLoader />}>
         <DonationSection />
       </Suspense>

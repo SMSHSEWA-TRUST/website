@@ -9,6 +9,7 @@ const ScrollingBanner = React.lazy(() => import("../../components/home/Scrolling
 const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
 const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
 const Puja = React.lazy(() => import("../../components/puja/Puja"));
+const Vedio = React.lazy(() => import("../../components/puja/Vedio"));
 
 export const PujaPage = (): JSX.Element => {
     return (
@@ -23,11 +24,15 @@ export const PujaPage = (): JSX.Element => {
             </Suspense>
 
             {/* Puja Section */}
-            <div className="mb-10 lg:mb-[270px]">
+            <div >
                 <Suspense fallback={<SectionLoader />}>
                     <Puja />
                 </Suspense>
             </div>
+
+            <Suspense fallback={<SectionLoader />}>
+                <Vedio />
+            </Suspense>
 
             {/* Scrolling Banner */}
             <Suspense fallback={<ComponentLoader height="h-16" />}>

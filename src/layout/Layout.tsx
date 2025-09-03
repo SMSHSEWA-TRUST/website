@@ -24,7 +24,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
                 {/* Main Content */}
                 <main
-                    className={`min-h-screen ${!hideHeaderFooter ? 'lg:mt-[147px] mt-[100px] md:mt-[120px]' : ''} ${className}`.trim()}
+                    className={`min-h-screen ${!hideHeaderFooter ? 'lg:mt-[200px] mt-[100px] md:mt-[120px]' : ''} ${className}`.trim()}
                 >
                     {children}
                 </main>

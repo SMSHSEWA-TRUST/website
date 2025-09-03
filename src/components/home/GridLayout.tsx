@@ -2,15 +2,13 @@ import { Button } from "../ui/button";
 
 // Image imports
 import tempImage8Webp from '@/assets/images/temp-image-8.webp';
-import tempImage2Png from '@/assets/images/temp-image-2.png';
-import tempImage11Png from '@/assets/images/temp-image-11.png';
 import tempImage10Webp from '@/assets/images/temp-image-10.webp';
 import tempImage9Webp from '@/assets/images/temp-image-9.webp';
 
 const GridLayout = (): JSX.Element => {
     return (
         <section className="w-full mt-4 ">
-            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-1 lg:gap-24 h-auto lg:h-[680px]">
+            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-0 h-auto lg:h-[680px]">
 
                 {/* Left Side */}
                 <div className="flex flex-col gap-8 mt-5">
@@ -24,11 +22,18 @@ const GridLayout = (): JSX.Element => {
                             <p className=" textDescription text-[#1e1e1e]/50 font-secondaryFont leading-relaxed mb-4 lg:mb-8">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             </p>
-                            <Button className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 lg:px-6 lg:py-3 rounded-none transition-colors duration-200 font-secondaryFont">
-                                <span className="font-secondaryFont font-normal textDescription tracking-wide">
-                                   View  Gallery
-                                </span>
-                            </Button>
+                            <div className="flex gap-2">
+                                <Button className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+                                    <span className="font-secondaryFont font-normal textDescription tracking-wide">
+                                        Follow us on Instagram
+                                    </span>
+                                </Button>
+                                <Button className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+                                    <span className="font-secondaryFont font-normal textDescription tracking-wide">
+                                        View Gallery
+                                    </span>
+                                </Button>
+                            </div>
                         </div>
                     </div>
 
@@ -41,13 +46,14 @@ const GridLayout = (): JSX.Element => {
                                 src={tempImage8Webp}
                             />
                         </div>
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none  p-2 sm:p-4 lg:p-6 flex items-center justify-center group h-36 sm:h-48 lg:h-[340px]">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none group flex items-center justify-center h-40 sm:h-52 lg:h-[340px]">
                             <img
-                                className="w-full h-full max-w-[200px] sm:max-w-[240px] lg:max-w-[400px] object-contain transition-transform duration-300 group-hover:scale-105"
-                                alt="Portrait Image"
-                                src={tempImage2Png}
+                                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                                alt="Temple Image 1"
+                                src={tempImage10Webp}
                             />
                         </div>
+
                     </div>
 
                 </div>
@@ -57,11 +63,11 @@ const GridLayout = (): JSX.Element => {
 
                     {/* Two Images Top - Always side by side */}
                     <div className="grid grid-cols-2 flex-1">
-                        <div className="relative overflow-hidden rounded-lg lg:rounded-none bg-[#8b0000] p-2 sm:p-4 lg:p-6 flex items-center justify-center group">
+                        <div className="relative overflow-hidden rounded-lg lg:rounded-none    group">
                             <img
-                                className="w-full h-28 sm:h-36 lg:h-full max-w-[120px] sm:max-w-[180px] lg:max-w-[250px] object-cover transition-transform duration-300 group-hover:scale-105"
+                                className="w-full h-32 sm:h-40 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 alt="Portrait Image 2"
-                                src={tempImage11Png}
+                                src={tempImage8Webp}
                             />
                         </div>
                         <div className="relative overflow-hidden rounded-lg lg:rounded-none group">
