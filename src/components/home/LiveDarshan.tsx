@@ -82,8 +82,8 @@ const SevaSection = ({
   }>;
 }) => {
   return (
-    <div className={isDesktop ? "flex-shrink-0 " : ""}>
-      <Card className={`bg-white shadow-lg ${isDesktop ? "h-full" : ""}`}>
+    <div className={isDesktop ? "flex-shrink-0 h-full" : ""}>
+      <Card className={`bg-white shadow-lg ${isDesktop ? "h-full flex flex-col" : ""}`}>
         <CardHeader className="pb-4">
           <div className="flex items-center gap-2">
             <LazyLoadImage
@@ -106,9 +106,10 @@ const SevaSection = ({
           </div>
         </CardHeader>
 
+        {/* hide scrollbar for WebKit and set scrollbar styles for other browsers */}
+        <style>{`.seva-scroll::-webkit-scrollbar{display:none}.seva-scroll{-ms-overflow-style:none;scrollbar-width:none;}`}</style>
         <CardContent
-          className={`${isDesktop ? "max-h-[450px] overflow-y-auto" : ""
-            } relative overflow-hidden`}>
+          className={`${isDesktop ? "flex-1 overflow-y-auto seva-scroll relative" : "relative overflow-hidden"}`}>
           {/* Background image layer with low opacity */}
           <div
             className="absolute inset-0 bg-no-repeat pointer-events-none"
@@ -145,16 +146,16 @@ const SevaSection = ({
 };
 
 // Countdown Timer Component - Separate component
-const CountdownTimer = ({ countdown }: { countdown: string; isDesktop: boolean }) => {
-  return (
-    <div className={`bg-yellow-600 text-white py-3 px-6 rounded-md `}>
-      <div className="flex items-center justify-between">
-        <span className="font-tenor-sans font-bold textDescription text-white">Countdown Ends In:</span>
-        <span className="font-tenor-sans font-bold textDescription text-white">{countdown}</span>
-      </div>
-    </div>
-  );
-};
+// const CountdownTimer = ({ countdown }: { countdown: string; isDesktop: boolean }) => {
+//   return (
+//     <div className={`bg-yellow-600 text-white py-3 px-6 rounded-md `}>
+//       <div className="flex items-center justify-between">
+//         <span className="font-tenor-sans font-bold textDescription text-white">Countdown Ends In:</span>
+//         <span className="font-tenor-sans font-bold textDescription text-white">{countdown}</span>
+//       </div>
+//     </div>
+//   );
+// };
 
 const LiveDarshan = (): JSX.Element => {
   const [selectedTemple, setSelectedTemple] = useState<string>("mahakaleshwar");
@@ -308,15 +309,15 @@ const LiveDarshan = (): JSX.Element => {
         </div>
 
         {/* Video and Seva Section */}
-        <div className="relative ">
+        <div >
           {/* Desktop Layout */}
-          <div className="hidden xl:flex xl:justify-center xl:items-start gap-4 h-[600px] max-w-full mx-28 ">
+          <div className="hidden xl:flex xl:justify-center xl:items-stretch gap-4 h-[600px] max-w-full mx-28 ">
             <div className="h-full flex flex-col w-[73%] " >
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} />
             </div>
-            <div className="flex flex-col gap-2 h-full w-[28%] " >
+            <div className="flex flex-col gap-2  w-[28%] h-[600px] " >
               <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} />
-              <CountdownTimer countdown={countdown} isDesktop={true} />
+              {/* <CountdownTimer countdown={countdown} isDesktop={true} /> */}
             </div>
           </div>
 
@@ -326,7 +327,7 @@ const LiveDarshan = (): JSX.Element => {
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={false} />
             </div>
             <SevaSection isDesktop={false} upcomingSevas={upcomingSevas} />
-            <CountdownTimer countdown={countdown} isDesktop={false} />
+            {/* <CountdownTimer countdown={countdown} isDesktop={false} /> */}
           </div>
         </div>
       </div>
