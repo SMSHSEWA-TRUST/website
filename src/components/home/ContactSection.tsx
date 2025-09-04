@@ -46,25 +46,25 @@ export const ContactSection: React.FC = () => {
 
   return (
     <section className="w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-[42%_58%] gap-0 min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] overflow-hidden rounded-lg  ">
+      <div className="grid grid-cols-1 lg:grid-cols-[42%_58%] gap-0  overflow-hidden rounded-lg  ">
         {/* Left Section - Background Image with Contact Form */}
         <div
-          className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center p-6 lg:p-8  rounded-lg "
+          className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center   rounded-lg h-[638px] md:h-[700px] lg:h-[638px] "
           style={{ backgroundImage: `url(${contactBg})` }}>
           {/* Overlay for better form visibility */}
-          <div className="absolute inset-0 bg-black/10" />
+          <div className="absolute inset-0 bg-black/10 " />
 
           {/* Contact Form Card */}
-          <Card className="relative z-10 w-full max-w-md bg-[#ece5df] shadow-xl rounded-lg  ">
-            <CardContent className="p-2 sm:p-4 md:p-6 lg:p-8">
+          <Card className="relative z-10 w-full max-w-[312px] sm:max-w-[382px]  lg:max-w-[450px] bg-[#ece5df] shadow-xl rounded-lg">
+            <CardContent className="">
               {/* Header Section */}
-              <div className="text-center mb-8">
-                <h3 className="font-primaryFont font-normal text-[rgba(255, 255, 255, 1)] textHeading mb-3">
+              <div className="text-center mt-4">
+                <h3 className="font-primaryFont font-normal text-[rgba(255, 255, 255, 1)] textHeading ">
                   Reach Out to us
                 </h3>
 
                 {/* Decorative Line */}
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center ">
                   <LazyLoadImage
                     className="w-64 h-4 object-contain"
                     alt="Decorative Line"
@@ -73,11 +73,11 @@ export const ContactSection: React.FC = () => {
                   />
                 </div>
 
-                <h2 className="font-primaryFont font-normal text-[#4c291e] textHeadingLg leading-tight mb-4">
+                <h2 className="font-primaryFont font-normal text-[#4c291e] textHeadingLg leading-tight mt-2 mb-2">
                   We will get Back to You
                 </h2>
 
-                <p className="textDescription font-secondaryFont font-normal text-[#1e1e1e]/50  leading-relaxed">
+                <p className="textDescription font-secondaryFont font-normal text-[#1e1e1e]/50  leading-relaxed mb-2">
                   Your bridge to meaningful communication and personalized assistance, we're here to
                   listen and assist you
                 </p>
@@ -85,7 +85,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Contact Form */}
               <form
-                className="space-y-4"
+                className="space-y-2"
                 id="contact-us-form"
                 onSubmit={handleSubmit(hanldeSubmitForm)}>
                 {/* Name Fields */}
@@ -100,7 +100,7 @@ export const ContactSection: React.FC = () => {
                       <input
                         {...field}
                         placeholder="Please enter your name"
-                        className="w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:border-transparent outline-none"
+                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:border-transparent outline-none"
                       />
                     )}
                   />
@@ -119,7 +119,7 @@ export const ContactSection: React.FC = () => {
                       <input
                         {...field}
                         placeholder="Enter phone number"
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent outline-none"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent outline-none"
                       />
                     )}
                   />
@@ -145,7 +145,7 @@ export const ContactSection: React.FC = () => {
                         {...field}
                         type="email"
                         placeholder="Your email@gmail.com"
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent outline-none"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent outline-none"
                       />
                     )}
                   />
@@ -168,7 +168,7 @@ export const ContactSection: React.FC = () => {
                 />
 
                 {/* Submit Button */}
-                <div className="pt-6 flex justify-center">
+                <div className="pt-4 flex justify-center">
                   <Button
                     type="submit"
                     className="bg-[#8B0000] hover:bg-[#a32d13] text-white px-8 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal textDescription tracking-wide shadow-md hover:shadow-lg">
@@ -181,7 +181,7 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* Right Section - Main Image */}
-        <div className="relative h-64 sm:h-80 lg:min-h-[700px] lg:h-full">
+        <div className="relative h-[300px] md:h-[400px] lg:h-[638px]">
           <LazyLoadImage
             className="w-full h-full object-cover"
             alt="Temple Architecture"

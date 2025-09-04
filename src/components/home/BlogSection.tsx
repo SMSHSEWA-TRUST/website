@@ -111,13 +111,18 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
             />
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute inset-0 "
+                style={{
+                    background: 'linear-gradient(180deg, rgba(139, 0, 0, 0) 0%, rgba(139, 0, 0, 0.75) 64.9%)',
+                }}
+            />
+
 
             {/* Content */}
             <CardContent className="relative z-10 flex flex-col justify-end h-64 sm:h-72 lg:h-80 p-6">
 
                 {/* Date */}
-                <div className="text-white/80 textDescription font-secondaryFont mb-2">
+                <div className=" textDescription font-secondaryFont mb-2">
                     {article.date || "Jan 01, 2025"}
                 </div>
 
@@ -136,7 +141,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 {/* Read More Button */}
                 <Link to="/blog-details">
                     <Button
-                        className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-sm transition-colors duration-200 font-secondaryFont font-normal textDescription"
+                        className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-secondaryFont font-normal textDescription border border-white"
                         aria-label={`Read article: ${article.title}`}
                     >
                         Read Articles

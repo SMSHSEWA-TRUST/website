@@ -9,6 +9,8 @@ const ContactCards = React.lazy(() => import("../../components/home/ContactCards
 const OmNamehShivaya = React.lazy(() => import("../../components/home/OmNamehShivaya"));
 const ScrollingBanner = React.lazy(() => import("../../components/home/ScrollingBanner"));
 const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
+const ContactHeading = React.lazy(() => import("../../components/contact/ContactHeading"));
+
 export const ContactPage = (): JSX.Element => {
   return (
     <>
@@ -18,6 +20,10 @@ export const ContactPage = (): JSX.Element => {
           title="Contact Us"
           backgroundImage={membershipPng}
         />
+      </Suspense>
+
+      <Suspense fallback={<SectionLoader />}>
+        <ContactHeading />
       </Suspense>
 
       {/* Contact Cards Section */}

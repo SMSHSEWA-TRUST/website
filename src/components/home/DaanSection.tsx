@@ -106,7 +106,7 @@ const DonationSection = () => {
 
                     {/* Title */}
                     <h3
-                      className={`textHeading font-light mb-2 transition-colors duration-300 text-white group-hover:text-red-800 hover:text-red-800`}>
+                      className={`textHeading  mb-2 transition-colors duration-300 text-white group-hover:text-red-800 hover:text-red-800 font-bold`}>
                       {category.title}
                     </h3>
 

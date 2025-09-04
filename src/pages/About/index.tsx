@@ -13,7 +13,7 @@ const ContactSection = React.lazy(() => import("../../components/home/ContactSec
 const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
 const ArtiSection = React.lazy(() => import("@/components/about/ArtiSection"));
 const TeamSection = React.lazy(() => import("@/components/about/Team"));
-
+const WordsTrustees = React.lazy(() => import("@/components/about/WordsTrustees"));
 export const AboutPage = (): JSX.Element => {
     return (
         <>
@@ -29,6 +29,10 @@ export const AboutPage = (): JSX.Element => {
             {/* About Worship Section */}
             <Suspense fallback={<SectionLoader />}>
                 <AboutWorship />
+            </Suspense>
+
+            <Suspense fallback={<SectionLoader />}>
+                <WordsTrustees />
             </Suspense>
 
             {/* Image Section */}
