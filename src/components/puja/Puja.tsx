@@ -62,10 +62,12 @@ export default function Puja() {
                                 <div className="w-2 h-2" style={{ backgroundColor: 'rgba(139, 0, 0, 1)', transform: 'rotate(45deg)' }}></div>
                             </div>
                         </div>
-                    </div></div>
+                    </div>
+                
+                </div>
 
                 {/* Grid Layout - 2x2 */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-4">
                     {pujaData.map((puja, index) => (
                         <div
                             key={index}
@@ -78,7 +80,7 @@ export default function Puja() {
                                     <LazyLoadImage
                                         src={puja.image}
                                         alt={puja.title}
-                                        className="w-full h-full object-contain rounded-t-lg"
+                                        className="w-full h-full object-contain rounded-lg"
                                         loading="lazy"
                                         style={{
                                             background: 'linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(30, 0, 0, 0.22) 50%, rgba(0, 0, 0, 1) 100%)',
@@ -87,7 +89,7 @@ export default function Puja() {
                                 </div>
 
                                 {/* Content Section */}
-                                <div className='p-6'>
+                                <div className='pt-4'>
                                     {/* Title */}
                                     <h2 className="textHeading font-bold text-[#8B0000] mb-4 font-primaryFont">
                                         {puja.title}

@@ -45,7 +45,7 @@ const DivinePower = (): JSX.Element => {
                     {/* Contact Cards */}
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mt-8">
                         {/* Connect with Us */}
-                        <Card className="bg-[#8b0000]   flex flex-col justify-between">
+                        <Card className="bg-[#8b0000]   flex flex-col justify-between border-0 focus:outline-none">
                             <CardContent className="p-4 md:p-6 flex flex-col h-full rounded-md shadow-md">
                                 <div className="flex-1">
                                     <LazyLoadImage className="w-10 h-10 md:w-12 md:h-12 mb-4" alt="Temple Icon" src={connectIcon} loading="lazy" />
@@ -80,7 +80,7 @@ const DivinePower = (): JSX.Element => {
                         </Card>
 
                         {/* Office Timings */}
-                        <Card className="bg-[#d05e2d] rounded-md  flex flex-col justify-between">
+                        <Card className="bg-[#d05e2d] rounded-md  flex flex-col justify-between border-0 focus:outline-none">
                             <CardContent className="p-4 md:p-6 flex flex-col h-full shadow-md bg-secondaryColor rounded-md">
                                 <div className="flex-1">
                                     <LazyLoadImage className="w-10 h-10 md:w-12 md:h-12 mb-4" alt="Time Icon" src={timeIcon} loading="lazy" />
