@@ -3,6 +3,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface HeroSectionProps {
     title?: string;
+    semiTitle?: string;
     description?: string;
     backgroundImage?: string;
     className?: string;
@@ -10,6 +11,7 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({
     title = "Title",
+    semiTitle = "",
     description = "",
     backgroundImage = "",
     className = ""
@@ -40,6 +42,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                             {title}
                         </h1>
                     </div>
+
+                    {/* Semi-title below the image */}
+                    {semiTitle && (
+                        <div className="absolute inset-0 flex top-[62%] justify-center">
+                            <h2 className="font-primaryFont relative z-10 font-normal textDescription text-white text-center">
+                                {semiTitle}
+                            </h2>
+                        </div>
+                    )}
+
                 </div>
             )}
           

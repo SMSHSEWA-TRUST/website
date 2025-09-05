@@ -12,6 +12,7 @@ export const BlogDetailsPage = (): JSX.Element => {
             <Suspense fallback={<ComponentLoader height="h-96" />}>
                 <HeroSection
                     title="Blog Details"
+                    semiTitle="Blog By: John Doe | Date: 01/01/2025"
                     backgroundImage={BlogdetailWebp}
                 />
             </Suspense>

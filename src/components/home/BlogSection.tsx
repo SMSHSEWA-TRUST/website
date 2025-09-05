@@ -122,12 +122,12 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
             <CardContent className="relative z-10 flex flex-col justify-end h-64 sm:h-72 lg:h-80 p-6">
 
                 {/* Date */}
-                <div className=" textDescription font-secondaryFont mb-2">
+                <div className="text-white/90 textDescription font-secondaryFont mb-2">
                     {article.date || "Jan 01, 2025"}
                 </div>
 
                 {/* Title */}
-                <h3 className="text-secondaryColor textHeading font-semibold mb-4 font-primaryFont leading-tight">
+                <h3 className="text-white textHeading font-semibold mb-4 font-primaryFont leading-tight">
                     {article.title || "Lorem ipsum dolor sit"}
                 </h3>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface LatestPost {
@@ -61,12 +62,12 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
                 </div>
 
                 {/* See All Blogs Button */}
-                <a
-                    href="#"
+                <Link
+                    to="/blogs"
                     className="font-secondaryFont textDescription block w-full bg-orange-500 text-white text-center py-2 text-sm font-medium hover:bg-orange-600 transition-colors"
                 >
                     See All Blogs
-                </a>
+                </Link>
             </div>
         </div>
     );

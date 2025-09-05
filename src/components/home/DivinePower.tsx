@@ -9,7 +9,7 @@ import timeIcon from '@/assets/images/time.png';
 
 const DivinePower = (): JSX.Element => {
     return (
-        <section className="relative w-full flex flex-col items-center justify-center">
+        <section className="relative w-full flex flex-col items-center justify-center mb-9 lg:mb-16">
             {/* Desktop/Large screen: text overlays image with cards */}
             <div
                 className="relative w-full min-h-[100vh] flex items-center justify-center"
@@ -23,7 +23,7 @@ const DivinePower = (): JSX.Element => {
                 <div className="absolute inset-0 bg-black/20 z-10" />
 
                 {/* Content container with title, description and cards */}
-                <div className="relative z-20 w-full flex flex-col items-center justify-center py-8 sm:py-10 md:py-14 lg:py-16 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+                <div className="relative z-20 w-full flex flex-col items-center justify-center  px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
                     <div className="text-center mb-8">
                         <h2
                             className="text-5xl md:text-6xl font-bold font-primaryFont"

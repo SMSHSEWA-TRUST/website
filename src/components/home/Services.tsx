@@ -136,7 +136,7 @@ const Services = (): JSX.Element => {
                                     <h3 className="font-primaryFont textHeading text-[#4c291e] text-center mb-3 font-medium">
                                     {service.title}
                                 </h3>
-                                    <p className="font-secondaryFont textDescription text-[#666] text-center leading-relaxed">
+                                    <p className="font-secondaryFont textDescription text-[#1E1E1E80] text-center leading-relaxed">
                                     {service.description}
                                 </p>
                             </div>

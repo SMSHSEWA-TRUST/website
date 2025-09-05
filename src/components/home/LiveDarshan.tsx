@@ -132,9 +132,30 @@ const SevaSection = ({
                 <p className="font-secondaryFont font-normal text-[rgba(30, 30, 30, 0.5)] textDescription leading-relaxed mb-3">
                   {seva.description}
                 </p>
-                <div className="flex justify-between font-secondaryFont font-normal text-[rgba(76, 41, 30, 1)] textDescription">
-                  <span>{seva.date}</span>
-                  <span>{seva.time}</span>
+                <div className="flex items-center justify-between font-secondaryFont font-normal text-[#1E1E1E80] textDescription">
+                  <div className="flex items-center gap-4 text-[#1E1E1E80]">
+                    <div className="flex items-center gap-2  text-[#1E1E1E80] textDescription">
+                      {/* calendar icon */}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      </svg>
+                      <span className="whitespace-nowrap">{seva.date}</span>
+                    </div>
+                    <div className="flex items-center gap-2 textDescription text-[#1E1E1E80]">
+                      {/* clock icon */}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span className="whitespace-nowrap">{seva.time}</span>
+                    </div>
+                  </div>
+
+                  <a
+                    href="#"
+                    className="text-[rgba(139,0,0,1)] font-secondaryFont textDescription underline"
+                    onClick={(e) => e.preventDefault()}>
+                    View Details
+                  </a>
                 </div>
               </div>
             ))}
@@ -315,7 +336,7 @@ const LiveDarshan = (): JSX.Element => {
             <div className="h-full flex flex-col w-[73%] " >
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} />
             </div>
-            <div className="flex flex-col gap-2  w-[28%] h-[600px] " >
+            <div className="flex flex-col gap-2  w-[38%] h-[600px] " >
               <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} />
               {/* <CountdownTimer countdown={countdown} isDesktop={true} /> */}
             </div>

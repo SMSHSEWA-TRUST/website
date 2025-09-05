@@ -39,7 +39,7 @@ const BlogDetails = () => {
                         <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                          </p>
-                        <h2 className="font-primaryFont textHeading text-[#B91C1C] mb-1 mt-2">Sub Heading 1</h2>
+                        <h2 className="font-primaryFont textHeading text-[#D05E2D]  mt-6 lg:mt-20">Sub Heading 1</h2>
                         <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         </p>
@@ -48,7 +48,7 @@ const BlogDetails = () => {
                                 <LazyLoadImage src={blogDetails1} alt="Main" className="w-full h-full object-cover object-center" loading="lazy" />
                             </div>
                         </div>
-                        <h2 className="font-primaryFont textHeading text-[#B91C1C] mb-1 mt-2">Sub Heading 2</h2>
+                        <h2 className="font-primaryFont textHeading text-[#D05E2D]  mt-2">Sub Heading 2</h2>
                         <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         </p>

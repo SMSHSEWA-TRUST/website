@@ -101,6 +101,17 @@ export default function OtpVerification() {
       style={{
         backgroundImage: `url(${otpBgImage})`,
       }}>
+      {/* Go to Home button (top-left) */}
+      <button
+        type="button"
+        onClick={() => navigate('/')}
+        className="absolute top-6 left-6 z-30 bg-red-800 hover:bg-red-900 text-white px-3 py-1 rounded-md shadow-md flex items-center space-x-2 text-xs sm:px-4 sm:py-2 sm:rounded-lg sm:text-sm"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+        <span className="font-medium">Go to Home</span>
+      </button>
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
@@ -128,7 +139,7 @@ export default function OtpVerification() {
         </div>
 
         {/* Mobile Form */}
-        <div className="bg-white/95 backdrop-blur-md rounded-t-3xl px-6 py-8 mx-4 mb-4 shadow-2xl">
+        <div className="bg-white/95 backdrop-blur-md rounded-t-3xl px-6 py-8 mx-4 mb-4 shadow-2xl max-h-[60vh] overflow-y-auto min-h-0" style={{ WebkitOverflowScrolling: 'touch' }}>
           <div className="mb-6">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">OTP Verification</h2>
             <p className="text-sm sm:text-base text-gray-500 mt-2">
@@ -219,7 +230,7 @@ export default function OtpVerification() {
               </p>
             </div>
 
-            <div className="flex-1 flex flex-col justify-center px-8 xl:px-10">
+            <div className="flex-1 flex flex-col justify-center px-8 xl:px-10 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-8 w-full">
                 {/* Desktop OTP Inputs */}
                 <div className="flex justify-center space-x-4">

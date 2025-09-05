@@ -65,11 +65,11 @@ const WordsTrustees: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-center gap-8">
                 {/* Left panel: text on a warm beige background */}
                 <div className="w-full order-2 lg:order-1 lg:pl-6 lg:pr-28">
-                    <h2 className="font-serif text-2xl lg:text-3xl text-[#3b2f2a] tracking-wide mb-4">
+                    <h2 className="font-primaryFont textHeadingLg text-[#4C291E] tracking-wide mb-4">
                         Words from the Trustee’s
                     </h2>
 
-                    <p className="text-sm lg:text-base text-[#6b6764] leading-7 mb-6">
+                    <p className="textDescription font-secondaryFont text-[#1E1E1E80] leading-7 mb-6">
                         {item.text}
                     </p>
 
@@ -82,8 +82,8 @@ const WordsTrustees: React.FC = () => {
 
                     <div className="border-[#e7ddd6] pt-6 flex items-center justify-between">
                         <div>
-                            <div className="text-[#8a1d1d] font-semibold text-lg">{item.name}</div>
-                            <div className="text-sm text-[#9b9b9b]">{item.position}</div>
+                            <div className="text-[#8B0000] font-primaryFont  textHeading">{item.name}</div>
+                            <div className="textDescription font-secondaryFont text-[#9b9b9b]">{item.position}</div>
                         </div>
 
                         <div className="flex items-center gap-3">

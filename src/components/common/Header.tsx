@@ -103,12 +103,14 @@ const Header = (): JSX.Element => {
           <div className="hidden lg:flex lg:items-center lg:justify-between lg:py-4">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <LazyLoadImage
-                className="w-20 h-20 object-cover"
-                alt="Temple Logo"
-                src={tempLogo}
-                loading="lazy"
-              />
+              <Link to="/" aria-label="Home">
+                <LazyLoadImage
+                  className="w-20 h-20 object-cover"
+                  alt="Temple Logo"
+                  src={tempLogo}
+                  loading="lazy"
+                />
+              </Link>
             </div>
 
             {/* Center Content - Title */}
@@ -167,13 +169,13 @@ const Header = (): JSX.Element => {
       {/* Full Width Navigation Menu Bar */}
       <div className="w-full hidden lg:block" style={{ backgroundColor: 'rgba(173, 47, 22, 1)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-1">
             {/* Left spacer to align with logo */}
             <div className="w-20"></div>
 
             {/* Center Navigation Menu */}
             <NavigationMenu className="flex-1">
-              <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-full justify-center textHeading">
+              <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-full justify-center text-[22px]">
                 <NavigationMenuItem>
                   <Link to="/">
                     <Button
@@ -304,12 +306,14 @@ const Header = (): JSX.Element => {
           <div className="flex items-center justify-between py-4 px-4">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <LazyLoadImage
-                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-cover"
-                alt="Temple Logo"
-                src={tempLogo}
-                loading="lazy"
-              />
+              <Link to="/" aria-label="Home">
+                <LazyLoadImage
+                  className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-cover"
+                  alt="Temple Logo"
+                  src={tempLogo}
+                  loading="lazy"
+                />
+              </Link>
             </div>
 
             {/* Centered Title */}

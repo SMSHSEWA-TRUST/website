@@ -1,12 +1,36 @@
-import {Gift, Utensils, GraduationCap, Heart, Coins} from "lucide-react";
-import {useState} from "react";
+import { Gift, Utensils, GraduationCap, Heart, Coins } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from 'react-router-dom';
 import CommonDonationDialog from "../commonDonationDialog";
-import {useGetAllDaan} from "@/api/DaanQueries";
+import { useGetAllDaan } from "@/api/DaanQueries";
 
 const DonationSection = () => {
-  const {data, isFetching} = useGetAllDaan();
+  const { data, isFetching } = useGetAllDaan();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  // Handler for donate button: opens dialog and for Bhumi-specific card scrolls to the donations section
+  const handleDonate = (category: any) => {
+    setSelectedCategory(category);
+    setOpenDialog(true);
+
+    try {
+      const title = String(category?.title || "").toLowerCase();
+      // If this is the Bhumi daan card, also scroll/redirect to the donations section
+      if (title.includes("bhumi")) {
+        const el = document.getElementById("donations");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          // fallback: set hash so anchor navigation works if element not present yet
+          window.location.hash = "#donations";
+        }
+      }
+    } catch (e) {
+      // ignore in case of SSR or unexpected errors
+    }
+  };
   const iconMap: Record<string, React.ElementType> = {
     Gift,
     Heart,
@@ -14,6 +38,33 @@ const DonationSection = () => {
     GraduationCap,
     Coins,
   };
+
+  // If navigated here with state.focus === 'bhumi', open the Bhumi dialog automatically
+  useEffect(() => {
+    if (isFetching) return;
+    try {
+      const focus = (location.state as any)?.focus;
+      if (focus && String(focus).toLowerCase() === 'bhumi' && data?.data?.length) {
+        const match = data.data.find((c: any) => {
+          const t = String(c?.title || '').toLowerCase();
+          return t.includes('bhumi') || t.includes('bhudaan') || t.includes('bhumi daan');
+        });
+        if (match) {
+          setSelectedCategory(match);
+          setOpenDialog(true);
+        }
+
+        // clear the navigation state so this doesn't reopen on further renders
+        try {
+          navigate(location.pathname + (location.hash || ''), { replace: true, state: {} });
+        } catch (e) {
+          // ignore
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [data, isFetching, location, navigate]);
   if (isFetching) return null;
   return (
     <>
@@ -22,6 +73,7 @@ const DonationSection = () => {
       )}
 
       <section
+        id="donations"
         className="relative w-full overflow-hidden py-16  "
         style={{
           background: "rgba(139, 0, 0, 1)",
@@ -131,10 +183,7 @@ const DonationSection = () => {
 
                     {/* Donate Button */}
                     <button
-                      onClick={() => {
-                        setSelectedCategory(category);
-                        setOpenDialog(true);
-                      }}
+                      onClick={() => handleDonate(category)}
                       className={`w-full py-2.5 px-4 rounded font-semibold textDescription transition-all duration-300  "bg-red-800 text-white bg-red-900 group-hover:bg-red-800 hover:text-white hover:shadow-lg   
                       `}>
                       Donate Now

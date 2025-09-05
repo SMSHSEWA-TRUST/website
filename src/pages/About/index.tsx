@@ -11,7 +11,7 @@ const OmNamehShivaya = React.lazy(() => import("../../components/home/OmNamehShi
 const ScrollingBanner = React.lazy(() => import("../../components/home/ScrollingBanner"));
 const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
 const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
-const ArtiSection = React.lazy(() => import("@/components/about/ArtiSection"));
+// const ArtiSection = React.lazy(() => import("@/components/about/ArtiSection"));
 const TeamSection = React.lazy(() => import("@/components/about/Team"));
 const WordsTrustees = React.lazy(() => import("@/components/about/WordsTrustees"));
 export const AboutPage = (): JSX.Element => {
@@ -31,19 +31,21 @@ export const AboutPage = (): JSX.Element => {
                 <AboutWorship />
             </Suspense>
 
-            <Suspense fallback={<SectionLoader />}>
-                <WordsTrustees />
-            </Suspense>
+            
 
             {/* Image Section */}
             <Suspense fallback={<ComponentLoader height="h-96" />}>
                 <ImageSection />
             </Suspense>
 
-            {/* Arti Section */}
             <Suspense fallback={<SectionLoader />}>
-                <ArtiSection />
+                <WordsTrustees />
             </Suspense>
+
+            {/* Arti Section */}
+            {/* <Suspense fallback={<SectionLoader />}>
+                <ArtiSection />
+            </Suspense> */}
 
             {/* Team Section */}
             <Suspense fallback={<SectionLoader />}>

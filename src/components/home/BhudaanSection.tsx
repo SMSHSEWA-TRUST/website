@@ -1,10 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import bhudaan1 from '@/assets/images/bhudaan1.webp';
 import bhudaan2 from '@/assets/images/bhudaan2.webp';
 import bhudaan3 from '@/assets/images/bhudaan3.webp';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const BhudaanSection: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <section className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden px-4 md:px-16 lg:px-24">
             <div className=" text-center">
@@ -53,7 +56,13 @@ const BhudaanSection: React.FC = () => {
                 <p className="text-white textHeading font-semibold mb-4 font-primaryFont">
                     Donate a Portion of Land towards the Temple Construction
                 </p>
-                <button className="bg-white text-[#8B0000] textDescription font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont">
+                <button
+                    onClick={() => {
+                        // navigate to the donations section on the same page and request focus on 'bhumi'
+                        navigate('/#donations', { state: { focus: 'bhumi' } });
+                    }}
+                    className="bg-white text-[#8B0000] textDescription font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont"
+                >
                     Donate Now
                 </button>
             </div>

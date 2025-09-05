@@ -86,9 +86,9 @@ const Blogs: React.FC = () => {
                         <CardContent className="relative z-10 flex flex-col justify-end h-64 sm:h-72 lg:h-80 p-6">
                             <div className="text-white/80 textDescription font-secondaryFont mb-2">{post.date}</div>
                             <h3 className="text-white textHeading font-semibold mb-4 font-primaryFont leading-tight">{post.title}</h3>
-                            {post.excerpt && (
+                            {/* {post.excerpt && (
                                 <p className="text-white/70 textDescription mb-4 line-clamp-2 font-secondaryFont">{post.excerpt}</p>
-                            )}
+                            )} */}
                             <Link to={post.link || '/blog-details'}>
                                 <Button className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-secondaryFont font-normal textDescription border border-white">Read Blog</Button>
                             </Link>

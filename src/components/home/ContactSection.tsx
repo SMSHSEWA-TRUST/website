@@ -46,7 +46,7 @@ export const ContactSection: React.FC = () => {
 
   return (
     <section className="w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-[42%_58%] gap-0  overflow-hidden rounded-lg  ">
+      <div className="grid grid-cols-1 lg:grid-cols-[50%_50%] gap-0  overflow-hidden rounded-lg  ">
         {/* Left Section - Background Image with Contact Form */}
         <div
           className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center   rounded-lg h-[638px] md:h-[700px] lg:h-[638px] "
@@ -55,7 +55,7 @@ export const ContactSection: React.FC = () => {
           <div className="absolute inset-0 bg-black/10 " />
 
           {/* Contact Form Card */}
-          <Card className="relative z-10 w-full max-w-[312px] sm:max-w-[382px]  lg:max-w-[450px] bg-[#ece5df] shadow-xl rounded-lg">
+          <Card className="relative z-10 w-full max-w-[312px] sm:max-w-[382px]  lg:max-w-[450px] bg-[#FFFFFF] shadow-xl rounded-lg">
             <CardContent className="">
               {/* Header Section */}
               <div className="text-center mt-4">

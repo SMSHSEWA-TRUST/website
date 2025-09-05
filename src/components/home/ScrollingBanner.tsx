@@ -33,9 +33,9 @@ const ScrollingBanner = (): JSX.Element => {
                             {/* Render left, Om, right, and trailing Om so repeats also have an Om between them */}
                             <>
                                 {pair.left}
-                                <span className="text-yellow-500 font-semibold textDescription mx-4" aria-hidden="true">ॐ</span>
+                                <span className="text-yellow-500 font-semibold textHeading mx-4" aria-hidden="true">ॐ</span>
                                 {pair.right}
-                                <span className="text-yellow-500 font-semibold textDescription mx-4" aria-hidden="true">ॐ</span>
+                                <span className="text-yellow-500 font-semibold textHeading mx-4" aria-hidden="true">ॐ</span>
                             </>
                         </span>
                     ))}

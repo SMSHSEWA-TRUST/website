@@ -6,7 +6,7 @@ import membershipPng from '@/assets/images/membership.png';
 // Lazy load components
 const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
 const ContactCards = React.lazy(() => import("../../components/home/ContactCards"));
-const OmNamehShivaya = React.lazy(() => import("../../components/home/OmNamehShivaya"));
+// const OmNamehShivaya = React.lazy(() => import("../../components/home/OmNamehShivaya"));
 const ScrollingBanner = React.lazy(() => import("../../components/home/ScrollingBanner"));
 const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
 const ContactHeading = React.lazy(() => import("../../components/contact/ContactHeading"));
@@ -34,9 +34,9 @@ export const ContactPage = (): JSX.Element => {
       </Suspense>
 
       {/* Om Namah Shivaya Section */}
-      <Suspense fallback={<SectionLoader />}>
+      {/* <Suspense fallback={<SectionLoader />}>
         <OmNamehShivaya />
-      </Suspense>
+      </Suspense> */}
 
       {/* Scrolling Banner */}
       <Suspense fallback={<ComponentLoader height="h-16" />}>
