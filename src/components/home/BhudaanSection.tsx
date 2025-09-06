@@ -58,6 +58,12 @@ const BhudaanSection: React.FC = () => {
                 </p>
                 <button
                     onClick={() => {
+                        // Require login before allowing access to donation flow
+                        const token = localStorage.getItem("authToken");
+                        if (!token) {
+                            navigate('/login');
+                            return;
+                        }
                         // navigate to the donations section on the same page and request focus on 'bhumi'
                         navigate('/#donations', { state: { focus: 'bhumi' } });
                     }}

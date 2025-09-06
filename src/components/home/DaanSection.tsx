@@ -12,6 +12,13 @@ const DonationSection = () => {
   const navigate = useNavigate();
   // Handler for donate button: opens dialog and for Bhumi-specific card scrolls to the donations section
   const handleDonate = (category: any) => {
+    // If user is not authenticated, send to login page (do not track/attach return path)
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
     setSelectedCategory(category);
     setOpenDialog(true);
 
