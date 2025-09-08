@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import mand7Png from "@/assets/images/mand-7.png";
 import sevaBg from "@/assets/images/sevabg.png";
 import omPng from "@/assets/images/om.png";
+import eventImg from "@/assets/images/aboutSection1.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import pujaImageWebp from '@/assets/images/pujaImage.webp';
 
 // Video Player Component - Reusable for both layouts
 const VideoPlayerSection = ({
@@ -72,6 +74,7 @@ const VideoPlayerSection = ({
 const SevaSection = ({
   isDesktop,
   upcomingSevas,
+  onViewDetails,
 }: {
   isDesktop: boolean;
   upcomingSevas: Array<{
@@ -80,6 +83,7 @@ const SevaSection = ({
     date: string;
     time: string;
   }>;
+  onViewDetails?: (index: number) => void;
 }) => {
   return (
     <div className={isDesktop ? "flex-shrink-0 h-full" : ""}>
@@ -97,7 +101,7 @@ const SevaSection = ({
               loading="lazy"
             />
             <CardTitle className="text-[rgba(139,0,0,1)] font-primaryFont textHeadingLg font-normal">
-              Upcoming Seva's
+              Upcoming Events
             </CardTitle>
           </div>
           <div className="relative mt-1">
@@ -153,7 +157,10 @@ const SevaSection = ({
                   <a
                     href="#"
                     className="text-[rgba(139,0,0,1)] font-secondaryFont textDescription underline"
-                    onClick={(e) => e.preventDefault()}>
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onViewDetails?.(index);
+                    }}>
                     View Details
                   </a>
                 </div>
@@ -180,7 +187,7 @@ const SevaSection = ({
 
 const LiveDarshan = (): JSX.Element => {
   const [selectedTemple, setSelectedTemple] = useState<string>("mahakaleshwar");
-  const [countdown, setCountdown] = useState("00:00:00");
+  // countdown removed (unused in this component)
 
   // Upcoming Seva data
   const upcomingSevas = [
@@ -207,6 +214,20 @@ const LiveDarshan = (): JSX.Element => {
     },
   ];
 
+  // Modal state for viewing seva/event details
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalIndex, setModalIndex] = useState<number | null>(null);
+
+  const openModal = (index: number) => {
+    setModalIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalIndex(null);
+  };
+
   // selectedTemple drives the iframe src in VideoPlayerSection directly
 
   // Handle button click to change selected temple and video URL
@@ -214,52 +235,27 @@ const LiveDarshan = (): JSX.Element => {
     setSelectedTemple(temple);
   };
 
-  // Countdown effect
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const nextEvent = new Date();
-      nextEvent.setHours(24, 0, 0, 0); // Next midnight
-      const distance = nextEvent.getTime() - now;
-
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      setCountdown(
-        `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds
-          .toString()
-          .padStart(2, "0")}`
-      );
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
+  // countdown logic removed
 
   return (
-    <section
-      className="relative w-full overflow-hidden"
-      style={{ backgroundColor: "rgba(139, 0, 0, 1)" }}>
-      {/* Background Decorative Images */}
-      <div className="absolute inset-0 pointer-events-none">
-        <LazyLoadImage
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
-          alt="Left Decoration"
-          src={mand7Png}
-          loading="lazy"
-        />
-        <LazyLoadImage
-          className="absolute right-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
-          alt="Right Decoration"
-          src={mand7Png}
-          loading="lazy"
-        />
-      </div>
-
-      {/* Main Content Container */}
-      <div className="relative z-10 w-full py-8  ">
-        {/* Header Section */}
-        <div className="text-center mb-4 lg:mb-12">
+    <>
+      <section
+        className="relative w-full overflow-hidden"
+        style={{ backgroundColor: "rgba(139, 0, 0, 1)" }}>
+        {/* Background Decorative Images */}
+        <div className="absolute inset-0 pointer-events-none">
+          <LazyLoadImage
+            className="absolute left-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
+            alt="Left Decoration"
+            src={mand7Png}
+            loading="lazy"
+          />
+          <LazyLoadImage
+            className="absolute right-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
+            alt="Right Decoration"
+            src={mand7Png}
+            loading="lazy"
+          />
           <h2
             className="text-5xl md:text-6xl font-bold font-primaryFont"
             style={{
@@ -337,7 +333,7 @@ const LiveDarshan = (): JSX.Element => {
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} />
             </div>
             <div className="flex flex-col gap-2  w-[38%] h-[600px] " >
-              <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} />
+              <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} onViewDetails={openModal} />
               {/* <CountdownTimer countdown={countdown} isDesktop={true} /> */}
             </div>
           </div>
@@ -347,12 +343,61 @@ const LiveDarshan = (): JSX.Element => {
             <div>
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={false} />
             </div>
-            <SevaSection isDesktop={false} upcomingSevas={upcomingSevas} />
+            <SevaSection isDesktop={false} upcomingSevas={upcomingSevas} onViewDetails={openModal} />
             {/* <CountdownTimer countdown={countdown} isDesktop={false} /> */}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {isModalOpen && modalIndex !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-6"
+          aria-modal="true"
+          role="dialog">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={closeModal}
+          />
+
+          {/* Modal panel */}
+          <div className="relative z-10 w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-6 flex flex-col gap-4">
+            {/* Header */}
+            <div className="flex items-start justify-between border-b">
+              <h3 className="textHeadingLg font-primaryFont font-semibold text-[#333]">Upcoming Event</h3>
+              <button
+                aria-label="Close"
+                onClick={closeModal}
+                className="ml-4 p-2 rounded-full hover:bg-gray-100">
+                <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Image */}
+            <div className="w-full">
+              <LazyLoadImage
+                src={pujaImageWebp}
+                alt="event"
+                className="w-full h-44 object-cover bg-cover rounded-lg"
+              />
+            </div>
+
+            {/* Content */}
+            <div className="">
+              <h4 className="text-[rgba(139,0,0,1)] textHeading font-primaryFont mb-3">Puja 1</h4>
+              <p className="textDescription text-[#444] leading-relaxed mb-3">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+              <p className="textDescription text-[#444] leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
