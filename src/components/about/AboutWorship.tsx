@@ -110,8 +110,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                                     decoding="async"
                                 />
                             </div>
-                            {/* Subtle shadow effect */}
-                            <div className="absolute inset-0 rounded-lg shadow-inner pointer-events-none" />
+                           
                         </div>
                     </div>
                 </div>

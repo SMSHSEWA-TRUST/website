@@ -97,7 +97,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         className="font-primaryFont textHeadingLg  text-center font-semibold"
                                         style={{
                                             color: "#fff",
-                                            
+
                                             textShadow: "0px 4px 4px #d05e2d40",
                                             WebkitTextStroke: "1px #9a0000",
 
@@ -234,7 +234,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         </div>
                                         <div className="flex items-end">
                                             <address className="font-secondaryFont textDescription  not-italic leading-relaxed text-white text-right">
-                                                
+
                                                 Miami (Florida)
                                                 United States
                                             </address>
@@ -295,8 +295,8 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                             {/* Logo */}
                             <div className="flex justify-center items-center">
-                                <div className="relative w-12 h-12">
-                                    <div className="absolute inset-0.5 bg-white rounded-full" />
+                                <div className="relative w-16 h-16">
+                                    <div className="absolute inset-1 bg-white rounded-full" />
                                     <LazyLoadImage
                                         src={tempLogo}
                                         alt="Shree Mahakaleshwar Salasar Hanuman Sewa Trust Logo"
@@ -311,7 +311,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 <h1 className="font-primaryFont textHeadingLg font-normal text-center"
                                     style={{
                                         color: "#fff",
-                                       
+
                                     }}>
                                     Shree Mahakaleshwar Salasar<br />Hanuman Sewa Trust
                                 </h1>
@@ -388,36 +388,26 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             Info
                                         </h3>
                                     </div>
-                                    <div className="flex flex-col space-y-2 font-secondaryFont textDescription">
                                         <div className="flex flex-col space-y-1">
-                                            <div className="flex items-center">
+                                            <div className="flex items-center gap-1">
                                                 <span className="font-secondaryFont text-gray-100">Email:</span>
-                                            </div>
-                                            <div className="flex items-start">
                                                 <a href="mailto:info@support.com" className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
                                                     info@support.com
                                                 </a>
-                                            </div>
+                                            
                                         </div>
-                                        <div className="flex flex-col space-y-1">
-                                            <div className="flex items-center">
+
+                                            <div className="flex items-center gap-1">
                                                 <span className="font-secondaryFont textDescription text-gray-100">Phone No:</span>
-                                            </div>
-                                            <div className="flex items-start">
-                                                <a href="tel:+919876543210" className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
-                                                    9876543210
-                                                </a>
-                                            </div>
+                                                <a href="tel:+919876543210" className="font-secondaryFont text-white hover:text-gray-200 transition-colors"> 9876543210</a>
+                                         
                                         </div>
-                                        <div className="flex flex-col space-y-2">
-                                            <div className="flex items-center">
+                                            <div className="flex  gap-1">
                                                 <span className="font-secondaryFont textDescription text-gray-100">Address:</span>
-                                            </div>
-                                            <div className="flex items-start">
-                                                <address className="font-secondaryFont not-italic text-white text-xs leading-relaxed">
+                                                <div className="font-secondaryFont not-italic text-white text-xs leading-relaxed">
                                                     1080 Brickell Ave, Miami (Florida)<br />United States
-                                                </address>
-                                            </div>
+                                                </div>
+
                                         </div>
                                     </div>
                                 </div>

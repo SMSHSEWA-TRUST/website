@@ -443,7 +443,7 @@ const Header = (): JSX.Element => {
               {/* Mobile Register/Login in menu */}
               {!isLoggedIn ? (
                 <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal mx-4">
+                  <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal ">
                     Register/Login
                   </Button>
                 </Link>
@@ -454,7 +454,7 @@ const Header = (): JSX.Element => {
                     localStorage.clear();
                     window.location.reload();
                   }}
-                  className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal mx-4"
+                  className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal"
                 >
                   Logout
                 </Button>

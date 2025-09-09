@@ -98,11 +98,11 @@ const AnimatedStat = ({ amount, label, shouldAnimate }: { amount: string; label:
 
     return (
         <li className="flex items-center gap-3">
-            <span className="textHeadingLg font-marcellus  font-normal text-[rgba(76,41,30,1)]">
+            <span className="textHeadingLg font-marcellus  font-semibold text-[rgba(76,41,30,1)]">
                 {displayValue}
-                <span className="text-xl md:text-3xl align-super">+</span>
+                <span className=" align-super">+</span>
             </span>
-            <span className="text-[rgba(76,41,30,1)] textDescription font-normal font-tenor-sans">
+            <span className="text-[rgba(76,41,30,1)] textDescription font-normal font-secondaryFont">
                 {label}
             </span>
         </li>
