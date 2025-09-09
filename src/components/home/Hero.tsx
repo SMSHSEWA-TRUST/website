@@ -173,7 +173,7 @@ const Hero = (): JSX.Element => {
 
           {/* Deity image container - half overlaps red and normal section */}
           <div
-            className="absolute left-1/2 -translate-x-1/2 z-10 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 -top-24 sm:-top-28 md:-top-32"
+            className="absolute left-1/2 -translate-x-1/2 z-10 w-56 h-56 sm:w-64 sm:h-64 md:w-64 md:h-64 lg:w-72 lg:h-72 -top-24 sm:-top-28 md:-top-32"
             style={{ minHeight: "0", marginBottom: 0 }}>
             {/* Golden circular frame background */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#daa520] to-[#b8941c] p-1 shadow-2xl">

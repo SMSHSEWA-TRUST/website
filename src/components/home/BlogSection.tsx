@@ -113,7 +113,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
             {/* Overlay */}
             <div className="absolute inset-0 "
                 style={{
-                    background: 'linear-gradient(180deg, rgba(139, 0, 0, 0) 0%, rgba(139, 0, 0, 0.75) 64.9%)',
+                    background: 'linear-gradient(180deg, #8B000000 0%, #8B0000 )',
                 }}
             />
 
@@ -127,7 +127,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-white textHeading font-semibold mb-4 font-primaryFont leading-tight">
+                <h3 className="text-white textHeading  mb-4 font-primaryFont leading-tight">
                     {article.title || "Lorem ipsum dolor sit"}
                 </h3>
 

@@ -17,7 +17,7 @@ interface BlogSidebarProps {
 const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
     return (
         <div className="w-full max-w-[400px] mx-auto  lg:mx-0 font-secondaryFont">
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-200 rounded-lg ">
                 {/* Search Bar */}
                 <form className="mb-4">
                     <div className="flex">

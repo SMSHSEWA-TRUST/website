@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "../ui/card";
 import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import contactBg from "@/assets/images/image-7.webp";
 import contactLine from "@/assets/images/line-4.png";
@@ -59,7 +60,7 @@ export const ContactSection: React.FC = () => {
             <CardContent className="">
               {/* Header Section */}
               <div className="text-center mt-4">
-                <h3 className="font-primaryFont font-normal text-[rgba(255, 255, 255, 1)] textHeading ">
+                <h3 className="font-primaryFont  text-[rgba(255, 255, 255, 1)] textHeading ">
                   Reach Out to us
                 </h3>
 
@@ -97,10 +98,10 @@ export const ContactSection: React.FC = () => {
                       required: "Name is required",
                     }}
                     render={({ field }) => (
-                      <input
+                      <Input
                         {...field}
                         placeholder="Please enter your name"
-                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:border-transparent outline-none"
+                        className="px-3 py-2"
                       />
                     )}
                   />
@@ -116,10 +117,11 @@ export const ContactSection: React.FC = () => {
                     control={control}
                     rules={{ required: "Phone number is required" }}
                     render={({ field }) => (
-                      <input
+                      <Input
                         {...field}
-                        placeholder="Enter phone number"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent outline-none"
+                        type="tel"
+                        placeholder="Please enter your phone number"
+                        className="px-3 py-2"
                       />
                     )}
                   />
@@ -141,11 +143,11 @@ export const ContactSection: React.FC = () => {
                       },
                     }}
                     render={({ field }) => (
-                      <input
+                      <Input
                         {...field}
                         type="email"
-                        placeholder="Your email@gmail.com"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent outline-none"
+                        placeholder="Please enter your email address"
+                        className="px-3 py-2"
                       />
                     )}
                   />
@@ -161,8 +163,8 @@ export const ContactSection: React.FC = () => {
                   render={({ field }) => (
                     <Textarea
                       {...field}
-                      className="bg-white border-gray-200 rounded-sm focus:ring-2 focus:ring-secondaryColor focus:border-transparent transition-all duration-200 min-h-[100px] resize-none"
-                      placeholder="Your message goes here"
+                      className="bg-white border border-gray-200 rounded-sm focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 min-h-[100px] resize-none hover:border-black"
+                      placeholder="Please enter your message"
                     />
                   )}
                 />
@@ -171,7 +173,7 @@ export const ContactSection: React.FC = () => {
                 <div className="pt-4 flex justify-center">
                   <Button
                     type="submit"
-                    className="bg-[#8B0000] hover:bg-[#a32d13] text-white px-8 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal textDescription tracking-wide shadow-md hover:shadow-lg">
+                    className="bg-[#8B0000] hover:bg-black text-white px-8 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal textDescription tracking-wide shadow-md hover:shadow-lg">
                     Submit
                   </Button>
                 </div>

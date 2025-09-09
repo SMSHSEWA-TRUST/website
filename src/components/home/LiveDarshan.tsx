@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import mand7Png from "@/assets/images/mand-7.png";
@@ -247,6 +247,36 @@ const LiveDarshan = (): JSX.Element => {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // prevent background scrolling when modal is open
+  const prevBodyStyleRef = useRef<{ overflow?: string; paddingRight?: string }>({});
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    if (isModalOpen) {
+      // save previous styles
+      prevBodyStyleRef.current.overflow = document.body.style.overflow;
+      prevBodyStyleRef.current.paddingRight = document.body.style.paddingRight;
+
+      // avoid layout shift by compensating for scrollbar width
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      if (scrollBarWidth > 0) {
+        document.body.style.paddingRight = `${scrollBarWidth}px`;
+      }
+
+      document.body.style.overflow = "hidden";
+    } else {
+      // restore previous styles
+      document.body.style.overflow = prevBodyStyleRef.current.overflow || "";
+      document.body.style.paddingRight = prevBodyStyleRef.current.paddingRight || "";
+    }
+
+    // restore on unmount as a safety net
+    return () => {
+      document.body.style.overflow = prevBodyStyleRef.current.overflow || "";
+      document.body.style.paddingRight = prevBodyStyleRef.current.paddingRight || "";
+    };
+  }, [isModalOpen]);
+
   // selectedTemple drives the iframe src in VideoPlayerSection directly
 
   // Handle button click to change selected temple and video URL
@@ -425,7 +455,7 @@ const LiveDarshan = (): JSX.Element => {
             {/* Image */}
             <div className="w-full">
               <LazyLoadImage
-                src={ pujaImageWebp}
+                src={pujaImageWebp}
                 alt={modalTitle || 'event'}
                 className="w-full h-44 object-cover bg-cover rounded-lg"
               />

@@ -1,13 +1,11 @@
 
 import React, { Suspense } from "react";
-import { SectionLoader, ComponentLoader, SubscriptionLoader } from "../../components/ui/LoadingComponents";
+import {  ComponentLoader, SubscriptionLoader } from "../../components/ui/LoadingComponents";
 import membershipPng from '@/assets/images/membership.png';
 
 // Lazy load components
 const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
-const ScrollingBanner = React.lazy(() => import("../../components/home/ScrollingBanner"));
-const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
-const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
+const Faq = React.lazy(() => import("@/components/memberShip/faq"));
 const SubscriptionPlans = React.lazy(() => import("@/components/memberShip/SubscriptionPlans"));
 
 export const MemberShipPage = (): JSX.Element => {
@@ -27,23 +25,11 @@ export const MemberShipPage = (): JSX.Element => {
                 <SubscriptionPlans />
             </Suspense>
 
-            {/* Scrolling Banner */}
-            <Suspense fallback={<ComponentLoader height="h-16" />}>
-                <ScrollingBanner />
+            {/* FAQ Section */}
+            <Suspense fallback={<ComponentLoader height="h-96" />}>
+                <Faq />
             </Suspense>
 
-            {/* Contact Section */}
-            <Suspense fallback={<SectionLoader />}>
-                <ContactSection />
-            </Suspense>
-
-            {/* Blog Articles Section */}
-            <Suspense fallback={<SectionLoader />}>
-                <BlogSection />
-            </Suspense>
-
-            {/* Info Cards Section */}
-            {/* <InfoCards /> */}
-        </>
+             </>
     );
 };
