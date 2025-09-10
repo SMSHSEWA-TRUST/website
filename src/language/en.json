@@ -1,0 +1,280 @@
+{
+    "header": {
+        "supportEmail": "support@smsh.com",
+        "phone": "+91 9876543210",
+        "language": "Language:",
+        "title": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust"
+    },
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "puja": "Puja's",
+        "membership": "Membership",
+        "blogs": "Blogs",
+        "contact": "Contact us"
+    },
+    "auth": {
+        "register": "Register/Login",
+        "logout": "Logout"
+    },
+    "hero": {
+        "subheading": "Feel Lord Shiva's Power",
+        "titles": [
+            "Jai Shree Mahakaleshwar",
+            "Jai Shree Salasar Balaji"
+        ],
+        "descriptions": [
+            "It is believed that Lord Mahakal is the Mahakaal of all Kaal (the destroyer of time itself)",
+            "It is believed that the darshan of Salasar Hanuman Balaji frees one from all sorrows."
+        ]
+    },
+    "bhudaan": {
+        "title": "Bhumi Daan",
+        "lead": "In Sanatan Dharma, three forms of donation are considered the most sacred: Kanya Daan, Anna Daan, and Bhumi Daan.\n\nAnd among these, the donation of land for the creation of a Mahadham stands as the highest virtue. When you offer land for this divine cause, you are not just giving soil, you are laying the foundation of faith, service, and Sanatan culture for generations to come.",
+        "subtitle": "Donate Land for the construction of the Grand Mahadham.",
+        "button": "Donate Now"
+    },
+    "about": {
+        "heading": "About SMSH & The Mahadham Vision",
+        "lead": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is building a grand Mahadham in Surat by 2029 – a spiritual landmark that will be more than a temple.",
+        "whyTitle": "Why Surat?",
+        "whyDescription": "Surat is not only a city of enterprise but also of deep-rooted faith. With devotees and trustees coming together from across India, Surat was chosen as the home of the Mahadham – a sacred space for devotion, service, and cultural revival.",
+        "services": [
+            "Gaushala",
+            "Bhojanalaya",
+            "Aushadhalaya",
+            "Cultural & Meditation Centre",
+            "Dhyaan Kendra",
+            "Grand temple"
+        ],
+        "joinButton": "Join us"
+    },
+    "divine": {
+        "heading": "Feel the Surreal Divine Power",
+        "lead": "Experience the serene atmosphere and spiritual energy as we gather for devotion, service, and community.",
+        "connect": {
+            "title": "Connect with Us",
+            "desc": "Stay connected with Shree Mahakaleshwar Salasar Hanuman Sewa Trust.\nWe are here to guide, support, and walk with you on your journey of devotion and service."
+        },
+        "donate": {
+            "title": "Donate for a Cause",
+            "desc": "Your contribution is not just a donation —\nit is a sacred offering towards the construction of Mahadham and the service of society.\nTogether, let us build faith, service, and culture for generations to come.\nDonate Today, Build Mahadham."
+        },
+        "office": {
+            "title": "Office Timings",
+            "weekdays": "Monday - Friday",
+            "weekdayHours": "8:00 AM - 8:00 PM",
+            "weekend": "Saturday - Sunday",
+            "weekendHours": "10:00 AM - 6:00 PM",
+            "invite": "We welcome you with open arms at our office in Surat. Visit us, connect with our team, and be part of this divine mission."
+        }
+    },
+    "services": {
+        "subtitle": "Lorem Ipsum odor",
+        "heading": "Lorem ipsum dolor sit amet, consectetur",
+        "items": [
+            {
+                "title": "Service One",
+                "description": "Short description for service one."
+            },
+            {
+                "title": "Jai Shree Mahakaleshwa",
+                "description": "Mahakal, the Lord of Time, removes all suffering with a single darshan. Eternal protector, He is the embodiment of power and peace."
+            },
+            {
+                "title": "Service Three",
+                "description": "Short description for service three."
+            },
+            {
+                "title": "Jai Shree Mahadham",
+                "description": "The Mahadham in Surat, envisioned by SMSH Trust, will be more than a temple — a sanctuary of faith, seva, and Sanatan culture by 2029."
+            },
+            {
+                "title": "Service Five",
+                "description": "Short description for service five."
+            },
+            {
+                "title": "Jai Shree Salasar Balaji",
+                "description": "Darshan of Salasar Balaji ends all sorrows. Hanuman Ji, eternal protector of Kaliyuga, blesses devotees wherever Ram Katha is sung."
+            }
+        ]
+    },
+    "donations": {
+        "heading": "Donations",
+        "lead": "Support the causes and projects that matter—your donation makes a lasting impact.",
+        "button": "Donate Now",
+        "items": [
+            {
+                "id": "bhumi",
+                "icon": "Gift",
+                "title": "Bhumi Daan",
+                "description": "Donate land for the Mahadham — the highest form of seva."
+            },
+            {
+                "id": "annadaan",
+                "icon": "Utensils",
+                "title": "Anna Daan",
+                "description": "Support food programs and community kitchens serving devotees and the needy."
+            },
+            {
+                "id": "gaushala",
+                "icon": "Heart",
+                "title": "Gaushala",
+                "description": "Help care for cows and support our gaushala initiatives."
+            }
+        ]
+    },
+    "grid": {
+        "heading": "Divine Moments, Captured Forever",
+        "lead": "Step into the sacred journey of devotion, rituals, and celebrations.\nEvery picture tells the story of faith, seva, and Sanatan culture.",
+        "instagram": "Follow us on Instagram ",
+        "gallery": " View Gallery "
+    },
+    "home": {
+        "blogSection": {
+            "title": "Wisdom, Devotion & Stories",
+            "description": " Dive into articles that bring alive the spirit of Sanatan Dharma. From temple traditions to inspiring stories of seva, each blog is a step closer to divinity.",
+            "readAll": "Read Articles, Explore Faith",
+            "readArticle": "Read Article"
+        }
+    },
+    "contact": {
+        "title": "Reach Out to Us",
+        "subtitle": "Our team will connect with you soon.",
+        "lead": " Your voice matters to us. Whether it’s a query, a blessing, or a contribution – we are here to listen and respond with devotion.",
+        "decorativeAlt": "Decorative Line",
+        "mainImageAlt": "Temple Architecture",
+        "form": {
+            "namePlaceholder": "Please enter your name",
+            "nameRequired": "Name is required",
+            "phonePlaceholder": "Please enter your phone number",
+            "phoneRequired": "Phone number is required",
+            "emailPlaceholder": "Please enter your email address",
+            "emailRequired": "Email is required",
+            "emailInvalid": "Please enter a valid email",
+            "messagePlaceholder": "Please enter your message",
+            "submit": "Submit"
+        }
+    },
+    "footer": {
+        "headings": {
+            "specialLinks": "Special Links",
+            "info": "Info"
+        },
+        "specialLinks": {
+            "about": "About SMSHST",
+            "mission": "Our Mission",
+            "donate": "Donate for Cause",
+            "gallery": "Gallery",
+            "contact": "Contact Us"
+        },
+        "social": {
+            "facebook": "Facebook",
+            "twitter": "Twitter",
+            "instagram": "Instagram",
+            "linkedin": "LinkedIn",
+            "youtube": "YouTube"
+        },
+        "bottom": {
+            "partnerships": "Partnerships",
+            "templeSupport": "Temple Support",
+            "privacy": "Privacy Policy"
+        },
+        "description": {
+            "lead": "Serving with Faith, Building with Seva",
+            "sub": "A spiritual movement dedicated to devotion, culture, and service. Join us in creating the grand Mahadham in Surat by 2029."
+        },
+        "labels": {
+            "email": "Email",
+            "phone": "Phone No",
+            "addressPrefix": "Address:"
+        },
+        "contact": {
+            "address1": "203, Metro Tower, Ring Road",
+            "address2": "Surat, Gujarat 395002"
+        },
+        "aria": {
+            "visitSocial": "Visit our"
+        }
+    },
+    "donation": {
+
+        "Leftsection": {
+            "title": "Statistics",
+            
+            "stats": [
+                {
+                    "amount": "200",
+                    "label": "Crore+ Commitment for Mahadham Construction (Target 2025–26)"
+                },
+                {
+                    "amount": "200 +",
+                    "label": "Trustees & Devotees Already Contributing"
+                },
+                {
+                    "amount": "40+",
+                    "label": "Acres of Land Identified & Offered for Seva"
+                },
+                {
+                    "amount": "2029",
+                    "label": "Target Year for Mahadham Completion"
+                }
+            ]
+        },
+
+      
+        "Rightsection": {
+            "title": "Testimonials",
+           "testimonials": [
+            {
+                "name": "Satyanarayan Goyal, Trustee, SMSHST",
+                "message": "Mahadham is not just a temple, but a living symbol of faith and service. Every effort takes us closer to 2029."
+            },
+            {
+                "name": "Devotee, SMSHST",
+                "message": "Contributing to Mahadham is not just a donation, it is an offering of faith. I feel blessed to be part of this divine mission."
+            },
+            {
+                "name": "Trustee, SMSHST",
+                "message": "Every brick of Mahadham will carry the blessings of countless devotees. Together, we are building faith for generations."
+            },
+            {
+                "name": "Trustee, SMSHST",
+                "message": "Mahadham will not only be a temple, it will be a place of seva, culture, and unity. That is why I contribute with devotion."
+            },
+            {
+                "name": "Devotee, SMSHST",
+                "message": "When I think of Mahadham, I see a future where every devotee feels at home, embraced by faith and service."
+            },
+            {
+                "name": "Trustee, SMSHST",
+                "message": "The vision of 2029 is not just about completing a temple, but about creating a living symbol of Sanatan Dharma."
+            },
+            {
+                "name": "Devotee, SMSHST",
+                "message": "My children will one day say — our family helped build this Mahadham. That is my true pride."
+            },
+            {
+                "name": "Trustee, SMSHST",
+                "message": "Land, wealth, time — whatever we give for Mahadham, it all becomes eternal seva."
+            },
+            {
+                "name": "Trustee, SMSHST",
+                "message": "To be part of Mahadham’s foundation is to be part of history itself. This is not just construction, it is devotion in action."
+            },
+            {
+                "name": "Devotee, SMSHST",
+                "message": "Every donation, big or small, is a sacred step towards 2029. Together, we will make Mahadham a reality."
+            }
+        ]
+        }
+      }
+      ,
+
+      "ScrollingBanner": {
+         "phrases": [
+            "JAI SHREE MAHAKALESHWAR",
+            "JAI SHREE SALASAR BALAJI"
+        ]
+      }
+    }

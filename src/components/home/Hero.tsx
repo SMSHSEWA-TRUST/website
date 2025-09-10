@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useI18n } from "@/lib/i18n";
 import abstractFloral from "@/assets/images/abstract-floral.png";
 import tempImageWebp from "@/assets/images/temp-image.webp";
 import deityPng from "@/assets/images/deity.png";
@@ -7,17 +8,13 @@ import balajiPng from "@/assets/images/balaji.png";
 const Hero = (): JSX.Element => {
   const [textIndex, setTextIndex] = useState(0);
   //  const isLoggedIn = Boolean(localStorage.getItem("authToken"));
-  const texts = [
-    "JAI SHRI MAHAKAL",
-    "JAI SHRI SALASAR BALAJI",
-    // Add more text items as needed
-  ];
+  const { t } = useI18n();
+  const texts: string[] = (t("hero.titles") as unknown as string[]) || ["JAI SHRI MAHAKAL", "JAI SHRI SALASAR BALAJI"];
 
   // Descriptions that correspond to each text entry and change with textIndex
-  const descriptions = [
+  const descriptions: string[] = (t("hero.descriptions") as unknown as string[]) || [
     "Experience the divine energy and blessings of Lord Mahakal. Join us in prayers and offerings.",
     "Celebrate the devotion of Salasar Balaji — seek blessings and participate in our community events.",
-    // Add more description strings matching the texts array
   ];
 
   // Array of deity images that will change with the text - using different actual images
@@ -68,7 +65,7 @@ const Hero = (): JSX.Element => {
           <div className="absolute w-[34.4%] h-[39%] top-[35.4%] left-[8%] z-20 ">
             <div className="relative w-full h-full">
               <div className="absolute w-full  lg:top-[-50px] left-0 font-tenor-sans textDescription  text-white tracking-[0] leading-[normal]">
-                <span className="font-secondaryFont">Feel Lord Shiva&apos;s Power</span>
+                <span className="font-secondaryFont">{t("hero.subheading")}</span>
                 <div className="relative w-full h-full">
                   <div
                     className="absolute w-[110.6%] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] font-primaryFont font-semibold text-white text-[64px] tracking-[0] leading-[normal] animate-slideUpText"

@@ -2,12 +2,15 @@
 import divinePng from '@/assets/images/divine-2.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Card, CardContent } from "../ui/card";
+import { useI18n } from '@/lib/i18n';
 import connectIcon from '@/assets/images/connect.png';
 import callIcon from '@/assets/images/call.png';
 import donateIcon from '@/assets/images/donate.png';
 import timeIcon from '@/assets/images/time.png';
 
 const DivinePower = (): JSX.Element => {
+    const { t } = useI18n();
+
     return (
         <section className="relative w-full flex flex-col items-center justify-center mb-9 lg:mb-16">
             {/* Desktop/Large screen: text overlays image with cards */}
@@ -34,11 +37,11 @@ const DivinePower = (): JSX.Element => {
                                 letterSpacing: '0.04em',
                             }}
                         >
-                            Feel the Surreal Divine Power
+                            {t('divine.heading')}
 
                         </h2>
                         <p className="mt-6 sm:mt-8  text-white textDescription text-center font-secondaryFont leading-relaxed drop-shadow">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            {t('divine.lead')}
                         </p>
                     </div>
 
@@ -49,14 +52,14 @@ const DivinePower = (): JSX.Element => {
                             <CardContent className="p-4 md:p-6 flex flex-col h-full rounded-md shadow-md">
                                 <div className="flex-1">
                                     <LazyLoadImage className="w-10 h-10 md:w-12 md:h-12 mb-4" alt="Temple Icon" src={connectIcon} loading="lazy" />
-                                    <h3 className="text-white font-primaryFont textHeading  mb-3 ">Connect with Us</h3>
+                                    <h3 className="text-white font-primaryFont textHeading  mb-3 ">{t('divine.connect.title')}</h3>
                                     <p className="text-white textDescription font-normal mb-6 font-secondaryFont">
-                                        Reach out and connect with our church community. We're here to welcome, assist, and share in your journey of faith.
+                                        {t('divine.connect.desc')}
                                     </p>
                                 </div>
                                 <div className="flex items-center mt-auto">
                                     <LazyLoadImage className="w-6 h-6 md:w-7 md:h-7 mr-3" alt="Phone" src={callIcon} loading="lazy" />
-                                    <span className="text-white font-normal font-secondaryFont textDescription ">+91 9876543210</span>
+                                    <span className="text-white font-normal font-secondaryFont textDescription ">{t('divine.phone')}</span>
                                 </div>
                             </CardContent>
                         </Card>
@@ -66,9 +69,9 @@ const DivinePower = (): JSX.Element => {
                             <CardContent className="p-4 md:p-6 flex flex-col h-full shadow-md rounded-md">
                                 <div className="flex-1">
                                     <LazyLoadImage className="w-10 h-10 md:w-12 md:h-12 mb-4" alt="Charity Icon" src={donateIcon} loading="lazy" />
-                                    <h3 className="text-[#4c291e] font-primaryFont textHeading mb-3">Donate for Cause</h3>
+                                    <h3 className="text-[#4c291e] font-primaryFont textHeading mb-3">{t('divine.donate.title')}</h3>
                                     <p className="text-[#4c291e] textDescription font-normal mb-6 font-secondaryFont">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq
+                                        {t('divine.donate.desc')}
                                     </p>
                                 </div>
                                 {/* <div className="mt-auto">
@@ -84,17 +87,20 @@ const DivinePower = (): JSX.Element => {
                             <CardContent className="p-4 md:p-6 flex flex-col h-full shadow-md bg-secondaryColor rounded-md">
                                 <div className="flex-1">
                                     <LazyLoadImage className="w-10 h-10 md:w-12 md:h-12 mb-4" alt="Time Icon" src={timeIcon} loading="lazy" />
-                                    <h3 className="text-white font-primaryFont textHeading mb-6">Office Timings</h3>
+                                    <h3 className="text-white font-primaryFont textHeading mb-6">{t('divine.office.title')}</h3>
                                     <div className="space-y-3">
                                         <div className="flex justify-between text-white textDescription font-secondaryFont font-normal">
-                                            <span>Monday - Friday</span>
-                                            <span>8:00 AM - 8:00 PM</span>
+                                            <span>{t('divine.office.weekdays')}</span>
+                                            <span>{t('divine.office.weekdayHours')}</span>
                                         </div>
                                         <div className="flex justify-between text-white textDescription font-secondaryFont font-normal">
-                                            <span>Saturday - Sunday</span>
-                                            <span>10:00 AM - 6:00 PM</span>
+                                            <span>{t('divine.office.weekend')}</span>
+                                            <span>{t('divine.office.weekendHours')}</span>
                                         </div>
                                     </div>
+                                    <p className="mt-4 text-white textDescription text-center font-secondaryFont">
+                                        {t('divine.office.invite')}
+                                    </p>
                                 </div>
                             </CardContent>
                         </Card>

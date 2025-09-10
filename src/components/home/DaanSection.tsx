@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import CommonDonationDialog from "../commonDonationDialog";
 import { useGetAllDaan } from "@/api/DaanQueries";
+import { useI18n } from '@/lib/i18n';
 
 const DonationSection = () => {
   const { data, isFetching } = useGetAllDaan();
@@ -45,6 +46,10 @@ const DonationSection = () => {
     GraduationCap,
     Coins,
   };
+
+  const { t } = useI18n();
+  // fallback localized items from locales when API data is not present
+  const localizedItems = (t('donations.items') as any[]) || [];
 
   // If navigated here with state.focus === 'bhumi', open the Bhumi dialog automatically
   useEffect(() => {
@@ -105,7 +110,7 @@ const DonationSection = () => {
                 letterSpacing: '0.04em',
               }}
             >
-              Donations
+              {t('donations.heading')}
 
             </h2>
             <div className="flex items-center justify-center py-2 w-full">
@@ -137,15 +142,13 @@ const DonationSection = () => {
               </div>
             </div>
             <p className="text-white/90 textDescription max-w-4xl mx-auto leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              {t('donations.lead')}
             </p>
           </div>
 
           {/* Donation Cards */}
           <div className="flex gap-6 flex-wrap sm:flex-nowrap justify-center">
-            {data?.data?.map((category: any) => {
+            {(data?.data?.length ? data.data : localizedItems).map((category: any) => {
               const IconComponent = iconMap[category.icon] || Gift; // fallback to Gift if undefined
 
               return (
@@ -193,7 +196,7 @@ const DonationSection = () => {
                       onClick={() => handleDonate(category)}
                       className={`w-full py-2.5 px-4 rounded font-semibold textDescription transition-all duration-300  "bg-red-800 text-white bg-red-900 group-hover:bg-red-800 hover:text-white hover:shadow-lg   
                       `}>
-                      Donate Now
+                      {t('donations.button')}
                     </button>
                   </div>
                 </div>

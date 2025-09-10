@@ -4,6 +4,7 @@ import ganeshImage from '@/assets/images/ganesh.webp';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useI18n } from '@/lib/i18n';
 
 interface BlogArticle {
     id?: string | number;
@@ -21,8 +22,8 @@ interface BlogSectionProps {
 }
 
 export const BlogSection: React.FC<BlogSectionProps> = ({
-    title = "Lorem ipsum dolor sit amet, consectetur adipiscing eli",
-    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    title,
+    description,
     articles = [
         {
             id: 1,
@@ -45,6 +46,9 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
     ],
     className = ""
 }) => {
+    const { t } = useI18n();
+    const titleToUse = title ?? (t('home.blogSection.title') as string);
+    const descriptionToUse = description ?? (t('home.blogSection.description') as string);
     return (
         <section className={`w-full  px-4 md:px-16 lg:px-24 py-12 lg:py-16 ${className}`}>
 
@@ -54,14 +58,14 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                 {/* Title - Left Column */}
                 <div className="lg:col-span-1">
                     <h2 className="font-primaryFont text-[#8b0000] textHeadingLg font-normal leading-tight">
-                        {title}
+                        {titleToUse}
                     </h2>
                 </div>
 
                 {/* Description - Center Column */}
                 <div className="lg:col-span-1">
                     <p className="font-secondaryFont text-[#1e1e1e]/50 textDescription leading-relaxed">
-                        {description}
+                        {descriptionToUse}
                     </p>
                 </div>
 
@@ -70,9 +74,9 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
                     <Link to="/blogs">
                         <Button
                             className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-6 py-3 rounded-sm transition-colors duration-200 font-secondaryFont font-normal textDescription tracking-wide shadow-md hover:shadow-lg "
-                            aria-label="Read all articles"
+                            aria-label={t('home.blogSection.readAllAria') as string}
                         >
-                            Read  All Blogs
+                            {t('home.blogSection.readAll')}
                         </Button>
                     </Link>
                 </div>
@@ -99,6 +103,8 @@ interface BlogCardProps {
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
+    const { t } = useI18n();
+
     return (
         <Card className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-0">
 
@@ -142,9 +148,9 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 <Link to="/blog-details">
                     <Button
                         className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-secondaryFont font-normal textDescription border border-white"
-                        aria-label={`Read article: ${article.title}`}
+                        aria-label={`${t('home.blogSection.readArticleAria') as string} ${article.title || ''}`}
                     >
-                        Read Articles
+                        {t('home.blogSection.readArticle')}
                     </Button>
                 </Link>
 

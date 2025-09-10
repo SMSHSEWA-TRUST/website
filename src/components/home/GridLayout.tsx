@@ -1,4 +1,5 @@
 import { Button } from "../ui/button";
+import { useI18n } from '@/lib/i18n';
 
 // Image imports
 import tempImage8Webp from '@/assets/images/temp-image-8.webp';
@@ -6,6 +7,7 @@ import tempImage10Webp from '@/assets/images/temp-image-10.webp';
 import tempImage9Webp from '@/assets/images/temp-image-9.webp';
 
 const GridLayout = (): JSX.Element => {
+    const { t } = useI18n();
     return (
         <section className="w-full mt-4 ">
             <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-2 h-auto lg:h-[700px]">
@@ -14,20 +16,20 @@ const GridLayout = (): JSX.Element => {
                 <div className="pl-8 md:pl-16 rounded-lg lg:rounded-2xl flex-1 flex flex-col justify-center order-1 lg:col-start-1 lg:row-start-1">
                     <div className="max-w-lg">
                         <h2 className="textHeading font-normal text-[rgba(76,41,30,1)] font-primaryFont leading-tight  ">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing eli
+                            {t('grid.heading')}
                         </h2>
                         <p className=" textDescription text-[#1e1e1e]/50 font-secondaryFont leading-relaxed mb-4 lg:mb-8">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            {t('grid.lead')}
                         </p>
                         <div className="flex gap-2">
                             <Button className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
                                 <span className="font-secondaryFont font-normal textDescription tracking-wide">
-                                    Follow us on Instagram
+                                    {t('grid.instagram')}
                                 </span>
                             </Button>
                             <Button className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
                                 <span className="font-secondaryFont font-normal textDescription tracking-wide">
-                                    View Gallery
+                                    {t('grid.gallery')}
                                 </span>
                             </Button>
                         </div>

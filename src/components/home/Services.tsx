@@ -5,47 +5,32 @@ import tempImage5Webp from '@/assets/images/temp-image-5.webp';
 import bgcardImagePng from '@/assets/images/bgcardImage.png';
 import omPng from '@/assets/images/om.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useI18n } from '@/lib/i18n';
 
-const services = [
-    {
-        image: tempImage7Webp,
-        title: "Lorem ipsum dolor sit amet, consectetur",
-        description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-        image: null,
-        title: "Lorem ipsum dolor sit amet, consectetur",
-        description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-        image: tempImage6Webp,
-        title: "Lorem ipsum dolor sit amet, consectetur",
-        description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-        image: null,
-        title: "Lorem ipsum dolor sit amet, consectetur",
-        description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-        image: tempImage5Webp,
-        title: "Lorem ipsum dolor sit amet, consectetur",
-        description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-        image: null,
-        title: "Lorem ipsum dolor sit amet, consectetur",
-        description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
+// Images are kept in code; titles/descriptions are localized via i18n
+const images = [
+    tempImage7Webp,
+    null,
+    tempImage6Webp,
+    null,
+    tempImage5Webp,
+    null,
 ];
 
 const Services = (): JSX.Element => {
+    const { t } = useI18n();
+
+    const defaultItems = [
+        { title: 'Lorem ipsum dolor sit amet, consectetur', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { title: 'Lorem ipsum dolor sit amet, consectetur', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { title: 'Lorem ipsum dolor sit amet, consectetur', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { title: 'Lorem ipsum dolor sit amet, consectetur', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { title: 'Lorem ipsum dolor sit amet, consectetur', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { title: 'Lorem ipsum dolor sit amet, consectetur', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+    ];
+
+    const localizedItems = (t('services.items') as any[]) || defaultItems;
+
     return (
         <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-16 lg:px-24 overflow-hidden">
             {/* Decorative background image for large screens */}
@@ -60,10 +45,10 @@ const Services = (): JSX.Element => {
                 {/* Section Header */}
                 <div className="flex flex-col items-center gap-2 w-full">
                     <span className="textDescription font-secondaryFont text-[#4c291e] tracking-wide">
-                        Lorem Ipsum odor
+                        {t('services.subtitle')}
                     </span>
                     <h2 className="font-primaryFont textHeadingLg text-[#4c291e] text-center font-normal">
-                        Lorem ipsum dolor sit amet, consectetur
+                        {t('services.heading')}
                     </h2>
                     <div className="flex items-center justify-center  w-full">
                         <div className="flex items-center w-full max-w-md">
@@ -114,12 +99,13 @@ const Services = (): JSX.Element => {
                         />
                     </div>
 
-                    {services.map((service, idx) =>
-                        service.image ? (
+                    {localizedItems.map((item, idx) => {
+                        const img = images[idx];
+                        return img ? (
                             <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10" style={{ background: '#fff' }}>
                                 <LazyLoadImage
-                                    src={service.image}
-                                    alt={service.title}
+                                    src={img}
+                                    alt={item.title}
                                     className="w-full h-full object-cover"
                                     style={{ opacity: 1 }}
                                     loading="lazy"
@@ -133,15 +119,15 @@ const Services = (): JSX.Element => {
                                     className="w-12 h-12 mb-4 text-[#8b0000]"
                                     loading="lazy"
                                 />
-                                    <h3 className="font-primaryFont textHeading text-[#4c291e] text-center mb-3 font-medium">
-                                    {service.title}
+                                <h3 className="font-primaryFont textHeading text-[#4c291e] text-center mb-3 font-medium">
+                                    {item.title}
                                 </h3>
-                                    <p className="font-secondaryFont textDescription text-[#1E1E1E80] text-center leading-relaxed">
-                                    {service.description}
+                                <p className="font-secondaryFont textDescription text-[#1E1E1E80] text-center leading-relaxed">
+                                    {item.description}
                                 </p>
                             </div>
-                        )
-                    )}
+                        );
+                    })}
                 </div>
             </div>
         </section>

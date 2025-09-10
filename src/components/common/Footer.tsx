@@ -7,6 +7,7 @@ import linkedinIcon from '@/assets/images/LinkedIn.png';
 import youtubeIcon from '@/assets/images/YouTube.png';
 import tempLogo from '@/assets/images/temp-logo.png';
 import indiaFlag from '@/assets/images/india.png';
+import { useI18n } from '@/lib/i18n';
 
 interface SocialLink {
     name: string;
@@ -24,26 +25,27 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
+    const { t } = useI18n();
     const specialLinks: FooterLink[] = [
-        { name: 'Link 1', url: '#' },
-        { name: 'Link 2', url: '#' },
-        { name: 'Link 3', url: '#' },
-        { name: 'Link 4', url: '#' },
-        { name: 'Link 5', url: '#' },
+        { name: t('footer.specialLinks.about'), url: '/about' },
+        { name: t('footer.specialLinks.mission'), url: '/about#mission' },
+        { name: t('footer.specialLinks.donate'), url: '/donate' },
+        { name: t('footer.specialLinks.gallery'), url: '/gallery' },
+        { name: t('footer.specialLinks.contact'), url: '/contact' },
     ];
 
     const socialLinks: SocialLink[] = [
-        { name: 'Facebook', icon: facebookIcon, url: '#' },
-        { name: 'Twitter', icon: twitterIcon, url: '#' },
-        { name: 'Instagram', icon: instagramIcon, url: '#' },
-        { name: 'LinkedIn', icon: linkedinIcon, url: '#' },
-        { name: 'YouTube', icon: youtubeIcon, url: '#' },
+        { name: t('footer.social.facebook'), icon: facebookIcon, url: '#' },
+        { name: t('footer.social.twitter'), icon: twitterIcon, url: '#' },
+        { name: t('footer.social.instagram'), icon: instagramIcon, url: '#' },
+        { name: t('footer.social.linkedin'), icon: linkedinIcon, url: '#' },
+        { name: t('footer.social.youtube'), icon: youtubeIcon, url: '#' },
     ];
 
     const bottomLinks: FooterLink[] = [
-        { name: 'Partnerships', url: '#' },
-        { name: 'Temple Support', url: '#' },
-        { name: 'Privacy Policy', url: '#' },
+        { name: t('footer.bottom.partnerships'), url: '#' },
+        { name: t('footer.bottom.templeSupport'), url: '#' },
+        { name: t('footer.bottom.privacy'), url: '#' },
     ];
 
     return (
@@ -58,7 +60,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             <div className="flex flex-col py-10">
                                 <div className="flex items-center mb-4">
                                     <h3 className="font-primaryFont textHeading text-white">
-                                        Special Links
+                                        {t('footer.headings.specialLinks')}
                                     </h3>
                                 </div>
                                 <nav className="flex flex-col space-y-3">
@@ -103,7 +105,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                                         }}
                                     >
-                                        Shree Mahakaleshwar Salasar Hanuman Sewa Trust
+                                        {t('header.title')}
                                     </h1>
                                 </div>
 
@@ -139,13 +141,19 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
 
                                 {/* Description */}
+                                <div className="flex justify-center mb-1">
+                                    <p className="font-secondaryFont textDescription leading-relaxed text-gray-100 text-center">
+                                        {t('footer.description.lead')}
+
+                                    </p>
+
+                                </div>
                                 <div className="flex justify-center mb-4">
                                     <p className="font-secondaryFont textDescription leading-relaxed text-gray-100 text-center">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                        aliquip ex ea commodo consequat.
+                                        {t('footer.description.sub')}
+
                                     </p>
+
                                 </div>
 
                                 {/* Social Media Icons */}
@@ -156,7 +164,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                                 <a
                                                     href={social.url}
                                                     className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-[#8b0000] hover:bg-gray-100 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-                                                    aria-label={`Visit our ${social.name} page`}
+                                                    aria-label={t('footer.aria.visitSocial',) + ` ${social.name}`}
                                                 >
                                                     <LazyLoadImage
                                                         src={social.icon}
@@ -198,13 +206,13 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             <div className="flex flex-col items-end text-right py-10">
                                 <div className="flex items-center justify-end mb-4">
                                     <h3 className="font-primaryFont textHeadingLg text-white">
-                                        Info
+                                        {t('footer.headings.info')}
                                     </h3>
                                 </div>
                                 <div className="flex flex-col space-y-3 font-secondaryFont textDescription">
                                     <div className="flex flex-col items-end space-y-1">
                                         <div className="flex items-center">
-                                            <span className="font-secondaryFont text-gray-100">Email:  info@support.com</span>
+                                            <span className="font-secondaryFont text-gray-100">{t('footer.labels.email')}:{t('header.supportEmail')}</span>
                                         </div>
                                         {/* <div className="flex items-center">
                                             <a
@@ -217,7 +225,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     </div>
                                     <div className="flex flex-col items-end space-y-1">
                                         <div className="flex items-center">
-                                            <span className="font-secondaryFont textDescription  text-gray-100">Phone No: 9876543210</span>
+                                            <span className="font-secondaryFont textDescription  text-gray-100">{t('footer.labels.phone')}: {t('header.phone')}</span>
                                         </div>
                                         {/* <div className="flex items-center">
                                             <a
@@ -230,13 +238,12 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     </div>
                                     <div className="flex flex-col items-end space-y-2">
                                         <div className="flex items-center">
-                                            <span className="font-secondaryFont textDescription  text-gray-100">Address:1080 Brickell Ave,<br /></span>
+                                            <span className="font-secondaryFont textDescription  text-gray-100">{t('footer.labels.addressPrefix')} {t('footer.contact.address1')}</span>
                                         </div>
+                                       
                                         <div className="flex items-end">
                                             <address className="font-secondaryFont textDescription  not-italic leading-relaxed text-white text-right">
-
-                                                Miami (Florida)
-                                                United States
+                                                {t('footer.contact.address2')}
                                             </address>
                                         </div>
                                     </div>
@@ -348,14 +355,20 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             </div>
 
                             {/* Description */}
-                            <div className="flex justify-center">
-                                <p className="font-secondaryFont textDescription max-w-xs leading-relaxed text-gray-100 text-center">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat.
-                                </p>
+                            <div>
+                                <div className="flex justify-center">
+                                    <p className="font-secondaryFont textDescription max-w-xs leading-relaxed text-gray-100 text-center">
+                                        Serving with Faith, Building with Seva
+                                    </p>
+                                </div>
+
+                                <div className="flex justify-center">
+                                    <p className="font-secondaryFont textDescription max-w-xs leading-relaxed text-gray-100 text-center">
+                                        A spiritual movement dedicated to devotion, culture, and service. Join us in creating the grand Mahadham in Surat by 2029.
+                                    </p>
+                                </div>
                             </div>
+
 
                             {/* Social Media Icons */}
                             <div className="flex justify-center items-center">
@@ -385,28 +398,30 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 <div className="flex flex-col text-left">
                                     <div className="flex items-center mb-2">
                                         <h3 className="font-primaryFont textHeading">
-                                            Info
+                                            {t('footer.headings.info')}
                                         </h3>
                                     </div>
-                                        <div className="flex flex-col space-y-1">
-                                            <div className="flex items-center gap-1">
-                                                <span className="font-secondaryFont text-gray-100">Email:</span>
-                                                <a href="mailto:info@support.com" className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
-                                                    info@support.com
-                                                </a>
-                                            
+                                    <div className="flex flex-col space-y-1">
+                                        <div className="flex items-center gap-1">
+                                            <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.email')}</span>
+                                            <a href={`mailto:${t('header.supportEmail')}`} className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
+                                                {t('header.supportEmail')}
+                                            </a>
+
                                         </div>
 
-                                            <div className="flex items-center gap-1">
-                                                <span className="font-secondaryFont textDescription text-gray-100">Phone No:</span>
-                                                <a href="tel:+919876543210" className="font-secondaryFont text-white hover:text-gray-200 transition-colors"> 9876543210</a>
-                                         
+                                        <div className="flex items-center gap-1">
+                                            <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.phone')}</span>
+                                            <a href={`tel:${t('header.phone')}`} className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"> {t('header.phone')}</a>
+
                                         </div>
-                                            <div className="flex  gap-1">
-                                                <span className="font-secondaryFont textDescription text-gray-100">Address:</span>
-                                                <div className="font-secondaryFont not-italic text-white text-xs leading-relaxed">
-                                                    1080 Brickell Ave, Miami (Florida)<br />United States
-                                                </div>
+                                        <div className="flex  gap-1">
+                                            <span className="font-secondaryFont textDescription text-gray-100">Address:</span>
+                                            <div className="font-secondaryFont not-italic text-white textDescription leading-relaxed">
+                                                {t('footer.contact.address1')}
+                                                <br />
+                                                {t('footer.contact.address2')}
+                                            </div>
 
                                         </div>
                                     </div>
@@ -416,7 +431,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 <div className="flex flex-col text-right">
                                     <div className="flex items-center justify-end mb-2">
                                         <h3 className="font-primaryFont textHeading">
-                                            Special Links
+                                            {t('footer.headings.specialLinks')}
                                         </h3>
                                     </div>
                                     <nav className="flex flex-col space-y-2">

@@ -1,4 +1,5 @@
 import { useState, useEffect, } from "react";
+import { useI18n } from '@/lib/i18n';
 
 
 // Image imports
@@ -92,15 +93,15 @@ const AnimatedStat = ({ amount, label, shouldAnimate }: { amount: string; label:
     }, [shouldAnimate, setIsVisible]);
 
     // Format the display value
-    const displayValue = amount.toLowerCase().includes('k')
-        ? `${count}k`
+    const displayValue = amount.toLowerCase().includes('+')
+        ? `${count} +`
         : count.toString();
 
     return (
         <li className="flex items-center gap-3">
             <span className="textHeadingLg font-marcellus  font-semibold text-[rgba(76,41,30,1)]">
                 {displayValue}
-                <span className=" align-super">+</span>
+                {/* <span className=" align-super">+</span> */}
             </span>
             <span className="text-[rgba(76,41,30,1)] textDescription font-normal font-secondaryFont">
                 {label}
@@ -109,51 +110,45 @@ const AnimatedStat = ({ amount, label, shouldAnimate }: { amount: string; label:
     );
 };
 
-const donationStats = [
-    { amount: "100k", label: "Lorem ipsum dolor" },
-    { amount: "100k", label: "Lorem ipsum dolor" },
-    { amount: "100k", label: "Lorem ipsum dolor" },
-    { amount: "100k", label: "Lorem ipsum dolor" },
-];
-
-
-
-// Demo testimonial data
-const testimonials = [
-    {
-        id: 1,
-        image: image4,
-        name: "John Doe",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-    },
-    {
-        id: 2,
-        image: tempImage,
-        name: "Jane Smith",
-        text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-    },
-    {
-        id: 3,
-        image: tempImage2,
-        name: "Mike Johnson",
-        text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident."
-    },
-    {
-        id: 4,
-        image: tempImage3,
-        name: "Sarah Williams",
-        text: "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer."
-    },
-    {
-        id: 5,
-        image: tempImage4,
-        name: "David Brown",
-        text: "Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure great pleasure."
-    }
-];
+// Note: Stats and testimonials are loaded from locale JSON.
+// The component supports two shapes for compatibility:
+// 1) donation.Leftsection.stats and donation.Rightsection.testimonials (used in en.json)
+// 2) donation.stats and donation.testimonials (flat keys)
 
 
 export default function DonationSection() {
+    const { t } = useI18n();
+
+    // Load stats from i18n; fallback to DEFAULT_STATS
+    type Stat = { amount: string; label: string };
+    // Try structured keys first (Leftsection / Rightsection), then flat keys
+    const leftSection = t('donation.Leftsection') || t('donation.leftsection');
+    const rightSection = t('donation.Rightsection') || t('donation.rightsection');
+
+    const donationStats: Stat[] = (leftSection && leftSection.stats) || (t('donation.stats') as Stat[]) || [];
+
+    // Load testimonials expecting { name, message } in JSON. Map message -> text.
+    const rawTestimonialsSource = (rightSection && rightSection.testimonials) || (t('donation.testimonials') as any[]) || [];
+    const rawTestimonials = rawTestimonialsSource.map((it: any, idx: number) => ({
+        id: it.id || idx + 1,
+        imageKey: it.imageKey || 'tempImage',
+        name: it.name || it.title || `Guest ${idx + 1}`,
+        text: it.text || it.message || it.desc || '',
+    }));
+
+    // Map imageKey to actual imported images
+    const imageMap: Record<string, any> = {
+        image4,
+        tempImage,
+        tempImage2,
+        tempImage3,
+        tempImage4,
+    };
+
+    const testimonials = (rawTestimonials || []).map((it: any) => ({
+        ...it,
+        image: imageMap[it.imageKey] || imageMap['tempImage'] || image4,
+    }));
     const [shouldStartAnimation, setShouldStartAnimation] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
@@ -203,7 +198,7 @@ export default function DonationSection() {
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">
                     <p className="text-[rgba(76,41,30,1)] font-primaryFont textHeading max-w-xs mb-4">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing eli
+                        {t('donation.Leftsection.title')}
                     </p>
                     <ul className="flex flex-col gap-3">
                         {donationStats.map((stat, idx) => (
@@ -220,8 +215,7 @@ export default function DonationSection() {
                 {/* Right: Main Content */}
                 <div className="flex flex-col items-start gap-6 w-full mb-4 md:mb-0">
                     <h2 className="text-[rgba(76, 41, 30, 1)] textHeadingLg font-primaryFont font-normal leading-tight mb-2">
-                        Lorem ipsum dolor sit amet, <br className="hidden md:block" />
-                        consectetur adipiscing eli
+                        {t('donation.Rightsection.title')}
                     </h2>
                     {/* Decorative line with diamond ends */}
                     <div className="w-full flex justify-start mb-2">

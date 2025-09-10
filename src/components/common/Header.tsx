@@ -5,6 +5,7 @@ import lineImage from "@/assets/images/line.png";
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "../ui/navigation-menu";
+import { useI18n } from "@/lib/i18n";
 
 const Header = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,6 +15,33 @@ const Header = (): JSX.Element => {
   const location = useLocation();
   const currentPath = location.pathname;
   const isLoggedIn = Boolean(localStorage.getItem("authToken"));
+  const { t, lang, setLang } = useI18n();
+
+  // Mobile language dropdown state
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement | null>(null);
+
+  // Close language menu when clicking outside or pressing Escape
+  useEffect(() => {
+    const handleDocClick = (e: MouseEvent) => {
+      if (!isLangMenuOpen) return;
+      const target = e.target as Node | null;
+      if (langMenuRef.current && target && !langMenuRef.current.contains(target)) {
+        setIsLangMenuOpen(false);
+      }
+    };
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsLangMenuOpen(false);
+    };
+
+    document.addEventListener("click", handleDocClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("click", handleDocClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [isLangMenuOpen]);
 
   // Auto-hide header state
   const [isHidden, setIsHidden] = useState(false);
@@ -72,23 +100,30 @@ const Header = (): JSX.Element => {
                   <path d="M3 6.5C3 5.95 3.45 5.5 4 5.5H20C20.55 5.5 21 5.95 21 6.5V17.5C21 18.05 20.55 18.5 20 18.5H4C3.45 18.5 3 18.05 3 17.5V6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M21 6.5L12 12.5L3 6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span>support@smsh.com</span>
+                <span>{t("header.supportEmail")}</span>
               </span>
               <span className="flex items-center gap-1">
                 <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.78 19.78 0 0 1 3 5.18 2 2 0 0 1 5 3h3.09a2 2 0 0 1 2 1.72c.12.9.37 1.77.74 2.58a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.68-1.42a2 2 0 0 1 2.11-.45c.81.37 1.68.62 2.58.74a2 2 0 0 1 1.72 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span>+91 9876543210</span>
+                <span>{t("header.phone")}</span>
               </span>
             </div>
             <div className="flex items-center gap-2 textDescription">
-              <span>Language:</span>
-              <select className="bg-transparent border border-white/30 rounded px-2 py-1 text-white">
+              <span>{t("header.language")}</span>
+              <select
+                value={lang}
+                onChange={(e) => setLang(e.target.value as any)}
+                className="bg-transparent border border-white/30 rounded px-2 py-1 text-white"
+              >
                 <option value="en" className="text-black">
                   English
                 </option>
                 <option value="hi" className="text-black">
                   हिंदी
+                </option>
+                <option value="gu" className="text-black">
+                  ગુજરાતી
                 </option>
               </select>
             </div>
@@ -117,7 +152,7 @@ const Header = (): JSX.Element => {
             <div className="flex flex-col items-center flex-1">
               {/* Title */}
               <h1 className="font-primaryFont text-center mb-2 text-[34px] font-normal text-[#4c291e] [text-shadow:0px_4px_4px_#daa52040] [-webkit-text-stroke:1px_#8b0000] leading-tight">
-                Shree Mahakaleshwar Salasar Hanuman Sewa Trust
+                {t("header.title")}
               </h1>
 
               {/* Decorative Line */}
@@ -150,14 +185,14 @@ const Header = (): JSX.Element => {
                   }}
                   className="font-secondaryFont bg-[#8b0000] hover:bg-[#660000] text-white px-4 py-2 textDescription font-normal"
                 >
-                  Logout
+                  {t("auth.logout")}
                 </Button>
               </div>
             ) : (
               <div className="flex-shrink-0">
                 <Link to="/login">
                   <Button className="font-secondaryFont bg-[#8b0000] hover:bg-[#660000] text-white px-4 py-2 textDescription font-normal">
-                    Register/Login
+                    {t("auth.register")}
                   </Button>
                 </Link>
               </div>
@@ -185,7 +220,7 @@ const Header = (): JSX.Element => {
                         : "text-white/90 hover:text-white"
                         }`}
                     >
-                      Home
+                      {t("nav.home")}
                     </Button>
                   </Link>
                 </NavigationMenuItem>
@@ -198,7 +233,7 @@ const Header = (): JSX.Element => {
                         : "text-white/90 hover:text-white"
                         }`}
                     >
-                      About
+                      {t("nav.about")}
                     </Button>
                   </Link>
                 </NavigationMenuItem>
@@ -211,7 +246,7 @@ const Header = (): JSX.Element => {
                         : "text-white/90 hover:text-white"
                         }`}
                     >
-                      Puja's
+                      {t("nav.puja")}
                     </Button>
                   </Link>
                 </NavigationMenuItem>
@@ -224,7 +259,7 @@ const Header = (): JSX.Element => {
                         : "text-white/90 hover:text-white"
                         }`}
                     >
-                      Membership
+                      {t("nav.membership")}
                     </Button>
                   </Link>
                 </NavigationMenuItem>
@@ -237,7 +272,7 @@ const Header = (): JSX.Element => {
                         : "text-white/90 hover:text-white"
                         }`}
                     >
-                      Blogs
+                      {t("nav.blogs")}
                     </Button>
                   </Link>
                 </NavigationMenuItem>
@@ -250,7 +285,7 @@ const Header = (): JSX.Element => {
                         : "text-white/90 hover:text-white"
                         }`}
                     >
-                      Contact us
+                      {t("nav.contact")}
                     </Button>
                   </Link>
                 </NavigationMenuItem>
@@ -285,16 +320,61 @@ const Header = (): JSX.Element => {
                     <span>+91 9876543210</span>
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span>Language:</span>
-                  <select className="bg-[#AD2F16] border border-white/30 rounded px-1 py-0.5 text-white text-xs">
-                    <option value="en" className="text-black">
-                      English
-                    </option>
-                    <option value="hi" className="text-black">
-                      हिंदी
-                    </option>
-                  </select>
+                <div className="flex items-center gap-2 relative" ref={langMenuRef}>
+                  <span className="text-xs">Language:</span>
+                  <button
+                    aria-haspopup="menu"
+                    aria-expanded={isLangMenuOpen}
+                    onClick={() => setIsLangMenuOpen((s) => !s)}
+                    className="flex items-center gap-2 bg-[#AD2F16] border border-white/30 rounded px-3 py-1 text-white text-xs sm:text-sm"
+                  >
+                    {lang === "en" ? "English" : lang === "hi" ? "हिंदी" : "ગુજરાતી"}
+                    <svg className="w-3 h-3" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M5 7l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+
+                  {/* Controlled dropdown - constrained and positioned inside header */}
+                  {isLangMenuOpen && (
+                    <ul
+                      className="absolute left-0 mt-1 w-full sm:w-40 bg-white text-black rounded shadow-lg overflow-hidden"
+                      style={{ top: "100%", zIndex: 60 }}
+                    >
+                      <li>
+                        <button
+                          onClick={() => {
+                            setLang("en" as any);
+                            setIsLangMenuOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-2 hover:bg-[#f3f3f3]"
+                        >
+                          English
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => {
+                            setLang("hi" as any);
+                            setIsLangMenuOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-2 hover:bg-[#f3f3f3]"
+                        >
+                          हिंदी
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => {
+                            setLang("gu" as any);
+                            setIsLangMenuOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-2 hover:bg-[#f3f3f3]"
+                        >
+                          ગુજરાતી
+                        </button>
+                      </li>
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>
@@ -319,7 +399,7 @@ const Header = (): JSX.Element => {
             {/* Centered Title */}
             <div className="flex-1 flex justify-center px-2 sm:px-4">
               <h1 className="font-primaryFont text-center text-[17px] text-[#4c291e] [text-shadow:0px_2px_2px_#daa52040] [-webkit-text-stroke:0.3px_#8b0000] leading-tight font-semibold max-w-xs sm:max-w-sm">
-                Shree Mahakaleshwar Salasar Hanuman Sewa Trust
+                {t("header.title")}
               </h1>
             </div>
 
@@ -382,7 +462,7 @@ const Header = (): JSX.Element => {
                     : "text-[#333333] hover:text-[#8b0000]"
                     }`}
                 >
-                  Home
+                  {t("nav.home")}
                 </Button>
               </Link>
               <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>
@@ -393,7 +473,7 @@ const Header = (): JSX.Element => {
                     : "text-[#333333] hover:text-[#8b0000]"
                     }`}
                 >
-                  About
+                  {t("nav.about")}
                 </Button>
               </Link>
               <Link to="/puja" onClick={() => setIsMobileMenuOpen(false)}>
@@ -404,7 +484,7 @@ const Header = (): JSX.Element => {
                     : "text-[#333333] hover:text-[#8b0000]"
                     }`}
                 >
-                  Puja's
+                  {t("nav.puja")}
                 </Button>
               </Link>
               <Link to="/membership" onClick={() => setIsMobileMenuOpen(false)}>
@@ -415,7 +495,7 @@ const Header = (): JSX.Element => {
                     : "text-[#333333] hover:text-[#8b0000]"
                     }`}
                 >
-                  Membership
+                  {t("nav.membership")}
                 </Button>
               </Link>
               <Link to="/blogs" onClick={() => setIsMobileMenuOpen(false)}>
@@ -426,7 +506,7 @@ const Header = (): JSX.Element => {
                     : "text-[#333333] hover:text-[#8b0000]"
                     }`}
                 >
-                  Blogs
+                  {t("nav.blogs")}
                 </Button>
               </Link>
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
@@ -437,14 +517,14 @@ const Header = (): JSX.Element => {
                     : "text-[#333333] hover:text-[#8b0000]"
                     }`}
                 >
-                  Contact us
+                  {t("nav.contact")}
                 </Button>
               </Link>
               {/* Mobile Register/Login in menu */}
               {!isLoggedIn ? (
                 <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
                   <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal ">
-                    Register/Login
+                    {t("auth.register")}
                   </Button>
                 </Link>
               ) : (
@@ -456,7 +536,7 @@ const Header = (): JSX.Element => {
                   }}
                   className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal"
                 >
-                  Logout
+                  {t("auth.logout")}
                 </Button>
               )}
             </nav>

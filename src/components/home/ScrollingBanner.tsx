@@ -2,12 +2,16 @@
 
 
 
+import { useI18n } from "../../lib/i18n";
+
 const ScrollingBanner = (): JSX.Element => {
-    // Two phrases to alternate in the scrolling banner
-    const phrases = [
-        "JAI SHREE MAHAKALESHWAR",
-        "JAI SHREE SALASAR BALAJI",
-    ];
+    const { t } = useI18n();
+
+    // Attempt to read phrases from translations, fall back to defaults
+    const translated = t("ScrollingBanner.phrases");
+    const phrases: string[] = Array.isArray(translated) && translated.length >= 2
+        ? translated
+        : ["JAI SHREE MAHAKALESHWAR", "JAI SHREE SALASAR BALAJI"];
 
     // Build a repeated sequence of phrase pairs so ॐ appears centered between the two phrases
     const repeatedPairs = Array.from({ length: 20 }, () => ({

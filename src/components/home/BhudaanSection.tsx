@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useI18n } from '@/lib/i18n';
 import bhudaan1 from '@/assets/images/bhudaan1.webp';
 import bhudaan2 from '@/assets/images/bhudaan2.webp';
 import bhudaan3 from '@/assets/images/bhudaan3.webp';
@@ -7,6 +8,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const BhudaanSection: React.FC = () => {
     const navigate = useNavigate();
+
+    const { t } = useI18n();
 
     return (
         <section className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden px-4 md:px-16 lg:px-24">
@@ -20,7 +23,7 @@ const BhudaanSection: React.FC = () => {
                         letterSpacing: '0.04em',
                     }}
                 >
-                    Bhumi Daan
+                    {t('bhudaan.title')}
                 </h2>
                 <div className="flex items-center justify-center py-2 w-full">
                     <div className="flex items-center w-full max-w-md">
@@ -51,10 +54,10 @@ const BhudaanSection: React.FC = () => {
                     </div>
                 </div>
                 <p className="text-[#FFE4C4] textDescription leading-relaxed mb-2 font-light font-secondaryFont">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    {t('bhudaan.lead')}
                 </p>
                 <p className="text-white textHeading font-semibold mb-4 font-primaryFont">
-                    Donate a Portion of Land towards the Temple Construction
+                    {t('bhudaan.subtitle')}
                 </p>
                 <button
                     onClick={() => {
@@ -69,7 +72,7 @@ const BhudaanSection: React.FC = () => {
                     }}
                     className="bg-white text-[#8B0000] textDescription font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont"
                 >
-                    Donate Now
+                    {t('bhudaan.button')}
                 </button>
             </div>
             <div className=" w-full grid grid-cols-2 gap-1 lg:gap-6 mt-8 ">
