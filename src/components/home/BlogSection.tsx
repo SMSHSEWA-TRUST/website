@@ -53,7 +53,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
         <section className={`w-full  px-4 md:px-16 lg:px-24 py-12 lg:py-16 ${className}`}>
 
             {/* Header Section */}
-            <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-12 items-start lg:items-center mb-12 lg:mb-16">
+            <div className="grid  grid-col-1 lg:grid-col-2 xl:grid-cols-3 gap-6 lg:gap-8 xl:gap-12 items-start lg:items-center mb-12 lg:mb-16">
 
                 {/* Title - Left Column */}
                 <div className="lg:col-span-1">
@@ -84,7 +84,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
             </div>
 
             {/* Articles Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
                 {articles.map((article, index) => (
                     <BlogCard
                         key={article.id || index}

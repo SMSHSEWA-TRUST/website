@@ -64,7 +64,7 @@ const WordsTrustees: React.FC = () => {
         <section className="w-full px-4 md:px-16 lg:px-24 py-12">
             <div className="flex flex-col lg:flex-row items-center gap-8">
                 {/* Left panel: text on a warm beige background */}
-                <div className="w-full order-2 lg:order-1 lg:pl-6 lg:pr-28">
+                <div className="w-full order-2 lg:order-1 lg:pl-6 lg:pr-28 bg-[#F8F5F0]">
                     <h2 className="font-primaryFont textHeadingLg text-[#4C291E] tracking-wide mb-4">
                         Words from the Trustee’s
                     </h2>

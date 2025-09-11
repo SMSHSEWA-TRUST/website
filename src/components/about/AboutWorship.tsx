@@ -19,7 +19,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     //buttonText = "Aarti Timings",
     worshipImage = aboutWorshipImage,
-   // onButtonClick = () => { },
+    // onButtonClick = () => { },
     className = ""
 }) => {
     // Animation for image width on scroll into view
@@ -43,14 +43,14 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
     }, []);
 
     return (
-        <section className={`w-full py-8 sm:py-12 lg:py-16 px-4 md:px-16 lg:px-24  ${className} font-secondaryFont`}>
+        <section className={`w-full py-4 xl:py-10 px-4 md:px-16 lg:px-24  ${className} font-secondaryFont`}>
 
             {/* Main Container */}
             <div className="w-full  ">
                 {/* Flex Container */}
-                <div className="flex flex-col-reverse lg:flex-row items-center lg:items-start lg:gap-x-32 gap-y-4 justify-center gap-spacing">
+                <div className="flex flex-col-reverse xl:flex-row items-center lg:items-start lg:gap-x-32 gap-y-4 justify-center gap-spacing">
                     {/* Left Content Section - Using Flex */}
-                    <div className="flex-1  flex flex-col gap-6 lg:py-20">
+                    <div className="flex-1  flex flex-col gap-6 xl:py-20">
                         {/* Title and Subtitle Container - Using Flex */}
                         <div className="flex flex-col gap-3">
                             <h1 className="font-primaryFont font-normal textHeadingLg leading-tight">
@@ -82,10 +82,10 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                         </button> */}
                     </div>
                     {/* Right Image Section */}
-                    <div className="flex-shrink-0 mb-6 lg:mb-0">
+                    <div className="flex-shrink-0 mb-4 lg:mb-0">
                         <div className="relative" ref={imageRef}>
                             {/* Natural Format Image */}
-                            <div className="relative overflow-hidden rounded-lg p-3 md:p-8 min-h-[500px] sm:min-h-[400px] flex items-center justify-center">
+                            <div className="relative overflow-hidden rounded-lg p-3 md:p-8 min-h-[300px] sm:min-h-[415px] lg:min-h-[500px] flex items-center justify-center">
                                 {/* Background image layer */}
                                 <div
                                     className="absolute inset-0 z-0 pointer-events-none bg-no-repeat bg-center opacity-15"
@@ -110,7 +110,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                                     decoding="async"
                                 />
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>

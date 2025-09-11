@@ -15,7 +15,7 @@ const DivinePower = (): JSX.Element => {
         <section className="relative w-full flex flex-col items-center justify-center mb-9 lg:mb-16">
             {/* Desktop/Large screen: text overlays image with cards */}
             <div
-                className="relative w-full min-h-[100vh] flex items-center justify-center"
+                className="relative w-full min-h-[95vh] flex items-center justify-center"
                 style={{
                     backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 20%), url(${divinePng})`,
                     backgroundSize: "cover",
@@ -40,13 +40,13 @@ const DivinePower = (): JSX.Element => {
                             {t('divine.heading')}
 
                         </h2>
-                        <p className="mt-6 sm:mt-8  text-white textDescription text-center font-secondaryFont leading-relaxed drop-shadow">
+                        <p className=" mt-4  text-white textDescription text-center font-secondaryFont leading-relaxed drop-shadow">
                             {t('divine.lead')}
                         </p>
                     </div>
 
                     {/* Contact Cards */}
-                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mt-8">
+                    <div className="w-full grid grid-cols-1  xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mt-8">
                         {/* Connect with Us */}
                         <Card className="bg-[#8b0000]   flex flex-col justify-between border-0 focus:outline-none">
                             <CardContent className="p-4 md:p-6 flex flex-col h-full rounded-md shadow-md">

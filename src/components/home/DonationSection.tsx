@@ -194,7 +194,7 @@ export default function DonationSection() {
 
     return (
         <section ref={setRef} className="w-full py-4 px-4 md:px-16 lg:px-24 bg-[#F8F5F0] ">
-            <div className=" grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className=" grid grid-cols-1 xl:grid-cols-2 gap-12 items-center">
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">
                     <p className="text-[rgba(76,41,30,1)] font-primaryFont textHeading max-w-xs mb-4">

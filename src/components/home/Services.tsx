@@ -80,7 +80,7 @@ const Services = (): JSX.Element => {
                     </div>
                 </div>
                 {/* Services Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-6 relative px-4 lg:px-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full mt-6 relative px-4 lg:px-0">
                     {/* Background images for small screens - each covers 2 cards */}
                     <div className="absolute inset-0 lg:hidden">
                         {/* First background image for cards 1-2 */}

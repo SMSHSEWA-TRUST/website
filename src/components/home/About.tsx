@@ -23,7 +23,7 @@ const About = (): JSX.Element => {
     const { t } = useI18n();
     return (
         <section className="w-full px-4 md:px-16 lg:px-24   py-9 lg:py-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start  ">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 items-start  ">
                 {/* Left Side - Image Gallery */}
                 <div className="order-2 lg:order-1">
                     <div className="grid grid-cols-2 gap-3 sm:gap-4  ">

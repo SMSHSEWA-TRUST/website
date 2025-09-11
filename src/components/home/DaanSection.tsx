@@ -147,7 +147,7 @@ const DonationSection = () => {
           </div>
 
           {/* Donation Cards */}
-          <div className="flex gap-6 flex-wrap sm:flex-nowrap justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 justify-center">
             {(data?.data?.length ? data.data : localizedItems).map((category: any) => {
               const IconComponent = iconMap[category.icon] || Gift; // fallback to Gift if undefined
 

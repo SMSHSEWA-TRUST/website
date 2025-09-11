@@ -114,7 +114,9 @@ const Header = (): JSX.Element => {
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value as any)}
-                className="bg-transparent border border-white/30 rounded px-2 py-1 text-white"
+                // use mobile-like styling on large screens so selected text (eg. Hindi) isn't clipped
+                className="bg-[#AD2F16] border border-white/30 rounded px-3 py-1 text-white text-xs sm:text-sm appearance-none"
+                style={{ minHeight: 32, lineHeight: '1.4rem' }}
               >
                 <option value="en" className="text-black">
                   English
@@ -337,7 +339,7 @@ const Header = (): JSX.Element => {
                   {/* Controlled dropdown - constrained and positioned inside header */}
                   {isLangMenuOpen && (
                     <ul
-                      className="absolute left-0 mt-1 w-full sm:w-40 bg-white text-black rounded shadow-lg overflow-hidden"
+                      className="absolute left-0 mt-1 w-full sm:w-40 bg-[#AD2F16] text-black rounded shadow-lg overflow-hidden"
                       style={{ top: "100%", zIndex: 60 }}
                     >
                       <li>
