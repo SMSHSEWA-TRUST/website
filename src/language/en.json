@@ -43,8 +43,8 @@
             "Gaushala",
             "Bhojanalaya",
             "Aushadhalaya",
-            "Cultural & Meditation Centre",
             "Dhyaan Kendra",
+            "Cultural & Meditation Centre",
             "Grand temple"
         ],
         "joinButton": "Join us"
@@ -78,7 +78,7 @@
                 "description": "Short description for service one."
             },
             {
-                "title": "Jai Shree Mahakaleshwa",
+                "title": "Jai Shree Mahakaleshwar",
                 "description": "Mahakal, the Lord of Time, removes all suffering with a single darshan. Eternal protector, He is the embodiment of power and peace."
             },
             {
@@ -208,7 +208,7 @@
                     "label": "Crore+ Commitment for Mahadham Construction (Target 2025–26)"
                 },
                 {
-                    "amount": "200 +",
+                    "amount": "200+",
                     "label": "Trustees & Devotees Already Contributing"
                 },
                 {

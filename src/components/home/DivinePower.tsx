@@ -12,7 +12,7 @@ const DivinePower = (): JSX.Element => {
     const { t } = useI18n();
 
     return (
-        <section className="relative w-full flex flex-col items-center justify-center mb-9 lg:mb-16">
+        <section className="relative w-full flex flex-col items-center justify-center mb-9 lg:mb-16 px-4 md:px-16 lg:px-24">
             {/* Desktop/Large screen: text overlays image with cards */}
             <div
                 className="relative w-full min-h-[95vh] flex items-center justify-center"
@@ -26,7 +26,7 @@ const DivinePower = (): JSX.Element => {
                 <div className="absolute inset-0 bg-black/20 z-10" />
 
                 {/* Content container with title, description and cards */}
-                <div className="relative z-20 w-full flex flex-col items-center justify-center mt-8 lg:mt-0 mb-8 lg:mb-0 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+                <div className="relative z-20 w-full flex flex-col items-center justify-center mt-8 lg:mt-0 mb-8 lg:mb-0 px-4 lg:px-12">
                     <div className="text-center mb-8">
                         <h2
                             className="text-5xl md:text-6xl font-bold font-primaryFont"

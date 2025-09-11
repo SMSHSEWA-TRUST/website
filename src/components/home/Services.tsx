@@ -47,7 +47,7 @@ const Services = (): JSX.Element => {
                     <span className="textDescription font-secondaryFont text-[#4c291e] tracking-wide">
                         {t('services.subtitle')}
                     </span>
-                    <h2 className="font-primaryFont textHeadingLg text-[#4c291e] text-center font-normal">
+                    <h2 className="font-primaryFont textHeadingLg text-[#9A0000] text-center font-semibold">
                         {t('services.heading')}
                     </h2>
                     <div className="flex items-center justify-center  w-full">

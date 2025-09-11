@@ -88,7 +88,7 @@ const About = (): JSX.Element => {
 
                         <div className="my-4" />
 
-                        <h3 className="font-primaryFont text-base font-semibold text-[rgba(30, 30, 30, 0.5)]">{t('about.whyTitle')}</h3>
+                        <h3 className="font-primaryFont text-[16px]  lg:text-[20px] font-semibold text-[rgba(30, 30, 30, 0.5)]">{t('about.whyTitle')}</h3>
 
                         <p className="mt-2 text-[rgba(30, 30, 30, 0.5)] font-secondaryFont textDescription font-normal leading-relaxed">
                             {t('about.whyDescription')}
@@ -98,26 +98,26 @@ const About = (): JSX.Element => {
                     {/* Services Grid - 2x2 icons with labels + Join button */}
                     <div className="space-y-6">
                         {/* large screens: show as a horizontal row that wraps; small screens wrap naturally */}
-                        <div className="flex flex-row flex-wrap gap-12 items-center">
+                        <div className="flex flex-row flex-wrap gap-2 lg:gap-6 justify-start items-start">
                             {(t('about.services') as string[] || [
                                 'Gaushala',
                                 'Bhojanalaya',
+                                'Dhyaan Kendra',
                                 'Aushadhalaya',
                                 'Cultural & Meditation Centre',
-                                'Dhyaan Kendra',
                                 'Grand temple',
                             ]).map((label, idx) => (
-                                <div key={idx} className="flex flex-col items-center text-center w-1/4 sm:w-1/4 md:w-1/6 lg:w-1/6" style={{ minWidth: 140 }}>
+                                <div key={idx} className="flex flex-col   text-left w-1/4 sm:w-1/4 md:w-1/6 lg:w-1/6" style={{ minWidth: 140 }}>
                                     <div className="bg-white p-3 rounded-lg shadow-sm flex items-center justify-center w-[72px] h-[72px]">
                                         <LazyLoadImage
-                                            className="w-[40px] h-[40px] object-contain"
+                                            className="w-[60px] h-[60px] object-contain"
                                             alt={label}
                                             src={image2}
                                             loading="lazy"
                                         />
                                     </div>
                                     <div className="mt-3 px-2">
-                                        <span title={label} className="text-[rgba(76, 41, 30, 1)] font-primaryFont text-sm leading-tight max-w-[200px] break-words whitespace-normal block">{label}</span>
+                                        <span title={label} className="text-[rgba(76, 41, 30, 1)] font-primaryFont textDescription leading-tight max-w-[200px] break-words whitespace-normal block">{label}</span>
                                     </div>
                                 </div>
                             ))}

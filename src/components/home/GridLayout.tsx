@@ -5,6 +5,8 @@ import { useI18n } from '@/lib/i18n';
 import tempImage8Webp from '@/assets/images/temp-image-8.webp';
 import tempImage10Webp from '@/assets/images/temp-image-10.webp';
 import tempImage9Webp from '@/assets/images/temp-image-9.webp';
+import instagramIcon from '@/assets/images/instalogo.svg';
+
 
 const GridLayout = (): JSX.Element => {
     const { t } = useI18n();
@@ -22,7 +24,8 @@ const GridLayout = (): JSX.Element => {
                             {t('grid.lead')}
                         </p>
                         <div className="flex gap-2">
-                            <Button className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+                            <Button className="group border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+                                <img src={instagramIcon} alt="Instagram" className="w-5 h-5 lg:w-6 lg:h-6 mr-2 filter transition duration-200 group-hover:invert" />
                                 <span className="font-secondaryFont font-normal textDescription tracking-wide">
                                     {t('grid.instagram')}
                                 </span>
