@@ -5,49 +5,55 @@ import pujaWebp from '@/assets/images/puja.webp';
 
 // Lazy load components
 const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
-const ScrollingBanner = React.lazy(() => import("../../components/home/ScrollingBanner"));
-const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
-const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
-const Puja = React.lazy(() => import("../../components/puja/Puja"));
-const Vedio = React.lazy(() => import("../../components/puja/Vedio"));
-
+// const ScrollingBanner = React.lazy(() => import("../../components/home/ScrollingBanner"));
+// const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
+// const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
+// const Puja = React.lazy(() => import("../../components/puja/Puja"));
+// const Vedio = React.lazy(() => import("../../components/puja/Vedio"));
+const Gallery = React.lazy(() => import("../../components/puja/Gallery"));
 export const PujaPage = (): JSX.Element => {
     return (
         <>
             {/* Hero Section */}
             <Suspense fallback={<ComponentLoader height="h-96" />}>
                 <HeroSection
-                    title="Puja's"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                    pageKey="puja"
                     backgroundImage={pujaWebp}
                 />
             </Suspense>
 
             {/* Puja Section */}
-            <div >
+            {/* <div >
                 <Suspense fallback={<SectionLoader />}>
                     <Puja />
                 </Suspense>
-            </div>
+            </div> */}
 
+            {/* Gallery Section */}
             <Suspense fallback={<SectionLoader />}>
-                <Vedio />
+                <Gallery
+
+                />
             </Suspense>
+
+            {/* <Suspense fallback={<SectionLoader />}>
+                <Vedio />
+            </Suspense> */}
 
             {/* Scrolling Banner */}
-            <Suspense fallback={<ComponentLoader height="h-16" />}>
+            {/* <Suspense fallback={<ComponentLoader height="h-16" />}>
                 <ScrollingBanner />
-            </Suspense>
+            </Suspense> */}
 
             {/* Contact Section */}
-            <Suspense fallback={<SectionLoader />}>
+            {/* <Suspense fallback={<SectionLoader />}>
                 <ContactSection />
-            </Suspense>
+            </Suspense> */}
 
             {/* Blog Articles Section */}
-            <Suspense fallback={<SectionLoader />}>
+            {/* <Suspense fallback={<SectionLoader />}>
                 <BlogSection />
-            </Suspense>
+            </Suspense> */}
         </>
     );
 };

@@ -197,7 +197,7 @@ export default function DonationSection() {
             <div className=" grid grid-cols-1 xl:grid-cols-2 gap-12 items-center">
                 {/* Left: Stats */}
                 <div className="flex flex-col gap-8">
-                    <p className="text-[rgba(76,41,30,1)] font-primaryFont textHeading max-w-xs mb-4">
+                    <p className="text-[rgba(76,41,30,1)] font-primaryFont textHeadingLg max-w-xs mb-4">
                         {t('donation.Leftsection.title')}
                     </p>
                     <ul className="flex flex-col gap-3">
@@ -214,17 +214,20 @@ export default function DonationSection() {
 
                 {/* Right: Main Content */}
                 <div className="flex flex-col items-start gap-6 w-full mb-4 md:mb-0">
-                    <h2 className="text-[rgba(76, 41, 30, 1)] textHeadingLg font-primaryFont font-normal leading-tight mb-2">
-                        {t('donation.Rightsection.title')}
-                    </h2>
-                    {/* Decorative line with diamond ends */}
-                    <div className="w-full flex justify-start mb-2">
-                        <div className="flex items-center w-[80%] ">
-                            <span className="w-2 h-2 bg-[#e07a4c] rotate-45 block" style={{ borderRadius: '2px' }}></span>
-                            <span className="flex-1 h-[2px] bg-[#e07a4c]  rounded"></span>
-                            <span className="w-2 h-2 bg-[#e07a4c] rotate-45 block" style={{ borderRadius: '2px' }}></span>
+                    <div className="w-full">
+                        <h2 className="text-[rgba(76, 41, 30, 1)] textHeadingLg font-primaryFont font-normal leading-tight mb-2">
+                            {t('donation.Rightsection.title')}
+                        </h2>
+                        {/* Decorative line with diamond ends */}
+                        <div className="w-full flex justify-start mb-2">
+                            <div className="flex items-center w-[80%] ">
+                                <span className="w-2 h-2 bg-[#e07a4c] rotate-45 block" style={{ borderRadius: '2px' }}></span>
+                                <span className="flex-1 h-[2px] bg-[#e07a4c]  rounded"></span>
+                                <span className="w-2 h-2 bg-[#e07a4c] rotate-45 block" style={{ borderRadius: '2px' }}></span>
+                            </div>
                         </div>
                     </div>
+                   
                     <div className="flex flex-col md:flex-row gap-6 w-full h-auto md:h-66">
                         <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <LazyLoadImage

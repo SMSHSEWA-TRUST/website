@@ -13,15 +13,16 @@ const ContactSection = React.lazy(() => import("../../components/home/ContactSec
 const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
 // const ArtiSection = React.lazy(() => import("@/components/about/ArtiSection"));
 const TeamSection = React.lazy(() => import("@/components/about/Team"));
-const WordsTrustees = React.lazy(() => import("@/components/about/WordsTrustees"));
+// const WordsTrustees = React.lazy(() => import("@/components/about/WordsTrustees"));
+const CarouselContent = React.lazy(() => import("@/components/home/CarouselContent"));
 export const AboutPage = (): JSX.Element => {
     return (
         <>
             {/* Hero Section with Suspense */}
             <Suspense fallback={<ComponentLoader height="h-[60vh]" className="rounded-none" />}>
                 <HeroSection
-                    title="About"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                    pageKey="about"
+                    // backgroundImage passed from page imports to ensure images are bundled correctly
                     backgroundImage={aboutImage}
                 />
             </Suspense>
@@ -31,15 +32,16 @@ export const AboutPage = (): JSX.Element => {
                 <AboutWorship />
             </Suspense>
 
-            
+
 
             {/* Image Section */}
             <Suspense fallback={<ComponentLoader height="h-96" />}>
                 <ImageSection />
             </Suspense>
 
+            {/* Carousel (test from BhudaanSection) */}
             <Suspense fallback={<SectionLoader />}>
-                <WordsTrustees />
+                <CarouselContent />
             </Suspense>
 
             {/* Arti Section */}
@@ -69,7 +71,7 @@ export const AboutPage = (): JSX.Element => {
 
             {/* Blog Articles Section */}
             <Suspense fallback={<BlogListingLoader />}>
-                
+
                 <BlogSection />
             </Suspense>
         </>

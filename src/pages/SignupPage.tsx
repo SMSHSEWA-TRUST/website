@@ -283,7 +283,7 @@ export default function SignupPage() {
 
         {/* Right Section - Desktop Form */}
         <div className="min-h-screen flex items-end justify-center px-6">
-          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-8 w-full h-[85vh] max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col">
+          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-8 w-full h-[85vh] 2xl:h-[60vh] max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col">
             <div className="mb-6 text-left px-8 xl:px-10 pt-0">
               <p className="text-sm text-gray-600 mb-3 uppercase tracking-wide font-medium">
                 LET'S GET YOU STARTED

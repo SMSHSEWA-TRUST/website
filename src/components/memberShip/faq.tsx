@@ -71,7 +71,7 @@ const Faq: React.FC = () => {
                         return (
                             <div
                                 key={idx}
-                                className={`rounded-md bg-white overflow-hidden transition-all duration-300 hover:shadow-md ${isOpen ? 'border-[1px] border-[#8B0000]' : ''}`}
+                                className={`rounded-md bg-[#FFFFFF] overflow-hidden transition-all duration-300 hover:shadow-md ${isOpen ? 'border-[1px] border-[#8B0000]' : 'border-[1px] border-[#E4E4E4]'}`}
                             >
                                 <button
                                     type="button"
@@ -80,7 +80,7 @@ const Faq: React.FC = () => {
                                     onClick={() => toggle(idx)}
                                     className={`w-full text-left flex items-center justify-between p-6 focus:ring-inset transition-colors duration-200 ${isOpen ? '[#8B0000]' : ''}`}
                                 >
-                                    <h3 className={`font-primaryFont textHeading transition-colors duration-200 ${isOpen ? 'text-[#8B0000]' : 'text-gray-800'}`}>
+                                    <h3 className={`font-primaryFont textHeading transition-colors duration-200 ${isOpen ? 'text-[#8B0000]' : 'text-[#000000]'}`}>
                                         {item.question}
                                     </h3>
 
@@ -97,7 +97,7 @@ const Faq: React.FC = () => {
                                         }`}
                                 >
                                     <div className="px-6 pb-6">
-                                        <p className="text-gray-600 leading-relaxed textDescription">
+                                        <p className="text-[#727272] leading-relaxed textDescription">
                                             {item.answer}
                                         </p>
                                     </div>

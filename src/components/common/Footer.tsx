@@ -30,7 +30,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         { name: t('footer.specialLinks.about'), url: '/about' },
         { name: t('footer.specialLinks.mission'), url: '/about#mission' },
         { name: t('footer.specialLinks.donate'), url: '/donate' },
-        { name: t('footer.specialLinks.gallery'), url: '/gallery' },
+        { name: t('footer.specialLinks.gallery'), url: '/puja' },
         { name: t('footer.specialLinks.contact'), url: '/contact' },
     ];
 

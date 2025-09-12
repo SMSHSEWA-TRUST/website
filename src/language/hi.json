@@ -8,10 +8,47 @@
 	"nav": {
 		"home": "होम",
 		"about": "हमारे बारे में",
-		"puja": "पूजा",
+		"puja": "गैलरी",
 		"membership": "मेबरशिप",
 		"blogs": "ब्लॉग",
 		"contact": "संपर्क करें"
+	},
+	"pageHero": {
+		"about": {
+			"title": "हमारे बारे में",
+			"semiTitle": "",
+			"description": "श्री महाकालेश्वर सालासर हनुमान सेवा ट्रस्ट — हमारी दृष्टि, मिशन और महाधाम परियोजना।"
+		},
+		"blogs": {
+			"title": "ब्लॉग",
+			"semiTitle": "",
+			"description": "ज्ञान, भक्ति और कहानियाँ — ऐसे लेख जो आस्था को जीवंत करते हैं।"
+		},
+		"blogDetails": {
+			"title": "ब्लॉग विवरण",
+			"semiTitle": "लेखक: John Doe | दिनांक: 01/01/2025",
+			"description": ""
+		},
+		"contact": {
+			"title": "संपर्क करें",
+			"semiTitle": "",
+			"description": ""
+		},
+		"membership": {
+			"title": "सब्सक्रिप्शन",
+			"semiTitle": "",
+			"description": "अपडेट्स, इवेंट्स और आशीर्वाद पाने के लिए हमारे समुदाय से जुड़ें।"
+		},
+		"gallery": {
+			"title": "गैलरी",
+			"semiTitle": "",
+			"description": "भक्ति, अनुष्ठान और उत्सव की एक दृश्य यात्रा।"
+		},
+		"puja": {
+			"title": "गैलरी",
+			"semiTitle": "",
+			"description": "पूजा और अनुष्ठान — भक्ति के क्षण।"
+		}
 	},
 	"auth": {
 		"register": "रजिस्टर/लॉगिन",
@@ -40,12 +77,26 @@
 		"whyTitle": "सूरत क्यों?",
 		"whyDescription": "सूरत केवल व्यापार का नहीं, बल्कि आस्था और संगठन शक्ति का भी प्रतीक है। देशभर से जुड़े श्रद्धालु और ट्रस्टी इस पवित्र कार्य में सहभागी बन रहे हैं। इसलिए सूरत को चुना गया — ताकि यहाँ भक्ति और सेवा का दीप जल सके।",
 		"services": [
-			"गौशाला",
-			"भोजनालय",
-			"औषधालय",		
-			"ध्यान केंद्र",
-			"सांस्कृतिक एवं ध्यान केंद्र",
-			"महादेव मंदिर"
+			{
+				"title": "गौशाला",
+				"description": "गायों की सेवा और संरक्षण के लिए।",
+				"image": "images/Gaushala.png"
+			},
+			{
+				"title": "भोजनालय",
+				"description": "भक्तों और ज़रूरतमंदों के लिए प्रसाद और भोजन उपलब्ध कराने हेतु।",
+				"image": "images/Sanskritik Kendra.png"
+			},
+			{
+				"title": "औषधालय",
+				"description": "समग्र स्वास्थ्य और कल्याण के लिए।",
+				"image": "images/Aushadhalaya.png"
+			},
+			{
+				"title": "ध्यान केंद्र",
+				"description": "एक ऐसा स्थान जहाँ लोग स्वयं को दिव्य ऊर्जा से जोड़ सकते हैं।",
+				"image": "/images/Dhyaan kendra.png"
+			}
 		],
 		"joinButton": "हमारे साथ जुड़ें"
 	},
@@ -246,10 +297,41 @@
 			]
 		}
 	},
+	"carousel": {
+		"slides": {
+			"a": {
+				"title": "रतन लाल जी",
+				"role": "सम्मानित ट्रस्टी",
+				"org": "श्री महाकालेश्वर सालासर \nहनुमान सेवा ट्रस्ट",
+				"quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
+			},
+			"b": {
+				"title": "अनिता देवी",
+				"role": "वॉलंटियर लीड",
+				"org": "श्री महाकालेश्वर सालासर \nहनुमान सेवा ट्रस्ट",
+				"quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
+			}
+		}
+	},
 	"ScrollingBanner": {
 		"phrases": [
 			"जय श्री महाकालेश्वर",
 			"जय श्री सलासर बालाजी"
 		]
+	},
+	"liveDarshan": {
+		"title": "लाइव दर्शन",
+		"buttons": {
+			"mahakaleshwar": "श्री महाकालेश्वर मंदिर",
+			"salasar": "श्री सालासर बालाजी मंदिर"
+		},
+		"upcomingEventsTitle": "आगामी कार्यक्रम",
+		"liveBadge": "लाइव",
+		"viewDetails": "विवरण देखें",
+		"modal": {
+			"upcomingEvent": "आगामी कार्यक्रम",
+			"eventFallback": "कार्यक्रम",
+			"noDescription": "विवरण उपलब्ध नहीं है।"
+		}
 	}
 }

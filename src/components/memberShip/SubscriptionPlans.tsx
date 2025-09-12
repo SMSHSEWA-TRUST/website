@@ -70,8 +70,44 @@ const SubscriptionPlans: React.FC = () => {
     const [billingAnnual, setBillingAnnual] = useState<boolean>(true); // Billed Annually selected
 
     return (
-        <section className="py-16 px-4 bg-gray-50">
+        <section className="py-16 px-4 bg-[#F8F5F0">
             <div className="max-w-7xl mx-auto">
+
+                {/* Title */}
+                <div className="text-center mb-8 font-secondaryFont">
+                    <h1 className="font-primaryFont text-3xl text-secondaryColor mb-4">Subscription Plans</h1>
+
+                    {/* Decorative line with dots and image */}
+                    <div className="flex items-center justify-center py-2 w-full">
+                        <div className="flex items-center w-full max-w-md">
+                            {/* Left arrow/diamond with connecting line */}
+                            <div className="flex items-center flex-1">
+                                <div className="w-2 h-2 transform rotate-45 bg-secondaryColor"></div>
+                                <div className="flex-1 h-px bg-secondaryColor"></div>
+                            </div>
+
+                            {/* Center dots with continuous line: small-small-big-small-small */}
+                            <div className="flex items-center">
+                                <div className="w-1.5 h-1.5 rounded-full border-2 bg-secondaryColor border-secondaryColor"></div>
+                                <div className="w-1.5 h-px bg-secondaryColor"></div>
+                                <div className="w-1.5 h-1.5 rounded-full border-2 bg-secondaryColor border-secondaryColor"></div>
+                                <div className="w-1.5 h-px bg-secondaryColor"></div>
+                                <div className="w-3 h-3 rounded-full border-2 bg-secondaryColor border-secondaryColor"></div>
+                                <div className="w-1.5 h-px bg-secondaryColor"></div>
+                                <div className="w-1.5 h-1.5 rounded-full border-2 bg-secondaryColor border-secondaryColor"></div>
+                                <div className="w-1.5 h-px bg-secondaryColor"></div>
+                                <div className="w-1.5 h-1.5 rounded-full border-2 bg-secondaryColor border-secondaryColor"></div>
+                            </div>
+
+                            {/* Right arrow/diamond with connecting line */}
+                            <div className="flex items-center flex-1">
+                                <div className="flex-1 h-px bg-secondaryColor"></div>
+                                <div className="w-2 h-2 transform rotate-45 bg-secondaryColor"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Billing Toggle */}
                 <div className="flex justify-center mb-12">
                     <div className="inline-flex rounded-lg bg-white shadow-sm border border-gray-200" role="group" aria-label="Billing toggle">

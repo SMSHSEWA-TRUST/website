@@ -164,7 +164,7 @@ export default function LoginPage() {
 
         {/* Right Section - Desktop Form */}
         <div className="min-h-screen flex items-end justify-center px-6">
-          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-10 w-full h-[80vh] max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col">
+          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-10 w-full h-[80vh] 2xl:h-[55vh] max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col">
             <div className="mb-6 text-left px-8 xl:px-10 pt-0">
               <h2 className="textHeading font-bold text-gray-900">Welcome Back</h2>
               <p className="textDescription text-gray-500 mt-2">

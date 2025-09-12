@@ -17,7 +17,7 @@ export const ContactPage = (): JSX.Element => {
       {/* Hero Section */}
       <Suspense fallback={<ComponentLoader height="h-96" />}>
         <HeroSection
-          title="Contact Us"
+          pageKey="contact"
           backgroundImage={membershipPng}
         />
       </Suspense>

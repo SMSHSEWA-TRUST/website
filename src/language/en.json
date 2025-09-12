@@ -8,10 +8,47 @@
     "nav": {
         "home": "Home",
         "about": "About",
-        "puja": "Puja's",
+        "puja": "Gallery",
         "membership": "Membership",
         "blogs": "Blogs",
         "contact": "Contact us"
+    },
+    "pageHero": {
+        "about": {
+            "title": "About",
+            "semiTitle": "",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        },
+        "blogs": {
+            "title": "Blogs",
+            "semiTitle": "",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        },
+        "blogDetails": {
+            "title": "Blog Details",
+            "semiTitle": "By: Author | Date: 01/01/2025",
+            "description": ""
+        },
+        "contact": {
+            "title": "Contact Us",
+            "semiTitle": "",
+            "description": ""
+        },
+        "membership": {
+            "title": "Subscriptions",
+            "semiTitle": "",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        },
+        "gallery": {
+            "title": "Gallery",
+            "semiTitle": "",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        },
+        "puja": {
+            "title": "Gallery",
+            "semiTitle": "",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        }
     },
     "auth": {
         "register": "Register/Login",
@@ -40,12 +77,26 @@
         "whyTitle": "Why Surat?",
         "whyDescription": "Surat is not only a city of enterprise but also of deep-rooted faith. With devotees and trustees coming together from across India, Surat was chosen as the home of the Mahadham – a sacred space for devotion, service, and cultural revival.",
         "services": [
-            "Gaushala",
-            "Bhojanalaya",
-            "Aushadhalaya",
-            "Dhyaan Kendra",
-            "Cultural & Meditation Centre",
-            "Grand temple"
+            {
+                "title": "Gaushala",
+                "description": "for cow service and protection.",
+                "image": "images/Gaushala.png"
+            },
+            {
+                "title": "Bhojanalaya",
+                "description": "to provide prasad and meals for devotees and the needy.",
+                "image": "images/Sanskritik Kendra.png"
+            },
+            {
+                "title": "Aushadhalaya",
+                "description": "for holistic health and wellness.",
+                "image": "images/Aushadhalaya.png"
+            },
+            {
+                "title": "Meditation Centre",
+                "description": "A Place Where people can connect themselves with Divine energy",
+                "image": "/images/Dhyaan kendra.png"
+            }
         ],
         "joinButton": "Join us"
     },
@@ -198,10 +249,8 @@
         }
     },
     "donation": {
-
         "Leftsection": {
             "title": "Statistics",
-            
             "stats": [
                 {
                     "amount": "200",
@@ -221,60 +270,87 @@
                 }
             ]
         },
-
-      
         "Rightsection": {
             "title": "Testimonials",
-           "testimonials": [
-            {
-                "name": "Satyanarayan Goyal, Trustee, SMSHST",
-                "message": "Mahadham is not just a temple, but a living symbol of faith and service. Every effort takes us closer to 2029."
-            },
-            {
-                "name": "Devotee, SMSHST",
-                "message": "Contributing to Mahadham is not just a donation, it is an offering of faith. I feel blessed to be part of this divine mission."
-            },
-            {
-                "name": "Trustee, SMSHST",
-                "message": "Every brick of Mahadham will carry the blessings of countless devotees. Together, we are building faith for generations."
-            },
-            {
-                "name": "Trustee, SMSHST",
-                "message": "Mahadham will not only be a temple, it will be a place of seva, culture, and unity. That is why I contribute with devotion."
-            },
-            {
-                "name": "Devotee, SMSHST",
-                "message": "When I think of Mahadham, I see a future where every devotee feels at home, embraced by faith and service."
-            },
-            {
-                "name": "Trustee, SMSHST",
-                "message": "The vision of 2029 is not just about completing a temple, but about creating a living symbol of Sanatan Dharma."
-            },
-            {
-                "name": "Devotee, SMSHST",
-                "message": "My children will one day say — our family helped build this Mahadham. That is my true pride."
-            },
-            {
-                "name": "Trustee, SMSHST",
-                "message": "Land, wealth, time — whatever we give for Mahadham, it all becomes eternal seva."
-            },
-            {
-                "name": "Trustee, SMSHST",
-                "message": "To be part of Mahadham’s foundation is to be part of history itself. This is not just construction, it is devotion in action."
-            },
-            {
-                "name": "Devotee, SMSHST",
-                "message": "Every donation, big or small, is a sacred step towards 2029. Together, we will make Mahadham a reality."
-            }
-        ]
+            "testimonials": [
+                {
+                    "name": "Satyanarayan Goyal, Trustee, SMSHST",
+                    "message": "Mahadham is not just a temple, but a living symbol of faith and service. Every effort takes us closer to 2029."
+                },
+                {
+                    "name": "Devotee, SMSHST",
+                    "message": "Contributing to Mahadham is not just a donation, it is an offering of faith. I feel blessed to be part of this divine mission."
+                },
+                {
+                    "name": "Trustee, SMSHST",
+                    "message": "Every brick of Mahadham will carry the blessings of countless devotees. Together, we are building faith for generations."
+                },
+                {
+                    "name": "Trustee, SMSHST",
+                    "message": "Mahadham will not only be a temple, it will be a place of seva, culture, and unity. That is why I contribute with devotion."
+                },
+                {
+                    "name": "Devotee, SMSHST",
+                    "message": "When I think of Mahadham, I see a future where every devotee feels at home, embraced by faith and service."
+                },
+                {
+                    "name": "Trustee, SMSHST",
+                    "message": "The vision of 2029 is not just about completing a temple, but about creating a living symbol of Sanatan Dharma."
+                },
+                {
+                    "name": "Devotee, SMSHST",
+                    "message": "My children will one day say — our family helped build this Mahadham. That is my true pride."
+                },
+                {
+                    "name": "Trustee, SMSHST",
+                    "message": "Land, wealth, time — whatever we give for Mahadham, it all becomes eternal seva."
+                },
+                {
+                    "name": "Trustee, SMSHST",
+                    "message": "To be part of Mahadham’s foundation is to be part of history itself. This is not just construction, it is devotion in action."
+                },
+                {
+                    "name": "Devotee, SMSHST",
+                    "message": "Every donation, big or small, is a sacred step towards 2029. Together, we will make Mahadham a reality."
+                }
+            ]
         }
-      }
-      ,
-
-      "ScrollingBanner": {
-         "phrases": [
+    },
+    "ScrollingBanner": {
+        "phrases": [
             "JAI SHREE MAHAKALESHWAR",
             "JAI SHREE SALASAR BALAJI"
         ]
-      }
+    },
+    "liveDarshan": {
+        "title": "Live Darshan",
+        "buttons": {
+            "mahakaleshwar": "Shree Mahakaleshwar Mandir",
+            "salasar": "Shree Salasar Balaji Mandir"
+        },
+        "upcomingEventsTitle": "Upcoming Events",
+        "liveBadge": "Live",
+        "viewDetails": "View Details",
+        "modal": {
+            "upcomingEvent": "Upcoming Event",
+            "eventFallback": "Event",
+            "noDescription": "No description available."
+        }
+    },
+    "carousel": {
+        "slides": {
+            "a": {
+                "title": "RATAN LAL JI",
+                "role": "Honourable Trustee",
+                "org": "Shree Mahakaleshwar Salasar \nHanuman Sewa Trust",
+                "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
+            },
+            "b": {
+                "title": "ANITA DEVI",
+                "role": "Volunteer Lead",
+                "org": "Shree Mahakaleshwar Salasar \nHanuman Sewa Trust",
+                "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
+            }
+        }
     }
+}

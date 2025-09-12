@@ -8,10 +8,47 @@
 	"nav": {
 		"home": "હોમ",
 		"about": "અમારા વિશે",
-		"puja": "પૂજા",
+		"puja": "ગેલેરી",
 		"membership": "સભ્યપદા",
 		"blogs": "બ્લોગ",
 		"contact": "અમારો સંપર્ક કરો"
+	},
+	"pageHero": {
+		"about": {
+			"title": "અમારા વિશે",
+			"semiTitle": "",
+			"description": "શ્રી મહાકાલેશ્વર સલાસર હનુમાન સેવા ટ્રસ્ટ — અમારી દૃષ્ટિ, મિશન અને મહાધામ પ્રોજેક્ટ."
+		},
+		"blogs": {
+			"title": "બ્લોગ",
+			"semiTitle": "",
+			"description": "જ્ઞાન, ભક્તિ અને વાર્તાઓ — એવા લેખો જે આસ્થા જીવંત બનાવે છે."
+		},
+		"blogDetails": {
+			"title": "બ્લોગ વિગતવાર",
+			"semiTitle": "લેખક: John Doe | તારીખ: 01/01/2025",
+			"description": ""
+		},
+		"contact": {
+			"title": "અમારો સંપર્ક કરો",
+			"semiTitle": "",
+			"description": ""
+		},
+		"membership": {
+			"title": "સબ્સ્ક્રિપ્શન",
+			"semiTitle": "",
+			"description": "અપડેટ્સ, ઇવેન્ટ્સ અને આશીર્વાદ મેળવવા માટે нашей સમુદાયમાં જોડાઓ."
+		},
+		"gallery": {
+			"title": "ગેલેરી",
+			"semiTitle": "",
+			"description": "ભક્તિ, વિધિઓ અને ઉત્સવોની એક દૃશ્ય સફર."
+		},
+		"puja": {
+			"title": "ગેલેરી",
+			"semiTitle": "",
+			"description": "પૂજા અને વિધિઓ — ભક્તિના ક્ષણો."
+		}
 	},
 	"auth": {
 		"register": "રજીસ્ટર/લોગિન",
@@ -40,12 +77,26 @@
 		"whyTitle": "સુરત કેમ?",
 		"whyDescription": " સુરત માત્ર વેપારનું નહીં પરંતુ આસ્થા અને એકતાનું પ્રતિક છે।\n દેશભરના શ્રદ્ધાળુઓ અને ટ્રસ્ટીઓના સહકારથી, સુરતને પસંદ કરવામાં આવ્યું છે — જેથી અહીં ભક્તિ અને સેવાનો દીપક પ્રગટે。",
 		"services": [
-			"ગૌશાળા",
-			"ભોજનાલય",
-			"ઔષધાલય",
-			"ધ્યાન કેન્દ્ર",
-			"સાંસ્કૃતિક અને ધ્યાન કેન્દ્ર",
-			"મહાદેવ મંદિર"
+			{
+				"title": "ગૌશાળા",
+				"description": "ગાયોની સેવા અને રક્ષણ માટે.",
+				"image": "images/Gaushala.png"
+			},
+			{
+				"title": "ભોજનાલય",
+				"description": "ભક્તો અને જરૂરિયાતમંદોને પ્રસાદ અને ભોજન પૂરું પાડવા માટે.",
+				"image": "images/Sanskritik Kendra.png"
+			},
+			{
+				"title": "ઔષધાલય",
+				"description": "સંપૂર્ણ આરોગ્ય અને કલ્યાણ માટે.",
+				"image": "images/Aushadhalaya.png"
+			},
+			{
+				"title": "ધ્યાન કેન્દ્ર",
+				"description": "એક એવી જગ્યા જ્યાં લોકો પોતાને દૈવી ઉર્જા સાથે જોડાઈ શકે.",
+				"image": "/images/Dhyaan kendra.png"
+			}
 		],
 		"joinButton": "અમારા સાથે જોડાઓ"
 	},
@@ -246,10 +297,41 @@
 			]
 		}
 	},
+	"carousel": {
+		"slides": {
+			"a": {
+				"title": "રતન લાલ જી",
+				"role": "માનનીય ટ્રસ્ટી",
+				"org": "શ્રી મહાકાલેશ્વર સલાસર \nહનુમાન સેવા ટ્રસ્ટ",
+				"quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
+			},
+			"b": {
+				"title": "અનિતા દેવીએ",
+				"role": "સેવક લીડ",
+				"org": "શ્રી મહાકાલેશ્વર સલાસર \nહનુમાન સેવા ટ્રસ્ટ",
+				"quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
+			}
+		}
+	},
 	"ScrollingBanner": {
 		"phrases": [
 			"જય શ્રી મહાકાલેશ્વર",
 			"જય શ્રી સલાસર બાલાજી"
 		]
+	},
+	"liveDarshan": {
+		"title": "લાઇવ દર્શન",
+		"buttons": {
+			"mahakaleshwar": "શ્રી મહાકાલેશ્વર મંદિર",
+			"salasar": "શ્રી સલાસર બાલાજી મંદિર"
+		},
+		"upcomingEventsTitle": "આવતા ઇવેન્ટ્સ",
+		"liveBadge": "લાઇવ",
+		"viewDetails": "વિગતો જુઓ",
+		"modal": {
+			"upcomingEvent": "આવતો ઇવેન્ટ",
+			"eventFallback": "ઇવેન્ટ",
+			"noDescription": "વિવરણ ઉપલબ્ધ નથી."
+		}
 	}
 }

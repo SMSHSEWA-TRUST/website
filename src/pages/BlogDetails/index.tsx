@@ -11,7 +11,8 @@ export const BlogDetailsPage = (): JSX.Element => {
             {/* Hero Section */}
             <Suspense fallback={<ComponentLoader height="h-96" />}>
                 <HeroSection
-                    title="Blog Details"
+                    pageKey="blogDetails"
+                    // semiTitle will be taken from translations if present; prop acts as fallback
                     semiTitle="Blog By: John Doe | Date: 01/01/2025"
                     backgroundImage={BlogdetailWebp}
                 />

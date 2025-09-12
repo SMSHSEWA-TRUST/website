@@ -1,6 +1,6 @@
 
 import React, { Suspense } from "react";
-import {  ComponentLoader, SubscriptionLoader } from "../../components/ui/LoadingComponents";
+import { ComponentLoader, SubscriptionLoader } from "../../components/ui/LoadingComponents";
 import membershipPng from '@/assets/images/membership.png';
 
 // Lazy load components
@@ -14,8 +14,7 @@ export const MemberShipPage = (): JSX.Element => {
             {/* Hero Section */}
             <Suspense fallback={<ComponentLoader height="h-96" />}>
                 <HeroSection
-                    title="Subscriptions "
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                    pageKey="membership"
                     backgroundImage={membershipPng}
                 />
             </Suspense>
@@ -30,6 +29,6 @@ export const MemberShipPage = (): JSX.Element => {
                 <Faq />
             </Suspense>
 
-             </>
+        </>
     );
 };

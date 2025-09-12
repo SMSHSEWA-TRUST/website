@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useI18n } from '@/lib/i18n';
 import bhudaan1 from '@/assets/images/bhudaan1.webp';
+import comma from '@/assets/images/comaa.png';
+import Daanleft from '@/assets/images/daanleftsection.png';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -12,7 +14,7 @@ const BhudaanSection: React.FC = () => {
 
     return (
         <div>
-            <div className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden ">
+            <div className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden px-4 md:px-16 lg:px-24 ">
                 <div className=" text-center">
                     <h2
                         className="text-5xl md:text-6xl font-bold font-primaryFont"
@@ -153,7 +155,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
             <div className="hidden xl:flex w-full">
                 <div className="w-full flex flex-col lg:flex-row h-80 sm:h-80 md:h-96 lg:h-[366px]">
                     {/* Left */}
-                    <div className="w-full lg:w-1/4 h-full">
+                    <div className="w-full lg:w-[40%] h-full">
                         <LazyLoadImage
                             src={data.img}
                             alt={data.title}
@@ -166,24 +168,36 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                     </div>
 
                     {/* Center */}
-                    <div className="w-full lg:w-1/2 h-full bg-white flex flex-col justify-center px-6 lg:px-10 relative">
-                        <div className="absolute top-16 left-5 lg:left-10 text-[#d05e2d] text-[120px] font-serif leading-none">"</div>
-                        <div className="mt-12 lg:mt-16">
-                            <p className="text-[#8B0000] textDescription   font-normal text-justify mb-8">
+                    <div className="w-full lg:w-[50%] h-full bg-white flex flex-col justify-center   relative ">
+                        <div className="absolute top-12 left-6 lg:left-10 text-[#d05e2d] text-[120px] font-serif leading-none">
+                            <img src={comma} alt="," className="w-12 h-12 lg:w-12 lg:h-12" />
+                        </div>
+                        <div className="mt-12 lg:mt-16 text-center ">
+                            <p className="text-[#8B0000] textDescription  font-normal  mb-8">
                                 {data.quote}
                             </p>
                         </div>
                     </div>
 
-                    {/* Right */}
-                    <div className="w-full lg:w-1/4 h-full relative bg-gradient-to-br from-[#d05e2d] via-[#c44d28] to-[#b33b1f] flex items-end justify-end pr-8 lg:pr-12">
-                        <div className="absolute top-0 left-0 h-full bg-white" style={{ width: '120px', clipPath: 'polygon(0 0, 100% 0, 15% 100%, 0% 100%)' }}></div>
-                        <div className="relative z-10 text-white mb-2">
+                   
+                    <div
+                        className="w-full lg:w-[30%] h-full relative  flex items-end justify-start pl-20 text-white"
+                    >
+                        <img src={Daanleft} alt="left design" className="absolute inset-0 w-[100%] h-full object-fit   " />
+                        {/* Text content */}
+                        <div className="relative z-10 mb-4 text-left">
                             <h3 className="textHeadingLg font-bold font-primaryFont mb-2">{data.title}</h3>
                             <p className="textDescription font-semibold mb-2 opacity-90">{data.role}</p>
-                            <p className="textDescription text-[#FFFFFF80] opacity-75 leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{data.org}</p>
+                            <p
+                                className="textDescription text-[#FFFFFFB3] opacity-80 leading-relaxed"
+                                style={{ whiteSpace: "pre-line" }}
+                            >
+                                {data.org}
+                            </p>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>

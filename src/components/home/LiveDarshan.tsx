@@ -4,17 +4,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import mand7Png from "@/assets/images/mand-7.png";
 import sevaBg from "@/assets/images/sevabg.png";
 import omPng from "@/assets/images/om.png";
-import aboutSection1 from "@/assets/images/aboutSection1.png";
+// ...existing imports
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import pujaImageWebp from '@/assets/images/pujaImage.webp';
+import { useI18n } from '@/lib/i18n';
 
 // Video Player Component - Reusable for both layouts
 const VideoPlayerSection = ({
   selectedTemple,
   isDesktop,
+  liveBadgeText,
 }: {
   selectedTemple: string;
   isDesktop: boolean;
+  liveBadgeText?: string;
 }) => {
   return (
     <div className={isDesktop ? "flex-shrink-0 h-full flex-1 flex flex-col " : ""}>
@@ -50,7 +53,7 @@ const VideoPlayerSection = ({
           <Badge className="absolute top-4 right-4 bg-red-600 text-white border-white px-3 py-1 shadow-lg">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium">Live</span>
+              <span className="text-sm font-medium">{liveBadgeText ?? 'Live'}</span>
             </div>
           </Badge>
 
@@ -75,6 +78,8 @@ const SevaSection = ({
   isDesktop,
   upcomingSevas,
   onViewDetails,
+  titleText,
+  viewDetailsText,
 }: {
   isDesktop: boolean;
   upcomingSevas: Array<{
@@ -85,6 +90,8 @@ const SevaSection = ({
     image?: string;
   }>;
   onViewDetails: (image?: string, title?: string, description?: string) => void;
+  titleText?: string;
+  viewDetailsText?: string;
 }) => {
   return (
     <div className={isDesktop ? "flex-shrink-0 h-full" : ""}>
@@ -102,7 +109,7 @@ const SevaSection = ({
               loading="lazy"
             />
             <CardTitle className="text-[rgba(139,0,0,1)] font-primaryFont textHeadingLg font-normal">
-              Upcoming Events
+              {titleText ?? 'Upcoming Events'}
             </CardTitle>
           </div>
           <div className="relative mt-1">
@@ -112,7 +119,6 @@ const SevaSection = ({
         </CardHeader>
 
         {/* hide scrollbar for WebKit and set scrollbar styles for other browsers */}
-        <style>{`.seva-scroll::-webkit-scrollbar{display:none}.seva-scroll{-ms-overflow-style:none;scrollbar-width:none;}`}</style>
         <CardContent
           className={`${isDesktop ? "flex-1 overflow-y-auto seva-scroll relative" : "relative overflow-hidden"}`}>
           {/* Background image layer with low opacity */}
@@ -122,7 +128,7 @@ const SevaSection = ({
               backgroundImage: `url(${sevaBg})`,
               backgroundSize: "90% auto",
               backgroundPosition: "center 60%",
-              opacity: 0.09,
+              opacity: 0.07,
             }}
             aria-hidden
           />
@@ -162,7 +168,7 @@ const SevaSection = ({
                       e.preventDefault();
                       onViewDetails(seva.image, seva.title, seva.description);
                     }}>
-                    View Details
+                    {viewDetailsText ?? 'View Details'}
                   </a>
                 </div>
               </div>
@@ -187,36 +193,17 @@ const SevaSection = ({
 // };
 
 const LiveDarshan = (): JSX.Element => {
+  const { t } = useI18n();
   const [selectedTemple, setSelectedTemple] = useState<string>("mahakaleshwar");
   const [countdown, setCountdown] = useState("00:00:00");
 
-  // Upcoming Seva data
-  const upcomingSevas = [
-    {
-      title: "Lorem Ipsum",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      date: "01 Jul 25",
-      time: "07: 00 AM",
-      image: aboutSection1,
-    },
-    {
-      title: "Lorem Ipsum",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      date: "01 Jul 25",
-      time: "07: 00 AM",
-      image: aboutSection1,
-    },
-    {
-      title: "Lorem Ipsum",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      date: "01 Jul 25",
-      time: "07: 00 AM",
-      image: aboutSection1,
-    },
-  ];
+  // Upcoming Seva data (empty by default)
+  const upcomingSevas: { title: string; description: string; date: string; time: string; image?: string }[] = [];
+
+  // determine if upcomingSevas has any meaningful data
+  const hasSevas = upcomingSevas.some(
+    (seva) => !!(seva && (seva.title || seva.description || seva.date || seva.time || seva.image))
+  );
 
   // Modal state for viewing details image
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -339,7 +326,7 @@ const LiveDarshan = (): JSX.Element => {
               letterSpacing: '0.04em',
             }}
           >
-            Live Darshan
+            {t('liveDarshan.title')}
 
           </h2>
           {/* keep countdown value referenced to avoid TS 'declared but never read' */}
@@ -378,24 +365,24 @@ const LiveDarshan = (): JSX.Element => {
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4 lg:pt-8">
             <div className="flex flex-row gap-2 w-full justify-center items-center">
               <button
-                className={`border border-white text-white font-secondaryFont font-normal transition-all duration-300 hover:scale-105
+                className={`border rounded-md border-white text-white font-secondaryFont font-normal 
                                         ${selectedTemple === "mahakaleshwar"
                     ? "bg-yellow-600 text-white"
                     : "bg-transparent hover:bg-white hover:text-red-800"
                   }
                                         px-1 py-2 textDescription sm:px-3 sm:py-2 lg:px-6 lg:py-3 `}
                 onClick={() => handleButtonClick("mahakaleshwar")}>
-                Shree Mahakaleshwar Mandir
+                {t('liveDarshan.buttons.mahakaleshwar')}
               </button>
               <button
-                className={`border border-white text-white font-secondaryFont font-normal transition-all duration-300 hover:scale-105
+                className={`border rounded-md border-white text-white font-secondaryFont font-normal 
                                         ${selectedTemple === "salasar"
                     ? "bg-yellow-600 text-white"
                     : "bg-transparent hover:bg-white hover:text-red-800"
                   }
                                         px-1 py-2 textDescription sm:px-3 sm:py-2  lg:px-6 lg:py-3 `}
                 onClick={() => handleButtonClick("salasar")}>
-                Shree Salasar Balaji Mandir
+                {t('liveDarshan.buttons.salasar')}
               </button>
             </div>
           </div>
@@ -404,22 +391,26 @@ const LiveDarshan = (): JSX.Element => {
         {/* Video and Seva Section */}
         <div >
           {/* Desktop Layout */}
-          <div className="hidden xl:flex xl:justify-center xl:items-stretch gap-4 h-[600px] max-w-full mx-28 ">
-            <div className="h-full flex flex-col w-[73%] " >
-              <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} />
+          <div className="hidden xl:flex xl:justify-center xl:items-stretch gap-4 h-[600px] max-w-full mx-36 ">
+            {/* When there's no meaningful seva data, let the video take full width */}
+            <div className={"h-full flex flex-col " + (hasSevas ? "w-[73%]" : "w-full")}>
+              <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} liveBadgeText={t('liveDarshan.liveBadge')} />
             </div>
-            <div className="flex flex-col gap-2  w-[38%] h-[600px] " >
-              <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} onViewDetails={handleOpenModal} />
-              {/* <CountdownTimer countdown={countdown} isDesktop={true} /> */}
-            </div>
+
+            {hasSevas && (
+              <div className="flex flex-col gap-2 w-[38%] h-[600px]">
+                <SevaSection isDesktop={true} upcomingSevas={upcomingSevas} onViewDetails={handleOpenModal} titleText={t('liveDarshan.upcomingEventsTitle')} viewDetailsText={t('liveDarshan.viewDetails')} />
+                {/* <CountdownTimer countdown={countdown} isDesktop={true} /> */}
+              </div>
+            )}
           </div>
 
           {/* Mobile Layout */}
           <div className="xl:hidden grid grid-cols-1 gap-6 mx-4">
             <div>
-              <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={false} />
+              <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={false} liveBadgeText={t('liveDarshan.liveBadge')} />
             </div>
-            <SevaSection isDesktop={false} upcomingSevas={upcomingSevas} onViewDetails={handleOpenModal} />
+            <SevaSection isDesktop={false} upcomingSevas={upcomingSevas} onViewDetails={handleOpenModal} titleText={t('liveDarshan.upcomingEventsTitle')} viewDetailsText={t('liveDarshan.viewDetails')} />
             {/* <CountdownTimer countdown={countdown} isDesktop={false} /> */}
           </div>
         </div>
@@ -441,7 +432,7 @@ const LiveDarshan = (): JSX.Element => {
           <div className="relative z-10 w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-6 flex flex-col gap-4">
             {/* Header */}
             <div className="flex items-start justify-between border-b">
-              <h3 className="textHeadingLg font-primaryFont font-semibold text-[#333]">Upcoming Event</h3>
+              <h3 className="textHeadingLg font-primaryFont font-semibold text-[#333]">{t('liveDarshan.modal.upcomingEvent')}</h3>
               <button
                 aria-label="Close"
                 onClick={handleCloseModal}
@@ -455,7 +446,7 @@ const LiveDarshan = (): JSX.Element => {
             {/* Image */}
             <div className="w-full">
               <LazyLoadImage
-                src={pujaImageWebp}
+                src={modalImage || pujaImageWebp}
                 alt={modalTitle || 'event'}
                 className="w-full h-44 object-cover bg-cover rounded-lg"
               />
@@ -463,9 +454,9 @@ const LiveDarshan = (): JSX.Element => {
 
             {/* Content */}
             <div className="">
-              <h4 className="text-[rgba(139,0,0,1)] textHeading font-primaryFont mb-3">{modalTitle || 'Event'}</h4>
+              <h4 className="text-[rgba(139,0,0,1)] textHeading font-primaryFont mb-3">{modalTitle || t('liveDarshan.modal.eventFallback')}</h4>
               <p className="textDescription text-[#444] leading-relaxed mb-3">
-                {modalDescription || 'No description available.'}
+                {modalDescription || t('liveDarshan.modal.noDescription')}
               </p>
             </div>
           </div>

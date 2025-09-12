@@ -6,6 +6,9 @@ import image2 from '@/assets/images/image 2.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useI18n } from '@/lib/i18n';
 
+
+
+
 // Custom hook to detect large screen
 function useIsLargeScreen() {
     const [isLarge, setIsLarge] = React.useState(false);
@@ -21,8 +24,18 @@ function useIsLargeScreen() {
 const About = (): JSX.Element => {
     const isLargeScreen = useIsLargeScreen();
     const { t } = useI18n();
+    // map assets in src/assets/images to easy lookup by filename
+    // Use Vite's import.meta.glob with eager:true to get module URLs at build time.
+    // Cast to any because some TS configs lack types for glob with options.
+    const rawImages = (import.meta as any).glob('/src/assets/images/*.{png,jpg,jpeg,webp,svg}', { eager: true });
+    const imageMap: Record<string, string> = {};
+    Object.keys(rawImages).forEach((p) => {
+        const mod = (rawImages as any)[p];
+        const name = p.split('/').pop()!; // e.g. 'Gaushala.png'
+        imageMap[name] = mod?.default ?? mod;
+    });
     return (
-        <section className="w-full px-4 md:px-16 lg:px-24   py-9 lg:py-10">
+        <section className="w-full px-4 md:px-16 lg:px-24   py-9 lg:py-10 bg-[#F8F5F0]">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 items-start  ">
                 {/* Left Side - Image Gallery */}
                 <div className="order-2 lg:order-1">
@@ -98,29 +111,62 @@ const About = (): JSX.Element => {
                     {/* Services Grid - 2x2 icons with labels + Join button */}
                     <div className="space-y-6">
                         {/* large screens: show as a horizontal row that wraps; small screens wrap naturally */}
-                        <div className="flex flex-row flex-wrap gap-2 lg:gap-6 justify-start items-start">
-                            {(t('about.services') as string[] || [
-                                'Gaushala',
-                                'Bhojanalaya',
-                                'Dhyaan Kendra',
-                                'Aushadhalaya',
-                                'Cultural & Meditation Centre',
-                                'Grand temple',
-                            ]).map((label, idx) => (
-                                <div key={idx} className="flex flex-col   text-left w-1/4 sm:w-1/4 md:w-1/6 lg:w-1/6" style={{ minWidth: 140 }}>
-                                    <div className="bg-white p-3 rounded-lg shadow-sm flex items-center justify-center w-[72px] h-[72px]">
-                                        <LazyLoadImage
-                                            className="w-[60px] h-[60px] object-contain"
-                                            alt={label}
-                                            src={image2}
-                                            loading="lazy"
-                                        />
-                                    </div>
-                                    <div className="mt-3 px-2">
-                                        <span title={label} className="text-[rgba(76, 41, 30, 1)] font-primaryFont textDescription leading-tight max-w-[200px] break-words whitespace-normal block">{label}</span>
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            {
+                                // Load services from i18n. Each service expected to be { title, description, image }
+                                (() => {
+                                    const raw = t('about.services') as any;
+                                    const fallback = [
+                                        { title: 'Gaushala', description: 'for cow service and protection.', image: 'images/Gaushala.png' },
+                                        { title: 'Bhojanalaya', description: 'to provide prasad and meals for devotees and the needy.', image: 'images/Sanskritik Kendra.png' },
+                                        { title: 'Aushadhalaya', description: 'for holistic health and wellness.', image: 'images/Aushadhalaya.png' },
+                                        { title: 'Meditation Centre', description: 'A Place Where people can connect themselves with Divine energy', image: '/images/Dhyaan kendra.png' },
+                                    ];
+
+                                    const services = Array.isArray(raw) && raw.length ? raw : fallback;
+
+                                    return services.map((svc: any, idx: number) => {
+                                        const title = typeof svc === 'string' ? svc : svc.title || '';
+                                        const desc = typeof svc === 'string' ? '' : svc.description || '';
+                                        // resolve svc.image which may be like 'images/Gaushala.png' or '/images/Dhyan_kendra.png'
+                                        let imgPath = image2;
+                                        if (svc && svc.image) {
+                                            // normalize and pick filename
+                                            const provided = svc.image.startsWith('/') ? svc.image.slice(1) : svc.image; // remove leading /
+                                            const fileName = provided.split('/').pop() || provided;
+                                            if (imageMap[fileName]) {
+                                                imgPath = imageMap[fileName];
+                                            } else if (svc.image.startsWith('/')) {
+                                                // if user provided a leading slash path, assume it's in public/ and use as-is
+                                                imgPath = svc.image;
+                                            } else {
+                                                // fallback to prefixing with / so dev server can serve from public if present
+                                                imgPath = `/${provided}`;
+                                            }
+                                        }
+
+                                        return (
+                                            <div key={idx} className="w-full flex items-center gap-4 p-3 rounded-md">
+                                                <div className="bg-white rounded-lg shadow-sm flex items-center justify-center flex-shrink-0">
+                                                    <LazyLoadImage
+                                                        className="w-[60px] h-[60px] object-contain"
+                                                        alt={title}
+                                                        src={imgPath}
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+
+                                                <div className="px-2">
+                                                    <span title={title} className="text-[rgba(76, 41, 30, 1)] font-primaryFont text-lg leading-tight block">{title}</span>
+                                                    {desc ? (
+                                                        <p className="text-[rgba(30,30,30,0.6)] text-sm font-secondaryFont mt-1">{desc}</p>
+                                                    ) : null}
+                                                </div>
+                                            </div>
+                                        );
+                                    });
+                                })()
+                            }
                         </div>
 
                         <div className="mt-6 flex justify-start">
