@@ -1,5 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
+import { useI18n } from '@/lib/i18n';
 
 const images: string[] = [
     new URL('../../assets/images/About.webp', import.meta.url).href,
@@ -13,6 +14,8 @@ const images: string[] = [
 ];
 
 export default function Gallery(): JSX.Element {
+
+    const { t } = useI18n();
     const [isOpen, setIsOpen] = useState(false);
     const [current, setCurrent] = useState(0);
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -51,9 +54,12 @@ export default function Gallery(): JSX.Element {
     }
 
     return (
-        <section className="lg:py-20 px-4 md:px-16 lg:px-24  ">
-
-
+        <section className="lg:py-20 px-4 md:px-16 lg:px-24 flex flex-col gap-4 lg:gap-10">
+            {/* Section Title */}
+            <h2 className="font-primaryFont text-[#8B0000] textHeadingLg  font-normal text-center">
+                {t('GalleryPage.title')}
+            </h2>
+            {/* Gallery Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {images.map((src, i) => (
                     <button
@@ -86,12 +92,8 @@ export default function Gallery(): JSX.Element {
                     {/* Fixed subtle vignette + blur background for a polished photo-viewer feel */}
                     <div
                         aria-hidden
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                            background: '#8B0000',
-                            backdropFilter: 'blur(4px)',
-                            WebkitBackdropFilter: 'blur(4px)'
-                        }}
+                        className="absolute inset-0 pointer-events-none bg-black/50 backdrop-blur-sm -webkit-backdrop-blur-sm"
+                       
                     />
 
                     <div className="relative max-w-[90vw] max-h-[90vh] w-full z-30">

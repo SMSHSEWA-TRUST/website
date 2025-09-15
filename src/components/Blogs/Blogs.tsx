@@ -7,6 +7,7 @@ import blogArti2 from '@/assets/images/blogarti2.webp';
 import blogArti3 from '@/assets/images/blogarti3.webp';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
+import { useI18n } from '@/lib/i18n';
 
 interface BlogPost {
     id: number | string;
@@ -18,6 +19,9 @@ interface BlogPost {
 }
 
 const posts: BlogPost[] = [
+
+
+
     { id: 1, date: 'Jan 01, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti1, link: '/blog-details' },
     { id: 2, date: 'Jan 02, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti2, link: '/blog-details' },
     { id: 3, date: 'Jan 03, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti3, link: '/blog-details' },
@@ -28,10 +32,13 @@ const posts: BlogPost[] = [
 ];
 
 const Blogs: React.FC = () => {
+
+    const { t } = useI18n();
+
     return (
         <section className="w-full px-6 md:px-16 lg:px-24 py-12  font-secondaryFont">
             <div className=" text-center mb-8">
-                <h2 className="font-primaryFont text-[#8b0000] textHeadingLg mb-3">All Blogs</h2>
+                <h2 className="font-primaryFont text-[#8b0000] textHeadingLg mb-3">{t('BlogPage.title')}</h2>
                 <div className="flex items-center justify-center  w-full">
                     <div className="flex items-center w-full max-w-md">
                         {/* Left arrow/diamond with connecting line */}

@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import teamImage from "@/assets/images/TeamMember.webp";
-const teamMembers = [
+import { useI18n } from '@/lib/i18n';
+
+const defaultTeamMembers = [
     { name: "Acharya Pandit Ji", role: "Chief Priest", image: teamImage },
     { name: "Acharya Pandit Ji", role: "Assistant Priest", image: teamImage },
     { name: "Acharya Ji", role: "Trust President", image: teamImage },
@@ -10,6 +12,19 @@ const teamMembers = [
 ];
 
 export default function Team() {
+    const { t } = useI18n();
+
+    // pull strings from translations with fallbacks
+    const smallTitle = t('aboutTeam.smallTitle') || 'Lorem Ipsum odor';
+    const heading = t('aboutTeam.heading') || 'Team at the Temple';
+    const description = t('aboutTeam.description') || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+    const arrows = t('aboutTeam.arrows') || { prev: 'Previous', next: 'Next' };
+    const membersFromI18n = t('aboutTeam.members') || null;
+
+    const teamMembers = (Array.isArray(membersFromI18n) && membersFromI18n.length > 0)
+        ? membersFromI18n.map((m: any) => ({ name: m.name, role: m.role, image: teamImage }))
+        : defaultTeamMembers;
+
     // responsive sizing: cardWidth, visibleCount and gap adapt to window width
     const [cardWidth, setCardWidth] = useState(308);
     const [visibleCount, setVisibleCount] = useState(4);
@@ -108,11 +123,11 @@ export default function Team() {
                 {/* Dashed Border Box Heading */}
                 <div className="flex justify-center mt-4">
                     <div className=" px-8 py-2 inline-block relative" style={{ minWidth: 510 }}>
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 font-light tracking-wide textDescription  bg-white px-2" style={{ color: 'rgba(76, 41, 30, 1)' }}>
-                            Lorem Ipsum odor
+                        <div className="text-center font-light tracking-wide textDescription mb-4  px-2" style={{ color: 'rgba(76, 41, 30, 1)' }}>
+                            {smallTitle}
                         </div>
                         <h2 className="font-primaryFont textHeadingLg font-normal text-[#4c291e] text-center leading-tight tracking-wide select-none">
-                            Team at the Temple
+                            {heading}
                         </h2>
                     </div>
                 </div>
@@ -149,7 +164,7 @@ export default function Team() {
 
                 {/* Description */}
                 <p className="font-secondaryFont text-gray-700 max-w-[983px] mx-auto text-center textDescription  font-light mb-7" style={{ lineHeight: "1.6" }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    {description}
                 </p>
                 {/* Carousel */}
                 <div className="relative">
@@ -201,14 +216,16 @@ export default function Team() {
                         <button
                             className="font-secondaryFont bg-red-700 hover:bg-red-800 text-white  w-10 h-10 flex items-center justify-center text-2xl font-bold shadow transition-colors duration-200"
                             onClick={prev}
-                            aria-label="Previous"
+                            aria-label={arrows.prev}
+                            title={arrows.prev}
                         >
                             &#8592;
                         </button>
                         <button
                             className="font-secondaryFont bg-red-700 hover:bg-red-800 text-white  w-10 h-10 flex items-center justify-center text-2xl font-bold shadow transition-colors duration-200"
                             onClick={next}
-                            aria-label="Next"
+                            aria-label={arrows.next}
+                            title={arrows.next}
                         >
                             &#8594;
                         </button>

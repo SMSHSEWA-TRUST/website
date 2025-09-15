@@ -1,11 +1,14 @@
 import React from 'react';
+import { useI18n } from '@/lib/i18n';
 
 const ContactHeading: React.FC = () => {
+
+    const { t } = useI18n();
     return (
         <section className="px-6 md:px-16 lg:px-24 py-12">
 
                 <h2 className=" textHeadingLg font-primaryFont text-[#8b0000] uppercase tracking-widest text-center mb-3">
-                    Contact Details
+                    {t('ContactPage.title')}
                 </h2>
 
                 <div className="flex items-center justify-center  w-full">
@@ -38,13 +41,8 @@ const ContactHeading: React.FC = () => {
                 </div>
 
                 <p className="mt-6 text text-gray-500 leading-relaxed textDescription text-center ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    {t('ContactPage.description')}
+                   
                 </p>
 
                

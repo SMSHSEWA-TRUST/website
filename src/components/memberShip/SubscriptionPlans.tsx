@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useI18n } from '@/lib/i18n';
+
 
 const SubscriptionPlans: React.FC = () => {
+    const { t } = useI18n();
+
     const plans = [
         {
             id: "free",
@@ -75,7 +79,7 @@ const SubscriptionPlans: React.FC = () => {
 
                 {/* Title */}
                 <div className="text-center mb-8 font-secondaryFont">
-                    <h1 className="font-primaryFont text-3xl text-secondaryColor mb-4">Subscription Plans</h1>
+                    <h1 className="font-primaryFont text-3xl text-secondaryColor mb-4">{t('MembershipPage.title')}</h1>
 
                     {/* Decorative line with dots and image */}
                     <div className="flex items-center justify-center py-2 w-full">

@@ -410,7 +410,9 @@ const LiveDarshan = (): JSX.Element => {
             <div>
               <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={false} liveBadgeText={t('liveDarshan.liveBadge')} />
             </div>
-            <SevaSection isDesktop={false} upcomingSevas={upcomingSevas} onViewDetails={handleOpenModal} titleText={t('liveDarshan.upcomingEventsTitle')} viewDetailsText={t('liveDarshan.viewDetails')} />
+            {hasSevas && (
+              <SevaSection isDesktop={false} upcomingSevas={upcomingSevas} onViewDetails={handleOpenModal} titleText={t('liveDarshan.upcomingEventsTitle')} viewDetailsText={t('liveDarshan.viewDetails')} />
+            )}
             {/* <CountdownTimer countdown={countdown} isDesktop={false} /> */}
           </div>
         </div>

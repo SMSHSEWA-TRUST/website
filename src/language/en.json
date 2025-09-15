@@ -15,14 +15,14 @@
     },
     "pageHero": {
         "about": {
-            "title": "About",
+            "title": "About Shree Mahakaleshwar Salasar Hanuman Sewa Trust",
             "semiTitle": "",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            "description": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is a spiritual and social trust founded with the vision of uniting faith and seva (service). With the blessings of Mahakal Baba (Ujjain) and Salasar Balaji Maharaj (Rajasthan), we are on a sacred journey to build a grand Mahadham in Surat by 2029. Our mission is to preserve Sanatan values, spread seva, and create a spiritual legacy for future generations."
         },
         "blogs": {
-            "title": "Blogs",
+            "title": "Wisdom & Devotion Through Words ",
             "semiTitle": "",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            "description": "Our blog is a sacred space where devotion meets knowledge. From the glory of Mahakal and Salasar Balaji to stories of seva, festivals, and Sanatan Dharma — every article nurtures your soul and strengthens your faith."
         },
         "blogDetails": {
             "title": "Blog Details",
@@ -35,19 +35,19 @@
             "description": ""
         },
         "membership": {
-            "title": "Subscriptions",
+            "title": "Become a Member – Be a Part of Mahadham 2029",
             "semiTitle": "",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            "description": "Joining the Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is not just a membership — it is becoming part of a spiritual movement. "
         },
         "gallery": {
             "title": "Gallery",
             "semiTitle": "",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            "description": "Gallery of Faith & Devotion — step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
         },
         "puja": {
-            "title": "Gallery",
+            "title": "Gallery of Faith & Devotion",
             "semiTitle": "",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            "description": "Gallery of Faith & Devotion — step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
         }
     },
     "auth": {
@@ -121,8 +121,8 @@
         }
     },
     "services": {
-        "subtitle": "Lorem Ipsum odor",
-        "heading": "Lorem ipsum dolor sit amet, consectetur",
+        "subtitle": "From beginning to end, and from end to infinity all is Shiva",
+        "heading": "Jai Shree Mahakaleshwar || Jai Shree Salasar Balaji || Jai Shree Mahadham",
         "items": [
             {
                 "title": "Service One",
@@ -337,6 +337,63 @@
             "noDescription": "No description available."
         }
     },
+    "aboutWorship": {
+        "title": "Embark on a Journey of Spiritual Awakening at ",
+        "highlightedText": "Our Mahadham",
+        "subtitle": "Nurture Your Soul, Embrace the Divine",
+        "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, devotion is not just worship – it is seva, culture, and transformation. Our envisioned Mahadham will be a sacred abode where every prayer, every offering, and every act of seva brings one closer to the divine.",
+        "buttonText": "Aarti Timings"
+    },
+    "aboutImagesectioncontent": {
+        "cards": [
+            {
+                "title": " Seva with Devotion",
+                "desc": " Serving humanity is serving God. Every act of seva at SMSHST is a step towards spiritual fulfillment.",
+                "alt": "Worship scene left"
+            },
+            {
+                "title": "",
+                "desc": "",
+                "alt": "Worship scene center"
+            },
+            {
+                "title": " Power of Bhakti",
+                "desc": " With folded hands and a pure heart, devotion connects the soul to the divine.",
+                "alt": "Worship scene right"
+            }
+        ]
+    },
+    "aboutTeam": {
+        "smallTitle": "Lorem Ipsum odor",
+        "heading": "Team at the Temple",
+        "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, our true strength lies in the dedication of our spiritual leaders, trustees, and volunteers. Together, they ensure that every ritual, every service, and every initiative is carried out with devotion, discipline, and dignity. Our team is not just an organization — it is a family of devotees united by faith and committed to the divine vision of Mahadham 2029.",
+        "arrows": {
+            "prev": "Previous",
+            "next": "Next"
+        },
+        "members": [
+            {
+                "name": "Acharya Pandit Ji",
+                "role": "Chief Priest"
+            },
+            {
+                "name": "Acharya Pandit Ji",
+                "role": "Assistant Priest"
+            },
+            {
+                "name": "Acharya Ji",
+                "role": "Trust President"
+            },
+            {
+                "name": "Acharya Ji",
+                "role": "Trust Secretary"
+            },
+            {
+                "name": "Acharya Ji",
+                "role": "Trust Secretary"
+            }
+        ]
+    },
     "carousel": {
         "slides": {
             "a": {
@@ -352,5 +409,21 @@
                 "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
             }
         }
+    },
+    "GalleryPage": {
+        "title": " Explore the Gallery — Relive the Divine"
+        
+    },
+
+    "MembershipPage": {
+        "title": "Choose your plan – Monthly or Annual – and walk with us towards Mahadham 2029."
+    },
+    "BlogPage": {
+        "title": "Read, Reflect, and Reconnect with Divinity."
+        
+    },
+    "ContactPage": {
+        "title": "Connect with Us",
+        "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, we believe every devotee is family. Whether you wish to learn more about our mission, contribute to Mahadham 2029, or participate in seva activities, we are here to connect, guide, and serve you."
     }
 }

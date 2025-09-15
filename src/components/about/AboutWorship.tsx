@@ -1,6 +1,7 @@
 import React from 'react';
 import aboutWorshipImage from '@/assets/images/Aboutworship.png';
 import aboutworshipbgImage from '@/assets/images/aboutworshipbg.png';
+import { useI18n } from '@/lib/i18n';
 interface AboutWorshipProps {
     title?: string;
     highlightedText?: string;
@@ -13,15 +14,18 @@ interface AboutWorshipProps {
 }
 
 const AboutWorship: React.FC<AboutWorshipProps> = ({
-    title = "Embark on a Journey of Spiritual Awakening at",
-    highlightedText = "Our Temple",
-    subtitle = "Nurture Your Soul",
-    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    //buttonText = "Aarti Timings",
     worshipImage = aboutWorshipImage,
-    // onButtonClick = () => { },
+    onButtonClick,
     className = ""
 }) => {
+    const { t } = useI18n();
+
+    // Pull translations with fallbacks
+    const title = t('aboutWorship.title') || "Embark on a Journey of Spiritual Awakening at";
+    const highlightedText = t('aboutWorship.highlightedText') || "Our Temple";
+    const subtitle = t('aboutWorship.subtitle') || "Nurture Your Soul";
+    const description = t('aboutWorship.description') || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+    const buttonText = t('aboutWorship.buttonText') || "Aarti Timings";
     // Animation for image width on scroll into view
     const [inView, setInView] = React.useState(false);
     const imageRef = React.useRef<HTMLDivElement>(null);
@@ -72,14 +76,17 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
 
 
                         </div>
-                        {/* <button
-                            type="button"
-                            onClick={onButtonClick}
-                            className="font-secondaryFont mt-4 w-[150px] py-1.5 bg-[#8b0000] text-white font-bold text-base leading-tight rounded-md shadow-none hover:bg-[#a32d13] transition-colors duration-200 text-center"
-                            aria-label={`Learn more about ${buttonText}`}
-                        >
-                            {buttonText}
-                        </button> */}
+                        {/* Render button only if handler or text exists */}
+                        {onButtonClick && (
+                            <button
+                                type="button"
+                                onClick={onButtonClick}
+                                className="font-secondaryFont mt-4 w-[150px] py-1.5 bg-[#8b0000] text-white font-bold text-base leading-tight rounded-md shadow-none hover:bg-[#a32d13] transition-colors duration-200 text-center"
+                                aria-label={`Learn more about ${buttonText}`}
+                            >
+                                {buttonText}
+                            </button>
+                        )}
                     </div>
                     {/* Right Image Section */}
                     <div className="flex-shrink-0 mb-4 lg:mb-0">

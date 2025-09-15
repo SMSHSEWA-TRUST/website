@@ -1,5 +1,6 @@
 import React from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useI18n } from '@/lib/i18n';
 import aboutSection1 from "@/assets/images/aboutSection1.png";
 import aboutSection2 from "@/assets/images/aboutSection2.webp";
 import aboutSection3 from "@/assets/images/aboutSection3.png";
@@ -10,7 +11,8 @@ const images = [
     aboutSection3, // right card image
 ];
 
-const cardData = [
+// default card data used as fallback when translations are absent
+const defaultCardData = [
     {
         bg: "" /* will use inline style for rgba(139,0,0,1) */,
         text: "text-white",
@@ -18,6 +20,7 @@ const cardData = [
         desc:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: images[0],
+        alt: 'Worship scene left'
     },
     {
         bg: "" /* no bg, no shadow, no radius for center card */,
@@ -25,6 +28,7 @@ const cardData = [
         title: "",
         desc: "",
         image: images[1],
+        alt: 'Worship scene center'
     },
     {
         bg: "bg-[#f9f6f2]",
@@ -33,14 +37,29 @@ const cardData = [
         desc:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: images[2],
+        alt: 'Worship scene right'
     },
 ];
 
 const ImageSection: React.FC = () => {
+    const { t } = useI18n();
+
+    // load translations for the image section; fallback to defaults
+    const translatedCards: Array<any> = t('aboutImagesectioncontent.cards') || defaultCardData.map(c => ({
+        title: c.title,
+        desc: c.desc,
+        alt: c.alt
+    }));
+
     return (
         <section className="w-full py-8 px-4 md:px-16 lg:px-24 font-secondaryFont bg-[#F8F5F0] ">
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
-                {cardData.map((card, idx) => {
+                {defaultCardData.map((card, idx) => {
+                    // merge translated values with defaults
+                    const trans = translatedCards[idx] || {};
+                    const title = trans.title !== undefined ? trans.title : card.title;
+                    const desc = trans.desc !== undefined ? trans.desc : card.desc;
+                    const alt = trans.alt !== undefined ? trans.alt : card.alt;
                     // First card: custom background
                     if (idx === 0) {
                         return (
@@ -55,7 +74,7 @@ const ImageSection: React.FC = () => {
                                     >
                                         <LazyLoadImage
                                             src={card.image}
-                                            alt={card.title || "Worship scene"}
+                                            alt={alt || card.title || "Worship scene"}
                                             className="w-full h-full object-cover"
                                             loading="lazy"
                                             decoding="async"
@@ -64,11 +83,11 @@ const ImageSection: React.FC = () => {
                                 </div>
                                 {card.title && (
                                     <h3 className={`font-primaryFont mt-6 mb-2 textHeading font-semibold text-center ${card.text}`}>
-                                        {card.title}
+                                        {title}
                                     </h3>
                                 )}
-                                {card.desc && (
-                                    <p className={`font-secondaryFont textDescription  text-center ${card.text} opacity-80 mb-2`}>{card.desc}</p>
+                                {desc && (
+                                    <p className={`font-secondaryFont textDescription  text-center ${card.text} opacity-80 mb-2`}>{desc}</p>
                                 )}
 
                             </div>
@@ -82,11 +101,11 @@ const ImageSection: React.FC = () => {
                                 className="flex items-center justify-center w-full md:h-[598px]"
                                 style={{ background: "transparent" }}
                             >
-                              
+
                                 <div className="w-full h-auto md:h-full overflow-hidden">
                                     <LazyLoadImage
                                         src={card.image}
-                                        alt="Worship scene"
+                                        alt={alt || card.title || 'Worship scene'}
                                         className="w-full h-auto md:h-full object-cover"
                                         loading="lazy"
                                         decoding="async"
@@ -100,6 +119,7 @@ const ImageSection: React.FC = () => {
                         <div
                             key={idx}
                             className={`flex flex-col items-center justify-start rounded-xl  overflow-hidden ${card.bg} p-6 md:p-8 md:h-[598px] rounded-md`}
+                            style={{ background: "rgba(139,0,0,1)" }}
                         >
                             <div className="w-full flex justify-center">
                                 <div
@@ -107,20 +127,20 @@ const ImageSection: React.FC = () => {
                                 >
                                     <LazyLoadImage
                                         src={card.image}
-                                        alt={card.title || "Worship scene"}
+                                        alt={alt || card.title || "Worship scene"}
                                         className="w-full h-full object-cover"
                                         loading="lazy"
                                         decoding="async"
                                     />
                                 </div>
                             </div>
-                            {card.title && (
-                                <h3 className={`font-primaryFont mt-6 mb-2 textHeading font-semibold text-center ${card.text}`}>
-                                    {card.title}
+                            {title && (
+                                <h3 className={`font-primaryFont text-[#ffffff] mt-6 mb-2 textHeading font-semibold text-center ${card.text}`}>
+                                    {title}
                                 </h3>
                             )}
-                            {card.desc && (
-                                <p className={`font-secondaryFont textDescription text-center ${card.text} opacity-80 mb-2`}>{card.desc}</p>
+                            {desc && (
+                                <p className={`font-secondaryFont text-[#ffffff] textDescription text-center ${card.text} opacity-80 mb-2`}>{desc}</p>
                             )}
                         </div>
                     );

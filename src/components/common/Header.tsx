@@ -240,7 +240,7 @@ const Header = (): JSX.Element => {
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="/puja">
+                  <Link to="/Gallery">
                     <Button
                       variant="link"
                       className={`font-secondaryFont font-normal transition-colors ${currentPath === "/puja"
