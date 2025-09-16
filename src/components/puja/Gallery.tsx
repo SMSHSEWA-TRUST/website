@@ -54,7 +54,7 @@ export default function Gallery(): JSX.Element {
     }
 
     return (
-        <section className="lg:py-20 px-4 md:px-16 lg:px-24 flex flex-col gap-4 lg:gap-10">
+        <section className="py-10 lg:py-20 px-4 md:px-16 lg:px-24 flex flex-col gap-8 lg:gap-10">
             {/* Section Title */}
             <h2 className="font-primaryFont text-[#8B0000] textHeadingLg  font-normal text-center">
                 {t('GalleryPage.title')}

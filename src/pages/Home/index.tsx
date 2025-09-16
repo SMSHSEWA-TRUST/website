@@ -1,4 +1,6 @@
-import React, {Suspense} from "react";
+import React, { Suspense, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
+import { scrollToId } from '@/lib/scrollUtils';
 import {
   SectionLoader,
   ComponentLoader,
@@ -29,6 +31,49 @@ const BlogSection = React.lazy(() =>
 const BhudaanSection = React.lazy(() => import("@/components/home/BhudaanSection"));
 
 export const HomePage = (): JSX.Element => {
+  const location = useLocation();
+
+
+  useEffect(() => {
+    try {
+      const focus = (location.state as any)?.focus;
+      const hash = location.hash || '';
+      // support multiple targets: donations -> #donations, mission -> #mission
+      const targets: string[] = [];
+      if (String(focus || '').toLowerCase() === 'donations') targets.push('donations');
+      if (String(focus || '').toLowerCase() === 'mission') targets.push('mission');
+      if (hash === '#donations') targets.push('donations');
+      if (hash === '#mission') targets.push('mission');
+
+      if (targets.length) {
+        const targetId = targets[0];
+        let attempts = 0;
+        const maxAttempts = 40; // allow a bit more time for lazy components
+        const interval = setInterval(() => {
+          attempts += 1;
+          const el = document.getElementById(targetId);
+          if (el) {
+            // use helper which accounts for fixed header height
+            scrollToId(targetId);
+            clearInterval(interval);
+            try {
+              // clear any navigation state/hash so this doesn't re-trigger
+              window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+            } catch (e) {
+              // ignore
+            }
+            return;
+          }
+          if (attempts >= maxAttempts) {
+            clearInterval(interval);
+          }
+        }, 100);
+        return () => clearInterval(interval);
+      }
+    } catch (e) {
+    }
+  }, [location]);
+
   return (
     <>
       {/* Hero Section */}

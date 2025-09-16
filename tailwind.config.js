@@ -60,8 +60,7 @@ module.exports = {
           
         ],
         secondaryFont: [
-          'Figtree',
-         
+          'Figtree', 
         ],
       
       },

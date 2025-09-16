@@ -96,7 +96,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
           onClick={onBack}
           aria-label="Close"
           className="absolute right-0 top-[-15px] z-50 inline-flex items-center justify-center w-9 h-9 rounded-md bg-white shadow hover:bg-gray-100 text-gray-700 transition">
-          <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>

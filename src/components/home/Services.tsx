@@ -45,10 +45,10 @@ const Services = (): JSX.Element => {
                 {/* Section Header */}
                 <div className="flex flex-col items-center gap-2 w-full">
                     <span className="textDescription font-secondaryFont text-[#4c291e] tracking-wide">
-                        {t('services.subtitle')}
+                        {t('services.heading')}
                     </span>
                     <h2 className="font-primaryFont textHeadingLg text-[#9A0000] text-center font-semibold">
-                        {t('services.heading')}
+                        {t('services.subtitle')}
                     </h2>
                     <div className="flex items-center justify-center  w-full">
                         <div className="flex items-center w-full max-w-md">

@@ -82,12 +82,12 @@ const ImageSection: React.FC = () => {
                                     </div>
                                 </div>
                                 {card.title && (
-                                    <h3 className={`font-primaryFont mt-6 mb-2 textHeading font-semibold text-center ${card.text}`}>
+                                    <h3 className={`font-primaryFont mt-6 mb-2 textHeading font-semibold text-center text-[white]`}>
                                         {title}
                                     </h3>
                                 )}
                                 {desc && (
-                                    <p className={`font-secondaryFont textDescription  text-center ${card.text} opacity-80 mb-2`}>{desc}</p>
+                                    <p className={`font-secondaryFont textDescription  text-center text-[white] opacity-80 mb-2`}>{desc}</p>
                                 )}
 
                             </div>
@@ -135,12 +135,12 @@ const ImageSection: React.FC = () => {
                                 </div>
                             </div>
                             {title && (
-                                <h3 className={`font-primaryFont text-[#ffffff] mt-6 mb-2 textHeading font-semibold text-center ${card.text}`}>
+                                <h3 className={`font-primaryFont text-[white] mt-6 mb-2 textHeading font-semibold text-center `}>
                                     {title}
                                 </h3>
                             )}
                             {desc && (
-                                <p className={`font-secondaryFont text-[#ffffff] textDescription text-center ${card.text} opacity-80 mb-2`}>{desc}</p>
+                                <p className={`font-secondaryFont text-[white] textDescription text-center  opacity-80 mb-2`}>{desc}</p>
                             )}
                         </div>
                     );

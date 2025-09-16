@@ -23,11 +23,12 @@ export const AppRoutes = (): JSX.Element => {
         <Route path="/membership" element={<MemberShipPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blogs" element={<BlogPage />} />
-        <Route path="/blog-details" element={<BlogDetailsPage />} />
-        <Route path="/puja" element={<PujaPage />} />
-        <Route path="/login" element={<LoginPage />} /> {/* ✅ Login Route */}
-        <Route path="/otp" element={<OtpVerification/>}/>
-        <Route path="/signup" element={<SignupPage/>}/>
+        {/* Accept an id param so we can render specific blog entries (e.g. /blog-details/1) */}
+        <Route path="/blog-details/:id" element={<BlogDetailsPage />} />
+        <Route path="/gallery" element={<PujaPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/otp" element={<OtpVerification />} />
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </Suspense>
   );

@@ -35,7 +35,7 @@ const About = (): JSX.Element => {
         imageMap[name] = mod?.default ?? mod;
     });
     return (
-        <section className="w-full px-4 md:px-16 lg:px-24   py-9 lg:py-10 bg-[#F8F5F0]">
+        <section id="mission" className="w-full px-4 md:px-16 lg:px-24   py-9 lg:py-10 bg-[#F8F5F0]">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 items-start  ">
                 {/* Left Side - Image Gallery */}
                 <div className="order-2 lg:order-1">
@@ -169,11 +169,11 @@ const About = (): JSX.Element => {
                             }
                         </div>
 
-                        <div className="mt-6 flex justify-start">
+                        {/* <div className="mt-6 flex justify-start">
                             <button className="bg-[#7a0b0b] hover:bg-[#8f1616] text-white py-2 px-6 rounded-md shadow-md font-secondaryFont">
                                 {t('about.joinButton')}
                             </button>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Aarti Timings Button */}

@@ -108,7 +108,7 @@ const slidesData: SlideData[] = [
         id: 'a',
         title: 'RATAN LAL JI',
         role: 'Honourable Trustee',
-        org: 'Shre Mahakaleshwar Salasar\nHanuman Sewa Trust',
+        org: 'Shree Mahakaleshwar Salasar\nHanuman Sewa Trust',
         quote:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
         img: bhudaan1,
@@ -118,7 +118,7 @@ const slidesData: SlideData[] = [
         id: 'b',
         title: 'ANITA DEVI',
         role: 'Volunteer Lead',
-        org: 'Shre Mahakaleshwar Salasar\nHanuman Sewa Trust',
+        org: ' shree Mahakaleshwar Salasar\nHanuman Sewa Trust',
         quote:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
         img: bhudaan1,

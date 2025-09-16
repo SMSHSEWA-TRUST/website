@@ -8,6 +8,8 @@ import omPng from "@/assets/images/om.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import pujaImageWebp from '@/assets/images/pujaImage.webp';
 import { useI18n } from '@/lib/i18n';
+import { useGetEvents } from '@/api/EventsQueries';
+import type { EventItem } from '@/services/events.service';
 
 // Video Player Component - Reusable for both layouts
 const VideoPlayerSection = ({
@@ -89,7 +91,7 @@ const SevaSection = ({
     time: string;
     image?: string;
   }>;
-  onViewDetails: (image?: string, title?: string, description?: string) => void;
+  onViewDetails: (image?: string, title?: string, description?: string, date?: string, time?: string) => void;
   titleText?: string;
   viewDetailsText?: string;
 }) => {
@@ -166,7 +168,7 @@ const SevaSection = ({
                     className="text-[rgba(139,0,0,1)] font-secondaryFont textDescription underline"
                     onClick={(e) => {
                       e.preventDefault();
-                      onViewDetails(seva.image, seva.title, seva.description);
+                      onViewDetails(seva.image, seva.title, seva.description, seva.date, seva.time);
                     }}>
                     {viewDetailsText ?? 'View Details'}
                   </a>
@@ -197,8 +199,70 @@ const LiveDarshan = (): JSX.Element => {
   const [selectedTemple, setSelectedTemple] = useState<string>("mahakaleshwar");
   const [countdown, setCountdown] = useState("00:00:00");
 
-  // Upcoming Seva data (empty by default)
-  const upcomingSevas: { title: string; description: string; date: string; time: string; image?: string }[] = [];
+  // Upcoming Seva data (comes from API)
+  const [upcomingSevas, setUpcomingSevas] = useState<{
+    title: string;
+    description: string;
+    date: string;
+    time: string;
+    image?: string;
+  }[]>([]);
+
+  // fetch events from API using React Query
+  const { data: eventsData, isLoading: eventsLoading, error: eventsError } = useGetEvents();
+
+  // map API response to the shape used by SevaSection
+  useEffect(() => {
+    if (!eventsData) return;
+
+    // eventsData is expected to be the backend response body. If the service returns an object with `data` field,
+    // try to normalize it. We'll handle both shapes: array or { data: [...] }
+
+    const maybe: any = eventsData;
+    let items: EventItem[] = [];
+    if (Array.isArray(maybe)) {
+      items = maybe as EventItem[];
+    } else if (Array.isArray(maybe?.data)) {
+      items = maybe.data as EventItem[];
+    } else if (Array.isArray(maybe?.events)) {
+      items = maybe.events as EventItem[];
+    }
+
+    const formatDate = (iso?: string) => {
+      if (!iso) return "";
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+      } catch {
+        return iso;
+      }
+    };
+
+    const formatTime = (iso?: string) => {
+      if (!iso) return "";
+      try {
+        const d = new Date(iso);
+        return d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+      } catch {
+        return "";
+      }
+    };
+
+    const mapped = items.map((it) => {
+      // Use createdAt as the authoritative date/time for display per backend shape
+      const created = it.createdAt || it.created_at || it.date || it.eventDate;
+      return {
+        title: it.title || it.name || "",
+        description: it.description || it.summary || "",
+        date: created ? formatDate(created) : (it.date || it.eventDate || ""),
+        time: created ? formatTime(created) : (it.time || it.eventTime || ""),
+        image: it.imageUrl || it.image || it.image_path || undefined,
+        id: it._id || it.id,
+      };
+    });
+
+    setUpcomingSevas(mapped);
+  }, [eventsData]);
 
   // determine if upcomingSevas has any meaningful data
   const hasSevas = upcomingSevas.some(
@@ -210,11 +274,21 @@ const LiveDarshan = (): JSX.Element => {
   const [modalImage, setModalImage] = useState<string | undefined>(undefined);
   const [modalTitle, setModalTitle] = useState<string | undefined>(undefined);
   const [modalDescription, setModalDescription] = useState<string | undefined>(undefined);
+  const [modalDate, setModalDate] = useState<string | undefined>(undefined);
+  const [modalTime, setModalTime] = useState<string | undefined>(undefined);
 
-  const handleOpenModal = (image?: string, title?: string, description?: string) => {
+  const handleOpenModal = (
+    image?: string,
+    title?: string,
+    description?: string,
+    date?: string,
+    time?: string
+  ) => {
     setModalImage(image);
     setModalTitle(title);
     setModalDescription(description);
+    setModalDate(date);
+    setModalTime(time);
     setIsModalOpen(true);
   };
 
@@ -223,6 +297,8 @@ const LiveDarshan = (): JSX.Element => {
     setModalImage(undefined);
     setModalTitle(undefined);
     setModalDescription(undefined);
+    setModalDate(undefined);
+    setModalTime(undefined);
   };
 
   // close on ESC
@@ -431,10 +507,10 @@ const LiveDarshan = (): JSX.Element => {
           />
 
           {/* Modal panel */}
-          <div className="relative z-10 w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-6 flex flex-col gap-4">
+          <div className="relative z-10 w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-6 flex flex-col gap-2">
             {/* Header */}
-            <div className="flex items-start justify-between border-b">
-              <h3 className="textHeadingLg font-primaryFont font-semibold text-[#333]">{t('liveDarshan.modal.upcomingEvent')}</h3>
+            <div className="flex items-start justify-between">
+              <h3 className="text-2xl font-primaryFont font-semibold text-[#111]">{modalTitle || t('liveDarshan.modal.upcomingEvent')}</h3>
               <button
                 aria-label="Close"
                 onClick={handleCloseModal}
@@ -445,21 +521,48 @@ const LiveDarshan = (): JSX.Element => {
               </button>
             </div>
 
-            {/* Image */}
+            {/* Image - larger */}
             <div className="w-full">
               <LazyLoadImage
                 src={modalImage || pujaImageWebp}
                 alt={modalTitle || 'event'}
-                className="w-full h-44 object-cover bg-cover rounded-lg"
+                className="w-full h-44 md:h-56 lg:h-64 object-cover bg-cover rounded-2xl"
               />
             </div>
 
-            {/* Content */}
-            <div className="">
-              <h4 className="text-[rgba(139,0,0,1)] textHeading font-primaryFont mb-3">{modalTitle || t('liveDarshan.modal.eventFallback')}</h4>
-              <p className="textDescription text-[#444] leading-relaxed mb-3">
-                {modalDescription || t('liveDarshan.modal.noDescription')}
-              </p>
+            {/* Puja heading */}
+            <div>
+              <h4 className="text-[rgba(139,0,0,1)] text-2xl font-primaryFont mb-2">{modalTitle || t('liveDarshan.modal.eventFallback')}</h4>
+            </div>
+
+            {/* Date/Time Row */}
+            <div className="flex items-center gap-1 text-[#666]">
+              <div className="flex items-center gap-1">
+                <svg className="w-4 h-4 text-[#a0a0a0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span className="text-sm">{modalDate || ''}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#a0a0a0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span className="text-sm">{modalTime || ''}</span>
+              </div>
+            </div>
+            {/* horizontal divider directly after time (matches design) */}
+            <div className="w-full h-[1px] bg-[#a9331f] my-2" aria-hidden />
+
+            {/* Description */}
+            <div className="text-sm text-[#444] leading-relaxed">
+              <p className="mb-3">{modalDescription || t('liveDarshan.modal.noDescription')}</p>
+
+              
+            </div>
+
+            {/* CTA */}
+            <div className="mt-2">
+              <button className="w-full bg-[#a9331f] text-white py-3 rounded-md">{t('liveDarshan.modal.cta') || 'CTA'}</button>
             </div>
           </div>
         </div>

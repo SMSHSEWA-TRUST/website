@@ -16,6 +16,8 @@ const Header = (): JSX.Element => {
   const currentPath = location.pathname;
   const isLoggedIn = Boolean(localStorage.getItem("authToken"));
   const { t, lang, setLang } = useI18n();
+  const marqueeWrapperRef = useRef<HTMLDivElement | null>(null);
+  const langSelectorRef = useRef<HTMLDivElement | null>(null);
 
   // Mobile language dropdown state
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
@@ -42,6 +44,22 @@ const Header = (): JSX.Element => {
       document.removeEventListener("keydown", handleKey);
     };
   }, [isLangMenuOpen]);
+
+  // Ensure marquee doesn't overlap the language selector: measure right-side width and add padding to marquee wrapper
+  useEffect(() => {
+    const updatePadding = () => {
+      const langEl = langSelectorRef.current;
+      const marqueeEl = marqueeWrapperRef.current;
+      if (!marqueeEl) return;
+      const langWidth = langEl ? langEl.offsetWidth : 0;
+      const dividerExtra = 12; // px for divider + spacing
+      marqueeEl.style.paddingRight = `${langWidth + dividerExtra}px`;
+    };
+
+    updatePadding();
+    window.addEventListener('resize', updatePadding);
+    return () => window.removeEventListener('resize', updatePadding);
+  }, [lang]);
 
   // Auto-hide header state
   const [isHidden, setIsHidden] = useState(false);
@@ -90,27 +108,103 @@ const Header = (): JSX.Element => {
       aria-hidden={isHidden}
       style={{ boxShadow: isScrolled ? "0 2px 8px rgba(0,0,0,0.08)" : undefined }}
     >
-      {/* Top Red Bar */}
-      <div className="bg-[#8b0000] text-white py-2 hidden lg:block">
+      {/* Top Red Bar (visible on all sizes, but layout adapts) */}
+      <div className="bg-[#8b0000] text-white py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-4 lg:gap-10 textDescription">
-              <span className="flex items-center gap-1 text">
-                <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M3 6.5C3 5.95 3.45 5.5 4 5.5H20C20.55 5.5 21 5.95 21 6.5V17.5C21 18.05 20.55 18.5 20 18.5H4C3.45 18.5 3 18.05 3 17.5V6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M21 6.5L12 12.5L3 6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span>{t("header.supportEmail")}</span>
-              </span>
-              <span className="flex items-center gap-1">
-                <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.78 19.78 0 0 1 3 5.18 2 2 0 0 1 5 3h3.09a2 2 0 0 1 2 1.72c.12.9.37 1.77.74 2.58a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.68-1.42a2 2 0 0 1 2.11-.45c.81.37 1.68.62 2.58.74a2 2 0 0 1 1.72 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span>{t("header.phone")}</span>
-              </span>
+            {/* Left: fixed label (start of marquee) */}
+            <div className="flex-shrink-0 mr-4 textDescription hidden sm:block">
+              <span className="font-medium text-sm">Special News:</span>
             </div>
-            <div className="flex items-center gap-2 textDescription">
-              <span>{t("header.language")}</span>
+
+            {/* Center: marquee fills available space between left label and right selector */}
+            <div className="flex-1 min-w-0 flex items-center">
+              {/* Marquee container: CSS keyframes used for smooth, accessible scrolling. */}
+              <div className="overflow-hidden w-full" ref={marqueeWrapperRef}>
+                <div
+                  className="marquee flex items-center whitespace-nowrap"
+                  aria-label={`${t('header.supportEmail')} ${t('header.phone')}`}
+                  role="region"
+                >
+                  {/* Make marquee twice the viewport width; each group takes 50% so animation moves full width to reach right edge */}
+                  <div className="marquee-group flex items-center gap-6 pr-8" style={{ width: '50%' }}>
+                    <span className="flex items-center gap-1 text">
+                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 6.5C3 5.95 3.45 5.5 4 5.5H20C20.55 5.5 21 5.95 21 6.5V17.5C21 18.05 20.55 18.5 20 18.5H4C3.45 18.5 3 18.05 3 17.5V6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M21 6.5L12 12.5L3 6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span>{t('header.supportEmail')}</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.78 19.78 0 0 1 3 5.18 2 2 0 0 1 5 3h3.09a2 2 0 0 1 2 1.72c.12.9.37 1.77.74 2.58a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.68-1.42a2 2 0 0 1 2.11-.45c.81.37 1.68.62 2.58.74a2 2 0 0 1 1.72 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span>{t('header.phone')}</span>
+                    </span>
+                  </div>
+
+                  <div className="marquee-group flex items-center gap-6 pr-8" aria-hidden="true" style={{ width: '50%' }}>
+                    <span className="flex items-center gap-1 text">
+                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 6.5C3 5.95 3.45 5.5 4 5.5H20C20.55 5.5 21 5.95 21 6.5V17.5C21 18.05 20.55 18.5 20 18.5H4C3.45 18.5 3 18.05 3 17.5V6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M21 6.5L12 12.5L3 6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span>{t('header.supportEmail')}</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.78 19.78 0 0 1 3 5.18 2 2 0 0 1 5 3h3.09a2 2 0 0 1 2 1.72c.12.9.37 1.77.74 2.58a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.68-1.42a2 2 0 0 1 2.11-.45c.81.37 1.68.62 2.58.74a2 2 0 0 1 1.72 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span>{t('header.phone')}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Vertical divider between marquee and language selector */}
+              <div className="mx-4 h-6 w-px bg-white/60" aria-hidden="true" />
+
+            </div>
+
+            {/* Inline styles for marquee animation scoped to this file */}
+            <style>{`
+              .marquee {
+                display: inline-flex;
+                will-change: transform;
+                /* marquee occupies 200% width so it can scroll fully across the center space */
+                width: 200%;
+                animation: marquee-anim 16s linear infinite;
+                /* allow pausing on hover/focus for accessibility */
+                animation-play-state: running;
+              }
+
+              .marquee-group {
+                display: inline-flex;
+                align-items: center;
+              }
+
+              @keyframes marquee-anim {
+                /* Move content from left to right: start translated -50% and animate to 0% so the visible content moves rightward */
+                0% { transform: translateX(-50%); }
+                100% { transform: translateX(0%); }
+              }
+
+              .marquee:hover, .marquee:focus-within {
+                animation-play-state: paused;
+              }
+              /* ensure marquee content doesn't force the flex item to grow */
+              .marquee, .marquee-group { flex-shrink: 0; }
+
+              /* make sure the divider stays visible and marquee doesn't overlap */
+              .marquee { padding-right: 12px; }
+
+              /* reduce motion for users who prefer reduced motion */
+              @media (prefers-reduced-motion: reduce) {
+                .marquee { animation: none; }
+              }
+            `}</style>
+            <div className="flex items-center gap-2 textDescription" ref={langSelectorRef}>
+              <span className="hidden sm:inline">{t("header.language")}</span>
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value as any)}
@@ -240,7 +334,7 @@ const Header = (): JSX.Element => {
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="/Gallery">
+                  <Link to="/gallery">
                     <Button
                       variant="link"
                       className={`font-secondaryFont font-normal transition-colors ${currentPath === "/puja"
@@ -302,87 +396,6 @@ const Header = (): JSX.Element => {
 
       {/* Mobile & Tablet Layout */}
       <div className="lg:hidden">
-        {/* Top Red Bar for Mobile */}
-        <div className="bg-[#8b0000] text-white py-2">
-          <div className="px-4 sm:px-6">
-            <div className="flex flex-col gap-2 text-xs sm:text-sm">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1 sm:gap-4 md:gap-16">
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M3 6.5C3 5.95 3.45 5.5 4 5.5H20C20.55 5.5 21 5.95 21 6.5V17.5C21 18.05 20.55 18.5 20 18.5H4C3.45 18.5 3 18.05 3 17.5V6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M21 6.5L12 12.5L3 6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span>support@smsh.com</span>
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.78 19.78 0 0 1 3 5.18 2 2 0 0 1 5 3h3.09a2 2 0 0 1 2 1.72c.12.9.37 1.77.74 2.58a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.68-1.42a2 2 0 0 1 2.11-.45c.81.37 1.68.62 2.58.74a2 2 0 0 1 1.72 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span>+91 9876543210</span>
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 relative" ref={langMenuRef}>
-                  <span className="text-xs">Language:</span>
-                  <button
-                    aria-haspopup="menu"
-                    aria-expanded={isLangMenuOpen}
-                    onClick={() => setIsLangMenuOpen((s) => !s)}
-                    className="flex items-center gap-2 bg-[#AD2F16] border border-white/30 rounded px-3 py-1 text-white text-xs sm:text-sm"
-                  >
-                    {lang === "en" ? "English" : lang === "hi" ? "हिंदी" : "ગુજરાતી"}
-                    <svg className="w-3 h-3" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M5 7l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-
-                  {/* Controlled dropdown - constrained and positioned inside header */}
-                  {isLangMenuOpen && (
-                    <ul
-                      className="absolute left-0 mt-1 w-full sm:w-40 bg-[#AD2F16] text-black rounded shadow-lg overflow-hidden"
-                      style={{ top: "100%", zIndex: 60 }}
-                    >
-                      <li>
-                        <button
-                          onClick={() => {
-                            setLang("en" as any);
-                            setIsLangMenuOpen(false);
-                          }}
-                          className="w-full text-left px-4 py-2 hover:bg-[#f3f3f3]"
-                        >
-                          English
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() => {
-                            setLang("hi" as any);
-                            setIsLangMenuOpen(false);
-                          }}
-                          className="w-full text-left px-4 py-2 hover:bg-[#f3f3f3]"
-                        >
-                          हिंदी
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() => {
-                            setLang("gu" as any);
-                            setIsLangMenuOpen(false);
-                          }}
-                          className="w-full text-left px-4 py-2 hover:bg-[#f3f3f3]"
-                        >
-                          ગુજરાતી
-                        </button>
-                      </li>
-                    </ul>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Mobile Header Bar with Title Centered */}
         <div className="bg-white">
           <div className="flex items-center justify-between py-4 px-4">
@@ -478,7 +491,7 @@ const Header = (): JSX.Element => {
                   {t("nav.about")}
                 </Button>
               </Link>
-              <Link to="/puja" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button
                   variant="link"
                   className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/puja"

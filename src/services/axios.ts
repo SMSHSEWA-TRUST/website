@@ -1,6 +1,14 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+// helper to read selected language (fallback to 'en')
+const getSelectedLang = () => {
+  try {
+    return localStorage.getItem("lang") || "en";
+  } catch (e) {
+    return "en";
+  }
+};
 export const authTokenAxios = axios.create({
   baseURL: BASE_URL,
 });
@@ -8,11 +16,22 @@ const token = localStorage.getItem("authToken");
 if (token) {
   authTokenAxios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
+// set initial Accept-Language header
+authTokenAxios.defaults.headers.common["Accept-Language"] = getSelectedLang();
 authTokenAxios.interceptors.request.use(
   config => {
     const token = localStorage.getItem("authToken");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    // ensure Accept-Language is included on every request and reflect latest selection
+    try {
+      const lang = getSelectedLang();
+      // normalize headers object
+      if (!config.headers) config.headers = {} as any;
+      config.headers["Accept-Language"] = lang;
+    } catch (e) {
+      // ignore
     }
     return config;
   },
@@ -39,6 +58,7 @@ authTokenAxios.interceptors.response.use(
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+              "Accept-Language": getSelectedLang(),
             },
           }
         );

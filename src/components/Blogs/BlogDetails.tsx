@@ -1,70 +1,60 @@
-import BlogSidebar from "./BlogSidebar";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import blogDetails1 from '@/assets/images/BlogDetails1.webp';
-import blogDetails2 from '@/assets/images/BlogDetails2.webp';
-import blogDetails3 from '@/assets/images/BlogDetaills3.webp';
+
+import { useI18n } from '@/lib/i18n';
+import { useParams } from 'react-router-dom';
+import React from 'react';
 
 
-const latestPosts = [
-    {
-        id: 1,
-        title: "Title",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=80&h=60&fit=crop",
-        link: "#"
-    },
-    {
-        id: 2,
-        title: "Title",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-        image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=80&h=60&fit=crop",
-        link: "#"
-    },
-    {
-        id: 3,
-        title: "Title",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-        image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=80&h=60&fit=crop",
-        link: "#"
-    }
-];
 
-const BlogDetails = () => {
+
+interface Props {
+    id?: string | number | undefined;
+}
+
+const BlogDetails: React.FC<Props> = (props) => {
+    const { id: propId } = props;
+    const params = useParams();
+    const id = propId ?? params.id;
+
+    const { t } = useI18n();
+
+    const raw = t('BlogDetailsPage.Blog');
+    const blogs = Array.isArray(raw) ? raw as Array<{ title?: string; subtitle?: string; content?: string[] }> : [];
+
+    // id is expected to be 1-based index as used in Blogs list
+    const index = id ? (Number(id) - 1) : 0;
+    const entry = blogs[index] || blogs[0] || null;
     return (
         <div className="mx-auto p-6 font-secondaryFont ">
-            <div className="flex flex-col lg:flex-row lg:gap-24 lg:mt-20">
+            <div className="flex flex-col lg:flex-row lg:gap-24 lg:mt-20 px-4 md:px-16 lg:px-24">
                 {/* Main Blog Details Section */}
-                <div className="  max-w-[900px] lg:pl-12 mb-8 mx-auto lg:mx-0">
+                <div className="   lg:pl-12 mb-8 mx-auto lg:mx-0">
                     <div className="flex flex-col gap-6">
-                        <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed ">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                         </p>
-                        <h2 className="font-primaryFont textHeading text-[#D05E2D]  mt-6 lg:mt-20">Sub Heading 1</h2>
-                        <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
-                        <div className="flex justify-center">
-                            <div className="w-full max-w-[900px] aspect-[4/3]  overflow-hidden flex items-center justify-center">
-                                <LazyLoadImage src={blogDetails1} alt="Main" className="w-full h-full object-cover object-center" loading="lazy" />
-                            </div>
-                        </div>
-                        <h2 className="font-primaryFont textHeading text-[#D05E2D]  mt-2">Sub Heading 2</h2>
-                        <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <LazyLoadImage src={blogDetails2} alt="Sub1" className="rounded-lg w-full sm:w-1/2 object-cover" loading="lazy" />
-                            <LazyLoadImage src={blogDetails3} alt="Sub2" className="rounded-lg w-full sm:w-1/2 object-cover" loading="lazy" />
-                        </div>
-                        <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed mt-2">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
+                        {entry ? (
+                            <>
+                                {entry.content && entry.content.map((para, i) => (
+                                    <p key={i} className="font-secondaryFont textDescription text-gray-700 leading-relaxed">{para}</p>
+                                ))}
+
+                                {/* <div className="flex justify-center">
+                                    <div className="w-full max-w-[900px] aspect-[4/3]  overflow-hidden flex items-center justify-center">
+                                        <LazyLoadImage src={blogDetails1} alt="Main" className="w-full h-full object-cover object-center" loading="lazy" />
+                                    </div>
+                                </div> */}
+
+                                {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                    <LazyLoadImage src={blogDetails2} alt="Sub1" className="rounded-lg w-full sm:w-1/2 object-cover" loading="lazy" />
+                                    <LazyLoadImage src={blogDetails3} alt="Sub2" className="rounded-lg w-full sm:w-1/2 object-cover" loading="lazy" />
+                                </div> */}
+                            </>
+                        ) : (
+                            <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed">No blog found.</p>
+                        )}
                     </div>
                 </div>
 
 
                 {/* Sidebar */}
-                <BlogSidebar latestPosts={latestPosts} />
+                {/* <BlogSidebar latestPosts={latestPosts} /> */}
             </div>
         </div>
     );

@@ -18,22 +18,25 @@ interface BlogPost {
     link?: string;
 }
 
-const posts: BlogPost[] = [
-
-
-
-    { id: 1, date: 'Jan 01, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti1, link: '/blog-details' },
-    { id: 2, date: 'Jan 02, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti2, link: '/blog-details' },
-    { id: 3, date: 'Jan 03, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti3, link: '/blog-details' },
-    { id: 4, date: 'Jan 04, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti1, link: '/blog-details' },
-    { id: 5, date: 'Jan 05, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti2, link: '/blog-details' },
-    { id: 6, date: 'Jan 06, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti3, link: '/blog-details' },
-    { id: 7, date: 'Jan 07, 2025', title: 'Lorem ipsum dolor sit', excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: blogArti1, link: '/blog-details' }
-];
-
 const Blogs: React.FC = () => {
 
     const { t } = useI18n();
+
+
+    const rawTranslated = t('BlogPage.Blogs');
+    const translatedBlogs = Array.isArray(rawTranslated) ? rawTranslated as Array<{ title: string; date?: string }> : [];
+
+    // prepare images cycle
+    const images = [blogArti1, blogArti2, blogArti3];
+
+    const posts: BlogPost[] = translatedBlogs.map((b, idx) => ({
+        id: idx + 1,
+        title: b.title,
+        date: b.date,
+        image: images[idx % images.length],
+        // link to blog-details with id so BlogDetails can render the correct content
+        link: `/blog-details/${idx + 1}`
+    }));
 
     return (
         <section className="w-full px-6 md:px-16 lg:px-24 py-12  font-secondaryFont">
@@ -92,12 +95,12 @@ const Blogs: React.FC = () => {
 
                         <CardContent className="relative z-10 flex flex-col justify-end h-64 sm:h-72 lg:h-80 p-6">
                             <div className="text-white/80 textDescription font-secondaryFont mb-2">{post.date}</div>
-                            <h3 className="text-white textHeading  mb-4 font-primaryFont leading-tight">{post.title}</h3>
+                            <h3 className="text-white textDescription mb-4 font-primaryFont leading-tight">{post.title}</h3>
                             {/* {post.excerpt && (
                                 <p className="text-white/70 textDescription mb-4 line-clamp-2 font-secondaryFont">{post.excerpt}</p>
                             )} */}
                             <Link to={post.link || '/blog-details'}>
-                                <Button className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-secondaryFont font-normal textDescription border border-white">Read Blog</Button>
+                                <Button className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-secondaryFont font-normal textDescription border border-white">{t('BlogPage.buttonText')}</Button>
                             </Link>
                         </CardContent>
                     </Card>

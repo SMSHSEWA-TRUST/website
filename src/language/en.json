@@ -156,22 +156,34 @@
         "button": "Donate Now",
         "items": [
             {
-                "id": "bhumi",
+                "id": "gaudaan",
                 "icon": "Gift",
-                "title": "Bhumi Daan",
-                "description": "Donate land for the Mahadham — the highest form of seva."
+                "title": "Gaudaan",
+                "description": "Offering a cow (Gaudaan) is considered one of the most sacred acts in Sanatan Dharma. It is believed to bring prosperity, peace, and spiritual upliftment to the giver and their family."
+            },
+            {
+                "id": "bhojan",
+                "icon": "Utensils",
+                "title": "Bhojan Daan",
+                "description": "Feeding the hungry is regarded as serving the Divine. Bhojan Daan is believed to remove obstacles and bless the giver with happiness and fulfillment."
             },
             {
                 "id": "annadaan",
-                "icon": "Utensils",
-                "title": "Anna Daan",
-                "description": "Support food programs and community kitchens serving devotees and the needy."
+                "icon": "Heart",
+                "title": "Annadaan",
+                "description": "Annadaan is regarded as the highest form of donation. Offering food is the purest act of compassion and devotion, nourishing both body and soul."
             },
             {
-                "id": "gaushala",
+                "id": "rashi",
                 "icon": "Heart",
-                "title": "Gaushala",
-                "description": "Help care for cows and support our gaushala initiatives."
+                "title": "Rashi Daan",
+                "description": "Every monetary contribution strengthens the Mahadham. Rashi Daan directly supports sacred construction and seva projects, creating a lasting legacy of devotion."
+            },
+            {
+                "id": "bhumi",
+                "icon": "Heart",
+                "title": "Bhumi Daan",
+                "description": "Bhumi Daan is considered the supreme offering in Sanatan Dharma. Donating land for the Mahadham lays an eternal foundation of faith, devotion, and selfless service."
             }
         ]
     },
@@ -412,18 +424,99 @@
     },
     "GalleryPage": {
         "title": " Explore the Gallery — Relive the Divine"
-        
     },
-
     "MembershipPage": {
         "title": "Choose your plan – Monthly or Annual – and walk with us towards Mahadham 2029."
     },
     "BlogPage": {
-        "title": "Read, Reflect, and Reconnect with Divinity."
-        
+        "title": "Read, Reflect, and Reconnect with Divinity.",
+        "buttonText": "Read Blog",
+        "Blogs":[
+            {
+                "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
+                "date": "2024-01-15"
+            },
+            {
+                "title": "Balaji in Kaliyug – The Living Protector of Devotees",
+                "date": "2024-02-10"
+            },
+            {
+                "title": "Bhumi Daan – The Supreme Offering in Sanatan Dharma",
+                "date": "2024-03-05"
+            },
+            {
+                "title": "Seva: The Bridge Between Devotion and Liberation",
+                "date": "2024-03-05"
+            },
+            {
+                "title": "Why Surat? – The Chosen Land for Mahadham 2029",
+                "date": "2024-03-05"
+            },
+            {
+                "title": "Gaushala and Dharma – Protecting Gau Mata, Preserving Sanatan",
+                "date": "2024-03-05"
+            },
+            {
+                "title": "Festivals at Mahadham – Celebrating Faith, Spreading Seva",
+                "date": "2024-03-05"
+            },
+            {
+                "title": "From 60,000 Villages to 4 Lakh Villages – The Journey of Seva",
+                "date": "2024-03-05"
+            },
+            {
+                "title": "The Vision of Mahadham 2029 – Beyond a Temple",
+                "date": "2024-03-05"
+            },
+            {
+                "title": "Your Contribution, Your Legacy – How Every Donation Builds Mahadham",
+                "date": "2024-03-05"
+            }
+        ]
     },
     "ContactPage": {
         "title": "Connect with Us",
         "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, we believe every devotee is family. Whether you wish to learn more about our mission, contribute to Mahadham 2029, or participate in seva activities, we are here to connect, guide, and serve you."
+    },
+
+    "BlogDetailsPage": {
+       "Blog":[
+        {
+            "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
+             "subtitle": "By: Author | Date: 01/01/2025",
+             "content": [
+                "In the Sanatan tradition, Lord Mahakal is not just a deity — He is ‘Kaalon ke Kaal’, the one who governs time itself. While most deities symbolize specific virtues, Mahakal stands beyond time, life, and death.",
+                "At Ujjain, the sacred land of Mahakaleshwar Jyotirlinga, countless devotees experience this truth every day. It is believed that even a single darshan of Mahakal removes deep-rooted fears, ancestral doshas, and unending cycles of suffering. Unlike other temples, where the deity appears as benevolent and calm, Mahakal radiates the fearless aura of cosmic power — reminding us that no force in the universe is greater than time, and yet Mahakal rules over it.",
+                "Spiritual texts narrate that during the invasion of Ujjain, people turned to Mahakal with prayers. It is said that the Lord himself appeared to protect his devotees. Even today, those who face unbearable struggles in life are encouraged to meditate on Mahakal, because He not only destroys obstacles but also burns away karmic impurities.",
+                "In the context of SMSHST Mahadham, Mahakal represents the unshakable foundation. The temple being built in Surat by 2029 is not just a structure but a symbol of this eternal power. For every devotee, it will serve as a reminder: no matter how big the storm, when you surrender to Mahakal, you are protected beyond time itself.",
+                "✨ Visiting Mahakal is not about asking for blessings alone — it is about experiencing liberation from fear, from time, and from worldly attachments."
+            ]
+          },
+        {
+            "title": "Balaji in Kaliyug – The Living Protector of Devotees",
+            "subtitle": "By: Author | Date: 02/10/2024",
+            "content": [
+                "When we think of Hanuman ji, the first thought is of unshakable devotion to Shri Ram. But in Kaliyug, Hanuman has taken a special form for his devotees — Salasar Balaji in Rajasthan.",
+                "Historical accounts say that in 1754, a farmer in Salasar village discovered an idol of Hanuman with a unique divine form. This was not the childlike Hanuman we often see, but Balaji Maharaj with a beard and mustache, symbolizing strength and protection. Since then, millions of devotees have experienced miracles by visiting Salasar Dham.",
+                "It is believed that in Kaliyug, whenever and wherever Ram Katha is recited, Hanuman ji himself is present. At Salasar, He stands as a living proof of that eternal promise. Devotees who suffer from diseases, financial struggles, or family problems find sudden relief after offering prayers here. Stories of instant protection and blessings are told by generations of devotees.",
+                "In SMSHST’s vision of Mahadham in Surat, Salasar Balaji’s presence will ensure that every devotee feels the warmth of a living protector. This will not just be a temple for rituals but a sanctuary for protection, courage, and unwavering faith.",
+                "✨ Balaji in Kaliyug is not just worshiped — He walks with His devotees, protects them, and stands as the ultimate guardian of faith."
+            ]
+        },
+        {
+            "title": " Bhumi Daan – The Supreme Offering in Sanatan Dharma",
+            "subtitle": "By: Author | Date: 03/05/2024",
+            "content": [
+                "In Sanatan Dharma, the act of daan (donation) holds immense significance. Among all forms of daan, three are considered supreme: Kanya Daan, Anna Daan, and Bhumi Daan. Among these, Bhumi Daan is regarded as the most sacred because land becomes the foundation for generations of dharmic activities.",
+                "Think about it — food donation feeds for a day, wealth donation supports temporarily, but land donation creates a permanent space for seva, bhakti, and spiritual growth. That is why our scriptures praise Bhumi Daan as incomparable.",
+                "When a devotee donates land for a temple, a gaushala, or a dharmic center, it is believed that the punya (spiritual merit) lasts for many lifetimes. The land carries the vibrations of every mantra chanted, every prayer offered, and every seva performed. The donor becomes eternally connected with those blessings.",
+                "At SMSHST, Bhumi Daan is the cornerstone of Mahadham 2029. Surat, the land of enterprise, is becoming the chosen land of faith. Every devotee who donates land for Mahadham is not just giving property; they are laying the foundation for a spiritual legacy that will bless countless generations.",
+                "✨ When you donate land for Mahadham, you don’t just give soil — you give space for divinity to live, for culture to grow, and for seva to expand."
+            ]
+        }
+
+       ]
     }
+
+    
 }

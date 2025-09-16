@@ -1,5 +1,6 @@
 import { Button } from "../ui/button";
 import { useI18n } from '@/lib/i18n';
+import { useNavigate } from 'react-router-dom';
 
 // Image imports
 import tempImage8Webp from '@/assets/images/temp-image-8.webp';
@@ -10,6 +11,7 @@ import instagramIcon from '@/assets/images/instalogo.svg';
 
 const GridLayout = (): JSX.Element => {
     const { t } = useI18n();
+    const navigate = useNavigate();
     return (
         <section className="w-full mt-4 ">
             <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-2 h-auto lg:h-[700px]">
@@ -30,7 +32,7 @@ const GridLayout = (): JSX.Element => {
                                     {t('grid.instagram')}
                                 </span>
                             </Button>
-                            <Button className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+                            <Button onClick={() => navigate('/gallery')} className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
                                 <span className="font-secondaryFont font-normal textDescription tracking-wide">
                                     {t('grid.gallery')}
                                 </span>

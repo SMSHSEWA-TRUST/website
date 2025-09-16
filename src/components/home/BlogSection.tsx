@@ -24,31 +24,22 @@ interface BlogSectionProps {
 export const BlogSection: React.FC<BlogSectionProps> = ({
     title,
     description,
-    articles = [
-        {
-            id: 1,
-            date: "Jan 01, 2025",
-            title: "Lorem ipsum dolor sit",
-            image: ganeshImage,
-        },
-        {
-            id: 2,
-            date: "Jan 02, 2025",
-            title: "Lorem ipsum dolor sit",
-            image: ganeshImage,
-        },
-        {
-            id: 3,
-            date: "Jan 03, 2025",
-            title: "Lorem ipsum dolor sit",
-            image: ganeshImage
-        },
-    ],
+    articles,
     className = ""
 }) => {
     const { t } = useI18n();
     const titleToUse = title ?? (t('home.blogSection.title') as string);
     const descriptionToUse = description ?? (t('home.blogSection.description') as string);
+    // If articles not provided, populate first three from translations (BlogPage.Blogs)
+    const rawTranslated = t('BlogPage.Blogs');
+    const translatedBlogs = Array.isArray(rawTranslated) ? rawTranslated as Array<{ title?: string; date?: string }> : [];
+    const defaultArticles: BlogArticle[] = translatedBlogs.slice(0, 3).map((b, idx) => ({
+        id: idx + 1,
+        title: b.title,
+        date: b.date,
+        image: ganeshImage,
+    }));
+    const articlesToShow = (articles && articles.length > 0) ? articles : defaultArticles;
     return (
         <section className={`w-full  px-4 md:px-16 lg:px-24 py-12 lg:py-16 ${className}`}>
 
@@ -85,7 +76,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
 
             {/* Articles Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-                {articles.map((article, index) => (
+                {articlesToShow.map((article, index) => (
                     <BlogCard
                         key={article.id || index}
                         article={article}
@@ -133,7 +124,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-white textHeading  mb-4 font-primaryFont leading-tight">
+                <h3 className="text-white textDescription mb-4 font-primaryFont leading-tight">
                     {article.title || "Lorem ipsum dolor sit"}
                 </h3>
 
@@ -145,7 +136,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 )}
 
                 {/* Read More Button */}
-                <Link to="/blog-details">
+                <Link to={`/blog-details/${article.id ?? 1}`}>
                     <Button
                         className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-secondaryFont font-normal textDescription border border-white"
                         aria-label={`${t('home.blogSection.readArticleAria') as string} ${article.title || ''}`}

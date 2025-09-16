@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import facebookIcon from '@/assets/images/Facebook.png';
 import twitterIcon from '@/assets/images/Twitter.png';
@@ -26,11 +27,14 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
     const { t } = useI18n();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const specialLinks: FooterLink[] = [
         { name: t('footer.specialLinks.about'), url: '/about' },
-        { name: t('footer.specialLinks.mission'), url: '/about#mission' },
+        { name: t('footer.specialLinks.mission'), url: '/mission' },
         { name: t('footer.specialLinks.donate'), url: '/donate' },
-        { name: t('footer.specialLinks.gallery'), url: '/puja' },
+        { name: t('footer.specialLinks.gallery'), url: '/gallery' },
         { name: t('footer.specialLinks.contact'), url: '/contact' },
     ];
 
@@ -66,13 +70,52 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 <nav className="flex flex-col space-y-3">
                                     {specialLinks.map((link, index) => (
                                         <div key={index} className="flex items-center">
-                                            <a
-                                                href={link.url}
-                                                className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
-                                                aria-label={`Navigate to ${link.name}`}
-                                            >
-                                                {link.name}
-                                            </a>
+                                            { /* Special handling for donate and mission links: intercept click */}
+                                            {link.url === '/donate' || link.url === '/mission' ? (
+                                                <a
+                                                    href={link.url}
+                                                    onClick={async (e) => {
+                                                        try {
+                                                            e.preventDefault();
+                                                            const targetId = link.url === '/donate' ? 'donations' : 'mission';
+                                                            // If already on home page, try to scroll to target
+                                                            if (location.pathname === '/' || location.pathname === '') {
+                                                                try {
+                                                                    // try using scroll helper which considers header height
+                                                                    const mod = await import('@/lib/scrollUtils');
+                                                                    const scrolled = mod.scrollToId(targetId);
+                                                                    if (scrolled) return;
+                                                                } catch (e) {
+                                                                    // fallback
+                                                                    const el = document.getElementById(targetId);
+                                                                    if (el) {
+                                                                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                                        return;
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            // Otherwise navigate to home and set state asking for focus
+                                                            navigate('/', { state: { focus: targetId } });
+                                                        } catch (err) {
+                                                            // fallback to normal navigation if anything goes wrong
+                                                            window.location.href = link.url;
+                                                        }
+                                                    }}
+                                                    className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
+                                                    aria-label={`Navigate to ${link.name}`}
+                                                >
+                                                    {link.name}
+                                                </a>
+                                            ) : (
+                                                <a
+                                                    href={link.url}
+                                                    className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
+                                                    aria-label={`Navigate to ${link.name}`}
+                                                >
+                                                    {link.name}
+                                                </a>
+                                            )}
                                         </div>
                                     ))}
                                 </nav>
@@ -240,7 +283,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         <div className="flex items-center">
                                             <span className="font-secondaryFont textDescription  text-gray-100">{t('footer.labels.addressPrefix')} {t('footer.contact.address1')}</span>
                                         </div>
-                                       
+
                                         <div className="flex items-end">
                                             <address className="font-secondaryFont textDescription  not-italic leading-relaxed text-white text-right">
                                                 {t('footer.contact.address2')}
@@ -437,12 +480,43 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     <nav className="flex flex-col space-y-2">
                                         {specialLinks.map((link, index) => (
                                             <div key={index} className="flex justify-end">
-                                                <a
-                                                    href={link.url}
-                                                    className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"
-                                                >
-                                                    {link.name}
-                                                </a>
+                                                {(link.url === '/donate' || link.url === '/mission') ? (
+                                                    <a
+                                                        href={link.url}
+                                                        onClick={async (e) => {
+                                                            try {
+                                                                e.preventDefault();
+                                                                const targetId = link.url === '/donate' ? 'donations' : 'mission';
+                                                                if (location.pathname === '/' || location.pathname === '') {
+                                                                    try {
+                                                                        const mod = await import('@/lib/scrollUtils');
+                                                                        const scrolled = mod.scrollToId(targetId);
+                                                                        if (scrolled) return;
+                                                                    } catch (err) {
+                                                                        const el = document.getElementById(targetId);
+                                                                        if (el) {
+                                                                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                                            return;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                navigate('/', { state: { focus: targetId } });
+                                                            } catch (err) {
+                                                                window.location.href = link.url;
+                                                            }
+                                                        }}
+                                                        className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"
+                                                    >
+                                                        {link.name}
+                                                    </a>
+                                                ) : (
+                                                    <a
+                                                        href={link.url}
+                                                        className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"
+                                                    >
+                                                        {link.name}
+                                                    </a>
+                                                )}
                                             </div>
                                         ))}
                                     </nav>
