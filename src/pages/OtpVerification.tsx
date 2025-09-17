@@ -13,6 +13,7 @@ export default function OtpVerification() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [resendLoading, setResendLoading] = useState(false);
 
   const handleChange = (element: HTMLInputElement, index: number) => {
     if (isNaN(Number(element.value))) return false;
@@ -23,6 +24,43 @@ export default function OtpVerification() {
 
     if (element.nextSibling && element.value !== "") {
       (element.nextSibling as HTMLInputElement).focus();
+    }
+  };
+
+  const resendOtp = async () => {
+    setError(null);
+    setSuccess(null);
+
+    // Try to get mobile passed via navigation state (from login/signup)
+    const mobile = (location.state as any)?.mobile || "";
+    if (!mobile) {
+      setError("Mobile number not available. Please go back and retry.");
+      return;
+    }
+
+    setResendLoading(true);
+    try {
+      const res = await fetch("https://api.smshsewatrust.com/api/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: mobile }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const msg =
+          (data && (data.message || data.error)) || `Request failed with status ${res.status}`;
+        throw new Error(msg);
+      }
+
+      setSuccess("OTP resent successfully.");
+      // Optionally update navigation state server data if needed
+      // (location.state as any).server = data;
+    } catch (err: any) {
+      setError(err?.message || "Resend OTP failed");
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -191,7 +229,12 @@ export default function OtpVerification() {
 
           <p className="text-center text-sm sm:text-base text-gray-600 mt-6">
             Didn't receive OTP?{" "}
-            <button className="text-red-700 font-semibold hover:underline">Resend OTP</button>
+            <button
+              onClick={resendOtp}
+              disabled={resendLoading}
+              className={`text-red-700 font-semibold hover:underline ${resendLoading ? 'opacity-60 cursor-not-allowed' : ''}`}>
+              {resendLoading ? 'Resending...' : 'Resend OTP'}
+            </button>
           </p>
         </div>
       </div>
@@ -276,7 +319,12 @@ export default function OtpVerification() {
 
             <p className="text-center text-base text-gray-600 mt-6 px-8 xl:px-10">
               Didn't receive OTP?{" "}
-              <button className="text-red-700 font-semibold hover:underline">Resend OTP</button>
+              <button
+                onClick={resendOtp}
+                disabled={resendLoading}
+                className={`text-red-700 font-semibold hover:underline ${resendLoading ? 'opacity-60 cursor-not-allowed' : ''}`}>
+                {resendLoading ? 'Resending...' : 'Resend OTP'}
+              </button>
             </p>
           </div>
         </div>

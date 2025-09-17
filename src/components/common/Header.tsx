@@ -143,7 +143,8 @@ const Header = (): JSX.Element => {
                     </span>
                   </div>
 
-                  <div className="marquee-group flex items-center gap-6 pr-8" aria-hidden="true" style={{ width: '50%' }}>
+                  {/* Hide the duplicate group on small screens to avoid overlapping text. On sm+ screens we render the duplicate so animation remains smooth */}
+                  <div className="marquee-group flex items-center gap-6 pr-8 hidden xs:hidden sm:flex" aria-hidden="true" style={{ width: '50%' }}>
                     <span className="flex items-center gap-1 text">
                       <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path d="M3 6.5C3 5.95 3.45 5.5 4 5.5H20C20.55 5.5 21 5.95 21 6.5V17.5C21 18.05 20.55 18.5 20 18.5H4C3.45 18.5 3 18.05 3 17.5V6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -197,6 +198,19 @@ const Header = (): JSX.Element => {
 
               /* make sure the divider stays visible and marquee doesn't overlap */
               .marquee { padding-right: 12px; }
+
+              /* Mobile: when duplicate is hidden, use a single copy that animates from right to left across the available area without requiring duplication.
+                 We change the marquee width to 100% and animate from 100% to -100% so the single element fully leaves the viewport before repeating. */
+              @media (max-width: 639px) {
+                /* Mobile: animate left-to-right (start fully left off-screen and move to the right) */
+                .marquee { width: 100%; animation: marquee-anim-mobile 12s linear infinite; }
+                @keyframes marquee-anim-mobile {
+                  0% { transform: translateX(-100%); }
+                  100% { transform: translateX(100%); }
+                }
+                /* ensure the hidden duplicate stays hidden on mobile */
+                .marquee-group[aria-hidden="true"] { display: none; }
+              }
 
               /* reduce motion for users who prefer reduced motion */
               @media (prefers-reduced-motion: reduce) {

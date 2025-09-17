@@ -122,7 +122,7 @@ export default function Team() {
             <div className="max-w-7xl mx-auto">
                 {/* Dashed Border Box Heading */}
                 <div className="flex justify-center mt-4">
-                    <div className=" px-8 py-2 inline-block relative" style={{ minWidth: 510 }}>
+                    <div className=" px-8 py-2 inline-block relative" >
                         <div className="text-center font-light tracking-wide textDescription mb-4  px-2" style={{ color: 'rgba(76, 41, 30, 1)' }}>
                             {smallTitle}
                         </div>
@@ -163,7 +163,7 @@ export default function Team() {
 
 
                 {/* Description */}
-                <p className="font-secondaryFont text-gray-700 max-w-[983px] mx-auto text-center textDescription  font-light mb-7" style={{ lineHeight: "1.6" }}>
+                <p className="font-secondaryFont text-gray-700 text-center textDescription  font-light mb-7" style={{ lineHeight: "1.6" }}>
                     {description}
                 </p>
                 {/* Carousel */}

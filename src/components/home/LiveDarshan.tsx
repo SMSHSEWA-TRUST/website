@@ -376,13 +376,13 @@ const LiveDarshan = (): JSX.Element => {
       {/* Background Decorative Images */}
       <div className="absolute inset-0 pointer-events-none">
         <LazyLoadImage
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
+          className="absolute left-[-20%] top-[60%] -translate-y-1/2 w-[715px] object-cover opacity-2 hidden lg:block"
           alt="Left Decoration"
           src={mand7Png}
           loading="lazy"
         />
         <LazyLoadImage
-          className="absolute right-0 top-1/2 -translate-y-1/2 h-4/5 w-auto object-cover opacity-50 hidden lg:block"
+          className="absolute right-[-20%] top-[60%] -translate-y-1/2 w-[715px]  object-cover opacity-2 hidden lg:block"
           alt="Right Decoration"
           src={mand7Png}
           loading="lazy"

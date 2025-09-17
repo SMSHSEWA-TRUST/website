@@ -12,7 +12,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     const location = useLocation();
 
     // Do not show header/footer on the signup, login and otp pages
-    const hiddenPaths = ['/signup', '/login', '/otp'];
+    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details'];
     const hideHeaderFooter = hiddenPaths.includes(location.pathname);
 
     return (

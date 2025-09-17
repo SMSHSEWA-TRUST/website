@@ -12,7 +12,7 @@ const DivinePower = (): JSX.Element => {
     const { t } = useI18n();
 
     return (
-        <section className="relative w-full flex flex-col items-center justify-center mb-6 lg:mb-8 px-4 md:px-16 lg:px-12 mt-6 lg:mt-8">
+        <section className="relative w-full flex flex-col items-center justify-center mb-6 lg:mb-8 px-4 md:px-16 lg:px-24 mt-6 lg:mt-8">
             {/* Desktop/Large screen: text overlays image with cards */}
             <div
                 className="relative w-full flex items-center justify-center rounded-lg"

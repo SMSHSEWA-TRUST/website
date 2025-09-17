@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CommonDonationDialog from "../commonDonationDialog";
 import { useGetAllDaan } from "@/api/DaanQueries";
 import { useI18n } from '@/lib/i18n';
+import mandal from '@/assets/images/mand-7.png';
 
 const DonationSection = () => {
   const { data, isFetching } = useGetAllDaan();
@@ -92,6 +93,12 @@ const DonationSection = () => {
         }}>
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 pointer-events-none">
+          {/* subtle gradient/ornament image centered */}
+          <img
+            src={mandal}
+            alt="ornament"
+            className="pointer-events-none absolute left-[25%] top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-2 w-[810px] h-[632px]"
+          />
           <div className="absolute top-0 left-0 w-32 h-32 bg-white/5 rounded-full -translate-x-16 -translate-y-16"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 bg-white/5 rounded-full translate-x-20 translate-y-20"></div>
           <div className="absolute top-1/3 right-1/4 w-6 h-6 bg-white/10 rounded-full"></div>

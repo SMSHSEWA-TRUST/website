@@ -272,10 +272,10 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         </div>
                                         {/* <div className="flex items-center">
                                             <a
-                                                href="tel:+919876543210"
+                                                href="tel:+919352815982"
                                                 className="font-secondaryFont text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
                                             >
-                                                9876543210
+                                                9352815982
                                             </a>
                                         </div> */}
                                     </div>

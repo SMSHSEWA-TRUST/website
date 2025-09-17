@@ -4,6 +4,7 @@ import { useI18n } from '@/lib/i18n';
 import bhudaan1 from '@/assets/images/bhudaan1.webp';
 import comma from '@/assets/images/comaa.png';
 import Daanleft from '@/assets/images/daanleftsection.png';
+import mandal from '@/assets/images/mand-7.png';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -15,7 +16,14 @@ const BhudaanSection: React.FC = () => {
     return (
         <div>
             <div className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden px-4 md:px-16 lg:px-24 ">
-                <div className=" text-center">
+                {/* decorative background ornament (subtle, behind content) */}
+                <img
+                    src={mandal}
+                    alt="ornament"
+                    className="pointer-events-none absolute left-[10px] transform -translate-x-1/2 -top-8 opacity-2  w-64 h-64 md:w-96 md:h-96 lg:w-[480px] lg:h-[480px]"
+                />
+
+                <div className="relative z-10 text-center">
                     <h2
                         className="text-5xl md:text-6xl font-bold font-primaryFont"
                         style={{
@@ -179,7 +187,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                         </div>
                     </div>
 
-                   
+
                     <div
                         className="w-full lg:w-[30%] h-full relative  flex items-end justify-start pl-20 text-white"
                     >

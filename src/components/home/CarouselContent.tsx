@@ -64,7 +64,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                             <img src={comma} alt="," className="w-12 h-12 lg:w-12 lg:h-12" />
                         </div>
                         <div className="mt-12 lg:mt-16 text-center ">
-                            <p className="text-[#8B0000] textDescription  font-normal  mb-8">
+                            <p className="text-[#8B0000] textDescription  font-normal font-secondaryFont mb-8">
                                 {data.quote}
                             </p>
                         </div>
@@ -87,11 +87,11 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                             </h3>
 
                             {/* Add underline here */}
-                            <p className="textDescription font-semibold mb-2 opacity-90 border-b border-white inline-block pb-1">
+                            <p className="textDescription font-secondaryFont font-semibold mb-2 opacity-90 border-b border-white inline-block pb-1">
                                 {data.role}
                             </p>
                             <p
-                                className="textDescription text-[#FFFFFFB3] opacity-80 leading-relaxed"
+                                className="textDescription text-[#FFFFFFB3] opacity-80 leading-relaxed font-secondaryFont "
                                 style={{ whiteSpace: "pre-line" }}
                             >
                                 {data.org}

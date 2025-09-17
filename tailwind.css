@@ -173,3 +173,12 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* Large breakpoint styles */
+@layer components {
+  @media (min-width:2000px) {
+    .login-form-container {
+      height: 55vh;
+    }
+  }
+}

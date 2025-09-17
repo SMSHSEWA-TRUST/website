@@ -24,10 +24,10 @@ const BlogDetails: React.FC<Props> = (props) => {
     const index = id ? (Number(id) - 1) : 0;
     const entry = blogs[index] || blogs[0] || null;
     return (
-        <div className="mx-auto p-6 font-secondaryFont ">
-            <div className="flex flex-col lg:flex-row lg:gap-24 lg:mt-20 px-4 md:px-16 lg:px-24">
+        <div className="px-4 md:px-16 lg:px-24 py-10  lg:py-20 ">
+           
                 {/* Main Blog Details Section */}
-                <div className="   lg:pl-12 mb-8 mx-auto lg:mx-0">
+              
                     <div className="flex flex-col gap-6">
                         {entry ? (
                             <>
@@ -50,13 +50,11 @@ const BlogDetails: React.FC<Props> = (props) => {
                             <p className="font-secondaryFont textDescription text-gray-700 leading-relaxed">No blog found.</p>
                         )}
                     </div>
-                </div>
 
 
                 {/* Sidebar */}
                 {/* <BlogSidebar latestPosts={latestPosts} /> */}
             </div>
-        </div>
     );
 };
 

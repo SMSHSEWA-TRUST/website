@@ -1,7 +1,7 @@
 {
     "header": {
-        "supportEmail": "support@smsh.com",
-        "phone": "+91 9876543210",
+        "supportEmail": "smshstrust@gmail.com",
+        "phone": "+91 9352815982",
         "language": "Language:",
         "title": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust"
     },
@@ -22,7 +22,7 @@
         "blogs": {
             "title": "Wisdom & Devotion Through Words ",
             "semiTitle": "",
-            "description": "Our blog is a sacred space where devotion meets knowledge. From the glory of Mahakal and Salasar Balaji to stories of seva, festivals, and Sanatan Dharma — every article nurtures your soul and strengthens your faith."
+            "description": ""
         },
         "blogDetails": {
             "title": "Blog Details",
@@ -430,8 +430,9 @@
     },
     "BlogPage": {
         "title": "Read, Reflect, and Reconnect with Divinity.",
+        "description": "Our blog is a sacred space where devotion meets knowledge. From the glory of Mahakal and Salasar Balaji to stories of seva, festivals, and Sanatan Dharma — every article nurtures your soul and strengthens your faith.",
         "buttonText": "Read Blog",
-        "Blogs":[
+        "Blogs": [
             {
                 "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
                 "date": "2024-01-15"
@@ -478,45 +479,41 @@
         "title": "Connect with Us",
         "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, we believe every devotee is family. Whether you wish to learn more about our mission, contribute to Mahadham 2029, or participate in seva activities, we are here to connect, guide, and serve you."
     },
-
     "BlogDetailsPage": {
-       "Blog":[
-        {
-            "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
-             "subtitle": "By: Author | Date: 01/01/2025",
-             "content": [
-                "In the Sanatan tradition, Lord Mahakal is not just a deity — He is ‘Kaalon ke Kaal’, the one who governs time itself. While most deities symbolize specific virtues, Mahakal stands beyond time, life, and death.",
-                "At Ujjain, the sacred land of Mahakaleshwar Jyotirlinga, countless devotees experience this truth every day. It is believed that even a single darshan of Mahakal removes deep-rooted fears, ancestral doshas, and unending cycles of suffering. Unlike other temples, where the deity appears as benevolent and calm, Mahakal radiates the fearless aura of cosmic power — reminding us that no force in the universe is greater than time, and yet Mahakal rules over it.",
-                "Spiritual texts narrate that during the invasion of Ujjain, people turned to Mahakal with prayers. It is said that the Lord himself appeared to protect his devotees. Even today, those who face unbearable struggles in life are encouraged to meditate on Mahakal, because He not only destroys obstacles but also burns away karmic impurities.",
-                "In the context of SMSHST Mahadham, Mahakal represents the unshakable foundation. The temple being built in Surat by 2029 is not just a structure but a symbol of this eternal power. For every devotee, it will serve as a reminder: no matter how big the storm, when you surrender to Mahakal, you are protected beyond time itself.",
-                "✨ Visiting Mahakal is not about asking for blessings alone — it is about experiencing liberation from fear, from time, and from worldly attachments."
-            ]
-          },
-        {
-            "title": "Balaji in Kaliyug – The Living Protector of Devotees",
-            "subtitle": "By: Author | Date: 02/10/2024",
-            "content": [
-                "When we think of Hanuman ji, the first thought is of unshakable devotion to Shri Ram. But in Kaliyug, Hanuman has taken a special form for his devotees — Salasar Balaji in Rajasthan.",
-                "Historical accounts say that in 1754, a farmer in Salasar village discovered an idol of Hanuman with a unique divine form. This was not the childlike Hanuman we often see, but Balaji Maharaj with a beard and mustache, symbolizing strength and protection. Since then, millions of devotees have experienced miracles by visiting Salasar Dham.",
-                "It is believed that in Kaliyug, whenever and wherever Ram Katha is recited, Hanuman ji himself is present. At Salasar, He stands as a living proof of that eternal promise. Devotees who suffer from diseases, financial struggles, or family problems find sudden relief after offering prayers here. Stories of instant protection and blessings are told by generations of devotees.",
-                "In SMSHST’s vision of Mahadham in Surat, Salasar Balaji’s presence will ensure that every devotee feels the warmth of a living protector. This will not just be a temple for rituals but a sanctuary for protection, courage, and unwavering faith.",
-                "✨ Balaji in Kaliyug is not just worshiped — He walks with His devotees, protects them, and stands as the ultimate guardian of faith."
-            ]
-        },
-        {
-            "title": " Bhumi Daan – The Supreme Offering in Sanatan Dharma",
-            "subtitle": "By: Author | Date: 03/05/2024",
-            "content": [
-                "In Sanatan Dharma, the act of daan (donation) holds immense significance. Among all forms of daan, three are considered supreme: Kanya Daan, Anna Daan, and Bhumi Daan. Among these, Bhumi Daan is regarded as the most sacred because land becomes the foundation for generations of dharmic activities.",
-                "Think about it — food donation feeds for a day, wealth donation supports temporarily, but land donation creates a permanent space for seva, bhakti, and spiritual growth. That is why our scriptures praise Bhumi Daan as incomparable.",
-                "When a devotee donates land for a temple, a gaushala, or a dharmic center, it is believed that the punya (spiritual merit) lasts for many lifetimes. The land carries the vibrations of every mantra chanted, every prayer offered, and every seva performed. The donor becomes eternally connected with those blessings.",
-                "At SMSHST, Bhumi Daan is the cornerstone of Mahadham 2029. Surat, the land of enterprise, is becoming the chosen land of faith. Every devotee who donates land for Mahadham is not just giving property; they are laying the foundation for a spiritual legacy that will bless countless generations.",
-                "✨ When you donate land for Mahadham, you don’t just give soil — you give space for divinity to live, for culture to grow, and for seva to expand."
-            ]
-        }
-
-       ]
+        "Blog": [
+            {
+                "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
+                "subtitle": "By: Author | Date: 01/01/2025",
+                "content": [
+                    "In the Sanatan tradition, Lord Mahakal is not just a deity — He is ‘Kaalon ke Kaal’, the one who governs time itself. While most deities symbolize specific virtues, Mahakal stands beyond time, life, and death.",
+                    "At Ujjain, the sacred land of Mahakaleshwar Jyotirlinga, countless devotees experience this truth every day. It is believed that even a single darshan of Mahakal removes deep-rooted fears, ancestral doshas, and unending cycles of suffering. Unlike other temples, where the deity appears as benevolent and calm, Mahakal radiates the fearless aura of cosmic power — reminding us that no force in the universe is greater than time, and yet Mahakal rules over it.",
+                    "Spiritual texts narrate that during the invasion of Ujjain, people turned to Mahakal with prayers. It is said that the Lord himself appeared to protect his devotees. Even today, those who face unbearable struggles in life are encouraged to meditate on Mahakal, because He not only destroys obstacles but also burns away karmic impurities.",
+                    "In the context of SMSHST Mahadham, Mahakal represents the unshakable foundation. The temple being built in Surat by 2029 is not just a structure but a symbol of this eternal power. For every devotee, it will serve as a reminder: no matter how big the storm, when you surrender to Mahakal, you are protected beyond time itself.",
+                    "✨ Visiting Mahakal is not about asking for blessings alone — it is about experiencing liberation from fear, from time, and from worldly attachments."
+                ]
+            },
+            {
+                "title": "Balaji in Kaliyug – The Living Protector of Devotees",
+                "subtitle": "By: Author | Date: 02/10/2024",
+                "content": [
+                    "When we think of Hanuman ji, the first thought is of unshakable devotion to Shri Ram. But in Kaliyug, Hanuman has taken a special form for his devotees — Salasar Balaji in Rajasthan.",
+                    "Historical accounts say that in 1754, a farmer in Salasar village discovered an idol of Hanuman with a unique divine form. This was not the childlike Hanuman we often see, but Balaji Maharaj with a beard and mustache, symbolizing strength and protection. Since then, millions of devotees have experienced miracles by visiting Salasar Dham.",
+                    "It is believed that in Kaliyug, whenever and wherever Ram Katha is recited, Hanuman ji himself is present. At Salasar, He stands as a living proof of that eternal promise. Devotees who suffer from diseases, financial struggles, or family problems find sudden relief after offering prayers here. Stories of instant protection and blessings are told by generations of devotees.",
+                    "In SMSHST’s vision of Mahadham in Surat, Salasar Balaji’s presence will ensure that every devotee feels the warmth of a living protector. This will not just be a temple for rituals but a sanctuary for protection, courage, and unwavering faith.",
+                    "✨ Balaji in Kaliyug is not just worshiped — He walks with His devotees, protects them, and stands as the ultimate guardian of faith."
+                ]
+            },
+            {
+                "title": " Bhumi Daan – The Supreme Offering in Sanatan Dharma",
+                "subtitle": "By: Author | Date: 03/05/2024",
+                "content": [
+                    "In Sanatan Dharma, the act of daan (donation) holds immense significance. Among all forms of daan, three are considered supreme: Kanya Daan, Anna Daan, and Bhumi Daan. Among these, Bhumi Daan is regarded as the most sacred because land becomes the foundation for generations of dharmic activities.",
+                    "Think about it — food donation feeds for a day, wealth donation supports temporarily, but land donation creates a permanent space for seva, bhakti, and spiritual growth. That is why our scriptures praise Bhumi Daan as incomparable.",
+                    "When a devotee donates land for a temple, a gaushala, or a dharmic center, it is believed that the punya (spiritual merit) lasts for many lifetimes. The land carries the vibrations of every mantra chanted, every prayer offered, and every seva performed. The donor becomes eternally connected with those blessings.",
+                    "At SMSHST, Bhumi Daan is the cornerstone of Mahadham 2029. Surat, the land of enterprise, is becoming the chosen land of faith. Every devotee who donates land for Mahadham is not just giving property; they are laying the foundation for a spiritual legacy that will bless countless generations.",
+                    "✨ When you donate land for Mahadham, you don’t just give soil — you give space for divinity to live, for culture to grow, and for seva to expand."
+                ]
+            }
+        ]
     }
-
-    
 }
