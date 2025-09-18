@@ -114,7 +114,7 @@ const Header = (): JSX.Element => {
           <div className="flex items-center justify-between text-sm">
             {/* Left: fixed label (start of marquee) */}
             <div className="flex-shrink-0 mr-4 textDescription hidden sm:block">
-              <span className="font-medium text-sm">Special News:</span>
+              <span className="font-medium text-sm"> महामृत्युंजय मंत्र:</span>
             </div>
 
             {/* Center: marquee fills available space between left label and right selector */}
@@ -123,40 +123,19 @@ const Header = (): JSX.Element => {
               <div className="overflow-hidden w-full" ref={marqueeWrapperRef}>
                 <div
                   className="marquee flex items-center whitespace-nowrap"
-                  aria-label={`${t('header.supportEmail')} ${t('header.phone')}`}
+                  aria-label="ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्। उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय मामृतात् "
                   role="region"
                 >
                   {/* Make marquee twice the viewport width; each group takes 50% so animation moves full width to reach right edge */}
+                  {/* Primary marquee group (always rendered) */}
                   <div className="marquee-group flex items-center gap-6 pr-8" style={{ width: '50%' }}>
-                    <span className="flex items-center gap-1 text">
-                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M3 6.5C3 5.95 3.45 5.5 4 5.5H20C20.55 5.5 21 5.95 21 6.5V17.5C21 18.05 20.55 18.5 20 18.5H4C3.45 18.5 3 18.05 3 17.5V6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M21 6.5L12 12.5L3 6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span>{t('header.supportEmail')}</span>
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.78 19.78 0 0 1 3 5.18 2 2 0 0 1 5 3h3.09a2 2 0 0 1 2 1.72c.12.9.37 1.77.74 2.58a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.68-1.42a2 2 0 0 1 2.11-.45c.81.37 1.68.62 2.58.74a2 2 0 0 1 1.72 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span>{t('header.phone')}</span>
-                    </span>
+                    <span>ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्। उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय मामृतात् </span>
                   </div>
 
-                  {/* Hide the duplicate group on small screens to avoid overlapping text. On sm+ screens we render the duplicate so animation remains smooth */}
-                  <div className="marquee-group flex items-center gap-6 pr-8 hidden xs:hidden sm:flex" aria-hidden="true" style={{ width: '50%' }}>
+                  {/* Duplicate group: render visually only on widths >= 960px so desktop shows text twice, mobile/tablet shows once */}
+                  <div className="marquee-group marquee-duplicate flex items-center gap-6 pr-8" aria-hidden="true" style={{ width: '50%' }}>
                     <span className="flex items-center gap-1 text">
-                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M3 6.5C3 5.95 3.45 5.5 4 5.5H20C20.55 5.5 21 5.95 21 6.5V17.5C21 18.05 20.55 18.5 20 18.5H4C3.45 18.5 3 18.05 3 17.5V6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M21 6.5L12 12.5L3 6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span>{t('header.supportEmail')}</span>
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M22 16.92V20a2 2 0 0 1-2.18 2A19.78 19.78 0 0 1 3 5.18 2 2 0 0 1 5 3h3.09a2 2 0 0 1 2 1.72c.12.9.37 1.77.74 2.58a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.68-1.42a2 2 0 0 1 2.11-.45c.81.37 1.68.62 2.58.74a2 2 0 0 1 1.72 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span>{t('header.phone')}</span>
+                      <span>ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्। उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय मामृतात् </span>
                     </span>
                   </div>
                 </div>
@@ -199,17 +178,21 @@ const Header = (): JSX.Element => {
               /* make sure the divider stays visible and marquee doesn't overlap */
               .marquee { padding-right: 12px; }
 
-              /* Mobile: when duplicate is hidden, use a single copy that animates from right to left across the available area without requiring duplication.
-                 We change the marquee width to 100% and animate from 100% to -100% so the single element fully leaves the viewport before repeating. */
-              @media (max-width: 639px) {
-                /* Mobile: animate left-to-right (start fully left off-screen and move to the right) */
+              /* For widths less than 960px show single copy: adjust animation and hide duplicate */
+              @media (max-width: 959px) {
                 .marquee { width: 100%; animation: marquee-anim-mobile 12s linear infinite; }
                 @keyframes marquee-anim-mobile {
                   0% { transform: translateX(-100%); }
                   100% { transform: translateX(100%); }
                 }
-                /* ensure the hidden duplicate stays hidden on mobile */
-                .marquee-group[aria-hidden="true"] { display: none; }
+                /* hide duplicate on small/medium screens */
+                .marquee-duplicate { display: none; }
+              }
+
+              /* For widths 960px and up, we keep width 200% and show duplicate so text appears twice during scroll */
+              @media (min-width: 960px) {
+                .marquee { width: 200%; animation: marquee-anim 16s linear infinite; }
+                .marquee-duplicate { display: inline-flex; }
               }
 
               /* reduce motion for users who prefer reduced motion */

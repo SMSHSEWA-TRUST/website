@@ -118,21 +118,21 @@ export default function SignupPage() {
 
   // Validation functions
   const validateStep1 = () => {
-    if (!familyDetails.gotra || familyDetails.gotra === "Select Gotra") return "Please select a Gotra";
-    if (!familyDetails.nakshatra || familyDetails.nakshatra === "Select Nakshatra") return "Please select a Nakshatra";
-    if (!familyDetails.sankalp || familyDetails.sankalp === "Select Sankalp") return "Please select a Sankalp";
+    if (!familyDetails.gotra) return "Please select a Gotra";
+    if (!familyDetails.nakshatra) return "Please select a Nakshatra";
+    if (!familyDetails.sankalp) return "Please select a Sankalp";
     return null;
   };
 
   const validateStep2 = () => {
-    const validMembers = familyMembers.filter(member => member.name.trim() && member.relation !== "Select Relation");
+    const validMembers = familyMembers.filter(member => member.name.trim() && member.relation);
     if (validMembers.length === 0) return "Please add at least one family member";
 
     for (const member of familyMembers) {
-      if (member.name.trim() && member.relation === "Select Relation") {
+      if (member.name.trim() && !member.relation) {
         return "Please select a relation for all family members with names";
       }
-      if (!member.name.trim() && member.relation !== "Select Relation") {
+      if (!member.name.trim() && member.relation) {
         return "Please enter a name for all family members with relations";
       }
     }
@@ -281,7 +281,7 @@ export default function SignupPage() {
           className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all appearance-none pr-10"
         >
           {options.map((option, index) => (
-            <option key={index} value={option} disabled={index === 0}>
+            <option key={index} value={index === 0 ? "" : option} disabled={index === 0}>
               {option}
             </option>
           ))}
@@ -350,7 +350,7 @@ export default function SignupPage() {
                         className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all appearance-none pr-10"
                       >
                         {relationOptions.map((option, optionIndex) => (
-                          <option key={optionIndex} value={option} disabled={optionIndex === 0}>
+                          <option key={optionIndex} value={optionIndex === 0 ? "" : option} disabled={optionIndex === 0}>
                             {option}
                           </option>
                         ))}

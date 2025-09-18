@@ -19,7 +19,7 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
         <div className="w-full max-w-[400px] mx-auto  lg:mx-0 font-secondaryFont">
             <div className="bg-white border border-gray-200 rounded-lg ">
                 {/* Search Bar */}
-                <form className="mb-4">
+                {/* <form className="mb-4">
                     <div className="flex">
                         <input
                             type="text"
@@ -34,7 +34,7 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({ latestPosts }) => {
                             </svg>
                         </button>
                     </div>
-                </form>
+                </form> */}
 
                 {/* Latest Posts Header */}
                 <h3 className="font-primaryFont textHeadingLg  text-[#8b0000] mb-4">Latest Posts</h3>

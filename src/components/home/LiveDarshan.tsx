@@ -375,6 +375,7 @@ const LiveDarshan = (): JSX.Element => {
       style={{ backgroundColor: "rgba(139, 0, 0, 1)" }}>
       {/* Background Decorative Images */}
       <div className="absolute inset-0 pointer-events-none">
+        {/* Desktop decorations (unchanged) */}
         <LazyLoadImage
           className="absolute left-[-20%] top-[60%] -translate-y-1/2 w-[715px] object-cover opacity-2 hidden lg:block"
           alt="Left Decoration"
@@ -384,6 +385,20 @@ const LiveDarshan = (): JSX.Element => {
         <LazyLoadImage
           className="absolute right-[-20%] top-[60%] -translate-y-1/2 w-[715px]  object-cover opacity-2 hidden lg:block"
           alt="Right Decoration"
+          src={mand7Png}
+          loading="lazy"
+        />
+
+        {/* Mobile decorations: subtle, smaller, and positioned for small screens only (visible < lg) */}
+        <LazyLoadImage
+          className="block lg:hidden absolute left-[-10%] top-[12%] w-[220px] object-cover opacity-10"
+          alt="Mobile Left Decoration"
+          src={mand7Png}
+          loading="lazy"
+        />
+        <LazyLoadImage
+          className="block lg:hidden absolute right-[-10%] bottom-[6%] w-[200px] object-cover opacity-12"
+          alt="Mobile Right Decoration"
           src={mand7Png}
           loading="lazy"
         />
@@ -557,7 +572,7 @@ const LiveDarshan = (): JSX.Element => {
             <div className="text-sm text-[#444] leading-relaxed">
               <p className="mb-3">{modalDescription || t('liveDarshan.modal.noDescription')}</p>
 
-              
+
             </div>
 
             {/* CTA */}

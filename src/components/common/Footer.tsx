@@ -446,7 +446,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     </div>
                                     <div className="flex flex-col space-y-1">
                                         <div className="flex items-center gap-1">
-                                            <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.email')}</span>
+                                            <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.email')}:</span>
                                             <a href={`mailto:${t('header.supportEmail')}`} className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
                                                 {t('header.supportEmail')}
                                             </a>
@@ -454,7 +454,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         </div>
 
                                         <div className="flex items-center gap-1">
-                                            <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.phone')}</span>
+                                            <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.phone')}:</span>
                                             <a href={`tel:${t('header.phone')}`} className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"> {t('header.phone')}</a>
 
                                         </div>

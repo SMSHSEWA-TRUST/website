@@ -1,5 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import { logout } from "./auth";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 // helper to read selected language (fallback to 'en')
 const getSelectedLang = () => {
@@ -47,6 +48,7 @@ authTokenAxios.interceptors.response.use(
   },
   async error => {
     const prevRequest = error?.config;
+    // If 401 received, try refresh token once. If refresh fails, logout user.
     if (error?.response?.status === 401 && !prevRequest?.sent) {
       prevRequest.sent = true;
       try {
@@ -73,7 +75,22 @@ authTokenAxios.interceptors.response.use(
 
         return authTokenAxios(prevRequest);
       } catch (refreshResponseError) {
-        console.log(refreshResponseError);
+        // Refresh failed: force logout so session is cleared and user redirected
+        console.log('Refresh token failed', refreshResponseError);
+        try {
+          logout();
+        } catch (e) {
+          /* ignore */
+        }
+        return Promise.reject(refreshResponseError);
+      }
+    }
+    // For authorization errors when previous logic doesn't handle it, clear session
+    if (error?.response?.status === 401 || error?.response?.status === 419) {
+      try {
+        logout();
+      } catch (e) {
+        /* ignore */
       }
     }
     toast.error(error?.response?.data?.message ?? "Something went wrong");

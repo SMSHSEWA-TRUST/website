@@ -77,8 +77,8 @@ const BhudaanSection: React.FC = () => {
                                 navigate('/login');
                                 return;
                             }
-                            // navigate to the donations section on the same page and request focus on 'bhumi'
-                            navigate('/#donations', { state: { focus: 'bhumi' } });
+                           
+                            navigate('/', { state: { focus: 'bhumi' } });
                         }}
                         className="bg-white text-[#8B0000] textDescription font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont"
                     >
