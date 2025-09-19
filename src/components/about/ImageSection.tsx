@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { useLocation } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useI18n } from '@/lib/i18n';
 import aboutSection1 from "@/assets/images/aboutSection1.png";
@@ -43,6 +44,24 @@ const defaultCardData = [
 
 const ImageSection: React.FC = () => {
     const { t } = useI18n();
+    const location = useLocation();
+    const sectionRef = useRef<HTMLElement | null>(null);
+
+    // When the route contains the hash '#image-section', scroll this section into view
+    useEffect(() => {
+        try {
+            if (location.hash === '#image-section' && sectionRef.current) {
+                // Use smooth scroll and align to start
+                sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Also ensure window is scrolled to the very top of the section (in case of offsets)
+                const top = sectionRef.current.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+        } catch (err) {
+            // swallow errors to avoid UI breakage
+            // console.warn('Scroll to image section failed', err);
+        }
+    }, [location.hash]);
 
     // load translations for the image section; fallback to defaults
     const translatedCards: Array<any> = t('aboutImagesectioncontent.cards') || defaultCardData.map(c => ({
@@ -52,7 +71,7 @@ const ImageSection: React.FC = () => {
     }));
 
     return (
-        <section className="w-full py-8 px-4 md:px-16 lg:px-24 font-secondaryFont bg-[#F8F5F0] ">
+        <section id="image-section" ref={sectionRef} className="w-full py-8 px-4 md:px-16 lg:px-24 font-secondaryFont bg-[#F8F5F0] ">
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
                 {defaultCardData.map((card, idx) => {
                     // merge translated values with defaults
@@ -65,7 +84,7 @@ const ImageSection: React.FC = () => {
                         return (
                             <div
                                 key={idx}
-                                className={`flex flex-col items-center justify-start overflow-hidden p-6 md:p-8 md:h-[598px] `}
+                                className={`flex flex-col items-center justify-start overflow-hidden p-6 md:p-8 md:h-[598px] rounded-md`}
                                 style={{ background: "rgba(139,0,0,1)" }}
                             >
                                 <div className="w-full flex justify-center">
@@ -81,16 +100,25 @@ const ImageSection: React.FC = () => {
                                         />
                                     </div>
                                 </div>
-                                {card.title && (
-                                    <h3 className={`font-primaryFont mt-6 mb-2 textHeading font-semibold text-center text-[white]`}>
-                                        {title}
-                                    </h3>
-                                )}
-                                {desc && (
-                                    <p className={`font-secondaryFont textDescription  text-center text-[white] opacity-80 mb-2`}>{desc}</p>
-                                )}
+                                <div>
 
+                                    <h2 className="font-primaryFont text-[#D05E2D] textHeading font-semibold text-center mb-1">
+                                        Our Mission
+                                    </h2>
+
+                                    <div>
+                                        <h3 className={`font-primaryFont mb-2 textHeading font-semibold text-center text-[white]`}>
+                                            {title}
+                                        </h3>
+                                        <div className="w-full h-[2px] bg-[#D05E2D] my-2"></div>
+                                    </div>
+
+
+                                    <p className={`font-secondaryFont textDescription  text-center text-[white] opacity-80 mb-2`}>{desc}</p>
+
+                                </div>
                             </div>
+
                         );
                     }
                     // Center card: no bg, no shadow, no radius, image fills card
@@ -98,11 +126,11 @@ const ImageSection: React.FC = () => {
                         return (
                             <div
                                 key={idx}
-                                className="flex items-center justify-center w-full md:h-[598px]"
+                                className="flex items-center justify-center w-full md:h-[598px] "
                                 style={{ background: "transparent" }}
                             >
 
-                                <div className="w-full h-auto md:h-full overflow-hidden">
+                                <div className="w-full h-auto md:h-full overflow-hidden rounded-md">
                                     <LazyLoadImage
                                         src={card.image}
                                         alt={alt || card.title || 'Worship scene'}
@@ -134,14 +162,23 @@ const ImageSection: React.FC = () => {
                                     />
                                 </div>
                             </div>
-                            {title && (
-                                <h3 className={`font-primaryFont text-[white] mt-6 mb-2 textHeading font-semibold text-center `}>
-                                    {title}
-                                </h3>
-                            )}
-                            {desc && (
-                                <p className={`font-secondaryFont text-[white] textDescription text-center  opacity-80 mb-2`}>{desc}</p>
-                            )}
+                            <div>
+
+                                <h2 className="font-primaryFont text-[#D05E2D] textHeading font-semibold text-center mb-1">
+                                    Our Mission
+                                </h2>
+
+                                <div>
+                                    <h3 className={`font-primaryFont mb-2 textHeading font-semibold text-center text-[white]`}>
+                                        {title}
+                                    </h3>
+                                    <div className="w-full h-[2px] bg-[#D05E2D] my-2"></div>
+                                </div>
+
+
+                                <p className={`font-secondaryFont textDescription  text-center text-[white] opacity-80 mb-2`}>{desc}</p>
+
+                            </div>
                         </div>
                     );
                 })}

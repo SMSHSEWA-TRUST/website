@@ -163,13 +163,14 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
             <p className="text-sm text-gray-600">Total Selected: {selectedPlots.length} plots</p>
             <p className="text-lg font-bold text-orange-600 ">
               Total Amount: ₹
-              {selectedPlots.reduce((sum, plot) => sum + plot.price, 0).toLocaleString()} + ₹
+              {selectedPlots.reduce((sum, plot) => sum + plot.price, 0).toLocaleString()}
+              {/* + ₹
               {selectedPlots
                 .reduce((sum, plot) => sum + plot.registrationCharge, 0)
-                .toLocaleString()}{" "}
+                .toLocaleString()}{" "} */}
             </p>
             <caption className="text-nowrap text-xs  font-light">
-              Plot Charge + Registration charge for each yard
+              Plot Charge
             </caption>
           </div>
         </div>

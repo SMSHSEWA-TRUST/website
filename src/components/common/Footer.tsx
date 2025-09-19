@@ -32,7 +32,8 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
     const specialLinks: FooterLink[] = [
         { name: t('footer.specialLinks.about'), url: '/about' },
-        { name: t('footer.specialLinks.mission'), url: '/mission' },
+        // Navigate to the About page and target the ImageSection by hash
+        { name: t('footer.specialLinks.mission'), url: '/about#image-section' },
         { name: t('footer.specialLinks.donate'), url: '/donate' },
         { name: t('footer.specialLinks.gallery'), url: '/gallery' },
         { name: t('footer.specialLinks.contact'), url: '/contact' },

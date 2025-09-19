@@ -7,7 +7,7 @@ import { Input } from "../ui/input";
 import DonationForm from "./DonationForm";
 import Card from "./components/Card";
 import BackIcon from "./components/BackIcon";
-import { formatMoney, SectionTitle } from "./components/Utils";
+import { formatMoney, SectionTitle, getDaanImages, getDaanImage, getDaanImageAlt } from "./components/Utils";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { usePurchaseReqestSubmission } from "@/api/DaanQueries";
@@ -89,8 +89,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   return (
     <div className="min-h-screen bg-gray-50 p-4 lg:p-8">
       <div className="max-w-7xl mx-auto relative">
-       
-       
+
+
 
         <button
           onClick={onBack}
@@ -140,9 +140,96 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          {/* Left: Form Section */}
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* Left: Image and Content Section - Hidden on mobile, visible on desktop */}
+          <div className="hidden lg:block lg:col-span-1">
+            <div className="p-0 overflow-hidden">
+              {/* First Image */}
+              <div className="aspect-[4/2] w-full overflow-hidden">
+                <LazyLoadImage
+                  className="w-full h-full object-cover"
+                  alt={`${getDaanImageAlt(title)} 1`}
+                  src={getDaanImages(title)[0]}
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Organization Info & About Section */}
+              <div className="p-4">
+                <div className="mb-3">
+                  <h2 className="text-[#AD2F16] textHeading  mb-1">
+                    {data?.organization || "Shri Mahakaleshwar Salasar Hanuman Seva Mandir"}
+                  </h2>
+                  <p className="text-[#1E1E1E80] textDescription flex items-center gap-1">
+                    <span>📍</span>
+                    {data?.location || "Surat, Gujarat"}
+                  </p>
+                </div>
+
+                <div className="mb-4">
+                  <h3 className="text-[#AD2F16] textHeading   mb-2">
+                    About {title}
+                  </h3>
+                  <p className="text-[#1E1E1E80] textDescription leading-relaxed">
+                    {data?.aboutDescription || data?.description ||
+                      `${title} is a sacred form of donation that helps support the temple's mission and serves the community. Your contribution will make a meaningful difference in maintaining and expanding our spiritual services.`}
+                  </p>
+                </div>
+              </div>
+
+              {/* Second Image */}
+              <div className="aspect-[4/2] w-full overflow-hidden">
+                <LazyLoadImage
+                  className="w-full h-full object-cover"
+                  alt={`${getDaanImageAlt(title)} 2`}
+                  src={getDaanImages(title)[1]}
+                  loading="lazy"
+                />
+              </div>
+
+              {/* How it will help Section */}
+              <div className="p-4">
+                <div>
+                  <h4 className="text-[#AD2F16] textHeading  mb-2">How it will help?</h4>
+                  <p className="text-[#1E1E1E80] textDescription leading-relaxed">
+                    {data?.helpDescription ||
+                      `Your ${title} contribution will directly support temple maintenance, community services, and spiritual programs that benefit thousands of devotees.`}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>          {/* Mobile: Image Section - Visible on mobile only */}
+          <div className="block lg:hidden col-span-1">
+            <Card className="p-0 overflow-hidden">
+              <div className="aspect-[16/9] w-full overflow-hidden">
+                <LazyLoadImage
+                  className="w-full h-full object-cover"
+                  alt={getDaanImageAlt(title)}
+                  src={getDaanImage(title)}
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-3">
+                <div className="mb-2">
+                  <h2 className="text-[#AD2F16] textHeading font-semibold mb-1">
+                    {data?.organization || "Shri Mahakaleshwar Salasar Hanuman Seva Mandir"}
+                  </h2>
+                  <p className="text-[#1E1E1E80] textDescription">📍 {data?.location || "Surat, Gujarat"}</p>
+                </div>
+                <div>
+                  <h3 className="text-[#AD2F16] textHeading font-semibold mb-1">About {title}</h3>
+                  <p className="text-[#1E1E1E80] textDescription  leading-relaxed line-clamp-3">
+                    {data?.aboutDescription || data?.description ||
+                      `${title} is a sacred form of donation that helps support the temple's mission and serves the community.`}
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Right: Form and Summary Section */}
+          <div className="col-span-1 lg:col-span-1 space-y-6">
+            {/* Form Section */}
             <Card className="p-6">
               {data?.daanTypes?.length > 0 && (
                 <div className="space-y-1 mb-6">
@@ -176,20 +263,20 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 onAmountChange={handleAmountChange}
               />
             </Card>
-          </div>
 
-          {/* Right: Summary Section */}
-          <div className="lg:col-span-1 space-y-2 sticky top-4">
-            <DonationCard type={title} data={data} />
-            <button
-              form="donationForm"
-              type="submit"
-              className={`mt-6 w-full rounded-xl py-4 text-base font-semibold text-white transition-colors 
-    ${isPending ? "bg-orange-500 cursor-not-allowed" : "bg-orange-700 hover:bg-orange-800"}`}>
-              {isPending
-                ? "Processing..."
-                : `Continue ${finalPayingAmount !== 0 ? formatMoney(finalPayingAmount) : ""}`}
-            </button>
+            {/* Summary Section */}
+            <div className="space-y-2 lg:sticky lg:top-4">
+              <DonationCard type={title} data={data} />
+              <button
+                form="donationForm"
+                type="submit"
+                className={`mt-6 w-full rounded-xl py-4 text-base font-semibold text-white transition-colors 
+      ${isPending ? "bg-orange-500 cursor-not-allowed" : "bg-orange-700 hover:bg-orange-800"}`}>
+                {isPending
+                  ? "Processing..."
+                  : `Continue ${finalPayingAmount !== 0 ? formatMoney(finalPayingAmount) : ""}`}
+              </button>
+            </div>
           </div>
         </div>
       </div>

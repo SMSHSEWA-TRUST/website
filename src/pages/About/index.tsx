@@ -15,6 +15,7 @@ const BlogSection = React.lazy(() => import("../../components/home/BlogSection")
 const TeamSection = React.lazy(() => import("@/components/about/Team"));
 // const WordsTrustees = React.lazy(() => import("@/components/about/WordsTrustees"));
 const CarouselContent = React.lazy(() => import("@/components/home/CarouselContent"));
+const About = React.lazy(() => import("@/components/about/about"));
 export const AboutPage = (): JSX.Element => {
     return (
         <>
@@ -25,6 +26,11 @@ export const AboutPage = (): JSX.Element => {
                     // backgroundImage passed from page imports to ensure images are bundled correctly
                     backgroundImage={aboutImage}
                 />
+            </Suspense>
+
+            {/* About Section */}
+            <Suspense fallback={<SectionLoader />}>
+                <About />
             </Suspense>
 
             {/* About Worship Section */}

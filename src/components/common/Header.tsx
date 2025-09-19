@@ -153,6 +153,7 @@ const Header = (): JSX.Element => {
                 will-change: transform;
                 /* marquee occupies 200% width so it can scroll fully across the center space */
                 width: 200%;
+                /* Scroll direction changed: animate content leftwards so the visible text moves from right -> left (RTL visual flow). */
                 animation: marquee-anim 16s linear infinite;
                 /* allow pausing on hover/focus for accessibility */
                 animation-play-state: running;
@@ -164,9 +165,9 @@ const Header = (): JSX.Element => {
               }
 
               @keyframes marquee-anim {
-                /* Move content from left to right: start translated -50% and animate to 0% so the visible content moves rightward */
-                0% { transform: translateX(-50%); }
-                100% { transform: translateX(0%); }
+                /* Move content from right to left: start at 0% and translate to -50% so text flows leftwards across the visible area */
+                0% { transform: translateX(0%); }
+                100% { transform: translateX(-50%); }
               }
 
               .marquee:hover, .marquee:focus-within {
@@ -180,10 +181,11 @@ const Header = (): JSX.Element => {
 
               /* For widths less than 960px show single copy: adjust animation and hide duplicate */
               @media (max-width: 959px) {
+                /* Mobile: use single-copy marquee and animate right-to-left across full width */
                 .marquee { width: 100%; animation: marquee-anim-mobile 12s linear infinite; }
                 @keyframes marquee-anim-mobile {
-                  0% { transform: translateX(-100%); }
-                  100% { transform: translateX(100%); }
+                  0% { transform: translateX(100%); }
+                  100% { transform: translateX(-100%); }
                 }
                 /* hide duplicate on small/medium screens */
                 .marquee-duplicate { display: none; }
@@ -191,7 +193,7 @@ const Header = (): JSX.Element => {
 
               /* For widths 960px and up, we keep width 200% and show duplicate so text appears twice during scroll */
               @media (min-width: 960px) {
-                .marquee { width: 200%; animation: marquee-anim 16s linear infinite; }
+                .marquee { width: 250%; animation: marquee-anim 16s linear infinite; }
                 .marquee-duplicate { display: inline-flex; }
               }
 
@@ -334,7 +336,7 @@ const Header = (): JSX.Element => {
                   <Link to="/gallery">
                     <Button
                       variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/puja"
+                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/gallery"
                         ? "text-white underline"
                         : "text-white/90 hover:text-white"
                         }`}
