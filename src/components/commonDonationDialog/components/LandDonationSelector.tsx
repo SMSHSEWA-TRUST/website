@@ -41,12 +41,12 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
 
         // Calculate total amount
         const totalAmount = newSelectedPlots.reduce((sum, p) => sum + p.price, 0);
-        const totalRegistrationAmount = newSelectedPlots.reduce(
-          (sum, r) => sum + r.registrationCharge,
-          0
-        );
+        // const totalRegistrationAmount = newSelectedPlots.reduce(
+        //   (sum, r) => sum + r.registrationCharge,
+        //   0
+        // );
 
-        const grandTotal = totalAmount + totalRegistrationAmount;
+        const grandTotal = totalAmount 
 
         // Call callbacks
         onAmountChange?.(grandTotal);

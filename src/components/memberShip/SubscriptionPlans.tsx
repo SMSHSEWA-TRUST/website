@@ -74,7 +74,7 @@ const SubscriptionPlans: React.FC = () => {
     const [billingAnnual, setBillingAnnual] = useState<boolean>(true); // Billed Annually selected
 
     return (
-        <section className="py-16 px-4 bg-[#F8F5F0">
+        <section className="py-16 px-4 bg-[#F8F5F0] mt-10 lg:mt-16">
             <div className="max-w-7xl mx-auto">
 
                 {/* Title */}
@@ -141,7 +141,7 @@ const SubscriptionPlans: React.FC = () => {
                 </div>
 
                 {/* Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 bg-[#F8F5F0] rounded-md border border-[#E4E4E4]">
                     {plans.map((plan, idx) => {
                         const selected = idx === selectedIndex;
 

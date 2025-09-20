@@ -1,17 +1,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useI18n } from '@/lib/i18n';
-
-const images: string[] = [
-    new URL('../../assets/images/About.webp', import.meta.url).href,
-    new URL('../../assets/images/Aboutworship.png', import.meta.url).href,
-    new URL('../../assets/images/blogarti1.webp', import.meta.url).href,
-    new URL('../../assets/images/blogarti2.webp', import.meta.url).href,
-    new URL('../../assets/images/blogarti3.webp', import.meta.url).href,
-    new URL('../../assets/images/image-4.png', import.meta.url).href,
-    new URL('../../assets/images/image-5.webp', import.meta.url).href,
-    new URL('../../assets/images/ganesh.webp', import.meta.url).href,
-];
+import { useGetGallery } from '@/api/GalleryQueries';
+import { GalleryItem } from '@/services/gallery.service';
 
 export default function Gallery(): JSX.Element {
 
@@ -19,6 +10,10 @@ export default function Gallery(): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
     const [current, setCurrent] = useState(0);
     const containerRef = useRef<HTMLDivElement | null>(null);
+
+    const { data: galleryData, isLoading, error } = useGetGallery();
+    const galleryItems: GalleryItem[] = galleryData?.data || [];
+    const images: string[] = galleryItems.map((item: GalleryItem) => item.imageUrl || '');
 
     useEffect(() => {
         function onKey(e: KeyboardEvent) {
@@ -37,16 +32,24 @@ export default function Gallery(): JSX.Element {
     }
 
     function next() {
-        setCurrent((c) => (c + 1) % images.length);
+        setCurrent((c) => (c + 1) % galleryItems.length);
     }
 
     function prev() {
-        setCurrent((c) => (c - 1 + images.length) % images.length);
+        setCurrent((c) => (c - 1 + galleryItems.length) % galleryItems.length);
     }
 
     // close when clicking overlay (but not when clicking the image/content)
     function onOverlayClick(e: React.MouseEvent) {
         if (e.target === containerRef.current) setIsOpen(false);
+    }
+
+    if (isLoading) {
+        return <div className="p-6 text-center text-gray-500">Loading gallery...</div>;
+    }
+
+    if (error) {
+        return <div className="p-6 text-center text-red-500">Error loading gallery: {(error as Error).message}</div>;
     }
 
     if (images.length === 0) {
@@ -61,21 +64,26 @@ export default function Gallery(): JSX.Element {
             </h2>
             {/* Gallery Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {images.map((src, i) => (
+                {galleryItems.map((item: GalleryItem, i: number) => (
                     <button
                         type="button"
-                        key={src}
+                        key={item._id || i}
                         onClick={() => openAt(i)}
                         className="group relative overflow-hidden rounded-lg shadow-sm focus:outline-none"
-                        aria-label={`Open image ${i + 1} of ${images.length}`}
+                        aria-label={`Open image ${i + 1} of ${galleryItems.length}: ${item.title || 'Gallery image'}`}
                     >
                         <img
-                            src={src}
-                            alt={`Gallery image ${i + 1}`}
+                            src={item.imageUrl}
+                            alt={item.title || `Gallery image ${i + 1}`}
                             className="w-full h-28 sm:h-36 md:h-44 lg:h-48 object-cover transform transition-transform duration-300 group-hover:scale-105"
                             loading="lazy"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {item.title && (
+                            <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-sm p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                {item.title}
+                            </div>
+                        )}
                     </button>
                 ))}
             </div>
@@ -93,7 +101,7 @@ export default function Gallery(): JSX.Element {
                     <div
                         aria-hidden
                         className="absolute inset-0 pointer-events-none bg-black/50 backdrop-blur-sm -webkit-backdrop-blur-sm"
-                       
+
                     />
 
                     <div className="relative max-w-[90vw] max-h-[90vh] w-full z-30">
@@ -108,13 +116,13 @@ export default function Gallery(): JSX.Element {
                         </button>
 
                         <img
-                            src={images[current]}
-                            alt={`Large image ${current + 1}`}
+                            src={galleryItems[current]?.imageUrl}
+                            alt={galleryItems[current]?.title || `Large image ${current + 1}`}
                             className="mx-auto block max-w-full max-h-[80vh] rounded-md shadow-2xl"
                         />
 
                         {/* Prev */}
-                        {images.length > 1 && (
+                        {galleryItems.length > 1 && (
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
@@ -130,7 +138,7 @@ export default function Gallery(): JSX.Element {
                         )}
 
                         {/* Next */}
-                        {images.length > 1 && (
+                        {galleryItems.length > 1 && (
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
@@ -147,7 +155,7 @@ export default function Gallery(): JSX.Element {
 
                         {/* Counter */}
                         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-40 rounded-md bg-black/50 text-white text-sm px-3 py-1">
-                            {current + 1} / {images.length}
+                            {current + 1} / {galleryItems.length}
                         </div>
                     </div>
                 </div>

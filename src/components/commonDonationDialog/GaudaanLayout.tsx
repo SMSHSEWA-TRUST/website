@@ -52,12 +52,112 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     defaultValues: DefaultValues,
   });
   const [userPickedAmount, setUserPickedAmount] = useState<any>();
+  const [selectedDaanTypeId, setSelectedDaanTypeId] = useState<string | null>(DefaultValues.donationDocId || null);
   const { mutate, isPending } = usePurchaseReqestSubmission();
   const grandTotal = watch("amount");
   const finalPayingAmount = Number(grandTotal) + (Number(userPickedAmount) || 0);
+  const bhumiAmount = data?.daanTypes?.[0]?.amount ?? 125000;
+  const bhumiLabel = data?.plotSizeLabel ?? "1 Sq. Ft Land";
+  const bhumiDescription = data?.shortDescription ?? "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt";
 
   const handleAmountChange = (amount: number) => {
     setValue("amount", amount);
+  };
+
+  // Helper flags for which UI to show
+  const isBhumi = title === "Bhumi Daan" || data?.title === "Bhumi Daan";
+  const isBhojan = title === "Bhojan Daan" || data?.title === "Bhojan Daan";
+  const isAnnadan = title === "Annadan" || title === "Anndaan" || data?.title === "Annadan" || data?.title === "Anndaan";
+  const isRashiDaan = (title || data?.title || '').toLowerCase().includes('rashi');
+
+  // Default fallback lists
+  const defaultBhojanList: Array<{ _id: string; title: string; amount: number }> = [
+    { _id: 'd1', title: '1 Time Bhojandaan', amount: 10000 },
+    { _id: 'd2', title: '1 Day Full Bhojandaan', amount: 20000 },
+    { _id: 'd3', title: '3 Day Bhojandaan', amount: 60000 },
+    { _id: 'd4', title: '1 Week Bhojandaan', amount: 140000 },
+    { _id: 'd5', title: '1 Month Bhojandaan', amount: 600000 },
+  ];
+
+  const defaultAnnadanList: Array<{ id: string; title: string; qty: string }> = [
+    { id: 'i1', title: 'Rice', qty: '100 Kgs' },
+    { id: 'i2', title: 'Daal', qty: '50 Kgs' },
+    { id: 'i3', title: 'Vegetables', qty: '150 Kgs' },
+    { id: 'i4', title: 'Milk', qty: '50 Ltr' },
+    { id: 'i5', title: 'Curd', qty: '75 Kgs' },
+  ];
+
+  // Helper to safely read a display title from item objects that may use
+  // different property names across data shapes (title, name, displayName, label)
+  const getItemTitle = (it: any) => (it?.title ?? it?.name ?? it?.displayName ?? it?.label ?? 'Untitled');
+
+  // Local small components to keep JSX tidy
+  const BhumiPreview: React.FC = () => (
+    <div className="flex justify-end">
+      <div className="w-full rounded-xl overflow-hidden shadow-lg" style={{ background: 'linear-gradient(180deg,#b83b2a,#8b1f12)' }}>
+        <div className="p-3 text-center text-white">
+          <div className="text-sm opacity-90">{bhumiLabel}</div>
+          <div className="mt-2 text-3xl font-semibold tracking-tight">{formatMoney(bhumiAmount)}</div>
+          <div className="mt-3 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90 leading-snug">{bhumiDescription}</div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const BhojanList: React.FC = () => {
+    const items: any[] = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
+    return (
+      <div className="w-full">
+        <div className="w-full rounded-xl overflow-hidden shadow-lg bg-[#b83b2a] text-white">
+          <div className="p-4">
+            <ul className="space-y-3">
+              {items.map((it: any) => (
+                <li
+                  key={it._id}
+                  onClick={() => {
+                    setSelectedDaanTypeId(it._id);
+                    setValue('donationDocId', it._id);
+                    setValue('amount', it.amount ?? 0);
+                    setUserPickedAmount(null);
+                  }}
+                  className={`flex items-center justify-between gap-3 cursor-pointer rounded-md px-3 py-2 transition ${selectedDaanTypeId === it._id ? 'bg-white/10' : 'hover:bg-white/5'}`}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-yellow-300 rounded-full" />
+                    <span className="text-sm text-white">{getItemTitle(it)}</span>
+                  </div>
+                  <div className="text-sm font-semibold">{formatMoney(it.amount ?? 0)}</div>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90">{data?.shortDescription ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt'}</div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const AnnadanList: React.FC = () => {
+    const items: any[] = data?.items?.length ? data.items : defaultAnnadanList;
+    return (
+      <div className="w-full">
+        <div className="w-full rounded-xl overflow-hidden shadow-lg bg-[#b23a2a] text-white">
+          <div className="p-4">
+            <ul className="space-y-3">
+              {items.map((it: any) => (
+                <li key={it.id} className="flex items-center justify-between gap-3 px-3 py-1">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-yellow-300 rounded-full" />
+                    <span className="text-sm">{getItemTitle(it)}</span>
+                  </div>
+                  <div className="text-sm font-medium">{it.qty}</div>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90">{data?.shortDescription ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt'}</div>
+          </div>
+        </div>
+      </div>
+    );
   };
   const handleMutate = (formdata: any) => {
     const payload: PurchaseRequestPayloadTypes = {
@@ -70,7 +170,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       phoneNumber: formdata.phoneNumber,
       totalAmount: finalPayingAmount,
       ...(formdata.plotIds?.length > 0 && {
-        plotIds: JSON.stringify(formdata.plotIds),
+        // Send as an array (not a JSON string) so backend receives proper ObjectId array
+        plotIds: formdata.plotIds,
       }),
     };
     mutate(payload, {
@@ -140,65 +241,68 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-          {/* Left: Image and Content Section - Hidden on mobile, visible on desktop */}
-          <div className="hidden lg:block lg:col-span-1">
-            <div className="p-0 overflow-hidden">
-              {/* First Image */}
-              <div className="aspect-[4/2] w-full overflow-hidden">
-                <LazyLoadImage
-                  className="w-full h-full object-cover"
-                  alt={`${getDaanImageAlt(title)} 1`}
-                  src={getDaanImages(title)[0]}
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Organization Info & About Section */}
-              <div className="p-4">
-                <div className="mb-3">
-                  <h2 className="text-[#AD2F16] textHeading  mb-1">
-                    {data?.organization || "Shri Mahakaleshwar Salasar Hanuman Seva Mandir"}
-                  </h2>
-                  <p className="text-[#1E1E1E80] textDescription flex items-center gap-1">
-                    <span>📍</span>
-                    {data?.location || "Surat, Gujarat"}
-                  </p>
+        <div className={`grid grid-cols-1 ${isRashiDaan ? '' : 'lg:grid-cols-2'} gap-6 items-start`}>
+          {/* Left: Image and Content Section - Hidden on mobile, visible on desktop. Hidden entirely for RashiDaan */}
+          {!isRashiDaan && (
+            <div className="hidden lg:block lg:col-span-1">
+              <div className="p-0 overflow-hidden">
+                {/* First Image */}
+                <div className="aspect-[4/2] w-full overflow-hidden">
+                  <LazyLoadImage
+                    className="w-full h-full object-cover"
+                    alt={`${getDaanImageAlt(title)} 1`}
+                    src={getDaanImages(title)[0]}
+                    loading="lazy"
+                  />
                 </div>
 
-                <div className="mb-4">
-                  <h3 className="text-[#AD2F16] textHeading   mb-2">
-                    About {title}
-                  </h3>
-                  <p className="text-[#1E1E1E80] textDescription leading-relaxed">
-                    {data?.aboutDescription || data?.description ||
-                      `${title} is a sacred form of donation that helps support the temple's mission and serves the community. Your contribution will make a meaningful difference in maintaining and expanding our spiritual services.`}
-                  </p>
+                {/* Organization Info & About Section */}
+                <div className="p-4">
+                  <div className="mb-3">
+                    <h2 className="text-[#AD2F16] textHeading  mb-1">
+                      {data?.organization || "Shri Mahakaleshwar Salasar Hanuman Seva Mandir"}
+                    </h2>
+                    <p className="text-[#1E1E1E80] textDescription flex items-center gap-1">
+                      <span>📍</span>
+                      {data?.location || "Surat, Gujarat"}
+                    </p>
+                  </div>
+
+                  <div className="mb-4">
+                    <h3 className="text-[#AD2F16] textHeading   mb-2">
+                      About {title}
+                    </h3>
+                    <p className="text-[#1E1E1E80] textDescription leading-relaxed">
+                      {data?.aboutDescription || data?.description ||
+                        `${title} is a sacred form of donation that helps support the temple's mission and serves the community. Your contribution will make a meaningful difference in maintaining and expanding our spiritual services.`}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Second Image */}
-              <div className="aspect-[4/2] w-full overflow-hidden">
-                <LazyLoadImage
-                  className="w-full h-full object-cover"
-                  alt={`${getDaanImageAlt(title)} 2`}
-                  src={getDaanImages(title)[1]}
-                  loading="lazy"
-                />
-              </div>
+                {/* Second Image */}
+                <div className="aspect-[4/2] w-full overflow-hidden">
+                  <LazyLoadImage
+                    className="w-full h-full object-cover"
+                    alt={`${getDaanImageAlt(title)} 2`}
+                    src={getDaanImages(title)[1]}
+                    loading="lazy"
+                  />
+                </div>
 
-              {/* How it will help Section */}
-              <div className="p-4">
-                <div>
-                  <h4 className="text-[#AD2F16] textHeading  mb-2">How it will help?</h4>
-                  <p className="text-[#1E1E1E80] textDescription leading-relaxed">
-                    {data?.helpDescription ||
-                      `Your ${title} contribution will directly support temple maintenance, community services, and spiritual programs that benefit thousands of devotees.`}
-                  </p>
+                {/* How it will help Section */}
+                <div className="p-4">
+                  <div>
+                    <h4 className="text-[#AD2F16] textHeading  mb-2">How it will help?</h4>
+                    <p className="text-[#1E1E1E80] textDescription leading-relaxed">
+                      {data?.helpDescription ||
+                        `Your ${title} contribution will directly support temple maintenance, community services, and spiritual programs that benefit thousands of devotees.`}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>          {/* Mobile: Image Section - Visible on mobile only */}
+          )}
+          {/* Mobile: Image Section - Visible on mobile only */}
           <div className="block lg:hidden col-span-1">
             <Card className="p-0 overflow-hidden">
               <div className="aspect-[16/9] w-full overflow-hidden">
@@ -229,6 +333,10 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
           {/* Right: Form and Summary Section */}
           <div className="col-span-1 lg:col-span-1 space-y-6">
+            {/* Bhumi / Bhojan / Annadan concise render */}
+            {isBhumi && <BhumiPreview />}
+            {isBhojan && <BhojanList />}
+            {isAnnadan && <AnnadanList />}
             {/* Form Section */}
             <Card className="p-6">
               {data?.daanTypes?.length > 0 && (
@@ -266,7 +374,12 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
             {/* Summary Section */}
             <div className="space-y-2 lg:sticky lg:top-4">
-              <DonationCard type={title} data={data} />
+              <DonationCard
+                type={title}
+                data={data}
+                displayTotal={(data?.daanTypes ?? []).reduce((s: number, it: any) => s + (it?.amount ?? 0), 0)}
+                displayGrandTotal={Number(grandTotal) + (Number(userPickedAmount) || 0)}
+              />
               <button
                 form="donationForm"
                 type="submit"

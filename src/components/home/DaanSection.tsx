@@ -1,10 +1,14 @@
-import { Gift, Utensils, GraduationCap, Heart, Coins } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import CommonDonationDialog from "../commonDonationDialog";
 import { useGetAllDaan } from "@/api/DaanQueries";
 import { useI18n } from '@/lib/i18n';
 import mandal from '@/assets/images/mand-7.png';
+import gaudaan from "../../assets/images/gaudaan.png";
+import bhojandaan from "../../assets/images/bhojandaan.png";
+import anndaan from "../../assets/images/anndaan.png";
+import rashidaan from "../../assets/images/rashidaan.png";
+import bhumiddan from "../../assets/images/bhumiddan.png";
 
 const DonationSection = () => {
   const { data, isFetching } = useGetAllDaan();
@@ -40,12 +44,31 @@ const DonationSection = () => {
       // ignore in case of SSR or unexpected errors
     }
   };
-  const iconMap: Record<string, React.ElementType> = {
-    Gift,
-    Heart,
-    Utensils,
-    GraduationCap,
-    Coins,
+  
+
+  // Map localized/static images for donation categories. We match by checking
+  // substrings on the category title (lowercased) so it works with API data or
+  // localized fallbacks.
+  const imageMap: Record<string, string> = {
+    gaudaan,
+    bhojandaan,
+    anndaan,
+    rashidaan,
+    bhumiddan,
+  };
+
+  const getImageForCategory = (category: any): string | undefined => {
+    const title = String(category?.title || '').toLowerCase();
+    if (!title) return undefined;
+
+    // Try to match common substrings for each image
+    if (title.includes('gau') || title.includes('gaud')) return imageMap.gaudaan;
+    if (title.includes('bhoj') || title.includes('bhojda') || title.includes('bhojand')) return imageMap.bhojandaan;
+    if (title.includes('ann') || title.includes('anndaan')) return imageMap.anndaan;
+    if (title.includes('rash') || title.includes('rashid')) return imageMap.rashidaan;
+    if (title.includes('bhumi') || title.includes('bhud') || title.includes('bhum')) return imageMap.bhumiddan;
+
+    return undefined;
   };
 
   const { t } = useI18n();
@@ -156,7 +179,7 @@ const DonationSection = () => {
           {/* Donation Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 justify-center">
             {(data?.data?.length ? data.data : localizedItems).map((category: any) => {
-              const IconComponent = iconMap[category.icon] || Gift; // fallback to Gift if undefined
+              const imageForCard = getImageForCategory(category);
 
               return (
                 <div
@@ -170,7 +193,9 @@ const DonationSection = () => {
                     <div
                       className={`inline-flex items-center justify-center w-14 h-14 rounded-lg mb-4 transition-all duration-300 border-orange-300 border bg-red-800 text-white group-hover:bg-red-800 group-hover:text-white text-white"   
                     }`}>
-                      <IconComponent size={24} />
+                    
+                        <img src={imageForCard} alt={category.title || 'donation'} className="w-8 h-8 object-contain mx-auto" />
+                      
                     </div>
 
                     {/* Title */}

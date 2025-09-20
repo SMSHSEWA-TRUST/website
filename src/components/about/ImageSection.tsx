@@ -165,7 +165,7 @@ const ImageSection: React.FC = () => {
                             <div>
 
                                 <h2 className="font-primaryFont text-[#D05E2D] textHeading font-semibold text-center mb-1">
-                                    Our Mission
+                                    Our vision
                                 </h2>
 
                                 <div>
