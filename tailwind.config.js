@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        '3xl': '1800px',
+      },
       colors: {
         "neutral-100": "var(--neutral-100)",
         "neutral-colors-100": "var(--neutral-colors-100)",
@@ -54,15 +57,15 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-       
+
         primaryFont: [
           'Marmelad',
-          
+
         ],
         secondaryFont: [
-          'Figtree', 
+          'Figtree',
         ],
-      
+
       },
       // Usage: className="font-marcellus" or className="font-tenor" or className="font-sans"
       keyframes: {

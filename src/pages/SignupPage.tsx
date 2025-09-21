@@ -36,45 +36,6 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   // Sample dropdown options
-  const gotraOptions = [
-    "Select Gotra",
-    "Bharadwaja",
-    "Kashyapa",
-    "Vashishtha",
-    "Atri",
-    "Jamadagni",
-    "Gautama",
-    "Vishwamitra"
-  ];
-
-  const nakshatraOptions = [
-    "Select Nakshatra",
-    "Ashwini",
-    "Bharani",
-    "Krittika",
-    "Rohini",
-    "Mrigashirsha",
-    "Ardra",
-    "Punarvasu",
-    "Pushya",
-    "Ashlesha",
-    "Magha",
-    "Purva Phalguni",
-    "Uttara Phalguni"
-  ];
-
-  const sankalpOptions = [
-    "Select Sankalp",
-    "Moksha",
-    "Dharma",
-    "Artha",
-    "Kama",
-    "Shanti",
-    "Prosperity",
-    "Health",
-    "Wisdom"
-  ];
-
   const relationOptions = [
     "Select Relation",
     "Father",
@@ -91,10 +52,7 @@ export default function SignupPage() {
     "Other"
   ];
 
-  // Family Details handlers
-  const handleFamilyDetailsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFamilyDetails({ ...familyDetails, [e.target.name]: e.target.value });
-  };
+
 
   // Family Members handlers
   const handleFamilyMemberChange = (index: number, field: string, value: string) => {
@@ -117,12 +75,7 @@ export default function SignupPage() {
   };
 
   // Validation functions
-  const validateStep1 = () => {
-    if (!familyDetails.gotra) return "Please select a Gotra";
-    if (!familyDetails.nakshatra) return "Please select a Nakshatra";
-    if (!familyDetails.sankalp) return "Please select a Sankalp";
-    return null;
-  };
+
 
   const validateStep2 = () => {
     const validMembers = familyMembers.filter(member => member.name.trim() && member.relation);
@@ -153,37 +106,29 @@ export default function SignupPage() {
   };
 
   // Navigation handlers
-  const handleNext = () => {
+  const handleNext = async () => {
     setError(null);
-
-    if (currentStep === 1) {
-      const validationError = validateStep1();
-      if (validationError) {
-        setError(validationError);
-        return;
-      }
-    } else if (currentStep === 2) {
+    if (currentStep === 2) {
       const validationError = validateStep2();
       if (validationError) {
         setError(validationError);
         return;
       }
+      try {
+        await handleUpdateFamily();
+        navigate("/login", { state: { phone: userDetails.phone } });
+      } catch (err) {
+        // error already set
+      }
+    } else {
+      setCurrentStep(currentStep + 1);
     }
-
-    setCurrentStep(currentStep + 1);
   };
 
   const handleSkip = () => {
     setError(null);
-    // Only allow skipping for steps 1 and 2 (not step 3)
-    if (currentStep < 3) {
-      // If skipping from family details / members, ensure we mark that family details were NOT added
-      if (currentStep === 1 || currentStep === 2) {
-        // reset family details to explicit empty values matching API expectation when skipping
-        setFamilyDetails({ gotra: "", nakshatra: "", sankalp: "" });
-        setFamilyMembers([{ name: "", relation: "" }]);
-      }
-      setCurrentStep(currentStep + 1);
+    if (currentStep === 2) {
+      navigate("/login", { state: { phone: userDetails.phone } });
     }
   };
 
@@ -210,28 +155,18 @@ export default function SignupPage() {
     setLoading(true);
 
     try {
-      const validMembers = familyMembers.filter(member => member.name.trim() && member.relation !== "Select Relation");
 
-      // Determine whether family details were added by checking selected values or provided members
-      const familyDetailsProvided = (
-        (familyDetails.gotra && familyDetails.gotra !== "Select Gotra") ||
-        (familyDetails.nakshatra && familyDetails.nakshatra !== "Select Nakshatra") ||
-        (familyDetails.sankalp && familyDetails.sankalp !== "Select Sankalp") ||
-        validMembers.length > 0
-      );
-
-      // we don't need a separate state variable; we'll send the boolean in the payload below
 
       // Build payload that matches expected API shape
       const completeFormData = {
         ...userDetails,
         familyDetails: {
-          gotra: familyDetails.gotra || null,
-          nakshatra: familyDetails.nakshatra || null,
-          sankalp: familyDetails.sankalp || null,
-          members: validMembers.length > 0 ? validMembers : []
+          gotra: null,
+          nakshatra: null,
+          sankalp: null,
+          members: []
         },
-        isFamilyDetailsAdded: !!familyDetailsProvided
+        isFamilyDetailsAdded: false
       };
 
       const res = await fetch("https://api.smshsewatrust.com/api/user/register", {
@@ -250,11 +185,9 @@ export default function SignupPage() {
         throw new Error(msg);
       }
 
-      setSuccess("Registered successfully. Redirecting to OTP verification...");
+      setSuccess("Registered successfully. Proceeding to family details...");
 
-      setTimeout(() => {
-        navigate("/login", { state: { phone: userDetails.phone } });
-      }, 800);
+      setCurrentStep(2);
     } catch (err: any) {
       setError(err?.message || "Something went wrong");
     } finally {
@@ -262,123 +195,42 @@ export default function SignupPage() {
     }
   };
 
-  // Custom Select Component
-  const CustomSelect: React.FC<{
-    name: string;
-    value: string;
-    options: string[];
-    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-    label: string;
-  }> = ({ name, value, options, onChange, label }) => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">{label}</label>
-      <div className="relative">
-        <select
-          name={name}
-          value={value}
-          onChange={onChange}
-          required
-          className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all appearance-none pr-10"
-        >
-          {options.map((option, index) => (
-            <option key={index} value={index === 0 ? "" : option} disabled={index === 0}>
-              {option}
-            </option>
-          ))}
-        </select>
-        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
+  const handleUpdateFamily = async () => {
+    setLoading(true);
+    try {
+      const validMembers = familyMembers.filter(member => member.name.trim() && member.relation !== "Select Relation");
+      const updateData = {
+        phone: userDetails.phone,
+        familyDetails: {
+          gotra: familyDetails.gotra || null,
+          nakshatra: familyDetails.nakshatra || null,
+          sankalp: familyDetails.sankalp || null,
+          members: validMembers
+        }
+      };
+      const res = await fetch("https://api.smshsewatrust.com/api/user/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || "Update failed");
+      }
+    } catch (err: any) {
+      setError(err?.message || "Something went wrong");
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Step content renderer
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return (
-          <div className="space-y-4 lg:space-y-5">
-            <CustomSelect
-              name="gotra"
-              value={familyDetails.gotra}
-              options={gotraOptions}
-              onChange={handleFamilyDetailsChange}
-              label="Gotra"
-            />
-            <CustomSelect
-              name="nakshatra"
-              value={familyDetails.nakshatra}
-              options={nakshatraOptions}
-              onChange={handleFamilyDetailsChange}
-              label="Nakshatra"
-            />
-            <CustomSelect
-              name="sankalp"
-              value={familyDetails.sankalp}
-              options={sankalpOptions}
-              onChange={handleFamilyDetailsChange}
-              label="Sankalp"
-            />
-          </div>
-        );
-
-      case 2:
-        return (
-          <div className="space-y-4 lg:space-y-5">
-            {familyMembers.map((member, index) => (
-              <div key={index} className="space-y-3">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input
-                      type="text"
-                      placeholder="Name of Member"
-                      value={member.name}
-                      onChange={(e) => handleFamilyMemberChange(index, 'name', e.target.value)}
-                      className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Relation</label>
-                    <div className="relative">
-                      <select
-                        value={member.relation}
-                        onChange={(e) => handleFamilyMemberChange(index, 'relation', e.target.value)}
-                        className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all appearance-none pr-10"
-                      >
-                        {relationOptions.map((option, optionIndex) => (
-                          <option key={optionIndex} value={optionIndex === 0 ? "" : option} disabled={optionIndex === 0}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addFamilyMember}
-              className="w-full py-3 lg:py-4 text-red-700 border border-red-200 rounded-lg hover:bg-red-50 transition-colors duration-200 flex items-center justify-center space-x-2 text-base lg:text-lg"
-            >
-              <svg className="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              <span>Add Member</span>
-            </button>
-          </div>
-        );
-
-      case 3:
         return (
           <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5">
             <div>
@@ -454,6 +306,59 @@ export default function SignupPage() {
           </form>
         );
 
+      case 2:
+        return (
+          <div className="space-y-4 lg:space-y-5">
+            {familyMembers.map((member, index) => (
+              <div key={index} className="space-y-3">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                    <input
+                      type="text"
+                      placeholder="Name of Member"
+                      value={member.name}
+                      onChange={(e) => handleFamilyMemberChange(index, 'name', e.target.value)}
+                      className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Relation</label>
+                    <div className="relative">
+                      <select
+                        value={member.relation}
+                        onChange={(e) => handleFamilyMemberChange(index, 'relation', e.target.value)}
+                        className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all appearance-none pr-10"
+                      >
+                        {relationOptions.map((option, optionIndex) => (
+                          <option key={optionIndex} value={optionIndex === 0 ? "" : option} disabled={optionIndex === 0}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addFamilyMember}
+              className="w-full py-3 lg:py-4 text-red-700 border border-red-200 rounded-lg hover:bg-red-50 transition-colors duration-200 flex items-center justify-center space-x-2 text-base lg:text-lg"
+            >
+              <svg className="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              <span>Add Member</span>
+            </button>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -464,18 +369,13 @@ export default function SignupPage() {
     switch (currentStep) {
       case 1:
         return {
-          title: "Family Details",
-          subtitle: "ADD FAMILY DETAILS"
+          title: "Create an Account",
+          subtitle: "LET'S GET YOU STARTED"
         };
       case 2:
         return {
           title: "Family Members",
           subtitle: "ADD DETAILS OF YOUR FAMILY MEMBERS"
-        };
-      case 3:
-        return {
-          title: "Create an Account",
-          subtitle: "LET'S GET YOU STARTED"
         };
       default:
         return { title: "", subtitle: "" };
@@ -505,7 +405,7 @@ export default function SignupPage() {
 
       {/* Step indicator */}
       <div className="absolute top-6 right-6 z-30 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1 text-sm font-medium text-gray-700">
-        Step {currentStep} of 3
+        Step {currentStep} of 2
       </div>
 
       {/* Dark overlay */}
@@ -530,8 +430,8 @@ export default function SignupPage() {
             Hanuman Sewa Trust
           </h1>
           <p className="text-gray-200 text-sm leading-relaxed max-w-xs opacity-90 text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.
+            With the blessings of Mahakal Baba and Salasar Balaji, our goal is to build a grand Mahadham in Surat by 2029.
+            Our journey – to unite faith, expand service, and leave behind a spiritual legacy for the coming generations
           </p>
         </div>
 
@@ -545,8 +445,8 @@ export default function SignupPage() {
                 </p>
                 <h2 className="text-2xl font-bold text-gray-900">{stepInfo.title}</h2>
               </div>
-              {/* Skip button for steps 1 and 2 only */}
-              {currentStep < 3 && (
+              {/* Skip button for step 2 only */}
+              {currentStep === 2 && (
                 <button
                   type="button"
                   onClick={handleSkip}
@@ -569,15 +469,7 @@ export default function SignupPage() {
             )}
 
             <div className="pt-2">
-              {currentStep < 3 ? (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-lg font-semibold text-sm transition-colors duration-200"
-                >
-                  Continue
-                </button>
-              ) : (
+              {currentStep === 1 ? (
                 <button
                   type="submit"
                   onClick={handleSubmit}
@@ -586,11 +478,19 @@ export default function SignupPage() {
                 >
                   {loading ? "Submitting..." : "GET STARTED"}
                 </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-lg font-semibold text-sm transition-colors duration-200"
+                >
+                  Continue
+                </button>
               )}
             </div>
           </div>
 
-          {currentStep === 3 && (
+          {currentStep === 1 && (
             <p className="text-center text-sm text-gray-600 mt-4">
               Already have an account?{" "}
               <a href="/login" className="text-red-700 font-semibold hover:underline">
@@ -619,15 +519,15 @@ export default function SignupPage() {
             Shree Mahakaleshwar Salasar <br />
             Hanuman Sewa Trust
           </h1>
-          <p className="text-gray-200 textDescription leading-relaxed opacity-90 mx-auto ">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.
+          <p className="text-gray-200 textDescription leading-relaxed opacity-90 mx-auto text-center">
+            With the blessings of Mahakal Baba and Salasar Balaji, our goal is to build a grand Mahadham in Surat by 2029.
+            Our journey – to unite faith, expand service, and leave behind a spiritual legacy for the coming generations
           </p>
         </div>
 
         {/* Right Section - Desktop Form */}
-        <div className="min-h-screen flex items-end justify-center px-6 min-w-[500px]">
-          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-8 w-full  lg:h-[80vh] max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col">
+        <div className=" flex items-end justify-center px-6 min-w-[500px]">
+          <div className="bg-white/90 backdrop-blur-md rounded-3xl max-h-[600px] 3xl:max-h-full px-0 py-8 w-full   max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col">
             <div className="mb-6 text-left px-8 xl:px-10 pt-0">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
@@ -636,8 +536,8 @@ export default function SignupPage() {
                   </p>
                   <h2 className="text-2xl xl:text-3xl font-bold text-gray-900">{stepInfo.title}</h2>
                 </div>
-                {/* Skip button for steps 1 and 2 only */}
-                {currentStep < 3 && (
+                {/* Skip button for step 2 only */}
+                {currentStep === 2 && (
                   <button
                     type="button"
                     onClick={handleSkip}
@@ -661,15 +561,7 @@ export default function SignupPage() {
                 )}
 
                 <div className="pt-6">
-                  {currentStep < 3 ? (
-                    <button
-                      type="button"
-                      onClick={handleNext}
-                      className="w-full bg-red-800 hover:bg-red-900 text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200"
-                    >
-                      Continue
-                    </button>
-                  ) : (
+                  {currentStep === 1 ? (
                     <button
                       type="submit"
                       onClick={handleSubmit}
@@ -678,11 +570,19 @@ export default function SignupPage() {
                     >
                       {loading ? "Submitting..." : "GET STARTED"}
                     </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="w-full bg-red-800 hover:bg-red-900 text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200"
+                    >
+                      Continue
+                    </button>
                   )}
                 </div>
               </div>
 
-              {currentStep === 3 && (
+              {currentStep === 1 && (
                 <p className="text-left text-base text-gray-600 mt-6">
                   Already have an account?{" "}
                   <a href="/login" className="text-red-700 font-semibold hover:underline">

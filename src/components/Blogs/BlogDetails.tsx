@@ -75,7 +75,7 @@ const BlogDetails: React.FC<Props> = (props) => {
 
 
             {/* Sidebar */}
-            <BlogSidebar latestPosts={latestPosts} />
+            {/* <BlogSidebar latestPosts={latestPosts} /> */}
         </div>
     );
 };

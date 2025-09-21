@@ -4,6 +4,8 @@ import bhudaan1 from '@/assets/images/bhudaan1.webp';
 import comma from '@/assets/images/comaa.png';
 import Daanleft from '@/assets/images/daanleftsection.png';
 import { useI18n } from '@/lib/i18n';
+import { useGetTestimonials } from '@/api/TestimonialQueries';
+import type { TestimonialItem } from '@/services/testimonial.service';
 
 type SlideData = {
     id: string;
@@ -109,14 +111,33 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
 const CarouselContent: React.FC = () => {
     const { t } = useI18n();
 
-    // build slides from translations: keep same shape as SlideData
     const slidesFromLocale = t('carousel.slides') as Record<string, any> | undefined;
-    const slides = slidesFromLocale
+
+
+
+    const { data: apiTestimonials = [] } = useGetTestimonials();
+
+    
+
+    const filtered: TestimonialItem[] = apiTestimonials.filter((it) => it?.isActive && it?.isCarousel);
+    const apiSlides = filtered.length > 0
+        ? filtered.map((item) => ({
+            id: item._id,
+            title: item.person?.name ?? item.title ?? 'Anonymous',
+            role: item.person?.designation ?? '',
+            org: item.title ?? item.createdBy ?? '',
+            quote: item.description ?? '',
+            img: item.imageUrl ?? item.person?.imageUrl ?? bhudaan1,
+        })) as SlideData[]
+        : undefined;
+
+
+    const slides = apiSlides ?? (slidesFromLocale
         ? Object.keys(slidesFromLocale).map((k) => ({ id: k, img: bhudaan1, ...slidesFromLocale[k] })) as SlideData[]
         : [
             { id: 'a', title: 'RATAN LAL JI', role: 'Honourable Trustee', org: 'Shree Mahakaleshwar Salasar \nHanuman Sewa Trust', quote: '', img: bhudaan1 },
             { id: 'b', title: 'ANITA DEVI', role: 'Volunteer Lead', org: 'Shree Mahakaleshwar Salasar \nHanuman Sewa Trust', quote: '', img: bhudaan1 },
-        ];
+        ]);
 
     const [index, setIndex] = useState(1); // start at 1 because of cloned slides
     const [isPaused, setIsPaused] = useState(false);

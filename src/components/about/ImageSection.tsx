@@ -103,7 +103,7 @@ const ImageSection: React.FC = () => {
                                 <div>
 
                                     <h2 className="font-primaryFont text-[#D05E2D] textHeading font-semibold text-center mb-1">
-                                        Our Mission
+                                       {t('aboutImagesectioncontent.cards.0.heading') || "Our Mission"}
                                     </h2>
 
                                     <div>
@@ -165,7 +165,7 @@ const ImageSection: React.FC = () => {
                             <div>
 
                                 <h2 className="font-primaryFont text-[#D05E2D] textHeading font-semibold text-center mb-1">
-                                    Our vision
+                                      {t('aboutImagesectioncontent.cards.2.heading') || "Our Vision"}
                                 </h2>
 
                                 <div>

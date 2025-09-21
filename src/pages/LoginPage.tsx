@@ -90,7 +90,7 @@ export default function LoginPage() {
               Hanuman Sewa Trust
             </h1>
             <p className="text-gray-200 text-sm leading-relaxed max-w-xs opacity-90 text-center">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Shri Mahakaleshwar Salasar Hanuman Seva Trust – a confluence of faith and service, with a resolve to preserve Sanatan culture.
             </p>
           </div>
 
@@ -142,7 +142,7 @@ export default function LoginPage() {
         {/* Desktop Layout */}
         <div className="relative z-10 hidden lg:flex items-center justify-between w-full max-w-7xl px-8">
           {/* Left Section - Desktop */}
-          <div className="text-white max-w-lg text-center xl:text-left">
+          <div className="text-white  text-center ">
             <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 mx-auto mb-4 lg:mb-6 flex items-center justify-center">
               <img
                 src={LogoImage}
@@ -158,14 +158,13 @@ export default function LoginPage() {
               Hanuman Sewa Trust
             </h1>
             <p className="text-gray-200 textDescription leading-relaxed max-w-sm opacity-90 mx-auto ">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
+              Shri Mahakaleshwar Salasar Hanuman Seva Trust – a confluence of faith and service, with a resolve to preserve Sanatan culture.
             </p>
           </div>
 
           {/* Right Section - Desktop Form */}
-          <div className="min-h-screen flex items-end justify-center px-6  ">
-            <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-8 w-full  lg:h-[80vh] max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col ">
+          <div className=" flex items-end justify-center px-6  ">
+            <div className="bg-white/90 backdrop-blur-md rounded-3xl  px-0 py-8 w-full  max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col ">
               <div className="mb-6 text-left px-8 xl:px-10 pt-0">
                 <h2 className="textHeading font-bold text-gray-900">Welcome Back</h2>
                 <p className="textDescription text-gray-500 mt-2">

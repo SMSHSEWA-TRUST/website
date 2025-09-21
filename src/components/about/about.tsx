@@ -1,24 +1,26 @@
 import React from "react";
 import AboutImg from "../../assets/images/About.webp";
+import { useI18n } from "../../lib/i18n";
 
 const About: React.FC = () => {
+    const { t } = useI18n();
     return (
         <section className="w-full py-12 px-4 md:px-16 lg:px-24 ">
-            <div className="  grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="  flex flex-col md:flex-row gap-8 items-start">
                 {/* Left: actual image */}
-                <div className="md:col-span-6">
+                <div className="md:w-[50%]">
                     <div className="w-full h-72 md:h-[420px] lg:h-[480px] rounded-lg overflow-hidden shadow-sm">
                         <img src={AboutImg} alt="About" className="object-cover w-full h-full" />
                     </div>
                 </div>
 
                 {/* Right: heading + decorative line + text */}
-                <div className="md:col-span-6 flex flex-col justify-start">
+                <div className="md:w-[50%] flex flex-col justify-start">
                     <div className="">
                         <div className="flex items-center">
                             <h2 className="text-3xl md:text-4xl font-primaryFont text-[#4C291E] tracking-wide">About Us</h2>
 
-                           
+
                         </div>
 
                         {/* Decorative line */}
@@ -30,16 +32,14 @@ const About: React.FC = () => {
                         </div>
 
                         <p className="mt-6 textDescription text-gray-600 leading-relaxed">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                            aliqua.
+                            {t("AboutpageAboutsection.content.0.paragraph1")}
                         </p>
 
                         <p className="mt-4 textDescription text-gray-600 leading-relaxed">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            {t("AboutpageAboutsection.content.0.paragraph2")}
                         </p>
+
+                       
                     </div>
                 </div>
             </div>

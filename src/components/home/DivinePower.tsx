@@ -97,7 +97,7 @@ const DivinePower = (): JSX.Element => {
                                             <span>{t('divine.office.weekendHours')}</span>
                                         </div>
                                     </div>
-                                    <p className="mt-4 text-white textDescription text-center font-secondaryFont">
+                                    <p className="mt-4 text-white textDescription font-secondaryFont">
                                         {t('divine.office.invite')}
                                     </p>
                                 </div>

@@ -172,7 +172,8 @@ export default function OtpVerification() {
             Hanuman Sewa Trust
           </h1>
           <p className="text-gray-200 textDescription leading-relaxed max-w-xs opacity-90 text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            With the blessings of Mahakal Baba and Salasar Balaji, our goal is to build a grand Mahadham in Surat by 2029.
+            Our journey – to unite faith, expand service, and leave behind a spiritual legacy for the coming generations.
           </p>
         </div>
 
@@ -258,8 +259,8 @@ export default function OtpVerification() {
             Hanuman Sewa Trust
           </h1>
           <p className="text-gray-200 text-sm leading-relaxed max-w-sm opacity-90 mx-auto xl:mx-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.
+            With the blessings of Mahakal Baba and Salasar Balaji, our goal is to build a grand Mahadham in Surat by 2029.
+            Our journey – to unite faith, expand service, and leave behind a spiritual legacy for the coming generations
           </p>
         </div>
 

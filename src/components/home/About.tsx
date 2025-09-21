@@ -183,6 +183,12 @@ const About = (): JSX.Element => {
                         </button>
                     </div> */}
                 </div>
+                
+            </div>
+            <div>
+                <p className="mt-8 text-[rgba(30, 30, 30, 0.5)] font-secondaryFont textDescription font-normal leading-relaxed text-center">
+                    {t('about.paragraph')}
+                </p>
             </div>
         </section>
     );
