@@ -37,7 +37,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                         <p className="text-sm text-[#8B0000] opacity-90 mt-1 font-semibold">{data.role}</p>
                         <p className="text-xs text-gray-400 mt-2 mb-4" style={{ whiteSpace: 'pre-line' }}>{data.org}</p>
 
-                        <div className="absolute top-[70px] left-7 text-[#D05E2D] text-[80px] font-primaryFont leading-none ">“</div>
+                        <div className="absolute top-[65px] left-7 text-[#D05E2D] text-[80px] font-primaryFont leading-none ">“</div>
                         <p className="relative z-10 text-[#8B0000] textDescription leading-relaxed">{data.quote}</p>
 
                     </div>

@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LogoImage from "../assets/images/Logo.png";
-import otpBgImage from "../assets/images/loginBg.png"
+import otpBgImage from "../assets/images/loginBg.png";
+import { shouldShowFamilyDetails } from "../api/FamilyQueries";
 
 export default function OtpVerification() {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
@@ -121,7 +122,19 @@ export default function OtpVerification() {
       localStorage.setItem("authToken", data?.data?.accessToken || "");
       localStorage.setItem("refreshToken", data?.data?.refreshToken || "");
       localStorage.setItem("user", JSON.stringify(data?.data || {}));
-      setTimeout(() => navigate("/", { replace: true }), 800);
+
+      // Check if user has added family details
+      const userData = data?.data || {};
+
+      setTimeout(() => {
+        if (shouldShowFamilyDetails(userData)) {
+          // User hasn't added family details, redirect to family details page
+          navigate("/family-details", { replace: true });
+        } else {
+          // User has already added family details, redirect to home
+          navigate("/", { replace: true });
+        }
+      }, 800);
     } catch (err: any) {
       setError(err?.message || "OTP verification failed");
     } finally {
@@ -244,7 +257,7 @@ export default function OtpVerification() {
       <div className="relative z-10 hidden lg:flex items-center justify-between w-full max-w-7xl px-8">
         {/* Left Section - Desktop */}
         <div className="text-white max-w-lg text-center xl:text-left">
-          <div className="w-32 h-32 xl:w-40 xl:h-40 mx-auto xl:mx-0 mb-6">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 mx-auto mb-4 lg:mb-6 flex items-center justify-center">
             <img
               src={LogoImage}
               alt="Trust Logo"
@@ -252,21 +265,21 @@ export default function OtpVerification() {
             />
           </div>
           <h1
-            className="text-3xl xl:text-4xl font-bold mb-6 leading-tight text-orange-100"
+            className="text-3xl xl:text-4xl font-bold mb-6 leading-tight text-orange-100 text-center"
             style={{ color: '#fff', WebkitTextStroke: '1.2px #d35400' }}
           >
             Shree Mahakaleshwar Salasar <br />
             Hanuman Sewa Trust
           </h1>
-          <p className="text-gray-200 text-sm leading-relaxed max-w-sm opacity-90 mx-auto xl:mx-0">
+          <p className="text-gray-200 textDescription leading-relaxed opacity-90 mx-auto text-center ">
             With the blessings of Mahakal Baba and Salasar Balaji, our goal is to build a grand Mahadham in Surat by 2029.
             Our journey – to unite faith, expand service, and leave behind a spiritual legacy for the coming generations
           </p>
         </div>
 
         {/* Right Section - Desktop Form */}
-        <div className="min-h-screen flex items-end justify-center px-6">
-          <div className="bg-white/90 backdrop-blur-md rounded-t-3xl rounded-b-none px-0 py-10 w-full h-[80vh] max-w-2xl xl:max-w-3xl shadow-2xl flex flex-col">
+        <div className=" flex items-end justify-center px-6">
+          <div className="bg-white/90 backdrop-blur-md rounded-3xl  px-0 py-10 w-full  shadow-2xl flex flex-col">
             <div className="mb-6 text-left px-8 xl:px-10 pt-0">
               <h2 className="text-2xl xl:text-3xl font-bold text-gray-900">OTP Verification</h2>
               <p className="text-base text-gray-500 mt-2">

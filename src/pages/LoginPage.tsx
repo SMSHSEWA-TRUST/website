@@ -157,7 +157,7 @@ export default function LoginPage() {
               Shree Mahakaleshwar Salasar <br />
               Hanuman Sewa Trust
             </h1>
-            <p className="text-gray-200 textDescription leading-relaxed max-w-sm opacity-90 mx-auto ">
+            <p className="text-gray-200 textDescription leading-relaxed max-w-lg opacity-90 mx-auto ">
               Shri Mahakaleshwar Salasar Hanuman Seva Trust – a confluence of faith and service, with a resolve to preserve Sanatan culture.
             </p>
           </div>
