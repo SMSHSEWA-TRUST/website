@@ -177,6 +177,11 @@ const SubscriptionPlans: React.FC = () => {
                                     </p>
 
                                     {/* Features */}
+                                    <div className="mb-3">
+                                        <h4 className={`text-md font-bold mb-2 ${selected ? 'text-white' : 'text-gray-800'}`}>
+                                            {"What's Included"}
+                                        </h4>
+                                    </div>
                                     <ul className="space-y-3 mb-8">
                                         {plan.features.map((feature, i) => (
                                             <li key={i} className="flex items-start gap-2">
