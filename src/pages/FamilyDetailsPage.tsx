@@ -189,7 +189,7 @@ export default function FamilyDetailsPage() {
             }}
         >
             {/* Go Back/Home button */}
-            <button
+            {/* <button
                 type="button"
                 onClick={() => navigate("/")}
                 className="absolute top-6 left-6 z-30 bg-red-800 hover:bg-red-900 text-white px-3 py-1 rounded-md shadow-md flex items-center space-x-2 text-xs sm:px-4 sm:py-2 sm:rounded-lg sm:text-sm"
@@ -198,7 +198,7 @@ export default function FamilyDetailsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
                 <span className="font-medium">Go to Home</span>
-            </button>
+            </button> */}
 
             {/* Dark overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>

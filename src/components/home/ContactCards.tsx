@@ -62,6 +62,9 @@ const ContactCards = (): JSX.Element => {
                                 <span>{t('divine.office.weekend')}</span>
                                 <span>{t('divine.office.weekendHours')}</span>
                             </div>
+                            <p className="mt-4 text-white textDescription font-secondaryFont">
+                                {t('divine.office.invite')}
+                            </p>
                         </div>
                     </div>
                 </CardContent>

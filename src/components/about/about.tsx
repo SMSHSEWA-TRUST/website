@@ -18,7 +18,7 @@ const About: React.FC = () => {
                 <div className="md:w-[50%] flex flex-col justify-start">
                     <div className="">
                         <div className="flex items-center">
-                            <h2 className="text-3xl md:text-4xl font-primaryFont text-[#4C291E] tracking-wide">About Us</h2>
+                            <h2 className=" textHeadingLg font-primaryFont text-[#4C291E] tracking-wide">About Us</h2>
 
 
                         </div>
@@ -31,11 +31,11 @@ const About: React.FC = () => {
                             <div className="w-1.5 h-1.5 bg-secondaryColor rounded-full"></div>
                         </div>
 
-                        <p className="mt-6 textDescription text-gray-600 leading-relaxed">
+                        <p className="mt-6 textDescription text-gray-600 leading-relaxed font-secondaryFont">
                             {t("AboutpageAboutsection.content.0.paragraph1")}
                         </p>
 
-                        <p className="mt-4 textDescription text-gray-600 leading-relaxed">
+                        <p className="mt-4 textDescription text-gray-600 leading-relaxed font-secondaryFont">
                             {t("AboutpageAboutsection.content.0.paragraph2")}
                         </p>
 

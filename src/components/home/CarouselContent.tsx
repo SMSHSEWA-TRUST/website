@@ -23,7 +23,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
         <div className="w-full flex-shrink-0">
             {/* Mobile / Tablet card (stacked, centered) */}
             <div className="xl:hidden w-full  ">
-                <div className="bg-white rounded-lg shadow-md overflow-hidden text-center">
+                <div className="bg-white rounded-lg  overflow-hidden text-center">
                     <div className=" flex justify-center">
                         <LazyLoadImage
                             src={data.img}
