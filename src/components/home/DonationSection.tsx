@@ -1,5 +1,7 @@
 import { useState, useEffect, } from "react";
 import { useI18n } from '@/lib/i18n';
+import { useGetTestimonials } from '@/api/TestimonialQueries';
+import type { TestimonialItem } from '@/services/testimonial.service';
 
 
 // Image imports
@@ -110,10 +112,7 @@ const AnimatedStat = ({ amount, label, shouldAnimate }: { amount: string; label:
     );
 };
 
-// Note: Stats and testimonials are loaded from locale JSON.
-// The component supports two shapes for compatibility:
-// 1) donation.Leftsection.stats and donation.Rightsection.testimonials (used in en.json)
-// 2) donation.stats and donation.testimonials (flat keys)
+
 
 
 export default function DonationSection() {
@@ -145,10 +144,40 @@ export default function DonationSection() {
         tempImage4,
     };
 
-    const testimonials = (rawTestimonials || []).map((it: any) => ({
+    // Fetch testimonials from API and prefer non-carousel items from API
+    const { data: apiTestimonials = [] } = useGetTestimonials();
+
+    // Filter API results: non-carousel and active only
+    const apiFiltered: TestimonialItem[] = (apiTestimonials || []).filter((it: TestimonialItem) => it?.isActive && !it?.isCarousel);
+
+    // Map API items into the same shape we expect from locales
+    const apiMapped = apiFiltered.map((it) => ({
+        id: it._id,
+        name: it.person?.name ,
+        text: it.description ?? '',
+        image: it.imageUrl || it.person?.imageUrl ,
+    }));
+
+    // Map local/raw testimonials and apply image mapping
+    const localMapped = (rawTestimonials || []).map((it: any) => ({
         ...it,
         image: imageMap[it.imageKey] || imageMap['tempImage'] || image4,
     }));
+
+    // Prefer API testimonials (non-carousel) when available, otherwise fall back to local translations
+    let testimonials = apiMapped.length > 0 ? apiMapped : localMapped;
+
+    // Final fallback to a placeholder so UI doesn't crash
+    if (!testimonials || testimonials.length === 0) {
+        testimonials = [
+            { id: '0', name: '', text: '', image: imageMap['tempImage'] || image4 },
+        ];
+    }
+
+    // Ensure currentSlide is in range when testimonials length changes
+    useEffect(() => {
+        setCurrentSlide((idx) => (idx >= testimonials.length ? 0 : idx));
+    }, [testimonials.length]);
     const [shouldStartAnimation, setShouldStartAnimation] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
@@ -192,6 +221,14 @@ export default function DonationSection() {
 
     const currentTestimonial = testimonials[currentSlide];
 
+    // Truncate testimonial text for display
+    function truncateByChars(sentence: any, maxLength: number) {
+        if (!sentence || typeof sentence !== "string") return "";
+        if (sentence.length <= maxLength) return sentence;
+        return sentence.slice(0, maxLength).trim() + "...";
+    }
+
+
     return (
         <section ref={setRef} className="w-full py-4 lg:py-12 px-4 md:px-16 lg:px-24 bg-[#F8F5F0] ">
             <div className=" grid grid-cols-1 xl:grid-cols-2 gap-12 items-center">
@@ -227,7 +264,7 @@ export default function DonationSection() {
                             </div>
                         </div>
                     </div>
-                   
+
                     <div className="flex flex-col md:flex-row gap-6 w-full h-auto md:h-66">
                         <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <LazyLoadImage
@@ -240,7 +277,7 @@ export default function DonationSection() {
                         <div className={`flex-1 flex flex-col justify-between h-full md:h-64 gap-3 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <div className="flex-1">
                                 <p className="text-[rgba(30,30,30,0.5)] textDescription leading-relaxed font-secondaryFont mb-4">
-                                    {currentTestimonial.text}
+                                   {truncateByChars(currentTestimonial.text, 80)}
                                 </p>
                                 {/* Decorative line after paragraph */}
                                 <div className="w-full flex justify-start mb-3">
