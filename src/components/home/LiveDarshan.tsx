@@ -11,6 +11,9 @@ import { useI18n } from '@/lib/i18n';
 import { useGetEvents } from '@/api/EventsQueries';
 import type { EventItem } from '@/services/events.service';
 
+
+
+
 // Video Player Component - Reusable for both layouts
 const VideoPlayerSection = ({
   selectedTemple,
@@ -82,7 +85,9 @@ const SevaSection = ({
   onViewDetails,
   titleText,
   viewDetailsText,
-}: {
+}:
+  
+  {
   isDesktop: boolean;
   upcomingSevas: Array<{
     title: string;
@@ -93,8 +98,20 @@ const SevaSection = ({
   }>;
   onViewDetails: (image?: string, title?: string, description?: string, date?: string, time?: string) => void;
   titleText?: string;
-  viewDetailsText?: string;
-}) => {
+    viewDetailsText?: string;
+  
+    
+    
+  }) =>
+
+{
+
+  function truncateByChars(sentence: any, maxLength: number) {
+    if (!sentence || typeof sentence !== "string") return "";
+    if (sentence.length <= maxLength) return sentence;
+    return sentence.slice(0, maxLength).trim() + "...";
+  }
+
   return (
     <div className={isDesktop ? "flex-shrink-0 h-full" : ""}>
       <Card className={`bg-white shadow-lg ${isDesktop ? "h-full flex flex-col" : ""}`}>
@@ -143,7 +160,7 @@ const SevaSection = ({
                   {seva.title}
                 </h4>
                 <p className="font-secondaryFont font-normal text-[rgba(30, 30, 30, 0.5)] textDescription leading-relaxed mb-3">
-                  {seva.description}
+                  {truncateByChars(seva.description, 100)}
                 </p>
                 <div className="flex items-center justify-between font-secondaryFont font-normal text-[#1E1E1E80] textDescription">
                   <div className="flex items-center gap-4 text-[#1E1E1E80]">
@@ -156,10 +173,10 @@ const SevaSection = ({
                     </div>
                     <div className="flex items-center gap-2 textDescription text-[#1E1E1E80]">
                       {/* clock icon */}
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      {/* <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                       </svg>
-                      <span className="whitespace-nowrap">{seva.time}</span>
+                      <span className="whitespace-nowrap">{seva.time}</span> */}
                     </div>
                   </div>
 
@@ -199,6 +216,8 @@ const LiveDarshan = (): JSX.Element => {
   const [selectedTemple, setSelectedTemple] = useState<string>("mahakaleshwar");
   const [countdown, setCountdown] = useState("00:00:00");
 
+
+  
   // Upcoming Seva data (comes from API)
   const [upcomingSevas, setUpcomingSevas] = useState<{
     title: string;
@@ -249,17 +268,29 @@ const LiveDarshan = (): JSX.Element => {
     };
 
     const mapped = items.map((it) => {
-      // Use createdAt as the authoritative date/time for display per backend shape
+      // fallback date source
       const created = it.createdAt || it.created_at || it.date || it.eventDate;
+
+      // scheduleDate split
+      const scheduleDate = it.scheduleDate ? new Date(it.scheduleDate) : null;
+      const formattedDate = scheduleDate
+        ? scheduleDate.toISOString().split("T")[0] // yyyy-mm-dd
+        : "";
+
+      const formattedTime = scheduleDate
+        ? scheduleDate.toISOString().split("T")[1].split(".")[0] // hh:mm:ss
+        : (created ? formatTime(created) : (it.time || it.eventTime || ""));
+
       return {
         title: it.title || it.name || "",
         description: it.description || it.summary || "",
-        date: created ? formatDate(created) : (it.date || it.eventDate || ""),
-        time: created ? formatTime(created) : (it.time || it.eventTime || ""),
+        date: formattedDate,
+        time: formattedTime,
         image: it.imageUrl || it.image || it.image_path || undefined,
         id: it._id || it.id,
       };
     });
+
 
     setUpcomingSevas(mapped);
   }, [eventsData]);
@@ -558,12 +589,12 @@ const LiveDarshan = (): JSX.Element => {
                 </svg>
                 <span className="text-sm">{modalDate || ''}</span>
               </div>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-[#a0a0a0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <span className="text-sm">{modalTime || ''}</span>
-              </div>
+              </div> */}
             </div>
             {/* horizontal divider directly after time (matches design) */}
             <div className="w-full h-[1px] bg-[#a9331f] my-2" aria-hidden />
@@ -577,7 +608,7 @@ const LiveDarshan = (): JSX.Element => {
 
             {/* CTA */}
             <div className="mt-2">
-              <button className="w-full bg-[#a9331f] text-white py-3 rounded-md">{t('liveDarshan.modal.cta') || 'CTA'}</button>
+              <button className="w-full bg-[#a9331f] text-white py-3 rounded-md" onClick={handleCloseModal}>{t('liveDarshan.modal.cta') || 'Close'}</button>
             </div>
           </div>
         </div>
