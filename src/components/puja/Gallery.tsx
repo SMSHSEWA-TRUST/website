@@ -9,6 +9,7 @@ export default function Gallery(): JSX.Element {
     const { t } = useI18n();
     const [isOpen, setIsOpen] = useState(false);
     const [current, setCurrent] = useState(0);
+    const [scale, setScale] = useState<number>(1);
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     const { data: galleryData, isLoading, error } = useGetGallery();
@@ -26,22 +27,52 @@ export default function Gallery(): JSX.Element {
         return () => window.removeEventListener('keydown', onKey);
     }, [isOpen, current]);
 
+    // Lock background scrolling when modal is open and restore on close
+    useEffect(() => {
+        const prev = document.body.style.overflow;
+        if (isOpen) document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = prev;
+        };
+    }, [isOpen]);
+
     function openAt(i: number) {
         setCurrent(i);
+        setScale(1); // reset zoom when opening a new image
         setIsOpen(true);
     }
 
     function next() {
         setCurrent((c) => (c + 1) % galleryItems.length);
+        setScale(1);
     }
 
     function prev() {
         setCurrent((c) => (c - 1 + galleryItems.length) % galleryItems.length);
+        setScale(1);
     }
 
     // close when clicking overlay (but not when clicking the image/content)
     function onOverlayClick(e: React.MouseEvent) {
         if (e.target === containerRef.current) setIsOpen(false);
+    }
+
+    // Wheel handler to zoom image instead of scrolling the page
+    function onImageWheel(e: React.WheelEvent<HTMLDivElement>) {
+        // Prevent page scroll
+        e.preventDefault();
+        e.stopPropagation();
+
+        const delta = e.deltaY;
+        setScale((s) => {
+            const factor = delta > 0 ? 0.95 : 1.05;
+            const next = Math.min(3, Math.max(0.5, +(s * factor).toFixed(2)));
+            return next;
+        });
+    }
+
+    function onImageDoubleClick() {
+        setScale(1);
     }
 
     if (isLoading) {
@@ -115,11 +146,25 @@ export default function Gallery(): JSX.Element {
                             </svg>
                         </button>
 
-                        <img
-                            src={galleryItems[current]?.imageUrl}
-                            alt={galleryItems[current]?.title || `Large image ${current + 1}`}
-                            className="mx-auto block max-w-full max-h-[80vh] rounded-md shadow-2xl"
-                        />
+                        <div
+                            onWheel={onImageWheel}
+                            onDoubleClick={onImageDoubleClick}
+                            className="mx-auto block max-w-full max-h-[80vh] rounded-md shadow-2xl flex items-center justify-center overflow-hidden"
+                            style={{
+                                touchAction: 'none',
+                            }}
+                        >
+                            <img
+                                src={galleryItems[current]?.imageUrl}
+                                alt={galleryItems[current]?.title || `Large image ${current + 1}`}
+                                className="max-w-full max-h-[80vh]"
+                                style={{
+                                    transform: `scale(${scale})`,
+                                    transition: 'transform 150ms ease-out',
+                                    willChange: 'transform',
+                                }}
+                            />
+                        </div>
 
                         {/* Prev */}
                         {galleryItems.length > 1 && (

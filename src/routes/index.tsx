@@ -62,6 +62,7 @@ export const AppRoutes = (): JSX.Element => {
             <LoginPage />
           </FamilyDetailsGuard>
         } />
+      
         <Route path="/otp" element={
           <FamilyDetailsGuard skipFamilyCheck={true}>
             <OtpVerification />

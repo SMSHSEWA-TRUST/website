@@ -2,9 +2,9 @@
 import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link } from 'react-router-dom';
-import blogArti1 from '@/assets/images/blogarti1.webp';
-import blogArti2 from '@/assets/images/blogarti2.webp';
-import blogArti3 from '@/assets/images/blogarti3.webp';
+import { useEffect, useState } from 'react';
+import { getBlogPosts } from '@/services/blog.service';
+// removed static demo images; using WP data instead
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { useI18n } from '@/lib/i18n';
@@ -14,7 +14,7 @@ interface BlogPost {
     date?: string;
     title: string;
     excerpt?: string;
-    image: string;
+    image?: string;
     link?: string;
 }
 
@@ -23,20 +23,29 @@ const Blogs: React.FC = () => {
     const { t } = useI18n();
 
 
-    const rawTranslated = t('BlogPage.Blogs');
-    const translatedBlogs = Array.isArray(rawTranslated) ? rawTranslated as Array<{ title: string; date?: string }> : [];
+    const [posts, setPosts] = useState<BlogPost[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    // prepare images cycle
-    const images = [blogArti1, blogArti2, blogArti3];
-
-    const posts: BlogPost[] = translatedBlogs.map((b, idx) => ({
-        id: idx + 1,
-        title: b.title,
-        date: b.date,
-        image: images[idx % images.length],
-        // link to blog-details with id so BlogDetails can render the correct content
-        link: `/blog-details/${idx + 1}`
-    }));
+    useEffect(() => {
+        let mounted = true;
+        setLoading(true);
+        getBlogPosts({ per_page: 12 }).then((data: any[]) => {
+            if (!mounted) return;
+            const mapped = data.map((p) => ({
+                id: p.id,
+                title: p?.title?.rendered ?? `Post ${p.id}`,
+                date: p?.date,
+                excerpt: p?.excerpt?.rendered,
+                image: p?.featured_media ? undefined : undefined,
+                link: `/blog-details/${p.id}`
+            } as BlogPost));
+            setPosts(mapped);
+        }).catch((e) => {
+            setError(e?.message ?? 'Failed to load posts');
+        }).finally(() => setLoading(false));
+        return () => { mounted = false; };
+    }, []);
 
     return (
         <section className="w-full px-6 md:px-16 lg:px-24 py-12  font-secondaryFont">
@@ -76,11 +85,13 @@ const Blogs: React.FC = () => {
             </div>
 
             <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {loading && <div className="col-span-full text-center">Loading...</div>}
+                {error && <div className="col-span-full text-center text-red-600">{error}</div>}
                 {posts.map((post) => (
                     <Card key={post.id} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-0">
 
                         <LazyLoadImage
-                            src={post.image}
+                            src={post.image || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&auto=format'}  
                             alt={post.title}
                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             loading="lazy"
@@ -94,10 +105,10 @@ const Blogs: React.FC = () => {
                         />
 
                         <CardContent className="relative z-10 flex flex-col justify-end h-64 sm:h-72 lg:h-80 p-6">
-                            <div className="text-white/80 textDescription font-secondaryFont mb-2">{post.date}</div>
-                            <h3 className="text-white textDescription mb-4 font-primaryFont leading-tight">{post.title}</h3>
+                            <div className="text-white/80 textDescription font-secondaryFont mb-2">{post.date ? new Date(post.date).toLocaleDateString() : ''}</div>
+                            <h3 className="text-white textDescription mb-4 font-primaryFont leading-tight" dangerouslySetInnerHTML={{ __html: post.title }} />
                             {/* {post.excerpt && (
-                                <p className="text-white/70 textDescription mb-4 line-clamp-2 font-secondaryFont">{post.excerpt}</p>
+                                <p className="text-white/70 textDescription mb-4 line-clamp-2 font-secondaryFont" dangerouslySetInnerHTML={{ __html: post.excerpt || '' }} />
                             )} */}
                             <Link to={post.link || '/blog-details'}>
                                 <Button className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-secondaryFont font-normal textDescription border border-white">{t('BlogPage.buttonText')}</Button>

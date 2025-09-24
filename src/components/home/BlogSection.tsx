@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ganeshImage from '@/assets/images/ganesh.webp';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useI18n } from '@/lib/i18n';
+import { getBlogPosts } from '@/services/blog.service';
 
 interface BlogArticle {
     id?: string | number;
@@ -39,7 +40,39 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
         date: b.date,
         image: ganeshImage,
     }));
-    const articlesToShow = (articles && articles.length > 0) ? articles : defaultArticles;
+    // fetched posts from WP (top 3)
+    const [fetchedArticles, setFetchedArticles] = useState<BlogArticle[]>([]);
+
+    const stripHtml = (html?: string) => {
+        if (!html) return '';
+        return html.replace(/<[^>]*>/g, '').trim();
+    };
+
+    useEffect(() => {
+        let mounted = true;
+        // only fetch if caller didn't provide articles
+        if (articles && articles.length > 0) return;
+        getBlogPosts({ per_page: 3, _embed: true }).then((data: any[]) => {
+            if (!mounted) return;
+            const mapped = data.map(p => {
+                const media = p?._embedded?.['wp:featuredmedia']?.[0];
+                const image = media?.source_url || p?.jetpack_featured_media_url || undefined;
+                return {
+                    id: p.id,
+                    title: stripHtml(p?.title?.rendered || ''),
+                    date: p?.date,
+                    image,
+                    excerpt: stripHtml(p?.excerpt?.rendered || ''),
+                } as BlogArticle;
+            });
+            setFetchedArticles(mapped);
+        }).catch(() => {
+            // ignore errors and keep defaults
+        });
+        return () => { mounted = false; };
+    }, [articles]);
+
+    const articlesToShow = (articles && articles.length > 0) ? articles : (fetchedArticles.length > 0 ? fetchedArticles : defaultArticles);
     return (
         <section className={`w-full  px-4 md:px-16 lg:px-24 py-12 lg:py-16 ${className}`}>
 
@@ -120,7 +153,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
 
                 {/* Date */}
                 <div className="text-white/90 textDescription font-secondaryFont mb-2">
-                    {article.date || "Jan 01, 2025"}
+                    {article.date ? new Date(article.date).toLocaleDateString() : "Jan 01, 2025"}
                 </div>
 
                 {/* Title */}
@@ -129,11 +162,11 @@ const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
                 </h3>
 
                 {/* Excerpt (if provided) */}
-                {article.excerpt && (
+                {/* {article.excerpt && (
                     <p className="text-white/70 textDescription mb-4 line-clamp-2 font-secondaryFont">
                         {article.excerpt}
                     </p>
-                )}
+                )} */}
 
                 {/* Read More Button */}
                 <Link to={`/blog-details/${article.id ?? 1}`}>

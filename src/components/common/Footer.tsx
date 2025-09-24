@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import facebookIcon from '@/assets/images/Facebook.png';
 import twitterIcon from '@/assets/images/Twitter.png';
@@ -125,7 +125,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             <div className="flex flex-col items-center text-center w-full max-w-3xl mx-auto">
                                 {/* Logo */}
                                 <div className="flex justify-center items-center mb-3">
-                                    <div className="relative w-20 h-20">
+                                    <Link to="/" aria-label="Home" className="relative w-20 h-20">
                                         <div className="absolute inset-1 bg-white rounded-full" />
                                         <LazyLoadImage
                                             src={tempLogo}
@@ -133,7 +133,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             className="relative w-full h-full object-cover rounded-full"
                                             loading="lazy"
                                         />
-                                    </div>
+                                    </Link>
                                 </div>
 
                                 {/* Organization Title */}
@@ -345,7 +345,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                             {/* Logo */}
                             <div className="flex justify-center items-center">
-                                <div className="relative w-16 h-16">
+                                <Link to="/" aria-label="Home" className="relative w-16 h-16">
                                     <div className="absolute inset-1 bg-white rounded-full" />
                                     <LazyLoadImage
                                         src={tempLogo}
@@ -353,7 +353,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         className="relative w-full h-full object-cover rounded-full"
                                         loading="lazy"
                                     />
-                                </div>
+                                </Link>
                             </div>
 
                             {/* Organization Title */}

@@ -270,7 +270,7 @@ export default function DonationSection() {
                             <LazyLoadImage
                                 src={currentTestimonial.image}
                                 alt={`Profile of ${currentTestimonial.name}`}
-                                className="w-full md:w-64 h-64 object-cover rounded-md shadow-md bg-gray-200"
+                                className="w-full md:w-64 h-112 object-cover rounded-md shadow-md bg-gray-200"
                                 loading="lazy"
                             />
                         </div>

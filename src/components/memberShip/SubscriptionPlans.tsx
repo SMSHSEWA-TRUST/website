@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useI18n } from '@/lib/i18n';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { authTokenAxios } from '@/services/axios';
 
 
 const SubscriptionPlans: React.FC = () => {
@@ -9,7 +12,7 @@ const SubscriptionPlans: React.FC = () => {
         {
             id: "three_months",
             title: "3 Months",
-            priceMonthly: "₹2100",
+            priceMonthly: "₹1100 ",
             priceAnnually: "billed every 3 Months",
             subtitle: "billed every 3 Months",
             tagline: "",
@@ -24,7 +27,7 @@ const SubscriptionPlans: React.FC = () => {
         {
             id: "six_months",
             title: "6 Months",
-            priceMonthly: "₹3100",
+            priceMonthly: "₹2100",
             priceAnnually: "billed every 6 Months",
             subtitle: "billed every 6 Months",
             tagline: "",
@@ -56,6 +59,112 @@ const SubscriptionPlans: React.FC = () => {
 
     // Default select the 12-month plan (index 2)
     const [selectedIndex, setSelectedIndex] = useState<number>(2);
+    const navigate = useNavigate();
+
+    // Map plan id to amount in paise (Razorpay expects amount in smallest currency unit)
+    const planAmountMap: Record<string, number> = {
+        three_months: 1100 * 100,
+        six_months: 2100 * 100,
+        twelve_months: 5100 * 100,
+    };
+
+    // load Razorpay checkout script if not already loaded
+    const loadRazorpayScript = (): Promise<boolean> => {
+        return new Promise((resolve) => {
+            if ((window as any).Razorpay) {
+                resolve(true);
+                return;
+            }
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.async = true;
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+        });
+    };
+
+    // Try to create an order on the backend (recommended). If backend endpoint isn't available,
+    // fallback to a client-only checkout (requires VITE_RAZORPAY_KEY env variable).
+    // Assumption: backend order creation endpoint is POST /payments/create-order and returns { id: string, amount: number }
+    // If your backend uses a different route, update the path below.
+    const createOrderOnServer = async (planId: string, amount: number) => {
+        try {
+            const resp = await authTokenAxios.post('/payments/create-order', { amount, planId });
+            // the axios wrapper returns response.data by default in this project; adjust if different
+            return (resp as any)?.order || resp;
+        } catch (e) {
+            // endpoint may not exist — caller should fallback
+            console.warn('Server order creation failed, falling back to client-only checkout', e);
+            return null;
+        }
+    };
+
+    const openRazorpayCheckout = async (planId: string) => {
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            navigate('/login', { state: { redirectTo: '/', planId } });
+            return;
+        }
+
+        const amount = planAmountMap[planId] ?? 100 * 100; // default ₹100 if unknown
+
+        const loaded = await loadRazorpayScript();
+        if (!loaded) {
+            toast.error('Unable to load payment gateway. Please try again later.');
+            return;
+        }
+
+        // Try server order creation first
+        const order = await createOrderOnServer(planId, amount);
+
+        const key = (import.meta as any).env?.VITE_RAZORPAY_KEY;
+        if (!key) {
+            console.warn('VITE_RAZORPAY_KEY not set. Please add it to your .env when using client-only checkout.');
+        }
+
+        const options: any = {
+            key: key || '', // if empty, Razorpay may still allow test mode depending on setup; prefer setting env var
+            amount: amount, // in paise
+            currency: 'INR',
+            name: 'SM SHSEWA TRUST',
+            description: `Membership - ${planId}`,
+            // prefill from user profile if available
+            prefill: {
+                name: (localStorage.getItem('name') || '') as string,
+                email: (localStorage.getItem('email') || '') as string,
+                contact: (localStorage.getItem('phone') || '') as string,
+            },
+            theme: {
+                color: '#8B0000',
+            },
+        };
+
+        if (order && order.id) {
+            options.order_id = order.id;
+        }
+
+        options.handler = function (response: any) {
+            // response contains razorpay_payment_id, razorpay_order_id, razorpay_signature
+            console.log('Razorpay success response', response);
+            toast.success('Payment completed successfully');
+            // TODO: verify payment on server if necessary and record subscription
+        };
+
+        options.modal = {
+            ondismiss: function () {
+                console.log('Checkout closed by user');
+            },
+        };
+
+        try {
+            const rzp = new (window as any).Razorpay(options);
+            rzp.open();
+        } catch (err) {
+            console.error('Razorpay open failed', err);
+            toast.error('Failed to open payment window');
+        }
+    };
     // The billing toggle was removed in the new design; keep a simple flag if needed later
     // (currently not used) - removed setState to avoid unused variable lint warnings
 
@@ -206,7 +315,7 @@ const SubscriptionPlans: React.FC = () => {
                                 </div>
 
                                 {/* Button */}
-                                <button className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors ${selected
+                                <button onClick={(e) => { e.stopPropagation(); openRazorpayCheckout(plan.id); }} className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors ${selected
                                     ? 'bg-white text-red-800 hover:bg-gray-50'
                                     : plan.id === 'enterprise'
                                         ? 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
