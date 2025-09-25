@@ -31,7 +31,7 @@ type userProps = {
 
 interface GaudaanLayoutProps {
   title?: string;
-  onBack: () => void;
+  onBack?: () => void;
   data: any;
 }
 const shouldShowUserPaying = ["Bhumi Daan", "Bhojan Daan"];
@@ -197,7 +197,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
         setSubmittedForm(null);
         setSelectedPaymentMethod(null);
         setFlowStep('form');
-        onBack();
+        onBack?.();
       },
     });
   };
@@ -209,6 +209,21 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     setSubmittedForm(form);
     setFlowStep('selectPayment');
   };
+
+
+  // `onBack` prop to actually close the dialog.
+  const handleBackClick = () => {
+    if (flowStep !== 'form') {
+      // return to the form view instead of closing the dialog
+      setFlowStep('form');
+      setSelectedPaymentMethod(null);
+      // keep submittedForm so form values (including plotContacts) persist
+      // keep payment dropdown state default
+      setPaymentDropdownOpen(true);
+    } else {
+      onBack?.();
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50 p-4 lg:p-8">
       <div className="max-w-7xl mx-auto relative">
@@ -216,7 +231,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
 
         <button
-          onClick={onBack}
+          onClick={() => onBack?.()}
           aria-label="Close"
           className="absolute right-0 top-[-15px] z-50 inline-flex items-center justify-center w-9 h-9 rounded-md bg-white shadow hover:bg-gray-100 text-gray-700 transition">
           <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -253,7 +268,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
         <div className="flex items-center gap-3 mb-6">
           {onBack && (
             <button
-              onClick={onBack}
+              onClick={handleBackClick}
               aria-label="Back"
               className="inline-flex items-center text-gray-700 hover:text-gray-900 transition">
               <BackIcon />
@@ -398,6 +413,10 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                   setValue={setValue}
                   onSubmit={onSubmit}
                   onAmountChange={handleAmountChange}
+                  initialPlotContacts={submittedForm?.plotContacts ?? null}
+                  initialSelectedPlots={submittedForm?.selectedPlots ?? []}
+                  initialSameDetailsForAll={submittedForm?.sameDetailsForAll ?? false}
+                  initialExpandedPlots={submittedForm?.expandedPlots ?? {}}
                 />
               </Card>
             )}
@@ -501,17 +520,18 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 ">
                           <div>
                             <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">Email ID</div>
-                            <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">{data?.contactEmail ?? 'example@gmail.com'}</div>
+                            <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">smshstrust@gmail.com</div>
                           </div>
                           <div>
                             <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">Contact No.</div>
-                            <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">{data?.contactNumber ?? '+91 9876543210, +91 9876543210'}</div>
+                            <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">+91 9352815982</div>
                           </div>
                         </div>
                         <div className="mt-2">
                           <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">Address</div>
 
-                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">{data?.location ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'}</div>
+                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">203, Metro Tower, Ring Road
+                            Surat, Gujarat 395002</div>
 
                         </div>
                       </div>
@@ -630,17 +650,18 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                           <div>
                             <div className="text-[#00000040] textDescription font-secondaryFont font-medium">Email ID</div>
-                            <div className="text-[#333333] textDescription font-secondaryFont font-semibold">{data?.contactEmail ?? 'example@gmail.com'}</div>
+                            <div className="text-[#333333] textDescription font-secondaryFont font-semibold">smshstrust@gmail.com</div>
                           </div>
                           <div>
                             <div className="text-[#00000040] textDescription font-secondaryFont font-medium">Contact No.</div>
-                            <div className="text-[#333333] textDescription font-secondaryFont font-semibold">{data?.contactNumber ?? '+91 9876543210, +91 9876543210'}</div>
+                            <div className="text-[#333333] textDescription font-secondaryFont font-semibold">+91 9352815982</div>
                           </div>
                         </div>
                         <div className="mt-2">
                           <div className="text-[#00000040] textDescription font-secondaryFont font-medium">Address</div>
 
-                          <div className="text-[#333333] textDescription font-secondaryFont font-semibold">{data?.location ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'}</div>
+                          <div className="text-[#333333] textDescription font-secondaryFont font-semibold">203, Metro Tower, Ring Road
+                            Surat, Gujarat 395002</div>
 
                         </div>
                       </div>
@@ -689,7 +710,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                       <p className="textDescription text-[#1E1E1E80] font-secondaryFont">Please sit tight, our team will contact you shortly to help you further</p>
                       <div>
                         <button className="mt-3 inline-flex items-center gap-3 px-5 py-3 rounded-lg border-[2px] border-[#AD2F16] text-[#AD2F16] shadow-sm bg-white">
-                           <img src={WhatsAppIcon} alt="WhatsApp" className="w-5 h-5 object-contain" />
+                          <img src={WhatsAppIcon} alt="WhatsApp" className="w-5 h-5 object-contain" />
                           <span className="font-secondaryFont font-semibold">Send 'Hi' to our Whatsapp</span>
                         </button>
                       </div>

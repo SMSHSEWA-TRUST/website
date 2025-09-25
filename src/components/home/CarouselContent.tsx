@@ -25,7 +25,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
             <div className="xl:hidden w-full  ">
                 <div className="bg-white rounded-lg  overflow-hidden text-center">
                     <div className=" flex justify-center">
-                        <LazyLoadImage
+                        <img
                             src={data.img}
                             alt={data.title}
                             className="w-full h-full md:h-[400px]  object-cover rounded-md"

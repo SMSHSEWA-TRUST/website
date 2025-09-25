@@ -12,6 +12,10 @@ type DonationFormProps = {
   setValue: any;
   control: any;
   errors: any;
+  initialPlotContacts?: Record<string, any> | null;
+  initialSelectedPlots?: any[];
+  initialSameDetailsForAll?: boolean;
+  initialExpandedPlots?: Record<string, boolean>;
 };
 
 const DonationForm: React.FC<DonationFormProps> = ({
@@ -22,12 +26,17 @@ const DonationForm: React.FC<DonationFormProps> = ({
   setValue,
   control,
   errors,
+  initialPlotContacts,
+  initialSelectedPlots = [],
+  initialSameDetailsForAll = false,
+  initialExpandedPlots = {},
 }) => {
   const [selectedOption, setSelectedOption] = useState(data?.daanTypes?.[0] ?? null);
-  const [selectedPlots, setSelectedPlots] = useState<any[]>([]);
+  const [selectedPlots, setSelectedPlots] = useState<any[]>(initialSelectedPlots);
   const [landContacts, setLandContacts] = useState<Record<string, any>>({});
-  const [sameDetailsForAll, setSameDetailsForAll] = useState(false);
-  const [expandedPlots, setExpandedPlots] = useState<Record<string, boolean>>({});
+  const [sameDetailsForAll, setSameDetailsForAll] = useState(initialSameDetailsForAll);
+  const [expandedPlots, setExpandedPlots] = useState<Record<string, boolean>>(initialExpandedPlots);
+  const [plotFieldErrors, setPlotFieldErrors] = useState<Record<string, Record<string, string>>>({});
 
   const handleDonationSelect = (option: { _id: string; name: string; amount: number }) => {
     setSelectedOption(option);
@@ -73,6 +82,15 @@ const DonationForm: React.FC<DonationFormProps> = ({
       return next;
     });
   }, [selectedPlots]);
+
+  // Initialize landContacts from parent-provided initial contacts when available
+  useEffect(() => {
+    if (!initialPlotContacts) return;
+    // only initialize if we don't already have contacts (avoid overwriting in-progress edits)
+    if (Object.keys(landContacts).length === 0) {
+      setLandContacts(initialPlotContacts);
+    }
+  }, [initialPlotContacts]);
 
   useEffect(() => {
     if (!sameDetailsForAll) return;
@@ -143,6 +161,17 @@ const DonationForm: React.FC<DonationFormProps> = ({
       }
       return next;
     });
+    // clear the field-level error for this plot when user edits
+    setPlotFieldErrors(prev => {
+      const next = { ...prev };
+      if (next[plotId] && next[plotId][field]) {
+        const remaining = { ...next[plotId] };
+        delete remaining[field];
+        if (Object.keys(remaining).length === 0) delete next[plotId];
+        else next[plotId] = remaining;
+      }
+      return next;
+    });
   };
 
   const toggleExpand = (plotId: string) => setExpandedPlots(prev => ({ ...prev, [plotId]: !prev[plotId] }));
@@ -174,15 +203,80 @@ const DonationForm: React.FC<DonationFormProps> = ({
       </div>
 
       {data?.title === DialogTypesForDonation.BHUDAAN && (
-        <BhumiDaanPlotSection onAmountChange={onAmountChange} plots={data?.plots ?? []} onPlotsChange={setSelectedPlots} />
+        <BhumiDaanPlotSection onAmountChange={onAmountChange} plots={data?.plots ?? []} onPlotsChange={setSelectedPlots} initialSelectedPlots={initialSelectedPlots} />
       )}
 
       <form
         onSubmit={handleSubmit((formData: any) => {
           if (selectedPlots.length > 0) {
             if (data?.title === DialogTypesForDonation.BHUDAAN) {
+              // Validate BhumiDaan contact details for ALL selected plots before proceeding
+              const requiredKeys = [
+                "name",
+                "fatherName",
+                "motherName",
+                "phoneNumber",
+                "email",
+                "address",
+              ];
+
+              const allPlotErrors: Record<string, Record<string, string>> = {};
+              let hasAnyErrors = false;
+
+              selectedPlots.forEach(plot => {
+                const plotContact = landContacts[plot._id] || {};
+                const plotErrors: Record<string, string> = {};
+
+                requiredKeys.forEach(k => {
+                  const val = plotContact[k];
+                  if (val === undefined || val === null || String(val).trim() === "") {
+                    plotErrors[k] = `${k === 'phoneNumber' ? 'Phone number' : k.charAt(0).toUpperCase() + k.slice(1)} is required`;
+                  }
+                });
+
+                if (Object.keys(plotErrors).length > 0) {
+                  allPlotErrors[plot._id] = plotErrors;
+                  hasAnyErrors = true;
+                }
+              });
+
+              if (hasAnyErrors) {
+                // set errors for all plots that have issues and expand them
+                setPlotFieldErrors(prev => ({ ...prev, ...allPlotErrors }));
+                setExpandedPlots(prev => {
+                  const newExpanded = { ...prev };
+                  Object.keys(allPlotErrors).forEach(plotId => {
+                    newExpanded[plotId] = true;
+                  });
+                  return newExpanded;
+                });
+                // prevent submission to payment selection
+                return;
+              }
+
               // For BhumiDaan flow send only an array of plot IDs
               formData.plotIds = selectedPlots.map(p => p._id);
+              // also include the plot contacts so parent can persist and repopulate them
+              formData.plotContacts = landContacts;
+              // include the full selected plots info for re-selection on back navigation
+              formData.selectedPlots = selectedPlots;
+              // include checkbox state for persistence
+              formData.sameDetailsForAll = sameDetailsForAll;
+              // include expanded plots state for persistence
+              formData.expandedPlots = expandedPlots;
+              // copy validated primary (first plot) contact fields into the form data and react-hook-form values
+              const primaryContact = landContacts[selectedPlots[0]._id] || {};
+              requiredKeys.forEach(k => {
+                const val = primaryContact[k];
+                if (val !== undefined && val !== null) {
+                  formData[k] = val;
+                  try {
+                    setValue(k as string, val);
+                  } catch (e) {
+                    console.warn("Failed to set value for key:", k, e);
+                  }
+                }
+              });
             } else {
               // For other flows send detailed plot objects including contact
               formData.plotIds = selectedPlots.map(p => ({
@@ -192,31 +286,6 @@ const DonationForm: React.FC<DonationFormProps> = ({
               }));
             }
             setValue("plotIds", formData.plotIds);
-
-
-            if (data?.title === DialogTypesForDonation.BHUDAAN) {
-              const firstId = selectedPlots[0]._id;
-              const primary = landContacts[firstId] || {};
-              const keys: Array<keyof typeof primary> = [
-                "name",
-                "fatherName",
-                "motherName",
-                "phoneNumber",
-                "email",
-                "address",
-              ];
-              keys.forEach(k => {
-                const val = primary[k as string];
-                if (val !== undefined && val !== null && val !== "") {
-                  formData[k as string] = val;
-                  try {
-                    setValue(k as string, val);
-                  } catch (e) {
-                    console.warn("Failed to set value for key:", k, e);
-                  }
-                }
-              });
-            }
           }
           onSubmit(formData);
         })}
@@ -377,51 +446,99 @@ const DonationForm: React.FC<DonationFormProps> = ({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                      <input
-                        value={landContacts[plot._id]?.name || ""}
-                        onChange={e => handleLandContactChange(plot._id, "name", e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg outline-none"
-                      />
+                      {(() => {
+                        const err = plotFieldErrors[plot._id]?.name;
+                        return (
+                          <>
+                            <input
+                              value={landContacts[plot._id]?.name || ""}
+                              onChange={e => handleLandContactChange(plot._id, "name", e.target.value)}
+                              className={`w-full px-3 py-2.5 rounded-lg outline-none ${err ? 'border border-red-500' : 'border border-gray-300'}`}
+                            />
+                            {err && <p className="text-red-500 text-xs mt-1">{err}</p>}
+                          </>
+                        );
+                      })()}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Father Name</label>
-                      <input
-                        value={landContacts[plot._id]?.fatherName || ""}
-                        onChange={e => handleLandContactChange(plot._id, "fatherName", e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg outline-none"
-                      />
+                      {(() => {
+                        const err = plotFieldErrors[plot._id]?.fatherName;
+                        return (
+                          <>
+                            <input
+                              value={landContacts[plot._id]?.fatherName || ""}
+                              onChange={e => handleLandContactChange(plot._id, "fatherName", e.target.value)}
+                              className={`w-full px-3 py-2.5 rounded-lg outline-none ${err ? 'border border-red-500' : 'border border-gray-300'}`}
+                            />
+                            {err && <p className="text-red-500 text-xs mt-1">{err}</p>}
+                          </>
+                        );
+                      })()}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Mother Name</label>
-                      <input
-                        value={landContacts[plot._id]?.motherName || ""}
-                        onChange={e => handleLandContactChange(plot._id, "motherName", e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg outline-none"
-                      />
+                      {(() => {
+                        const err = plotFieldErrors[plot._id]?.motherName;
+                        return (
+                          <>
+                            <input
+                              value={landContacts[plot._id]?.motherName || ""}
+                              onChange={e => handleLandContactChange(plot._id, "motherName", e.target.value)}
+                              className={`w-full px-3 py-2.5 rounded-lg outline-none ${err ? 'border border-red-500' : 'border border-gray-300'}`}
+                            />
+                            {err && <p className="text-red-500 text-xs mt-1">{err}</p>}
+                          </>
+                        );
+                      })()}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                      <input
-                        value={landContacts[plot._id]?.phoneNumber || ""}
-                        onChange={e => handleLandContactChange(plot._id, "phoneNumber", e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg outline-none"
-                      />
+                      {(() => {
+                        const err = plotFieldErrors[plot._id]?.phoneNumber;
+                        return (
+                          <>
+                            <input
+                              value={landContacts[plot._id]?.phoneNumber || ""}
+                              onChange={e => handleLandContactChange(plot._id, "phoneNumber", e.target.value)}
+                              className={`w-full px-3 py-2.5 rounded-lg outline-none ${err ? 'border border-red-500' : 'border border-gray-300'}`}
+                            />
+                            {err && <p className="text-red-500 text-xs mt-1">{err}</p>}
+                          </>
+                        );
+                      })()}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                      <input
-                        value={landContacts[plot._id]?.email || ""}
-                        onChange={e => handleLandContactChange(plot._id, "email", e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg outline-none"
-                      />
+                      {(() => {
+                        const err = plotFieldErrors[plot._id]?.email;
+                        return (
+                          <>
+                            <input
+                              value={landContacts[plot._id]?.email || ""}
+                              onChange={e => handleLandContactChange(plot._id, "email", e.target.value)}
+                              className={`w-full px-3 py-2.5 rounded-lg outline-none ${err ? 'border border-red-500' : 'border border-gray-300'}`}
+                            />
+                            {err && <p className="text-red-500 text-xs mt-1">{err}</p>}
+                          </>
+                        );
+                      })()}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                      <input
-                        value={landContacts[plot._id]?.address || ""}
-                        onChange={e => handleLandContactChange(plot._id, "address", e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg outline-none"
-                      />
+                      {(() => {
+                        const err = plotFieldErrors[plot._id]?.address;
+                        return (
+                          <>
+                            <input
+                              value={landContacts[plot._id]?.address || ""}
+                              onChange={e => handleLandContactChange(plot._id, "address", e.target.value)}
+                              className={`w-full px-3 py-2.5 rounded-lg outline-none ${err ? 'border border-red-500' : 'border border-gray-300'}`}
+                            />
+                            {err && <p className="text-red-500 text-xs mt-1">{err}</p>}
+                          </>
+                        );
+                      })()}
                     </div>
                   </div>
                 )}

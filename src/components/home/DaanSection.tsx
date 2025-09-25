@@ -25,26 +25,13 @@ const DonationSection = () => {
       return;
     }
 
+    // open the dialog (modal). We intentionally avoid forcing a page scroll
+    // here because calling scrollIntoView on mobile causes the page to move
+    // while the modal is opening which produces the behaviour you reported.
     setSelectedCategory(category);
     setOpenDialog(true);
-
-    try {
-      const title = String(category?.title || "").toLowerCase();
-      // If this is the Bhumi daan card, also scroll/redirect to the donations section
-      if (title.includes("bhumi")) {
-        const el = document.getElementById("donations");
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          // fallback: set hash so anchor navigation works if element not present yet
-          window.location.hash = "#donations";
-        }
-      }
-    } catch (e) {
-      // ignore in case of SSR or unexpected errors
-    }
   };
-  
+
 
   // Map localized/static images for donation categories. We match by checking
   // substrings on the category title (lowercased) so it works with API data or
@@ -101,6 +88,22 @@ const DonationSection = () => {
       // ignore
     }
   }, [data, isFetching, location, navigate]);
+  // Prevent background scrolling when the donation dialog is open
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const prev = document.body.style.overflow;
+    if (openDialog) {
+      // lock body scroll
+      document.body.style.overflow = 'hidden';
+    } else {
+      // restore previous style
+      document.body.style.overflow = prev || '';
+    }
+    return () => {
+      // ensure we restore on unmount
+      document.body.style.overflow = prev || '';
+    };
+  }, [openDialog]);
   if (isFetching) return null;
   return (
     <>
@@ -193,9 +196,9 @@ const DonationSection = () => {
                     <div
                       className={`inline-flex items-center justify-center w-14 h-14 rounded-lg mb-4 transition-all duration-300 border-orange-300 border bg-red-800 text-white group-hover:bg-red-800 group-hover:text-white text-white"   
                     }`}>
-                    
-                        <img src={imageForCard} alt={category.title || 'donation'} className="w-8 h-8 object-contain mx-auto" />
-                      
+
+                      <img src={imageForCard} alt={category.title || 'donation'} className="w-8 h-8 object-contain mx-auto" />
+
                     </div>
 
                     {/* Title */}

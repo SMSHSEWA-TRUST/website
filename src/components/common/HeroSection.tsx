@@ -58,24 +58,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                         decoding="async"
                     />
                     {/* Title overlaid on image */}
-                    <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
                         <div className="absolute inset-0 bg-black/30" />
                         <h1
                             id="hero-section-title"
-                            className="font-primaryFont relative z-10 font-normal text-[32px] lg:text-[64px] text-white text-center drop-shadow-lg"
+                            className="font-primaryFont relative z-10 font-normal text-[24px] sm:text-[32px] lg:text-[64px] text-white text-center drop-shadow-lg leading-tight mb-2 sm:mb-4"
                         >
                             {resolvedTitle}
                         </h1>
-                    </div>
 
-                    {/* Semi-title below the image */}
-                    {resolvedSemiTitle && (
-                        <div className="absolute inset-0 flex top-[62%] justify-center">
-                            <h2 className="font-primaryFont relative z-10 font-normal textDescription text-white text-center">
+                        {/* Semi-title directly below title with proper spacing */}
+                        {resolvedSemiTitle && (
+                            <h2 className="font-primaryFont relative z-10 font-normal text-sm sm:textDescription text-white text-center drop-shadow-lg mt-2">
                                 {resolvedSemiTitle}
                             </h2>
-                        </div>
-                    )}
+                        )}
+                    </div>
 
                 </div>
             )}

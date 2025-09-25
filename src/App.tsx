@@ -19,6 +19,26 @@ export const queryClient = new QueryClient({
 
 export const App = (): JSX.Element => {
   useEffect(() => {
+    // Prefer manual scroll restoration so browser doesn't restore old scroll on refresh/back.
+    try {
+      if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+        // set manual to prevent browser from restoring scroll position automatically
+        // (we will control scroll programmatically)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.history.scrollRestoration = 'manual';
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    // ensure we start at the top on cold load
+    try {
+      if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
+    } catch (e) {
+      // ignore
+    }
+
     // schedule auto logout if token present
     try {
       scheduleAutoLogout(10); // logout 10s before expiry as buffer
@@ -26,10 +46,19 @@ export const App = (): JSX.Element => {
       // ignore scheduling errors
     }
 
-    // also clear scheduled timer on unmount
+    // also clear scheduled timer on unmount and restore scrollRestoration to auto if possible
     return () => {
       try {
         clearScheduledLogout();
+      } catch (e) {
+        // ignore
+      }
+      try {
+        if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          window.history.scrollRestoration = 'auto';
+        }
       } catch (e) {
         // ignore
       }

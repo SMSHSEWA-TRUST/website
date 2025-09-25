@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 
 type plotTypes = {
   _id: string;
@@ -12,17 +12,28 @@ type LandDonationSelectorProps = {
   onAmountChange?: (totalAmount: number) => void;
   onPlotsChange?: (selectedPlots: plotTypes[]) => void;
   plots: plotTypes[];
+  initialSelectedPlots?: plotTypes[];
 };
 
 const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
   onAmountChange,
   onPlotsChange,
   plots,
+  initialSelectedPlots = [],
 }) => {
   // Sample data matching your structure
   const [plotsData] = useState<plotTypes[]>(plots);
 
-  const [selectedPlots, setSelectedPlots] = useState<plotTypes[]>([]);
+  const [selectedPlots, setSelectedPlots] = useState<plotTypes[]>(initialSelectedPlots);
+
+  // Initialize callbacks with initial selected plots
+  useEffect(() => {
+    if (initialSelectedPlots.length > 0) {
+      const totalAmount = initialSelectedPlots.reduce((sum, p) => sum + p.price, 0);
+      onAmountChange?.(totalAmount);
+      onPlotsChange?.(initialSelectedPlots);
+    }
+  }, []); // Empty dependency array since we only want this to run once on mount
 
   // Function to handle plot selection (multi-select)
   const handlePlotClick = (plot: plotTypes) => {
@@ -46,7 +57,7 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
         //   0
         // );
 
-        const grandTotal = totalAmount 
+        const grandTotal = totalAmount
 
         // Call callbacks
         onAmountChange?.(grandTotal);
@@ -139,9 +150,8 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
             onClick={() => handlePlotClick(plot)}
             title={`Plot ${plot.plotNumber} - ${plot.status
               .replace("_", " ")
-              .toUpperCase()} - ₹${plot.price.toLocaleString()} ${
-              selectedPlots.some(p => p._id === plot._id) ? "(Selected)" : ""
-            }`}>
+              .toUpperCase()} - ₹${plot.price.toLocaleString()} ${selectedPlots.some(p => p._id === plot._id) ? "(Selected)" : ""
+              }`}>
             {plot.plotNumber}
           </div>
         ))}
