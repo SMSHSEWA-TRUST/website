@@ -8,5 +8,5 @@ export interface PurchaseRequestPayloadTypes {
   email: string;
   phoneNumber: number | string;
   plotIds?: any;
-  paymentMethod?: string;
+  paymentMode ?: string;
 }

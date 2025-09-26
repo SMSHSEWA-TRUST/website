@@ -8,6 +8,7 @@ import DonationForm from "./DonationForm";
 import Card from "./components/Card";
 import BackIcon from "./components/BackIcon";
 import { formatMoney, SectionTitle, getDaanImages, getDaanImage, getDaanImageAlt } from "./components/Utils";
+import { usePlotsData } from '@/api/DaanQueries';
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { usePurchaseReqestSubmission } from "@/api/DaanQueries";
@@ -84,6 +85,13 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   const isBhojan = title === "Bhojan Daan" || data?.title === "Bhojan Daan";
   const isAnnadan = title === "Annadan" || title === "Anndaan" || data?.title === "Annadan" || data?.title === "Anndaan";
   const isRashiDaan = (title || data?.title || '').toLowerCase().includes('rashi');
+
+  // When showing Bhumi Daan we fetch the plots from the server (API: /plots)
+  // and inject them into the `data` passed down to the DonationForm so the
+  // LandDonationSelector receives the latest API data.
+  const { data: plotsResp } = usePlotsData(isBhumi);
+  const apiPlots: any[] = plotsResp?.data?.data ?? [];
+  const dataWithPlots = isBhumi ? { ...(data ?? {}), plots: data?.plots?.length ? data.plots : apiPlots } : data;
 
   // Default fallback lists
   const defaultBhojanList: Array<{ _id: string; title: string; amount: number }> = [
@@ -184,7 +192,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       name: formdata.name,
       phoneNumber: formdata.phoneNumber,
       totalAmount: finalPayingAmount,
-      paymentMethod: selectedPaymentMethod || undefined,
+      paymentMode: selectedPaymentMethod || undefined,
       ...(formdata.plotIds?.length > 0 && {
         // Send as an array (not a JSON string) so backend receives proper ObjectId array
         plotIds: formdata.plotIds,
@@ -405,8 +413,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                   </>
                 )}
                 <DonationForm
-                  category={data?.title ?? "Daan Title"}
-                  data={data}
+                  category={dataWithPlots?.title ?? data?.title ?? "Daan Title"}
+                  data={dataWithPlots}
                   handleSubmit={handleSubmit}
                   control={control}
                   errors={errors}

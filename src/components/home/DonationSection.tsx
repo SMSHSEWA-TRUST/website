@@ -277,7 +277,7 @@ export default function DonationSection() {
                         <div className={`flex-1 flex flex-col justify-between h-full md:h-64 gap-3 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <div className="flex-1">
                                 <p className="text-[rgba(30,30,30,0.5)] textDescription leading-relaxed font-secondaryFont mb-4">
-                                   {truncateByChars(currentTestimonial.text, 80)}
+                                   {truncateByChars(currentTestimonial.text, 300)}
                                 </p>
                                 {/* Decorative line after paragraph */}
                                 <div className="w-full flex justify-start mb-3">

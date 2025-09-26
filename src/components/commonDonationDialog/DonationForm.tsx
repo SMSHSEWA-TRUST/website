@@ -18,6 +18,11 @@ type DonationFormProps = {
   initialExpandedPlots?: Record<string, boolean>;
 };
 
+// Validation helpers
+const NAME_REGEX = /^[a-zA-Z\s.'-]{2,}$/; // letters, space, apostrophe, dot, hyphen
+const PHONE_REGEX = /^(?:\+91[-\s])?[6-9]\d{9}$/; // Indian mobile with optional +91 or leading 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const DonationForm: React.FC<DonationFormProps> = ({
   onSubmit,
   onAmountChange,
@@ -231,6 +236,24 @@ const DonationForm: React.FC<DonationFormProps> = ({
                   const val = plotContact[k];
                   if (val === undefined || val === null || String(val).trim() === "") {
                     plotErrors[k] = `${k === 'phoneNumber' ? 'Phone number' : k.charAt(0).toUpperCase() + k.slice(1)} is required`;
+                    return;
+                  }
+
+                  // field-specific validation
+                  if (k === 'name' || k === 'fatherName' || k === 'motherName') {
+                    if (!NAME_REGEX.test(String(val))) plotErrors[k] = 'Please enter a valid name (letters and spaces only)';
+                  }
+
+                  if (k === 'phoneNumber') {
+                    if (!PHONE_REGEX.test(String(val))) plotErrors[k] = 'Please enter a valid 10 digit phone number';
+                  }
+
+                  if (k === 'email') {
+                    if (!EMAIL_REGEX.test(String(val))) plotErrors[k] = 'Please enter a valid email address';
+                  }
+
+                  if (k === 'address') {
+                    if (String(val).trim().length < 5) plotErrors[k] = 'Address must be at least 5 characters';
                   }
                 });
 
@@ -306,7 +329,11 @@ const DonationForm: React.FC<DonationFormProps> = ({
               <Controller
                 name="name"
                 control={control}
-                rules={{ required: "Name is required" }}
+                rules={{
+                  required: "Name is required",
+                  pattern: { value: NAME_REGEX, message: 'Please enter a valid name (letters and spaces only, min 2 chars)' },
+                  minLength: { value: 2, message: 'Name must be at least 2 characters' }
+                }}
                 render={({ field }) => (
                   <input
                     {...field}
@@ -324,7 +351,11 @@ const DonationForm: React.FC<DonationFormProps> = ({
               <Controller
                 name="fatherName"
                 control={control}
-                rules={{ required: "Father name is required" }}
+                rules={{
+                  required: "Father name is required",
+                  pattern: { value: NAME_REGEX, message: 'Please enter a valid father name' },
+                  minLength: { value: 2, message: 'Father name must be at least 2 characters' }
+                }}
                 render={({ field }) => (
                   <input
                     {...field}
@@ -342,7 +373,11 @@ const DonationForm: React.FC<DonationFormProps> = ({
               <Controller
                 name="motherName"
                 control={control}
-                rules={{ required: "Mother name is required" }}
+                rules={{
+                  required: "Mother name is required",
+                  pattern: { value: NAME_REGEX, message: 'Please enter a valid mother name' },
+                  minLength: { value: 2, message: 'Mother name must be at least 2 characters' }
+                }}
                 render={({ field }) => (
                   <input
                     {...field}
@@ -360,11 +395,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
               <Controller
                 name="phoneNumber"
                 control={control}
-                rules={{ required: "Phone number is required" }}
+                rules={{
+                  required: "Phone number is required",
+                  pattern: { value: PHONE_REGEX, message: 'Please enter a valid 10 digit Indian phone number' }
+                }}
                 render={({ field }) => (
                   <input
                     {...field}
-                    placeholder="+91-(0000 000 0000)"
+                    placeholder="+91-(00000 00000) or 0XXXXXXXXXX"
                     className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
                   />
                 )}
@@ -381,7 +419,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                 rules={{
                   required: "Email is required",
                   pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    value: EMAIL_REGEX,
                     message: "Please enter a valid email",
                   },
                 }}
@@ -403,7 +441,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
               <Controller
                 name="address"
                 control={control}
-                rules={{ required: "Address is required" }}
+                rules={{ required: "Address is required", minLength: { value: 5, message: 'Address must be at least 5 characters' } }}
                 render={({ field }) => (
                   <input
                     {...field}

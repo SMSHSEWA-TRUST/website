@@ -21,8 +21,8 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
   plots,
   initialSelectedPlots = [],
 }) => {
-  // Sample data matching your structure
-  const [plotsData] = useState<plotTypes[]>(plots);
+  // Use the incoming plots prop directly; keep selectedPlots in state
+  const plotsData = plots || [];
 
   const [selectedPlots, setSelectedPlots] = useState<plotTypes[]>(initialSelectedPlots);
 
@@ -73,42 +73,35 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
       "w-14 h-14 border-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center text-sm font-medium";
     const isSelected = selectedPlots.some(p => p._id === plot._id);
 
-    switch (plot.status) {
-      case "occupied":
-        return `${baseStyle} bg-red-300 border-red-400 text-red-800 cursor-not-allowed`;
-      case "on_emi":
-        return `${baseStyle} bg-green-400 border-green-500 text-white hover:bg-green-500`;
-      case "payment_pending":
-        return `${baseStyle} bg-blue-300 border-blue-400 text-blue-800 cursor-not-allowed`;
-      case "available":
-        return isSelected
-          ? `${baseStyle} bg-orange-400 border-orange-500 text-white shadow-lg scale-105`
-          : `${baseStyle} bg-gray-100 border-gray-300 text-gray-700 hover:bg-gray-200 hover:border-gray-400`;
-      default:
-        return `${baseStyle} bg-gray-100 border-gray-300`;
+    // Normalize API status values and map them to UI styles.
+    const status = String(plot.status || '').toLowerCase();
+    // API may return statuses such as: 'available', 'purchases', 'EMI', or other variants.
+    if (status === 'available') {
+      return isSelected
+        ? `${baseStyle} bg-orange-400 border-orange-500 text-white shadow-lg scale-105`
+        : `${baseStyle} bg-gray-100 border-gray-300 text-gray-700 hover:bg-gray-200 hover:border-gray-400`;
     }
+
+    if (status === 'purchases' || status === 'purchased' || status === 'occupied') {
+      return `${baseStyle} bg-red-300 border-red-400 text-red-800 cursor-not-allowed`;
+    }
+
+    if (status === 'pending' || status === 'payment_pending' || status === 'payment-pending') {
+      return `${baseStyle} bg-blue-300 border-blue-400 text-blue-800 cursor-not-allowed`;
+    }
+
+    if (status === 'emi' || status === 'on_emi' || status === 'on-emi') {
+      return `${baseStyle} bg-green-400 border-green-500 text-white hover:bg-green-500`;
+    }
+
+    // fallback to a neutral "payment pending" / unknown state
+    return `${baseStyle} bg-blue-300 border-blue-400 text-blue-800 cursor-not-allowed`;
   };
 
-  // Create a 7x12 grid (84 plots total)
-  const rows = 7;
-  const cols = 12;
-  const gridPlots = Array(rows * cols)
-    .fill(null)
-    .map((_, index) => {
-      const plotNumber = index + 1;
-      return (
-        plotsData.find(plot => plot.plotNumber === plotNumber) ||
-        ({
-          _id: `empty-${plotNumber}`,
-          plotNumber,
-          status: "available",
-          price: 125000,
-          registrationCharge: 1000,
-          donor: null,
-          indication: null,
-        } as plotTypes)
-      );
-    });
+  // Use only the plots returned by the API. Sort them by plotNumber so the
+  // UI displays plots in numeric order. We no longer create placeholder
+  // entries — everything comes from the API as you requested.
+  const sortedPlots = [...plotsData].sort((a, b) => (a.plotNumber || 0) - (b.plotNumber || 0));
 
   return (
     <div className="max-w-6xl bg-white">
@@ -122,39 +115,38 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
       {/* Legend */}
       <div className="flex flex-wrap gap-6 mb-2 p-2 bg-gray-50 rounded-lg">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-red-300 border border-red-400 rounded"></div>
-          <span className="text-sm font-medium text-gray-700">Occupied</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-green-400 border border-green-500 rounded"></div>
-          <span className="text-sm font-medium text-gray-700">On EMI</span>
+          <div className="w-4 h-4 bg-gray-100 border border-gray-300 rounded"></div>
+          <span className="text-sm font-medium text-gray-700">Available (Click to select)</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-blue-300 border border-blue-400 rounded"></div>
-          <span className="text-sm font-medium text-gray-700">Payment Pending</span>
+          <span className="text-sm font-medium text-gray-700">Pending</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-gray-100 border border-gray-300 rounded"></div>
-          <span className="text-sm font-medium text-gray-700">
-            Available (Click to select multiple)
-          </span>
+          <div className="w-4 h-4 bg-green-400 border border-green-500 rounded"></div>
+          <span className="text-sm font-medium text-gray-700">EMI</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-red-300 border border-red-400 rounded"></div>
+          <span className="text-sm font-medium text-gray-700">Purchased / Occupied</span>
         </div>
       </div>
 
       {/* Plot Grid */}
       <div className="flex flex-wrap  gap-2 mb-8 p-4 bg-gray-50 rounded-lg">
-        {gridPlots.map(plot => (
-          <div
-            key={plot._id}
-            className={getPlotStyle(plot)}
-            onClick={() => handlePlotClick(plot)}
-            title={`Plot ${plot.plotNumber} - ${plot.status
-              .replace("_", " ")
-              .toUpperCase()} - ₹${plot.price.toLocaleString()} ${selectedPlots.some(p => p._id === plot._id) ? "(Selected)" : ""
-              }`}>
-            {plot.plotNumber}
-          </div>
-        ))}
+        {sortedPlots.map((plot: plotTypes) => {
+          const titleText = `Plot ${plot.plotNumber} - ${String(plot.status || '').replace(/_/g, ' ').toUpperCase()} - ₹${Number(plot.price || 0).toLocaleString()}${selectedPlots.some(p => p._id === plot._id) ? ' (Selected)' : ''}`;
+          return (
+            <div
+              key={plot._id}
+              className={getPlotStyle(plot)}
+              onClick={() => handlePlotClick(plot)}
+              title={titleText}
+            >
+              {plot.plotNumber}
+            </div>
+          );
+        })}
       </div>
 
       {/* Clear Selection Button */}
