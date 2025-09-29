@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import LogoImage from "../assets/images/Logo.png";
 import otpBgImage from "../assets/images/loginBg.png";
 import { shouldShowFamilyDetails } from "../api/FamilyQueries";
+import { useVerifyOtp, useResendOtp } from "@/api/AuthQueries";
 
 export default function OtpVerification() {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
@@ -15,6 +16,8 @@ export default function OtpVerification() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [resendLoading, setResendLoading] = useState(false);
+  const verifyMutation = useVerifyOtp();
+  const resendMutation = useResendOtp();
 
   const handleChange = (element: HTMLInputElement, index: number) => {
     if (isNaN(Number(element.value))) return false;
@@ -41,25 +44,12 @@ export default function OtpVerification() {
 
     setResendLoading(true);
     try {
-      const res = await fetch("https://api.smshsewatrust.com/api/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: mobile }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        const msg =
-          (data && (data.message || data.error)) || `Request failed with status ${res.status}`;
-        throw new Error(msg);
-      }
-
+      await resendMutation.mutateAsync({ phone: mobile });
       setSuccess("OTP resent successfully.");
       // Optionally update navigation state server data if needed
-      // (location.state as any).server = data;
+      // (location.state as any).server = result;
     } catch (err: any) {
-      setError(err?.message || "Resend OTP failed");
+      setError(err?.response?.data?.message || err?.message || "Resend OTP failed");
     } finally {
       setResendLoading(false);
     }
@@ -103,19 +93,7 @@ export default function OtpVerification() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://api.smshsewatrust.com/api/user/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: mobile, otp: code }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        const msg =
-          (data && (data.message || data.error)) || `Request failed with status ${res.status}`;
-        throw new Error(msg);
-      }
+      const data: any = await verifyMutation.mutateAsync({ phone: mobile, otp: code });
 
       setSuccess("OTP verified. Redirecting...");
       //Stored token and user data in localStorage

@@ -3,70 +3,26 @@ import { useI18n } from '@/lib/i18n';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { authTokenAxios } from '@/services/axios';
+import { useGetAllSubscriptions } from '@/api/SubscriptionQueries';
 
 
 const SubscriptionPlans: React.FC = () => {
     const { t } = useI18n();
 
-    const plans = [
-        {
-            id: "three_months",
-            title: "3 Months",
-            priceMonthly: "₹1100 ",
-            priceAnnually: "billed every 3 Months",
-            subtitle: "billed every 3 Months",
-            tagline: "",
-            features: [
-                "Monthly Prasad delivery to your home",
-                "Inclusion in monthly special pujas & aarti sankalp",
-                "Exclusive festival reminders and rituals guide",
-                "Access to digital newsletters with temple updates and spiritual content",
-            ],
-            buttonText: "Get Started",
-        },
-        {
-            id: "six_months",
-            title: "6 Months",
-            priceMonthly: "₹2100",
-            priceAnnually: "billed every 6 Months",
-            subtitle: "billed every 6 Months",
-            tagline: "",
-            features: [
-                "All benefits of the 3-month plan",
-                "Bi-monthly Special hamper of temple offerings",
-                "Priority sankalp (name inclusion) in major rituals",
-                "Access to devotional audio recordings (chants, bhajans, mantras)",
-            ],
-            buttonText: "Get Started",
-        },
-        {
-            id: "twelve_months",
-            title: "12 Months",
-            priceMonthly: "₹5100",
-            priceAnnually: "billed annually",
-            subtitle: "billed annually",
-            tagline: "",
-            features: [
-                "All benefits of the 6-month plan",
-                "Monthly premium Prasad delivery with festive additions",
-                "Exclusive family sankalp inclusion in yearly temple yagna/maha aarti",
-                "Annual personalized blessings letter from the temple priest",
-                "Complimentary temple calendar & spiritual guidebook delivered once a year",
-            ],
-            buttonText: "Get Started",
-        },
-    ];
+    // fetch subscriptions from API
+    const { data: subsResp, isLoading, isError } = useGetAllSubscriptions();
 
-    // Default select the 12-month plan (index 2)
-    const [selectedIndex, setSelectedIndex] = useState<number>(2);
+    // subsResp expected shape: { success, count, data: Subscription[] }
+    const apiPlans = (subsResp && (subsResp as any).data) || [];
+
+    // while loading, fall back to an empty array which will render skeletons or existing content
+    const displayPlans: any[] = apiPlans.length ? apiPlans : [];
+
+    // Default select the first plan
+    const [selectedIndex, setSelectedIndex] = useState<number>(0);
     const navigate = useNavigate();
 
-    // Map plan id to amount in paise (Razorpay expects amount in smallest currency unit)
-    const planAmountMap: Record<string, number> = {
-        three_months: 1100 * 100,
-        six_months: 2100 * 100,
-        twelve_months: 5100 * 100,
-    };
+    // No static map — use amount from API when available (amount is in rupees)
 
     // load Razorpay checkout script if not already loaded
     const loadRazorpayScript = (): Promise<boolean> => {
@@ -100,14 +56,22 @@ const SubscriptionPlans: React.FC = () => {
         }
     };
 
-    const openRazorpayCheckout = async (planId: string) => {
+    const openRazorpayCheckout = async (planId: string, amountRupees?: number) => {
         const authToken = localStorage.getItem('authToken');
         if (!authToken) {
             navigate('/login', { state: { redirectTo: '/', planId } });
             return;
         }
 
-        const amount = planAmountMap[planId] ?? 100 * 100; // default ₹100 if unknown
+        // determine amount in paise
+        let amount = 100 * 100; // default ₹100
+        if (typeof amountRupees === 'number') {
+            amount = Math.round(amountRupees * 100);
+        } else {
+            // try to find in fetched plans
+            const found = apiPlans.find((p: any) => p._id === planId || p.id === planId);
+            if (found && typeof found.amount === 'number') amount = Math.round(found.amount * 100);
+        }
 
         const loaded = await loadRazorpayScript();
         if (!loaded) {
@@ -236,13 +200,15 @@ const SubscriptionPlans: React.FC = () => {
                 </div> */}
 
                 {/* Cards Grid */}
+                {isLoading && <p className="text-center mb-4">Loading plans...</p>}
+                {isError && <p className="text-center mb-4 text-red-600">Failed to load plans.</p>}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch bg-[#F8F5F0] rounded-md  ">
-                    {plans.map((plan, idx) => {
+                    {displayPlans.map((plan: any, idx: number) => {
                         const selected = idx === selectedIndex;
 
                         return (
                             <div
-                                key={plan.id}
+                                key={plan._id || plan.id || idx}
                                 onClick={() => setSelectedIndex(idx)}
                                 role="button"
                                 tabIndex={0}
@@ -257,7 +223,7 @@ const SubscriptionPlans: React.FC = () => {
                                     <div className="mb-4">
                                         <div className="flex items-center gap-2 mb-1">
                                             <h3 className={`textHeadingLg font-semibold tracking-wider ${selected ? 'text-white' : 'text-gray-900'}`}>
-                                                {plan.title}
+                                                { plan.duration } Months
                                             </h3>
                                             {/* discount not used for these plans */}
                                         </div>
@@ -270,19 +236,22 @@ const SubscriptionPlans: React.FC = () => {
                                     <div className="mb-1">
                                         <div className="flex items-baseline">
                                             <span className={`textHeading font-bold ${selected ? 'text-white' : '#000000'}`}>
-                                                {plan.priceMonthly}
+                                                { `₹${plan.amount}`}
                                             </span>
                                         </div>
                                     </div>
 
                                     {/* Subtitle */}
                                     <p className={`text-sm mb-6 ${selected ? 'text-white/90' : '#000000'}`}>
-                                        {plan.subtitle}
+                                        {plan.duration < 12
+                                            ? `Billed every ${plan.duration} month${plan.duration > 1 ? "s" : ""}`
+                                            : `Billed every ${plan.duration / 12} year${plan.duration / 12 > 1 ? "s" : ""}`
+                                        }
                                     </p>
 
                                     {/* Tagline */}
                                     <p className={`text-md font-medium mb-6 ${selected ? 'text-white' : '#000000'}`}>
-                                        {plan.tagline}
+                                        {plan.tagline || ''}
                                     </p>
 
                                     {/* Features */}
@@ -292,7 +261,7 @@ const SubscriptionPlans: React.FC = () => {
                                         </h4>
                                     </div>
                                     <ul className="space-y-3 mb-8">
-                                        {plan.features.map((feature, i) => (
+                                        {(plan.planBenefits || plan.features || []).map((feature: any, i: number) => (
                                             <li key={i} className="flex items-start gap-2">
                                                 <svg
                                                     className={`w-4 h-4 mt-0.5 flex-shrink-0 ${selected ? 'text-white' : 'text-gray-400'}`}
@@ -315,13 +284,13 @@ const SubscriptionPlans: React.FC = () => {
                                 </div>
 
                                 {/* Button */}
-                                <button onClick={(e) => { e.stopPropagation(); openRazorpayCheckout(plan.id); }} className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors ${selected
+                                <button onClick={(e) => { e.stopPropagation(); openRazorpayCheckout(plan._id || plan.id, plan.amount); }} className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors ${selected
                                     ? 'bg-white text-red-800 hover:bg-gray-50'
                                     : plan.id === 'enterprise'
                                         ? 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
                                         : 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
                                     }`}>
-                                    {plan.buttonText}
+                                    {plan.buttonText || 'Get Started'}
                                 </button>
                             </div>
                         );

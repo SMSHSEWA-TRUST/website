@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoImage from "../assets/images/Logo.png";
 import SignUpBgImage from "../assets/images/loginBg.png";
+import { useRegister } from "@/api/AuthQueries";
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const registerMutation = useRegister();
 
 
   // User Details handlers
@@ -57,44 +59,25 @@ export default function SignupPage() {
     }
 
     setLoading(true);
-
     try {
-      // Build payload that matches expected API shape
       const completeFormData = {
         ...userDetails,
         familyDetails: {
           gotra: null,
           nakshatra: null,
           sankalp: null,
-          members: []
+          members: [],
         },
-        isFamilyDetailsAdded: false
+        isFamilyDetailsAdded: false,
       };
 
-      const res = await fetch("https://api.smshsewatrust.com/api/user/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(completeFormData),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        const msg =
-          (data && (data.message || data.error)) || `Request failed with status ${res.status}`;
-        throw new Error(msg);
-      }
-
+      const result: any = await registerMutation.mutateAsync(completeFormData);
       setSuccess("Registered successfully. Redirecting to login...");
-
-      // Redirect to login page after successful signup
       setTimeout(() => {
-        navigate("/login", { state: { phone: userDetails.phone } });
+        navigate("/login", { state: { phone: userDetails.phone, server: result } });
       }, 1000);
     } catch (err: any) {
-      setError(err?.message || "Something went wrong");
+      setError(err?.response?.data?.message || err?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

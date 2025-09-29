@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoImage from "../assets/images/Logo.png";
 import LoginBgImage from "../assets/images/loginBg.png"
+import { useLogin } from "@/api/AuthQueries";
 
 export default function LoginPage() {
   const [mobileNumber, setMobileNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const loginMutation = useLogin();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMobileNumber(e.target.value);
@@ -25,26 +27,14 @@ export default function LoginPage() {
       return;
     }
 
+    // use react-query mutation to call the service
     setLoading(true);
-
     try {
-      const res = await fetch("https://api.smshsewatrust.com/api/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: mobileNumber }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        const msg =
-          (data && (data.message || data.error)) || `Request failed with status ${res.status}`;
-        throw new Error(msg);
-      }
-
-      navigate("/otp", { state: { mobile: mobileNumber, server: data } });
+      const result: any = await loginMutation.mutateAsync({ phone: mobileNumber });
+      // result is expected to be the response data from the API (axios interceptor returns data)
+      navigate("/otp", { state: { mobile: mobileNumber, server: result } });
     } catch (err: any) {
-      setError(err?.message || "Something went wrong");
+      setError(err?.response?.data?.message || err?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

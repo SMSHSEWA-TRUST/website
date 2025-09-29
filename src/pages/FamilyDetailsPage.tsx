@@ -83,8 +83,7 @@ export default function FamilyDetailsPage() {
 
             if (userId) {
                 // Call API to mark family details as completed (even though skipped)
-                // Use fetch directly to avoid axios interceptors/toasts for skip action
-                const authToken = localStorage.getItem('authToken');
+                // Use existing API function so it goes through shared axios/interceptors
                 const payload = {
                     familyDetails: {
                         gotra: null,
@@ -96,17 +95,10 @@ export default function FamilyDetailsPage() {
                 };
 
                 try {
-                    await fetch(`https://api.smshsewatrust.com/api/user/puja-family/${userId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            ...(authToken ? { Authorization: `Bearer ${authToken}` } : {})
-                        },
-                        body: JSON.stringify(payload),
-                    });
+                    await updateFamilyDetails(userId, payload);
                 } catch (e) {
                     // swallow error - we'll still update localStorage to avoid redirect loops
-                    console.warn('Skip API call failed (ignored):', e);
+                    console.warn('Skip API call (updateFamilyDetails) failed (ignored):', e);
                 }
             }
 
@@ -161,13 +153,13 @@ export default function FamilyDetailsPage() {
             };
 
             // Call API to save family details using the service
-            const resp = await updateFamilyDetails(userId, payload);
+            await updateFamilyDetails(userId, payload);
 
             // Update user data in localStorage to reflect isFamilyDetailsAdded: true
             updateUserInStorage({ isFamilyDetailsAdded: true });
 
             // Prefer server-provided message when available
-            const serverMsg = resp?.message || resp?.data?.message || "Family details saved successfully!";
+            const serverMsg = "Family details saved successfully!";
             setSuccess(serverMsg + " Redirecting...");
 
             setTimeout(() => {

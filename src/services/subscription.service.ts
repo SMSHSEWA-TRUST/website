@@ -9,7 +9,7 @@ export type Subscription = {
 };
 
 
-export const getAllSubscriptions = () => authTokenAxios.get(`/api/subscriptions/`);
+export const getAllSubscriptions = () => authTokenAxios.get(`/subscriptions/`);
 
 export default {
   getAllSubscriptions,

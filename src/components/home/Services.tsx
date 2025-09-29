@@ -31,6 +31,28 @@ const Services = (): JSX.Element => {
 
     const localizedItems = (t('services.items') as any[]) || defaultItems;
 
+    // Provide explicit order classes so we can swap specific cards at the md breakpoint.
+    // Tailwind needs literal class names to keep them in the build, so return the
+    // exact strings instead of constructing them dynamically.
+    const getOrderClass = (idx: number) => {
+        switch (idx) {
+            case 0:
+                return 'order-1 ';
+            case 1:
+                return 'order-2 ';
+            case 2:
+                return 'order-3 ';
+            case 3:
+                return 'order-6 xl:order-4 ';
+            case 4:
+                return 'order-5 ';
+            case 5:
+                return 'order-4 xl:order-6 ';
+            default:
+                return `order-${idx + 1}`;
+        }
+    };
+
     return (
         <section className="relative w-full bg-[#ece5df] py-16 px-4 md:px-16 lg:px-24 overflow-hidden">
             {/* Decorative background image for large screens */}
@@ -101,8 +123,9 @@ const Services = (): JSX.Element => {
 
                     {localizedItems.map((item, idx) => {
                         const img = images[idx];
+                        const orderClass = getOrderClass(idx);
                         return img ? (
-                            <div key={idx} className="w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10" style={{ background: '#fff' }}>
+                            <div key={idx} className={`${orderClass} w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10`} style={{ background: '#fff' }}>
                                 <LazyLoadImage
                                     src={img}
                                     alt={item.title}
@@ -112,7 +135,7 @@ const Services = (): JSX.Element => {
                                 />
                             </div>
                         ) : (
-                            <div key={idx} className=" w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center relative z-10">
+                            <div key={idx} className={`${orderClass} w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center relative z-10`}>
                                 <LazyLoadImage
                                     src={omPng}
                                     alt="Om symbol"

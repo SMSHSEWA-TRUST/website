@@ -42,6 +42,27 @@ const DonationForm: React.FC<DonationFormProps> = ({
   const [sameDetailsForAll, setSameDetailsForAll] = useState(initialSameDetailsForAll);
   const [expandedPlots, setExpandedPlots] = useState<Record<string, boolean>>(initialExpandedPlots);
   const [plotFieldErrors, setPlotFieldErrors] = useState<Record<string, Record<string, string>>>({});
+  const [notEditableMsgs, setNotEditableMsgs] = useState<Record<string, string>>({});
+
+  // Read stored registered user (if any) to prefill and lock contact fields
+  const storedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+  const registeredUser = storedUser ? JSON.parse(storedUser) : null;
+
+  // If user is registered and there are selected plots, prefill the first plot's contact
+  useEffect(() => {
+    if (!registeredUser) return;
+    const firstId = selectedPlots?.[0]?._id;
+    if (!firstId) return;
+    setLandContacts(prev => {
+      const next = { ...prev };
+      next[firstId] = {
+        ...(next[firstId] || {}),
+        phoneNumber: next[firstId]?.phoneNumber || registeredUser.phone || next[firstId]?.phoneNumber || "",
+        email: next[firstId]?.email || registeredUser.email || next[firstId]?.email || "",
+      };
+      return next;
+    });
+  }, [registeredUser, selectedPlots]);
 
   const handleDonationSelect = (option: { _id: string; name: string; amount: number }) => {
     setSelectedOption(option);
@@ -177,6 +198,18 @@ const DonationForm: React.FC<DonationFormProps> = ({
       }
       return next;
     });
+  };
+
+  const showNotEditableMessage = (key: string) => {
+    setNotEditableMsgs(prev => ({ ...prev, [key]: "This field is prefilled from your registered account and cannot be edited." }));
+    // hide after 2 seconds
+    setTimeout(() => {
+      setNotEditableMsgs(prev => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }, 2000);
   };
 
   const toggleExpand = (plotId: string) => setExpandedPlots(prev => ({ ...prev, [plotId]: !prev[plotId] }));
@@ -400,11 +433,17 @@ const DonationForm: React.FC<DonationFormProps> = ({
                   pattern: { value: PHONE_REGEX, message: 'Please enter a valid 10 digit Indian phone number' }
                 }}
                 render={({ field }) => (
-                  <input
-                    {...field}
-                    placeholder="+91-(00000 00000) or 0XXXXXXXXXX"
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
-                  />
+                  <>
+                    <input
+                      {...field}
+                      placeholder="+91-(00000 00000) or 0XXXXXXXXXX"
+                      readOnly={Boolean(registeredUser)}
+                      onClick={() => { if (registeredUser) showNotEditableMessage('globalPhone'); }}
+                      onFocus={() => { if (registeredUser) showNotEditableMessage('globalPhone'); }}
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white"
+                    />
+                    {notEditableMsgs['globalPhone'] && <p className="text-gray-500 text-xs mt-1">{notEditableMsgs['globalPhone']}</p>}
+                  </>
                 )}
               />
               {errors?.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber.message}</p>}
@@ -424,12 +463,18 @@ const DonationForm: React.FC<DonationFormProps> = ({
                   },
                 }}
                 render={({ field }) => (
-                  <input
-                    {...field}
-                    type="email"
-                    placeholder="Your email@gmail.com"
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
-                  />
+                  <>
+                    <input
+                      {...field}
+                      type="email"
+                      placeholder="Your email@gmail.com"
+                      readOnly={Boolean(registeredUser)}
+                      onClick={() => { if (registeredUser) showNotEditableMessage('globalEmail'); }}
+                      onFocus={() => { if (registeredUser) showNotEditableMessage('globalEmail'); }}
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white"
+                    />
+                    {notEditableMsgs['globalEmail'] && <p className="text-gray-500 text-xs mt-1">{notEditableMsgs['globalEmail']}</p>}
+                  </>
                 )}
               />
               {errors?.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
@@ -539,8 +584,12 @@ const DonationForm: React.FC<DonationFormProps> = ({
                             <input
                               value={landContacts[plot._id]?.phoneNumber || ""}
                               onChange={e => handleLandContactChange(plot._id, "phoneNumber", e.target.value)}
+                              readOnly={Boolean(registeredUser) && selectedPlots?.[0]?._id === plot._id}
+                              onClick={() => { if (registeredUser && selectedPlots?.[0]?._id === plot._id) showNotEditableMessage(`${plot._id}-phone`); }}
+                              onFocus={() => { if (registeredUser && selectedPlots?.[0]?._id === plot._id) showNotEditableMessage(`${plot._id}-phone`); }}
                               className={`w-full px-3 py-2.5 rounded-lg outline-none ${err ? 'border border-red-500' : 'border border-gray-300'}`}
                             />
+                            {notEditableMsgs[`${plot._id}-phone`] && <p className="text-gray-500 text-xs mt-1">{notEditableMsgs[`${plot._id}-phone`]}</p>}
                             {err && <p className="text-red-500 text-xs mt-1">{err}</p>}
                           </>
                         );
@@ -555,8 +604,12 @@ const DonationForm: React.FC<DonationFormProps> = ({
                             <input
                               value={landContacts[plot._id]?.email || ""}
                               onChange={e => handleLandContactChange(plot._id, "email", e.target.value)}
+                              readOnly={Boolean(registeredUser) && selectedPlots?.[0]?._id === plot._id}
+                              onClick={() => { if (registeredUser && selectedPlots?.[0]?._id === plot._id) showNotEditableMessage(`${plot._id}-email`); }}
+                              onFocus={() => { if (registeredUser && selectedPlots?.[0]?._id === plot._id) showNotEditableMessage(`${plot._id}-email`); }}
                               className={`w-full px-3 py-2.5 rounded-lg outline-none ${err ? 'border border-red-500' : 'border border-gray-300'}`}
                             />
+                            {notEditableMsgs[`${plot._id}-email`] && <p className="text-gray-500 text-xs mt-1">{notEditableMsgs[`${plot._id}-email`]}</p>}
                             {err && <p className="text-red-500 text-xs mt-1">{err}</p>}
                           </>
                         );
