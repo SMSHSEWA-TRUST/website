@@ -159,8 +159,7 @@ export default function FamilyDetailsPage() {
             updateUserInStorage({ isFamilyDetailsAdded: true });
 
             // Prefer server-provided message when available
-            const serverMsg = "Family details saved successfully!";
-            setSuccess(serverMsg + " Redirecting...");
+            setSuccess("Family details saved successfully!");
 
             setTimeout(() => {
                 navigate("/", { replace: true });

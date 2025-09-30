@@ -34,12 +34,14 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         { name: t('footer.specialLinks.about'), url: '/about' },
         { name: t('footer.specialLinks.mission'), url: '/about#image-section' },
         { name: t('footer.specialLinks.donate'), url: '/donate' },
-        { name: t('footer.specialLinks.gallery'), url: '/gallery' },
+        {
+            name: t('footer.specialLinks.gallery'), url: 'https://www.instagram.com/smshsewatrust/'
+        },
         { name: t('footer.specialLinks.contact'), url: '/contact' },
     ];
 
     const socialLinks: SocialLink[] = [
-        { name: t('footer.social.facebook'), icon: facebookIcon, url: '#' },
+        { name: t('footer.social.facebook'), icon: facebookIcon, url: 'https://www.facebook.com/profile.php?id=61579738496449' },
         { name: t('footer.social.twitter'), icon: twitterIcon, url: '#' },
         { name: t('footer.social.instagram'), icon: instagramIcon, url: '#' },
         { name: t('footer.social.linkedin'), icon: linkedinIcon, url: '#' },
@@ -47,9 +49,10 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
     ];
 
     const bottomLinks: FooterLink[] = [
-        { name: t('footer.bottom.partnerships'), url: '#' },
-        { name: t('footer.bottom.templeSupport'), url: '#' },
-        { name: t('footer.bottom.privacy'), url: '#' },
+        // { name: t('footer.bottom.partnerships'), url: '#' },
+        // { name: t('footer.bottom.templeSupport'), url: '#' },
+        { name: t('footer.bottom.privacy'), url: '/privacy' },
+        { name: t('footer.bottom.terms'), url: '/terms' },
     ];
 
     return (
@@ -226,18 +229,27 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     <div className="flex items-center space-x-4">
                                         {bottomLinks.map((link, index) => (
                                             <React.Fragment key={index}>
-                                                {index > 0 && (
-                                                    <div className="flex items-center justify-center">
-                                                        <div className="w-2.5 h-2.5 bg-secondaryColor rounded-full flex-shrink-0" />
-                                                    </div>
-                                                )}
+
+                                                <div className="flex items-center justify-center">
+                                                    <div className="w-2.5 h-2.5 bg-secondaryColor rounded-full flex-shrink-0" />
+                                                </div>
+
                                                 <div className="flex items-center">
-                                                    <a
-                                                        href={link.url}
-                                                        className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
-                                                    >
-                                                        {link.name}
-                                                    </a>
+                                                    {link.url && link.url.startsWith('/') ? (
+                                                        <Link
+                                                            to={link.url}
+                                                            className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
+                                                        >
+                                                            {link.name}
+                                                        </Link>
+                                                    ) : (
+                                                        <a
+                                                            href={link.url}
+                                                            className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
+                                                        >
+                                                            {link.name}
+                                                        </a>
+                                                    )}
                                                 </div>
                                             </React.Fragment>
                                         ))}
@@ -324,13 +336,8 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     </div>
                                 </div>
                                 <div className="flex textDescription  items-center space-x-1">
-                                    <span>All Rights Reserved © 2025 |</span>
-                                    <a
-                                        href="#"
-                                        className="font-secondaryFont text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
-                                    >
-                                        Terms & Conditions
-                                    </a>
+                                    <span>All Rights Reserved © 2025 </span>
+
                                 </div>
                             </div>
                         </div>
@@ -529,18 +536,17 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             <div className="flex flex-wrap justify-center items-center space-x-1 font-secondaryFont">
                                 {bottomLinks.map((link, index) => (
                                     <React.Fragment key={index}>
-                                        {index > 0 && (
-                                            <div className="flex items-center justify-center mx-2">
-                                                <div className="w-2 h-2 bg-secondaryColor rounded-full" />
-                                            </div>
-                                        )}
+
+                                        <div className="flex items-center justify-center mx-2">
+                                            <div className="w-2 h-2 bg-secondaryColor rounded-full" />
+                                        </div>
+
                                         <div className="flex items-center">
-                                            <a
-                                                href={link.url}
-                                                className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors px-1"
-                                            >
-                                                {link.name}
-                                            </a>
+                                            {link.url && link.url.startsWith('/') ? (
+                                                <Link to={link.url} className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors px-1">{link.name}</Link>
+                                            ) : (
+                                                <a href={link.url} className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors px-1">{link.name}</a>
+                                            )}
                                         </div>
                                     </React.Fragment>
                                 ))}
@@ -574,9 +580,9 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 </div>
                                 <div className="flex items-center space-x-1">
                                     <span>All Rights Reserved © 2025 |</span>
-                                    <a href="#" className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
+                                    <Link to="/terms" className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
                                         Terms & Conditions
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

@@ -23,9 +23,11 @@ export const BlogDetailsPage = (): JSX.Element => {
 
     // fetch actual blog post from WP by id so we can show real title/date in hero
     const [apiPost, setApiPost] = useState<any | null>(null);
+    const [loadingPost, setLoadingPost] = useState<boolean>(false);
     useEffect(() => {
         let mounted = true;
         if (!id) return;
+        setLoadingPost(true);
         getBlogPostById(id as string)
             .then((data) => {
                 if (!mounted) return;
@@ -33,6 +35,10 @@ export const BlogDetailsPage = (): JSX.Element => {
             })
             .catch(() => {
                 // silent fallback to translations if API call fails
+            })
+            .finally(() => {
+                if (!mounted) return;
+                setLoadingPost(false);
             });
         return () => { mounted = false; };
     }, [id]);
@@ -41,16 +47,19 @@ export const BlogDetailsPage = (): JSX.Element => {
         <>
             {/* Hero Section */}
             <Suspense fallback={<ComponentLoader height="h-96" />}>
-                <HeroSection
-                    title={
-                        (apiPost?.title?.rendered as string) 
-                    }
-                    // subtitle for this blog — prefer API date (formatted), then selected subtitle, then translations
-                    semiTitle={
-                        apiPost?.date ? new Date(apiPost.date).toLocaleDateString() : (selected?.subtitle ?? (t('pageHero.blogDetails.semiTitle') as string) ?? (t('BlogDetailsPage.semiTitle') as string))
-                    }
-                    backgroundImage={BlogdetailWebp}
-                />
+                {loadingPost ? (
+                    // show a hero-sized loader while the API fetch for the post is in-flight
+                    <ComponentLoader height="h-96" />
+                ) : (
+                    <HeroSection
+                        title={(apiPost?.title?.rendered as string) ?? (selected?.title ?? '')}
+                        // subtitle for this blog — prefer API date (formatted), then selected subtitle, then translations
+                        semiTitle={
+                            apiPost?.date ? new Date(apiPost.date).toLocaleDateString() : (selected?.subtitle ?? (t('pageHero.blogDetails.semiTitle') as string) ?? (t('BlogDetailsPage.semiTitle') as string))
+                        }
+                        backgroundImage={BlogdetailWebp}
+                    />
+                )}
             </Suspense>
 
             {/* Blog Details Section */}

@@ -15,6 +15,8 @@ const PujaPage = lazy(() => import('../pages/Puja').then(module => ({ default: m
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const SignupPage = lazy(() => import('../pages/SignupPage'));
 const FamilyDetailsPage = lazy(() => import('../pages/FamilyDetailsPage'));
+const TermsPage = lazy(() => import('../pages/TermsAndConditions').then(module => ({ default: module.TermsPage })));
+const PrivacyPage = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPage })));
 
 export const AppRoutes = (): JSX.Element => {
   return (
@@ -62,7 +64,7 @@ export const AppRoutes = (): JSX.Element => {
             <LoginPage />
           </FamilyDetailsGuard>
         } />
-      
+
         <Route path="/otp" element={
           <FamilyDetailsGuard skipFamilyCheck={true}>
             <OtpVerification />
@@ -71,6 +73,16 @@ export const AppRoutes = (): JSX.Element => {
         <Route path="/signup" element={
           <FamilyDetailsGuard skipFamilyCheck={true}>
             <SignupPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/terms" element={
+          <FamilyDetailsGuard>
+            <TermsPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/privacy" element={
+          <FamilyDetailsGuard>
+            <PrivacyPage />
           </FamilyDetailsGuard>
         } />
         <Route path="/family-details" element={

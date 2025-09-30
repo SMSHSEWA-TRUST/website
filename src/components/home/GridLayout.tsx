@@ -32,11 +32,11 @@ const GridLayout = (): JSX.Element => {
                                     {t('grid.instagram')}
                                 </span>
                             </Button>
-                            <Button onClick={() => navigate('/gallery')} className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
-                                <span className="font-secondaryFont font-normal textDescription tracking-wide">
-                                    {t('grid.gallery')}
-                                </span>
-                            </Button>
+<Button onClick={() => window.open('https://www.instagram.com/smshsewatrust/', '_blank')} className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+    <span className="font-secondaryFont font-normal textDescription tracking-wide">
+        {t('grid.gallery')}
+    </span>
+</Button>
                         </div>
                     </div>
                 </div>
