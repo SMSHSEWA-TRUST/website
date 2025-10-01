@@ -559,9 +559,22 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                           <div className="h-px bg-[#DAA520] w-full" />
                           <span className="w-2 h-2 bg-[#DAA520] rounded-full" />
                         </div>
+
                         <div className="mt-2">
                           <div className="font-semibold textDescription font-secondaryFont text-[#000000]">Disclaimer:</div>
-                          <p className="textDescription font-secondaryFont text-[#1E1E1E80]">{data?.cashDisclaimer ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'}</p>
+
+                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-2">We humbly request all devotees to kindly verify all details before making any donation. Donations made to Shri Mahakaleshwar Salasar Hanuman Seva Trust are used solely for temple activities, seva, and community welfare programs.</p>
+
+                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-2">Please note that:</p>
+
+                          <ul className="list-disc list-inside textDescription font-secondaryFont text-[#1E1E1E80] mt-1 space-y-1">
+                            <li>Donations made in cash should be submitted directly at the temple office only.</li>
+                            <li>Official receipts will be provided for every donation.</li>
+                            <li>The Trust will not be responsible for transactions made through unauthorized persons or channels.</li>
+                            <li>Devotees are encouraged to retain the receipt for future reference and transparency.</li>
+                          </ul>
+
+                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-3">🙏 Your support and blessings help us continue the seva and spiritual activities.</p>
                         </div>
                       </div>
 

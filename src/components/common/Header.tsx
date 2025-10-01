@@ -82,10 +82,12 @@ const Header = (): JSX.Element => {
 
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          // If scrolled down and past small threshold, hide header
-          if (currentY > lastScrollY.current && currentY > 50) {
+          
+          if (currentY > lastScrollY.current && currentY > 200) {
             setIsHidden(true);
-          } else {
+          }
+          // Show header if scrolling up OR if near the top of the page
+          else if (currentY < lastScrollY.current || currentY <= 150) {
             setIsHidden(false);
           }
 

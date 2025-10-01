@@ -41,7 +41,9 @@ authTokenAxios.interceptors.request.use(
 authTokenAxios.interceptors.response.use(
   response => {
     const method = response?.config?.method?.toLowerCase();
-    if (method === "post" && response?.data?.success) {
+    // Check if skipToast flag is set in config
+    const skipToast = (response?.config as any)?.skipToast;
+    if (method === "post" && response?.data?.success && !skipToast) {
       toast.success(response?.data?.message);
     }
     return response?.data;

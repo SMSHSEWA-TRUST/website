@@ -154,7 +154,7 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* Right Section - Main Image */}
-        <div className="relative h-[300px] md:h-[400px] lg:h-[638px]">
+        <div className="relative h-[300px] md:h-[400px] lg:h-[638px]  ">
           <LazyLoadImage className="w-full h-full object-cover" alt={t('contact.mainImageAlt') as string} src={contactMain} loading="lazy" />
 
           {/* Optional overlay for visual consistency */}

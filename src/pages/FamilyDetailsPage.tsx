@@ -95,7 +95,7 @@ export default function FamilyDetailsPage() {
                 };
 
                 try {
-                    await updateFamilyDetails(userId, payload);
+                    await updateFamilyDetails(userId, payload, true); // Skip toast for skip action
                 } catch (e) {
                     // swallow error - we'll still update localStorage to avoid redirect loops
                     console.warn('Skip API call (updateFamilyDetails) failed (ignored):', e);
@@ -153,12 +153,12 @@ export default function FamilyDetailsPage() {
             };
 
             // Call API to save family details using the service
-            await updateFamilyDetails(userId, payload);
+            await updateFamilyDetails(userId, payload, true); // Skip automatic toast
 
             // Update user data in localStorage to reflect isFamilyDetailsAdded: true
             updateUserInStorage({ isFamilyDetailsAdded: true });
 
-            // Prefer server-provided message when available
+            // Show custom success message
             setSuccess("Family details saved successfully!");
 
             setTimeout(() => {

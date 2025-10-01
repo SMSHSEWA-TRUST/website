@@ -26,13 +26,14 @@ const GridLayout = (): JSX.Element => {
                             {t('grid.lead')}
                         </p>
                         <div className="flex gap-2">
-                            <Button className="group border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+                            <Button className="group border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont"
+                            onClick={() => window.open('https://www.instagram.com/smshsewatrust/', '_blank')}>
                                 <img src={instagramIcon} alt="Instagram" className="w-5 h-5 lg:w-6 lg:h-6 mr-2 filter transition duration-200 group-hover:invert" />
                                 <span className="font-secondaryFont font-normal textDescription tracking-wide">
                                     {t('grid.instagram')}
                                 </span>
                             </Button>
-<Button onClick={() => window.open('https://www.instagram.com/smshsewatrust/', '_blank')} className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+<Button onClick={() => navigate('/gallery')} className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
     <span className="font-secondaryFont font-normal textDescription tracking-wide">
         {t('grid.gallery')}
     </span>

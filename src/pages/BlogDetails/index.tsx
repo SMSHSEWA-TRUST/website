@@ -64,7 +64,7 @@ export const BlogDetailsPage = (): JSX.Element => {
 
             {/* Blog Details Section */}
             <Suspense fallback={<BlogDetailsLoader />}>
-                <BlogDetails id={id} />
+                <BlogDetails id={id} blogPost={apiPost} />
             </Suspense>
         </>
     );

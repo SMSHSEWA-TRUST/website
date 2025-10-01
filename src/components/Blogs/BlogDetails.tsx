@@ -16,15 +16,16 @@ const stripHtml = (html?: string) => {
 
 interface Props {
     id?: string | number | undefined;
+    blogPost?: any; // optionally receive pre-fetched blog post from parent
 }
 
 const BlogDetails: React.FC<Props> = (props) => {
-    const { id: propId } = props;
+    const { id: propId, blogPost: preFetchedPost } = props;
     const params = useParams();
     const id = propId ?? params.id;
 
     // const { t } = useI18n(); // not used here
-    const [entry, setEntry] = useState<any | null>(null);
+    const [entry, setEntry] = useState<any | null>(preFetchedPost || null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [latestPosts, setLatestPosts] = useState<Array<any>>([]);
@@ -67,7 +68,18 @@ const BlogDetails: React.FC<Props> = (props) => {
     }, []);
 
     useEffect(() => {
+        // Sync the entry state when preFetchedPost changes
+        if (preFetchedPost) {
+            setEntry(preFetchedPost);
+        }
+    }, [preFetchedPost]);
+
+    useEffect(() => {
         let mounted = true;
+        // If we already have a pre-fetched post, don't fetch again
+        if (preFetchedPost) {
+            return () => { mounted = false; };
+        }
         if (!id) return () => { mounted = false; };
         setLoading(true);
         getBlogPostById(id as string)
@@ -84,7 +96,7 @@ const BlogDetails: React.FC<Props> = (props) => {
                 setLoading(false);
             });
         return () => { mounted = false; };
-    }, [id]);
+    }, [id, preFetchedPost]);
 
     // While the main post is loading, show the full blog-details skeleton so
     // the page does not look blank or partially rendered on refresh/direct load.

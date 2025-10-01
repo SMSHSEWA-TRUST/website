@@ -1,4 +1,4 @@
-import { HashRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Suspense, useEffect } from "react";
 import Layout from "./layout/Layout";
 import AppRoutes from "./routes";

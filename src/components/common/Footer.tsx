@@ -35,7 +35,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         { name: t('footer.specialLinks.mission'), url: '/about#image-section' },
         { name: t('footer.specialLinks.donate'), url: '/donate' },
         {
-            name: t('footer.specialLinks.gallery'), url: 'https://www.instagram.com/smshsewatrust/'
+            name: t('footer.specialLinks.gallery'), url: '/gallery'
         },
         { name: t('footer.specialLinks.contact'), url: '/contact' },
     ];
@@ -43,7 +43,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
     const socialLinks: SocialLink[] = [
         { name: t('footer.social.facebook'), icon: facebookIcon, url: 'https://www.facebook.com/profile.php?id=61579738496449' },
         { name: t('footer.social.twitter'), icon: twitterIcon, url: '#' },
-        { name: t('footer.social.instagram'), icon: instagramIcon, url: '#' },
+        { name: t('footer.social.instagram'), icon: instagramIcon, url: 'https://www.instagram.com/smshsewatrust/' },
         { name: t('footer.social.linkedin'), icon: linkedinIcon, url: '#' },
         { name: t('footer.social.youtube'), icon: youtubeIcon, url: '#' },
     ];
@@ -154,6 +154,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         {t('header.title')}
                                     </h1>
                                 </div>
+                                <div className="flex flex-col items-center">
+                                    <h2 className="font-primaryFont textDescription text-white ">
+                                        {t('footer.helpText')}
+                                    </h2>
+                                </div>
 
                                 {/* Decorative Line */}
                                 <div className="flex items-center justify-center py-2 w-full">
@@ -230,9 +235,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         {bottomLinks.map((link, index) => (
                                             <React.Fragment key={index}>
 
-                                                <div className="flex items-center justify-center">
+                                                {
+                                                    (index > 0 && (<div className="flex items-center justify-center">
                                                     <div className="w-2.5 h-2.5 bg-secondaryColor rounded-full flex-shrink-0" />
-                                                </div>
+                                                </div>))
+                                                }
 
                                                 <div className="flex items-center">
                                                     {link.url && link.url.startsWith('/') ? (
@@ -372,6 +379,12 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     }}>
                                     Shree Mahakaleshwar Salasar<br />Hanuman Sewa Trust
                                 </h1>
+                            </div>
+
+                            <div className="flex flex-col items-center">
+                                <h2 className="font-primaryFont textDescription text-white ">
+                                    {t('footer.helpText')}
+                                </h2>
                             </div>
 
                             {/* Decorative Line (same as desktop, with arrows and dots) */}
@@ -536,10 +549,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             <div className="flex flex-wrap justify-center items-center space-x-1 font-secondaryFont">
                                 {bottomLinks.map((link, index) => (
                                     <React.Fragment key={index}>
-
-                                        <div className="flex items-center justify-center mx-2">
-                                            <div className="w-2 h-2 bg-secondaryColor rounded-full" />
-                                        </div>
+                                        {index > 0 && (
+                                            <div className="flex items-center justify-center mx-2">
+                                                <div className="w-2 h-2 bg-secondaryColor rounded-full" />
+                                            </div>
+                                        )}
 
                                         <div className="flex items-center">
                                             {link.url && link.url.startsWith('/') ? (

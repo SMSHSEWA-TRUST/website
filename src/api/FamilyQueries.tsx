@@ -28,9 +28,11 @@ export const checkFamilyDetailsStatus = async (userId: string) => {
   }
 };
 
-export const updateFamilyDetails = async (userId: string, payload: FamilyDetailsPayload) => {
+export const updateFamilyDetails = async (userId: string, payload: FamilyDetailsPayload, skipToast = false) => {
   try {
-    const response = await authTokenAxios.post(`/user/puja-family/${userId}`, payload);
+    const response = await authTokenAxios.post(`/user/puja-family/${userId}`, payload, {
+      skipToast
+    } as any);
     return response.data;
   } catch (error: any) {
     console.error('Error updating family details:', error);

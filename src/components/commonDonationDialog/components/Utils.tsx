@@ -8,7 +8,7 @@ export const formatMoney = (n: number | string) => `${"₹"} ${n.toLocaleString(
 
 // Import donation-related images
 import bhoomiddan1 from "../../../assets/images/bhoomidaan1.png";
-import bhoomiddan2 from "../../../assets/images/bhoomidaan2.png";
+import bhoomiddan2 from "../../../assets/images/image-6.webp";
 import bhojandaan1 from "../../../assets/images/bhojandaan1.png";
 import bhojanddan2 from "../../../assets/images/bhojanddan2.png";
 import gaudaan1 from "../../../assets/images/gaudaan1.png";
