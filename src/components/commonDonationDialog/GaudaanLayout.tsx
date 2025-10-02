@@ -233,7 +233,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     }
   };
   return (
-    <div className="min-h-screen bg-gray-50 p-4 lg:p-8">
+    <div className="min-h-screen bg-[background: linear-gradient(89.57deg, #FDFBFC -8.44%, #FDFBFC 110.92%)] p-4 lg:p-8">
       <div className="max-w-7xl mx-auto relative">
 
 
@@ -610,15 +610,15 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-sm">
                           <div className="text-[#1E1E1E80] textDescription font-secondaryFont">Bank Name</div>
-                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.name ?? 'HDFC Bank'}</div>
+                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{'CANARA BANK'}</div>
                           <div className="text-[#1E1E1E80] textDescription font-secondaryFont">Account Number</div>
-                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.accountNumber ?? '0123456789'}</div>
+                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{'120034699934'}</div>
                           <div className="text-[#1E1E1E80] textDescription font-secondaryFont">Account Name</div>
-                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.accountName ?? 'SMSH SEWA TRUST'}</div>
+                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{'SHREE MAHAKALESHWAR SALASAR HANUMAN SEV'}</div>
                           <div className="text-[#1E1E1E80] textDescription font-secondaryFont ">IFSC Code</div>
-                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.ifsc ?? '0123456789'}</div>
+                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{"CNRB0001751"}</div>
                           <div className="text-[#1E1E1E80] textDescription font-secondaryFont">Branch</div>
-                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.branch ?? 'Surat Main road'}</div>
+                          <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{"SURAT RING ROAD SURAT, GUJARAT-395003"}</div>
                         </div>
                       </div>
 
@@ -646,15 +646,15 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-sm">
                           <div className="text-[#FFFFFF80] textDescription font-secondaryFont">Bank Name</div>
-                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.name ?? 'HDFC Bank'}</div>
+                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'CANARA BANK'}</div>
                           <div className="text-[#FFFFFF80] textDescription font-secondaryFont">Account Number</div>
-                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.accountNumber ?? '0123456789'}</div>
+                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'120034699934'}</div>
                           <div className="text-[#FFFFFF80] textDescription font-secondaryFont">Account Name</div>
-                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.accountName ?? 'SMSH SEWA TRUST'}</div>
+                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'SHREE MAHAKALESHWAR SALASAR HANUMAN SEV'}</div>
                           <div className="text-[#FFFFFF80] textDescription font-secondaryFont">IFSC Code</div>
-                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.ifsc ?? '0123456789'}</div>
+                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'CNRB0001751'}</div>
                           <div className="text-[#FFFFFF80] textDescription font-secondaryFont">Branch</div>
-                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{data?.bank?.branch ?? 'Surat Main road'}</div>
+                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'SURAT RING ROAD SURAT, GUJARAT-395003'}</div>
                         </div>
                       </div>
 

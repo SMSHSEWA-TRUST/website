@@ -286,22 +286,22 @@ export default function Team() {
                             ))}
                         </div>
                         {/* Arrows */}
-                        <div className="flex justify-center gap-4 mt-6">
+                        <div className="flex justify-center gap-2 mt-6">
                             <button
-                                className="font-secondaryFont bg-red-700 hover:bg-red-800 text-white  w-10 h-10 flex items-center justify-center text-2xl font-bold shadow transition-colors duration-200"
+                                className="font-secondaryFont w-8 h-8 flex items-center justify-center rounded border border-[#7c0a02] transition-all duration-200 transform bg-white text-[#7c0a02] hover:bg-[rgba(139,0,0,1)] hover:text-white active:scale-95 active:shadow-inner"
                                 onClick={prev}
                                 aria-label={arrows.prev}
                                 title={arrows.prev}
                             >
-                                &#8592;
+                                <span className="text-xl">&#8592;</span>
                             </button>
                             <button
-                                className="font-secondaryFont bg-red-700 hover:bg-red-800 text-white  w-10 h-10 flex items-center justify-center text-2xl font-bold shadow transition-colors duration-200"
+                                className="font-secondaryFont w-8 h-8 flex items-center justify-center rounded border border-[#7c0a02] transition-all duration-200 transform bg-white text-[#7c0a02] hover:bg-[rgba(139,0,0,1)] hover:text-white active:scale-95 active:shadow-inner"
                                 onClick={next}
                                 aria-label={arrows.next}
                                 title={arrows.next}
                             >
-                                &#8594;
+                                <span className="text-xl">&#8594;</span>
                             </button>
                         </div>
                     </div>

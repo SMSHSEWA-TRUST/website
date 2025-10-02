@@ -43,9 +43,9 @@ const BlogDetails: React.FC<Props> = (props) => {
     useEffect(() => {
         let mounted = true;
         setLatestLoading(true);
-        getBlogPosts({ per_page: 3, _embed: true }).then((data: any[]) => {
+        getBlogPosts({ per_page: 3, _embed: true }).then((response) => {
             if (!mounted) return;
-            const mapped = data.map(p => {
+            const mapped = response.data.map((p: any) => {
                 // get featured image from embedded media if present
                 const media = p?._embedded?.['wp:featuredmedia']?.[0];
                 const image = media?.source_url || (p?.jetpack_featured_media_url) || '';

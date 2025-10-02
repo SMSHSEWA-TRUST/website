@@ -52,9 +52,9 @@ export const BlogSection: React.FC<BlogSectionProps> = ({
         let mounted = true;
         // only fetch if caller didn't provide articles
         if (articles && articles.length > 0) return;
-        getBlogPosts({ per_page: 3, _embed: true }).then((data: any[]) => {
+        getBlogPosts({ per_page: 3, _embed: true }).then((response) => {
             if (!mounted) return;
-            const mapped = data.map(p => {
+            const mapped = response.data.map((p: any) => {
                 const media = p?._embedded?.['wp:featuredmedia']?.[0];
                 const image = media?.source_url || p?.jetpack_featured_media_url || undefined;
                 return {
