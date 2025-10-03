@@ -188,22 +188,24 @@ const DonationSection = () => {
                 <div
                   key={category.id}
                   className={
-                    "group relative overflow-hidden rounded-xl transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl  bg-[#AD2F16] hover:bg-white *:hover:bg-white hover:shadow-x"
+                    "group relative overflow-hidden rounded-xl transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl bg-[#AD2F16] hover:bg-white *:hover:bg-white hover:shadow-x flex flex-col"
                   }>
                   {/* Card Content */}
-                  <div className="p-6 text-center">
+                  <div className="p-6 text-center flex flex-col flex-grow">
                     {/* Icon */}
-                    <div
-                      className={`inline-flex items-center justify-center w-14 h-14 rounded-lg mb-4 transition-all duration-300 border-orange-300 border bg-red-800 text-white group-hover:bg-red-800 group-hover:text-white text-white"   
-                    }`}>
+                    <div className="flex justify-center mb-4">
+                      <div
+                        className={`inline-flex items-center justify-center w-14 h-14 rounded-lg transition-all duration-300 border-orange-300 border bg-red-800 text-white group-hover:bg-red-800 group-hover:text-white text-white"   
+                      }`}>
 
-                      <img src={imageForCard} alt={category.title || 'donation'} className="w-8 h-8 object-contain mx-auto" />
+                        <img src={imageForCard} alt={category.title || 'donation'} className="w-8 h-8 object-contain" />
 
+                      </div>
                     </div>
 
                     {/* Title */}
                     <h3
-                      className={`textHeading  mb-2 transition-colors duration-300 text-white group-hover:text-red-800 hover:text-red-800 font-bold`}>
+                      className={`textHeading mb-2 transition-colors duration-300 text-white group-hover:text-red-800 hover:text-red-800 font-bold`}>
                       {category.title}
                     </h3>
 
@@ -221,7 +223,7 @@ const DonationSection = () => {
 
                     {/* Description */}
                     <p
-                      className={`textDescription leading-relaxed mb-6 transition-colors duration-300 text-white/90 group-hover:text-gray-600 
+                      className={`textDescription leading-relaxed mb-6 transition-colors duration-300 text-white/90 group-hover:text-gray-600 flex-grow
                       `}>
                       {category.description}
                     </p>
@@ -229,7 +231,7 @@ const DonationSection = () => {
                     {/* Donate Button */}
                     <button
                       onClick={() => handleDonate(category)}
-                      className={`w-full py-2.5 px-4 rounded font-semibold textDescription transition-all duration-300  "bg-red-800 text-white bg-red-900 group-hover:bg-red-800 hover:text-white hover:shadow-lg   
+                      className={`w-full py-2.5 px-4 rounded font-semibold textDescription transition-all duration-300 bg-red-800 text-white bg-red-900 group-hover:bg-red-800 hover:text-white hover:shadow-lg mt-auto
                       `}>
                       {t('donations.button')}
                     </button>

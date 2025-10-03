@@ -228,7 +228,7 @@ const LiveDarshan = (): JSX.Element => {
   }[]>([]);
 
   // fetch events from API using React Query
-  const { data: eventsData, isLoading: eventsLoading, error: eventsError } = useGetEvents();
+  const { data: eventsData, isLoading: eventsLoading, error: eventsError } = useGetEvents(selectedTemple);
 
   // map API response to the shape used by SevaSection
   useEffect(() => {

@@ -83,7 +83,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   // Helper flags for which UI to show
   const isBhumi = title === "Bhumi Daan" || data?.title === "Bhumi Daan";
   const isBhojan = title === "Bhojan Daan" || data?.title === "Bhojan Daan";
-  const isAnnadan = title === "Annadan" || title === "Anndaan" || data?.title === "Annadan" || data?.title === "Anndaan";
+  const isAnnadan = title === "Anna Daan" || title === "Anna Daan" || data?.title === "Anna Daan" || data?.title === "Annadaan";
   const isRashiDaan = (title || data?.title || '').toLowerCase().includes('rashi');
 
   // When showing Bhumi Daan we fetch the plots from the server (API: /plots)

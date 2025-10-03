@@ -27,14 +27,15 @@ export const getDaanImages = (title: string): string[] => {
     case 'gaudaan':
     case 'gau daan':
       return [gaudaan1, gaudaan2];
-    case 'anndaan':
-    case 'ann daan':
+    case 'annadaan':
+    case 'anna daan':
+      return [anndan1, anndan2];
     case 'bhojan daan':
     case 'bhojandaan':
       return [bhojandaan1, bhojanddan2];
     case 'raashidaan':
     case 'raashi daan':
-      return [anndan1, anndan2]; // Using anndan as fallback for raashi
+      // Using anndan as fallback for raashi
     default:
       return [bhoomiddan1, bhoomiddan2]; // Default to bhoomiddan images
   }

@@ -267,7 +267,7 @@ export default function DonationSection() {
 
                     <div className="flex flex-col md:flex-row gap-6 w-full h-auto md:h-66">
                         <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
-                            <LazyLoadImage
+                            <img
                                 src={currentTestimonial.image}
                                 alt={`Profile of ${currentTestimonial.name}`}
                                 className="w-full md:w-64 h-112 object-cover rounded-md shadow-md bg-gray-200"

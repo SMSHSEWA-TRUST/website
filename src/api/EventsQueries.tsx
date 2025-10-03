@@ -6,8 +6,8 @@ export const QueryKeys = {
     getEvents: ["events", "getEvents"],
 };
 
-export const useGetEvents = () =>
+export const useGetEvents = (templeType?: string) =>
     useQuery({
-        queryKey: QueryKeys.getEvents,
-        queryFn: () => getEvents(),
+        queryKey: [...QueryKeys.getEvents, templeType],
+        queryFn: () => getEvents(templeType),
     });

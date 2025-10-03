@@ -11,4 +11,7 @@ export interface EventItem {
   [key: string]: any;
 }
 
-export const getEvents = () => authTokenAxios.get(`/events`);
+export const getEvents = (templeType?: string) => {
+  const params = templeType ? { location: templeType } : {};
+  return authTokenAxios.get(`/events`, { params });
+};
