@@ -11,7 +11,6 @@ import tempImage from '@/assets/images/temp-image.webp';
 import tempImage2 from '@/assets/images/temp-image-2.png';
 import tempImage3 from '@/assets/images/temp-image-3.webp';
 import tempImage4 from '@/assets/images/temp-image-4.webp';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 // Custom hook for counter animation

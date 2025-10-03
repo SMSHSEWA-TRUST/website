@@ -226,7 +226,7 @@ const LiveDarshan = (): JSX.Element => {
   }[]>([]);
 
   // fetch events from API using React Query
-  const { data: eventsData, isLoading: eventsLoading, error: eventsError } = useGetEvents(selectedTemple);
+  const { data: eventsData,  } = useGetEvents(selectedTemple);
 
   // map API response to the shape used by SevaSection
   useEffect(() => {
@@ -245,16 +245,7 @@ const LiveDarshan = (): JSX.Element => {
       items = maybe.events as EventItem[];
     }
 
-    const formatDate = (iso?: string) => {
-      if (!iso) return "";
-      try {
-        const d = new Date(iso);
-        return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-      } catch {
-        return iso;
-      }
-    };
-
+   
     const formatTime = (iso?: string) => {
       if (!iso) return "";
       try {

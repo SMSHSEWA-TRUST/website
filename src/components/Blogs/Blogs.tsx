@@ -34,26 +34,41 @@ const Blogs: React.FC = () => {
         setLoading(true);
         setError(null);
 
+        console.log('Fetching blog posts, page:', currentPage); // Debug log
+
         getBlogPosts({
             per_page: postsPerPage,
-            page: currentPage
+            page: currentPage,
+            _embed: true // Ensure featured images are embedded
         }).then((response) => {
             if (!mounted) return;
-            const mapped = response.data.map((p: any) => ({
-                id: p.id,
-                title: p?.title?.rendered ?? `Post ${p.id}`,
-                date: p?.date,
-                excerpt: p?.excerpt?.rendered,
-                image: p?.featured_media ? undefined : undefined,
-                link: `/blog-details/${p.id}`
-            } as BlogPost));
+            console.log('Blog posts loaded:', response.data.length, 'posts'); // Debug log
+            const mapped = response.data.map((p: any) => {
+                // Try to get featured image from embedded media
+                const featuredMedia = p?._embedded?.['wp:featuredmedia']?.[0];
+                const image = featuredMedia?.source_url || p?.jetpack_featured_media_url || '';
+
+                return {
+                    id: p.id,
+                    title: p?.title?.rendered ?? `Post ${p.id}`,
+                    date: p?.date,
+                    excerpt: p?.excerpt?.rendered,
+                    image: image,
+                    link: `/blog-details/${p.id}`
+                } as BlogPost;
+            });
             setPosts(mapped);
             if (response.totalPages > 0) {
                 setTotalPages(response.totalPages);
             }
+            setError(null);
         }).catch((e) => {
             if (!mounted) return;
-            setError(e?.message ?? 'Failed to load posts');
+            console.error('Error loading blog posts:', e); // Debug log
+            const errorMessage = e?.response?.data?.message
+                || e?.message
+                || 'Failed to load blog posts. Please check your connection and try again.';
+            setError(errorMessage);
         }).finally(() => {
             if (mounted) setLoading(false);
         });
@@ -84,8 +99,8 @@ const Blogs: React.FC = () => {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 className={`px-4 py-2 rounded-lg textDescription font-secondaryFont transition-colors ${currentPage === 1
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-white text-[#8b0000] border border-[#8b0000] hover:bg-[#8b0000] hover:text-white'
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-white text-[#8b0000] border border-[#8b0000] hover:bg-[#8b0000] hover:text-white'
                     }`}
             >
                 Previous
@@ -119,8 +134,8 @@ const Blogs: React.FC = () => {
                     key={i}
                     onClick={() => handlePageChange(i)}
                     className={`px-4 py-2 rounded-lg textDescription font-secondaryFont transition-colors ${currentPage === i
-                            ? 'bg-[#8b0000] text-white'
-                            : 'bg-white text-[#8b0000] border border-[#8b0000] hover:bg-[#8b0000] hover:text-white'
+                        ? 'bg-[#8b0000] text-white'
+                        : 'bg-white text-[#8b0000] border border-[#8b0000] hover:bg-[#8b0000] hover:text-white'
                         }`}
                 >
                     {i}
@@ -155,8 +170,8 @@ const Blogs: React.FC = () => {
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
                 className={`px-4 py-2 rounded-lg textDescription font-secondaryFont transition-colors ${currentPage === totalPages
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-white text-[#8b0000] border border-[#8b0000] hover:bg-[#8b0000] hover:text-white'
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-white text-[#8b0000] border border-[#8b0000] hover:bg-[#8b0000] hover:text-white'
                     }`}
             >
                 Next
@@ -204,9 +219,31 @@ const Blogs: React.FC = () => {
             </div>
 
             <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {loading && <div className="col-span-full text-center">Loading...</div>}
-                {error && <div className="col-span-full text-center text-red-600">{error}</div>}
-                {posts.map((post) => (
+                {loading && (
+                    <div className="col-span-full text-center py-20">
+                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#8b0000]"></div>
+                        <p className="mt-4 textDescription font-secondaryFont text-gray-600">Loading blogs...</p>
+                    </div>
+                )}
+                {error && (
+                    <div className="col-span-full text-center py-20">
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-6 inline-block">
+                            <p className="text-red-600 font-secondaryFont textDescription mb-4">{error}</p>
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="bg-[#8b0000] hover:bg-[#a32d13] text-white px-6 py-2 rounded-lg transition-colors"
+                            >
+                                Retry
+                            </button>
+                        </div>
+                    </div>
+                )}
+                {!loading && !error && posts.length === 0 && (
+                    <div className="col-span-full text-center py-20">
+                        <p className="textDescription font-secondaryFont text-gray-600">No blog posts found.</p>
+                    </div>
+                )}
+                {!loading && !error && posts.map((post) => (
                     <Card key={post.id} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-0">
 
                         <LazyLoadImage
