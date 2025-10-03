@@ -12,6 +12,6 @@ export interface EventItem {
 }
 
 export const getEvents = (templeType?: string) => {
-  const params = templeType ? { location: templeType } : {};
+  const params = templeType ? { schedulePlace: templeType } : {};
   return authTokenAxios.get(`/events`, { params });
 };

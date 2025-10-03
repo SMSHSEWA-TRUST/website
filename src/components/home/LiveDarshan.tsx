@@ -32,7 +32,7 @@ const VideoPlayerSection = ({
         style={isDesktop ? { height: "100%" } : {}}>
         {/* Video Player */}
         <div className={isDesktop ? "relative w-full h-full" : "relative aspect-video"}>
-          {selectedTemple === "mahakaleshwar" && (
+          {selectedTemple === "Mahakaleshwar" && (
             <iframe
               className="w-full h-full"
               src="https://www.youtube.com/embed/SyvlfWBCw7I?si=MjvSk7Uxks9welTV&controls=1&autoplay=1&mute=1"
@@ -43,7 +43,7 @@ const VideoPlayerSection = ({
             />
           )}
 
-          {selectedTemple === "salasar" && (
+          {selectedTemple === "Salasar Balaji" && (
             <iframe
               className="w-full h-full"
               src="https://www.youtube.com/embed/lW--ukmD8Wc?si=sXMi9WppuEPEX83C&controls=1&autoplay=1&mute=1"
@@ -86,25 +86,23 @@ const SevaSection = ({
   titleText,
   viewDetailsText,
 }:
-  
-  {
-  isDesktop: boolean;
-  upcomingSevas: Array<{
-    title: string;
-    description: string;
-    date: string;
-    time: string;
-    image?: string;
-  }>;
-  onViewDetails: (image?: string, title?: string, description?: string, date?: string, time?: string) => void;
-  titleText?: string;
-    viewDetailsText?: string;
-  
-    
-    
-  }) =>
 
-{
+  {
+    isDesktop: boolean;
+    upcomingSevas: Array<{
+      title: string;
+      description: string;
+      date: string;
+      time: string;
+      image?: string;
+    }>;
+    onViewDetails: (image?: string, title?: string, description?: string, date?: string, time?: string) => void;
+    titleText?: string;
+    viewDetailsText?: string;
+
+
+
+  }) => {
 
   function truncateByChars(sentence: any, maxLength: number) {
     if (!sentence || typeof sentence !== "string") return "";
@@ -213,11 +211,11 @@ const SevaSection = ({
 
 const LiveDarshan = (): JSX.Element => {
   const { t } = useI18n();
-  const [selectedTemple, setSelectedTemple] = useState<string>("mahakaleshwar");
+  const [selectedTemple, setSelectedTemple] = useState<string>("Mahakaleshwar");
   const [countdown, setCountdown] = useState("00:00:00");
 
 
-  
+
   // Upcoming Seva data (comes from API)
   const [upcomingSevas, setUpcomingSevas] = useState<{
     title: string;
@@ -488,22 +486,22 @@ const LiveDarshan = (): JSX.Element => {
             <div className="flex flex-row gap-2 w-full justify-center items-center">
               <button
                 className={`border rounded-md border-white text-white font-secondaryFont font-normal 
-                                        ${selectedTemple === "mahakaleshwar"
+                                        ${selectedTemple === "Mahakaleshwar"
                     ? "bg-yellow-600 text-white"
                     : "bg-transparent hover:bg-white hover:text-red-800"
                   }
                                         px-1 py-2 textDescription sm:px-3 sm:py-2 lg:px-6 lg:py-3 `}
-                onClick={() => handleButtonClick("mahakaleshwar")}>
+                onClick={() => handleButtonClick("Mahakaleshwar")}>
                 {t('liveDarshan.buttons.mahakaleshwar')}
               </button>
               <button
                 className={`border rounded-md border-white text-white font-secondaryFont font-normal 
-                                        ${selectedTemple === "salasar"
+                                        ${selectedTemple === "Salasar Balaji"
                     ? "bg-yellow-600 text-white"
                     : "bg-transparent hover:bg-white hover:text-red-800"
                   }
                                         px-1 py-2 textDescription sm:px-3 sm:py-2  lg:px-6 lg:py-3 `}
-                onClick={() => handleButtonClick("salasar")}>
+                onClick={() => handleButtonClick("Salasar Balaji")}>
                 {t('liveDarshan.buttons.salasar')}
               </button>
             </div>
