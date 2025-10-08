@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useI18n } from '@/lib/i18n';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { authTokenAxios } from '@/services/axios';
+import { buyNow } from '@/services/subscription.service';
 import { useGetAllSubscriptions } from '@/api/SubscriptionQueries';
 
 
@@ -21,45 +21,72 @@ const SubscriptionPlans: React.FC = () => {
     // Default select the first plan
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Auto-select plan if redirected here after login with a specific planId
+    useEffect(() => {
+        const planId = (location.state as any)?.planId;
+        if (planId && displayPlans.length > 0) {
+            const planIndex = displayPlans.findIndex((plan: any) => plan.id === planId || plan._id === planId);
+            if (planIndex !== -1) {
+                setSelectedIndex(planIndex);
+
+                // Scroll to the selected plan after a short delay
+                setTimeout(() => {
+                    const planElement = document.getElementById(`plan-${planId}`);
+                    if (planElement) {
+                        planElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }
+                }, 300); // Delay to ensure the component is rendered and plan is selected
+            }
+            // Clear the navigation state
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [displayPlans, location.state, location.pathname, navigate]);
 
     // No static map — use amount from API when available (amount is in rupees)
 
-    // load Razorpay checkout script if not already loaded
-    const loadRazorpayScript = (): Promise<boolean> => {
-        return new Promise((resolve) => {
-            if ((window as any).Razorpay) {
-                resolve(true);
-                return;
-            }
-            const script = document.createElement('script');
-            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-            script.async = true;
-            script.onload = () => resolve(true);
-            script.onerror = () => resolve(false);
-            document.body.appendChild(script);
-        });
-    };
 
-    // Try to create an order on the backend (recommended). If backend endpoint isn't available,
-    // fallback to a client-only checkout (requires VITE_RAZORPAY_KEY env variable).
-    // Assumption: backend order creation endpoint is POST /payments/create-order and returns { id: string, amount: number }
-    // If your backend uses a different route, update the path below.
-    const createOrderOnServer = async (planId: string, amount: number) => {
+    // Try to create a purchase/cart entry on the backend (recommended).
+    // This project uses an axios wrapper which returns response.data already, so the value returned here
+    // will typically be the backend payload. The backend endpoint used by the curl example is
+    // POST /api/my-cart/buy-now with body { subscriptionId, amount } where amount is in rupees.
+    const createOrderOnServer = async (planId: string, amountPaise: number) => {
         try {
-            const resp = await authTokenAxios.post('/payments/create-order', { amount, planId });
-            // the axios wrapper returns response.data by default in this project; adjust if different
-            return (resp as any)?.order || resp;
+            // Convert paise -> rupees for the backend (example curl sends amount: 299)
+            const amountRupees = Math.round(amountPaise / 100);
+            const resp = await buyNow(planId, amountRupees);
+            return resp || null;
         } catch (e) {
-            // endpoint may not exist — caller should fallback
-            console.warn('Server order creation failed, falling back to client-only checkout', e);
+            const status = (e as any)?.response?.status;
+            if (status === 401) {
+                // Save the intended subscription purchase
+                localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                    path: '/membership',
+                    state: { planId: planId }
+                }));
+                navigate('/login');
+                return null;
+            }
+            console.warn('Server buy-now failed, falling back to client-only checkout', e);
             return null;
         }
     };
 
+    const [processingIndex, setProcessingIndex] = useState<number | null>(null);
+
     const openRazorpayCheckout = async (planId: string, amountRupees?: number) => {
         const authToken = localStorage.getItem('authToken');
         if (!authToken) {
-            navigate('/login', { state: { redirectTo: '/', planId } });
+            // Save the intended subscription purchase
+            localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                path: '/membership',
+                state: { planId: planId }
+            }));
+            navigate('/login');
             return;
         }
 
@@ -73,13 +100,12 @@ const SubscriptionPlans: React.FC = () => {
             if (found && typeof found.amount === 'number') amount = Math.round(found.amount * 100);
         }
 
-        const loaded = await loadRazorpayScript();
-        if (!loaded) {
-            toast.error('Unable to load payment gateway. Please try again later.');
-            return;
-        }
+        // mark processing (disable button)
+        const planIdx = apiPlans.findIndex((p: any) => p._id === planId || p.id === planId);
+        setProcessingIndex(planIdx >= 0 ? planIdx : null);
 
-        // Try server order creation first
+
+        // Try server buy-now first (backend expects rupees)
         const order = await createOrderOnServer(planId, amount);
 
         const key = (import.meta as any).env?.VITE_RAZORPAY_KEY;
@@ -104,8 +130,20 @@ const SubscriptionPlans: React.FC = () => {
             },
         };
 
-        if (order && order.id) {
-            options.order_id = order.id;
+        // backend may return different shapes; try common fields
+        // Cast to any to safely inspect possible shapes returned by different backends
+        const orderAny: any = order as any;
+        const returnedOrderId = orderAny && (orderAny.id || orderAny.order_id || orderAny.orderId || orderAny.razorpay_order_id);
+        if (returnedOrderId) {
+            options.order_id = returnedOrderId;
+        }
+
+        // Some backends may return a redirect URL for hosted payment flow
+        if (orderAny && (orderAny.redirectUrl || orderAny.checkoutUrl)) {
+            // open hosted url in new tab instead of Razorpay inline
+            window.open(orderAny.redirectUrl || orderAny.checkoutUrl, '_blank');
+            setProcessingIndex(null);
+            return;
         }
 
         options.handler = function (response: any) {
@@ -127,6 +165,8 @@ const SubscriptionPlans: React.FC = () => {
         } catch (err) {
             console.error('Razorpay open failed', err);
             toast.error('Failed to open payment window');
+        } finally {
+            setProcessingIndex(null);
         }
     };
     // The billing toggle was removed in the new design; keep a simple flag if needed later
@@ -208,6 +248,7 @@ const SubscriptionPlans: React.FC = () => {
 
                         return (
                             <div
+                                id={`plan-${plan._id || plan.id || idx}`}
                                 key={plan._id || plan.id || idx}
                                 onClick={() => setSelectedIndex(idx)}
                                 role="button"
@@ -223,7 +264,7 @@ const SubscriptionPlans: React.FC = () => {
                                     <div className="mb-4">
                                         <div className="flex items-center gap-2 mb-1">
                                             <h3 className={`textHeadingLg font-semibold tracking-wider ${selected ? 'text-white' : 'text-gray-900'}`}>
-                                                { plan.duration } Months
+                                                {plan.title}
                                             </h3>
                                             {/* discount not used for these plans */}
                                         </div>
@@ -236,7 +277,7 @@ const SubscriptionPlans: React.FC = () => {
                                     <div className="mb-1">
                                         <div className="flex items-baseline">
                                             <span className={`textHeading font-bold ${selected ? 'text-white' : '#000000'}`}>
-                                                { `₹${plan.amount}`}
+                                                {`₹${plan.amount}`}
                                             </span>
                                         </div>
                                     </div>
@@ -284,13 +325,17 @@ const SubscriptionPlans: React.FC = () => {
                                 </div>
 
                                 {/* Button */}
-                                <button onClick={(e) => { e.stopPropagation(); openRazorpayCheckout(plan._id || plan.id, plan.amount); }} className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors ${selected
-                                    ? 'bg-white text-red-800 hover:bg-gray-50'
-                                    : plan.id === 'enterprise'
-                                        ? 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
-                                        : 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
-                                    }`}>
-                                    {plan.buttonText || 'Get Started'}
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); openRazorpayCheckout(plan._id || plan.id, plan.amount); }}
+                                    disabled={processingIndex === idx}
+                                    className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors ${selected
+                                        ? 'bg-white text-red-800 hover:bg-gray-50'
+                                        : plan.id === 'enterprise'
+                                            ? 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
+                                            : 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
+                                        } ${processingIndex === idx ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                >
+                                    {processingIndex === idx ? (plan.processingText || 'Processing...') : (plan.buttonText || 'Get Started')}
                                 </button>
                             </div>
                         );

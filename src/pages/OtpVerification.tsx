@@ -107,10 +107,34 @@ export default function OtpVerification() {
       setTimeout(() => {
         if (shouldShowFamilyDetails(userData)) {
           // User hasn't added family details, redirect to family details page
+          // The redirect destination will be handled after family details completion
           navigate("/family-details", { replace: true });
         } else {
-          // User has already added family details, redirect to home
-          navigate("/", { replace: true });
+          // User has already added family details, handle redirect
+          const redirectDestination = localStorage.getItem('auth_redirect_destination');
+
+          if (redirectDestination) {
+            try {
+              const parsed = JSON.parse(redirectDestination);
+              const intendedPath = parsed.path || '/';
+              const intendedState = parsed.state;
+
+              // Clear the saved destination
+              localStorage.removeItem('auth_redirect_destination');
+
+              // Redirect to the intended destination
+              navigate(intendedPath, {
+                replace: true,
+                state: intendedState
+              });
+            } catch (error) {
+              console.error('Error parsing redirect destination:', error);
+              navigate("/", { replace: true });
+            }
+          } else {
+            // Default redirect to home
+            navigate("/", { replace: true });
+          }
         }
       }, 800);
     } catch (err: any) {
@@ -219,15 +243,27 @@ export default function OtpVerification() {
             </div>
           </form>
 
-          <p className="text-center text-sm sm:text-base text-gray-600 mt-6">
-            Didn't receive OTP?{" "}
-            <button
-              onClick={resendOtp}
-              disabled={resendLoading}
-              className={`text-red-700 font-semibold hover:underline ${resendLoading ? 'opacity-60 cursor-not-allowed' : ''}`}>
-              {resendLoading ? 'Resending...' : 'Resend OTP'}
-            </button>
-          </p>
+          <div className="mt-6 space-y-3">
+            <p className="text-center text-sm sm:text-base text-gray-600">
+              Didn't receive OTP?{" "}
+              <button
+                onClick={resendOtp}
+                disabled={resendLoading}
+                className={`text-red-700 font-semibold hover:underline ${resendLoading ? 'opacity-60 cursor-not-allowed' : ''}`}>
+                {resendLoading ? 'Resending...' : 'Resend OTP'}
+              </button>
+            </p>
+            {(location.state as any)?.userDetails && (
+              <p className="text-center text-sm sm:text-base text-gray-600">
+                Wrong details?{" "}
+                <button
+                  onClick={() => navigate('/signup', { state: location.state })}
+                  className="text-red-700 font-semibold hover:underline">
+                  Edit Details
+                </button>
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
@@ -309,15 +345,27 @@ export default function OtpVerification() {
               </form>
             </div>
 
-            <p className="text-center text-base text-gray-600 mt-6 px-8 xl:px-10">
-              Didn't receive OTP?{" "}
-              <button
-                onClick={resendOtp}
-                disabled={resendLoading}
-                className={`text-red-700 font-semibold hover:underline ${resendLoading ? 'opacity-60 cursor-not-allowed' : ''}`}>
-                {resendLoading ? 'Resending...' : 'Resend OTP'}
-              </button>
-            </p>
+            <div className="mt-6 space-y-3 px-8 xl:px-10">
+              <p className="text-center text-base text-gray-600">
+                Didn't receive OTP?{" "}
+                <button
+                  onClick={resendOtp}
+                  disabled={resendLoading}
+                  className={`text-red-700 font-semibold hover:underline ${resendLoading ? 'opacity-60 cursor-not-allowed' : ''}`}>
+                  {resendLoading ? 'Resending...' : 'Resend OTP'}
+                </button>
+              </p>
+              {(location.state as any)?.userDetails && (
+                <p className="text-center text-base text-gray-600">
+                  Wrong details?{" "}
+                  <button
+                    onClick={() => navigate('/signup', { state: location.state })}
+                    className="text-red-700 font-semibold hover:underline">
+                    Edit Details
+                  </button>
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>

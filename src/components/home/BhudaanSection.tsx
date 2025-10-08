@@ -9,7 +9,7 @@ const BhudaanSection: React.FC = () => {
     const { t } = useI18n();
 
     return (
-        <div>
+        <div id="bhudaan-section">
             <div className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden px-4 md:px-16 lg:px-24 ">
                 {/* decorative background ornament (subtle, behind content) */}
                 <img
@@ -69,10 +69,15 @@ const BhudaanSection: React.FC = () => {
                             // Require login before allowing access to donation flow
                             const token = localStorage.getItem("authToken");
                             if (!token) {
+                                // Save the intended destination before redirecting to login
+                                localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                                    path: '/',
+                                    state: { focus: 'bhumi' }
+                                }));
                                 navigate('/login');
                                 return;
                             }
-                           
+
                             navigate('/', { state: { focus: 'bhumi' } });
                         }}
                         className="bg-white text-[#8B0000] textDescription font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont"

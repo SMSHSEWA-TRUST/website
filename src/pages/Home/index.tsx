@@ -38,11 +38,13 @@ export const HomePage = (): JSX.Element => {
     try {
       const focus = (location.state as any)?.focus;
       const hash = location.hash || '';
-      // support multiple targets: donations -> #donations, mission -> #mission
+      // support multiple targets: mission -> #mission, bhudaan -> #bhudaan-section
+      // Note: 'bhumi' and 'donation' focus are handled by DaanSection itself for better coordination
       const targets: string[] = [];
-      if (String(focus || '').toLowerCase() === 'donations') targets.push('donations');
+      if (String(focus || '').toLowerCase() === 'bhudaan') targets.push('bhudaan-section');
       if (String(focus || '').toLowerCase() === 'mission') targets.push('mission');
       if (hash === '#donations') targets.push('donations');
+      if (hash === '#bhudaan-section') targets.push('bhudaan-section');
       if (hash === '#mission') targets.push('mission');
 
       if (targets.length) {

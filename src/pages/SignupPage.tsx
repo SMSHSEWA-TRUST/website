@@ -1,36 +1,59 @@
 "use client";
 
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import LogoImage from "../assets/images/Logo.png";
 import SignUpBgImage from "../assets/images/loginBg.png";
 import { useRegister } from "@/api/AuthQueries";
 
+// Indian states list
+const INDIAN_STATES = [
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+  "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+  "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
+  "Andaman and Nicobar Islands", "Chandigarh", " Daman and Diu",
+  "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
+];
+
 export default function SignupPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // User Details State
   const [userDetails, setUserDetails] = useState({
     name: "",
     phone: "",
     email: "",
-    password: "",
+    dob: "",
+    state: "",
+    district: "",
+    pincode: "",
+    address: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
   const registerMutation = useRegister();
+
+  // Auto-fill phone number if coming from login page
+  // Auto-fill all user details if coming back from OTP page
+  useEffect(() => {
+    if (location.state?.phone) {
+      setUserDetails(prev => ({ ...prev, phone: location.state.phone }));
+    }
+    // If coming back from OTP page with full user details
+    if (location.state?.userDetails) {
+      setUserDetails(location.state.userDetails);
+    }
+  }, [location.state]);
 
 
   // User Details handlers
-  const handleUserDetailsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserDetailsChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   // Validation function
@@ -40,10 +63,13 @@ export default function SignupPage() {
     if (phone.length < 10) return "Enter a valid phone number";
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userDetails.email)) return "Enter a valid email";
-    if (userDetails.password.length < 8) return "Password must be at least 8 characters long";
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(userDetails.password)) {
-      return "Password must contain at least one uppercase letter, one lowercase letter, and one number";
-    }
+    if (!userDetails.dob) return "Date of birth is required";
+    if (!userDetails.state) return "State is required";
+    if (!userDetails.district.trim()) return "District is required";
+    if (!userDetails.pincode.trim()) return "Pin code is required";
+    const pinCodeRegex = /^\d{6}$/;
+    if (!pinCodeRegex.test(userDetails.pincode)) return "Enter a valid 6-digit pin code";
+    if (!userDetails.address.trim()) return "Address is required";
     return null;
   };
 
@@ -60,21 +86,10 @@ export default function SignupPage() {
 
     setLoading(true);
     try {
-      const completeFormData = {
-        ...userDetails,
-        familyDetails: {
-          gotra: null,
-          nakshatra: null,
-          sankalp: null,
-          members: [],
-        },
-        isFamilyDetailsAdded: false,
-      };
-
-      const result: any = await registerMutation.mutateAsync(completeFormData);
-      setSuccess("Registered successfully. Redirecting to login...");
+      const result: any = await registerMutation.mutateAsync(userDetails);
+      setSuccess("Registration successful. Redirecting to OTP verification...");
       setTimeout(() => {
-        navigate("/login", { state: { phone: userDetails.phone, server: result } });
+        navigate("/otp", { state: { mobile: userDetails.phone, server: result, userDetails: userDetails } });
       }, 1000);
     } catch (err: any) {
       setError(err?.response?.data?.message || err?.message || "Something went wrong");
@@ -125,37 +140,70 @@ export default function SignupPage() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">Password</label>
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Enter your password"
-              value={userDetails.password}
-              onChange={handleUserDetailsChange}
-              required
-              className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all pr-12"
-            />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-            >
-              {showPassword ? (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
-                </svg>
-              ) : (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.543 7-1.275 4.057-5.065 7-9.543 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              )}
-            </button>
-          </div>
-          <p className="text-xs text-gray-500 mt-1">
-            Must be at least 8 characters with uppercase, lowercase, and number
-          </p>
+          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">Date of Birth</label>
+          <input
+            type="date"
+            name="dob"
+            value={userDetails.dob}
+            onChange={handleUserDetailsChange}
+            required
+            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">State</label>
+          <select
+            name="state"
+            value={userDetails.state}
+            onChange={handleUserDetailsChange}
+            required
+            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+          >
+            <option value="">Select State</option>
+            {INDIAN_STATES.map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">District</label>
+          <input
+            type="text"
+            name="district"
+            placeholder="Enter district"
+            value={userDetails.district}
+            onChange={handleUserDetailsChange}
+            required
+            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">Pin Code</label>
+          <input
+            type="text"
+            name="pincode"
+            placeholder="Enter 6-digit pin code"
+            value={userDetails.pincode}
+            onChange={handleUserDetailsChange}
+            maxLength={6}
+            pattern="[0-9]{6}"
+            required
+            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">Address</label>
+          <textarea
+            name="address"
+            placeholder="Enter your full address"
+            value={userDetails.address}
+            onChange={handleUserDetailsChange}
+            required
+            rows={3}
+            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all resize-none"
+          />
         </div>
       </form>
     );
@@ -237,7 +285,7 @@ export default function SignupPage() {
                 disabled={loading}
                 className={`w-full ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"} text-white py-3 rounded-lg font-semibold text-sm transition-colors duration-200`}
               >
-                {loading ? "Submitting..." : "GET STARTED"}
+                {loading ? "Submitting..." : "Verify OTP"}
               </button>
             </div>
           </div>
@@ -307,7 +355,7 @@ export default function SignupPage() {
                     disabled={loading}
                     className={`w-full ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-800 hover:bg-red-900"} text-white py-5 rounded-xl font-semibold text-lg transition-colors duration-200`}
                   >
-                    {loading ? "Submitting..." : "GET STARTED"}
+                    {loading ? "Submitting..." : "Verify OTP"}
                   </button>
                 </div>
               </div>

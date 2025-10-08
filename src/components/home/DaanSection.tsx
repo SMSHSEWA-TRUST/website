@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CommonDonationDialog from "../commonDonationDialog";
 import { useGetAllDaan } from "@/api/DaanQueries";
 import { useI18n } from '@/lib/i18n';
+import { scrollToId } from '@/lib/scrollUtils';
 import mandal from '@/assets/images/mand-7.png';
 import gaudaan from "../../assets/images/gaudaan.png";
 import bhojandaan from "../../assets/images/bhojandaan.png";
@@ -18,9 +19,14 @@ const DonationSection = () => {
   const navigate = useNavigate();
   // Handler for donate button: opens dialog and for Bhumi-specific card scrolls to the donations section
   const handleDonate = (category: any) => {
-    // If user is not authenticated, send to login page (do not track/attach return path)
+    // If user is not authenticated, save the intended action and redirect to login
     const token = localStorage.getItem("authToken");
     if (!token) {
+      // Save the intended donation category to localStorage for redirect after login
+      localStorage.setItem('auth_redirect_destination', JSON.stringify({
+        path: '/',
+        state: { focus: 'donation', category: category }
+      }));
       navigate('/login');
       return;
     }
@@ -62,27 +68,86 @@ const DonationSection = () => {
   // fallback localized items from locales when API data is not present
   const localizedItems = (t('donations.items') as any[]) || [];
 
-  // If navigated here with state.focus === 'bhumi', open the Bhumi dialog automatically
+  // If navigated here with state.focus, open the appropriate dialog automatically
   useEffect(() => {
     if (isFetching) return;
     try {
       const focus = (location.state as any)?.focus;
-      if (focus && String(focus).toLowerCase() === 'bhumi' && data?.data?.length) {
-        const match = data.data.find((c: any) => {
-          const t = String(c?.title || '').toLowerCase();
-          return t.includes('bhumi') || t.includes('bhudaan') || t.includes('bhumi daan');
-        });
+      const category = (location.state as any)?.category;
+
+      if (focus) {
+        let match = null;
+
+        if (String(focus).toLowerCase() === 'bhumi') {
+          // Handle bhumi focus from BhudaanSection
+          if (data?.data?.length) {
+            match = data.data.find((c: any) => {
+              const t = String(c?.title || '').toLowerCase();
+              return t.includes('bhumi') || t.includes('bhudaan') || t.includes('bhumi daan');
+            });
+          }
+        } else if (String(focus).toLowerCase() === 'donation' && category) {
+          // Handle specific donation category focus from redirect after login
+          // The category object is already saved, so use it directly
+          match = category;
+        } else if (String(focus).toLowerCase() === 'donations') {
+          // Handle general donations focus - just scroll to section without opening specific dialog
+          match = null; // Don't open dialog, just scroll
+        }
+
         if (match) {
-          setSelectedCategory(match);
-          setOpenDialog(true);
+          // Use a more reliable scroll with retry logic to ensure section is rendered
+          let scrollAttempts = 0;
+          const maxScrollAttempts = 10;
+
+          const attemptScroll = () => {
+            const element = document.getElementById('donations');
+            if (element) {
+              // Wait a bit longer to ensure all lazy components are mounted
+              setTimeout(() => {
+                scrollToId('donations', 80); // Increased offset for better positioning
+              }, 300);
+            } else if (scrollAttempts < maxScrollAttempts) {
+              scrollAttempts++;
+              setTimeout(attemptScroll, 100);
+            }
+          };
+
+          attemptScroll();
+
+          // Then open the dialog after scroll is initiated
+          setTimeout(() => {
+            setSelectedCategory(match);
+            setOpenDialog(true);
+          }, 600);
+        } else if (String(focus).toLowerCase() === 'donations') {
+          // Just scroll to donations section without opening dialog
+          let scrollAttempts = 0;
+          const maxScrollAttempts = 10;
+
+          const attemptScroll = () => {
+            const element = document.getElementById('donations');
+            if (element) {
+              setTimeout(() => {
+                scrollToId('donations', 80);
+              }, 200);
+            } else if (scrollAttempts < maxScrollAttempts) {
+              scrollAttempts++;
+              setTimeout(attemptScroll, 100);
+            }
+          };
+
+          attemptScroll();
         }
 
         // clear the navigation state so this doesn't reopen on further renders
-        try {
-          navigate(location.pathname + (location.hash || ''), { replace: true, state: {} });
-        } catch (e) {
-          // ignore
-        }
+        setTimeout(() => {
+          try {
+            navigate(location.pathname + (location.hash || ''), { replace: true, state: {} });
+          } catch (e) {
+            // ignore
+          }
+        }, 800);
       }
     } catch (e) {
       // ignore
@@ -104,6 +169,30 @@ const DonationSection = () => {
       document.body.style.overflow = prev || '';
     };
   }, [openDialog]);
+
+  // When dialog closes after being opened from redirect, ensure we stay on donations section
+  useEffect(() => {
+    if (!openDialog && selectedCategory) {
+      // Dialog just closed, ensure user stays on donations section
+      // Check if the donations section is not in view
+      const checkAndScroll = () => {
+        const element = document.getElementById('donations');
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+
+          // Only scroll if section is not fully in view
+          if (!isInView) {
+            setTimeout(() => {
+              scrollToId('donations', 80);
+            }, 150);
+          }
+        }
+      };
+
+      checkAndScroll();
+    }
+  }, [openDialog, selectedCategory]);
   if (isFetching) return null;
   return (
     <>

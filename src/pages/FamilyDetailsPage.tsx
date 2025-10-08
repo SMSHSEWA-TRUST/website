@@ -105,12 +105,59 @@ export default function FamilyDetailsPage() {
             // Update user data in localStorage but do NOT show success message for skip
             updateUserInStorage({ isFamilyDetailsAdded: true });
 
-            navigate("/", { replace: true });
+            // Check if there's a saved redirect destination
+            const redirectDestination = localStorage.getItem('auth_redirect_destination');
+
+            if (redirectDestination) {
+                try {
+                    const parsed = JSON.parse(redirectDestination);
+                    const intendedPath = parsed.path || '/';
+                    const intendedState = parsed.state;
+
+                    // Clear the saved destination
+                    localStorage.removeItem('auth_redirect_destination');
+
+                    // Redirect to the intended destination
+                    navigate(intendedPath, {
+                        replace: true,
+                        state: intendedState
+                    });
+                } catch (error) {
+                    console.error('Error parsing redirect destination:', error);
+                    navigate("/", { replace: true });
+                }
+            } else {
+                navigate("/", { replace: true });
+            }
         } catch (err: any) {
             console.error("Error updating skip status:", err);
             // Even if API call fails, update localStorage to prevent redirect loop
             updateUserInStorage({ isFamilyDetailsAdded: true });
-            navigate("/", { replace: true });
+
+            // Check if there's a saved redirect destination
+            const redirectDestination = localStorage.getItem('auth_redirect_destination');
+
+            if (redirectDestination) {
+                try {
+                    const parsed = JSON.parse(redirectDestination);
+                    const intendedPath = parsed.path || '/';
+                    const intendedState = parsed.state;
+
+                    // Clear the saved destination
+                    localStorage.removeItem('auth_redirect_destination');
+
+                    // Redirect to the intended destination
+                    navigate(intendedPath, {
+                        replace: true,
+                        state: intendedState
+                    });
+                } catch (error) {
+                    console.error('Error parsing redirect destination:', error);
+                    navigate("/", { replace: true });
+                }
+            } else {
+                navigate("/", { replace: true });
+            }
         } finally {
             setLoading(false);
         }
@@ -162,7 +209,30 @@ export default function FamilyDetailsPage() {
             setSuccess("Family details saved successfully!");
 
             setTimeout(() => {
-                navigate("/", { replace: true });
+                // Check if there's a saved redirect destination
+                const redirectDestination = localStorage.getItem('auth_redirect_destination');
+
+                if (redirectDestination) {
+                    try {
+                        const parsed = JSON.parse(redirectDestination);
+                        const intendedPath = parsed.path || '/';
+                        const intendedState = parsed.state;
+
+                        // Clear the saved destination
+                        localStorage.removeItem('auth_redirect_destination');
+
+                        // Redirect to the intended destination
+                        navigate(intendedPath, {
+                            replace: true,
+                            state: intendedState
+                        });
+                    } catch (error) {
+                        console.error('Error parsing redirect destination:', error);
+                        navigate("/", { replace: true });
+                    }
+                } else {
+                    navigate("/", { replace: true });
+                }
             }, 1500);
 
         } catch (err: any) {

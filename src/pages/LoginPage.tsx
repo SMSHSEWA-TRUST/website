@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import LogoImage from "../assets/images/Logo.png";
 import LoginBgImage from "../assets/images/loginBg.png"
 import { useLogin } from "@/api/AuthQueries";
@@ -29,14 +30,34 @@ export default function LoginPage() {
 
     // use react-query mutation to call the service
     setLoading(true);
+    let is404Redirect = false;
+
     try {
-      const result: any = await loginMutation.mutateAsync({ phone: mobileNumber });
+      const result: any = await loginMutation.mutateAsync({
+        phone: mobileNumber,
+        skipErrorToast: true // We'll handle the error toast manually
+      });
       // result is expected to be the response data from the API (axios interceptor returns data)
       navigate("/otp", { state: { mobile: mobileNumber, server: result } });
     } catch (err: any) {
+      // Check if error is 404 (user not found) and redirect to signup
+      if (err?.response?.status === 404) {
+        is404Redirect = true;
+        // Keep loading state active during redirect
+        setTimeout(() => {
+          setLoading(false);
+          navigate("/signup", { state: { phone: mobileNumber } });
+        }, 1500); // Show toast for 1.5 seconds before redirecting
+        return;
+      }
+      // For other errors, show the error message
+      toast.error(err?.response?.data?.message || err?.message || "Something went wrong");
       setError(err?.response?.data?.message || err?.message || "Something went wrong");
     } finally {
-      setLoading(false);
+      // Only set loading to false if we're not in the 404 redirect flow
+      if (!is404Redirect) {
+        setLoading(false);
+      }
     }
   };
 
@@ -120,12 +141,12 @@ export default function LoginPage() {
               </div>
             </form>
 
-            <p className="text-center text-sm sm:text-base text-gray-600 mt-6">
+            {/* <p className="text-center text-sm sm:text-base text-gray-600 mt-6">
               Don't have an account?{" "}
               <a href="/signup" className="text-red-700 font-semibold hover:underline">
                 Sign Up Here
               </a>
-            </p>
+            </p> */}
           </div>
         </div>
 
@@ -195,12 +216,12 @@ export default function LoginPage() {
                 </form>
               </div>
 
-              <p className="text-left textDescription text-gray-600 mt-6 px-8 xl:px-10">
+              {/* <p className="text-left textDescription text-gray-600 mt-6 px-8 xl:px-10">
                 Don't have an account?{" "}
                 <a href="/signup" className="text-red-700 textDescription  font-semibold hover:underline">
                   Sign Up Here
                 </a>
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

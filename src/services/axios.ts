@@ -50,8 +50,10 @@ authTokenAxios.interceptors.response.use(
   },
   async error => {
     const prevRequest = error?.config;
+    // allow opt-out for requests that don't want the global refresh/logout behavior
+    const skipAutoAuth = prevRequest && (prevRequest.skipAutoAuth || prevRequest.headers?.['x-skip-auto-auth']);
     // If 401 received, try refresh token once. If refresh fails, logout user.
-    if (error?.response?.status === 401 && !prevRequest?.sent) {
+    if (!skipAutoAuth && error?.response?.status === 401 && !prevRequest?.sent) {
       prevRequest.sent = true;
       try {
         const refreshResponse = await axios.post(
@@ -88,14 +90,18 @@ authTokenAxios.interceptors.response.use(
       }
     }
     // For authorization errors when previous logic doesn't handle it, clear session
-    if (error?.response?.status === 401 || error?.response?.status === 419) {
+    if (!skipAutoAuth && (error?.response?.status === 401 || error?.response?.status === 419)) {
       try {
         logout();
       } catch (e) {
         /* ignore */
       }
     }
-    toast.error(error?.response?.data?.message ?? "Something went wrong");
+    // Check if skipErrorToast flag is set in config
+    const skipErrorToast = (error?.config as any)?.skipErrorToast;
+    if (!skipErrorToast) {
+      toast.error(error?.response?.data?.message ?? "Something went wrong");
+    }
     return Promise.reject(error);
   }
 );

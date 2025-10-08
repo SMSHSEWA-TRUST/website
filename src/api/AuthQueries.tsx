@@ -11,7 +11,8 @@ export const QueryKeys = {
 export const useLogin = () =>
     useMutation({
         mutationKey: QueryKeys.login,
-        mutationFn: (payload: { phone: string }) => Login(payload),
+        mutationFn: (payload: { phone: string; skipErrorToast?: boolean }) =>
+            Login({ phone: payload.phone }, payload.skipErrorToast),
     });
 
 export const QueryKeysRegister = {
