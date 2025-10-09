@@ -55,14 +55,52 @@ const DonationForm: React.FC<DonationFormProps> = ({
     if (!firstId) return;
     setLandContacts(prev => {
       const next = { ...prev };
+      // try to read father/mother from nested familyDetails.members array (if present)
+      const familyMembers = registeredUser.familyDetails?.members || [];
+      const fatherFromFamily = familyMembers.find((m: any) => String(m.relation || '').toLowerCase() === 'father')?.name;
+      const motherFromFamily = familyMembers.find((m: any) => String(m.relation || '').toLowerCase() === 'mother')?.name;
+
       next[firstId] = {
         ...(next[firstId] || {}),
+        // prefer existing values, fall back to registered user values (including nested family members)
+        name: next[firstId]?.name || registeredUser.name || next[firstId]?.name || "",
+        fatherName: next[firstId]?.fatherName || fatherFromFamily || registeredUser.fatherName || next[firstId]?.fatherName || "",
+        motherName: next[firstId]?.motherName || motherFromFamily || registeredUser.motherName || next[firstId]?.motherName || "",
         phoneNumber: next[firstId]?.phoneNumber || registeredUser.phone || next[firstId]?.phoneNumber || "",
         email: next[firstId]?.email || registeredUser.email || next[firstId]?.email || "",
+        address: next[firstId]?.address || registeredUser.address || next[firstId]?.address || "",
       };
       return next;
     });
   }, [registeredUser, selectedPlots]);
+
+  // If user is registered, prefill top-level form fields so Controllers show stored values
+  useEffect(() => {
+    if (!registeredUser) return;
+    try {
+      // set common form values if available on registeredUser
+      const fields = ['name', 'phoneNumber', 'email', 'address'];
+      // extract father/mother from familyDetails.members if present
+      const familyMembers = registeredUser.familyDetails?.members || [];
+      const fatherFromFamily = familyMembers.find((m: any) => String(m.relation || '').toLowerCase() === 'father')?.name;
+      const motherFromFamily = familyMembers.find((m: any) => String(m.relation || '').toLowerCase() === 'mother')?.name;
+
+      // set simple fields
+      fields.forEach(f => {
+        const val = registeredUser[f] ?? (f === 'phoneNumber' ? registeredUser.phone : undefined) ?? '';
+        setValue(f as string, val);
+      });
+
+      // set father/mother using familyDetails members as primary source, fallback to top-level keys
+      const fatherVal = fatherFromFamily ?? registeredUser.fatherName ?? '';
+      const motherVal = motherFromFamily ?? registeredUser.motherName ?? '';
+      setValue('fatherName', fatherVal);
+      setValue('motherName', motherVal);
+    } catch (e) {
+      // ignore if setValue not available or fails
+      // console.warn('Failed to prefill form values from registered user', e);
+    }
+  }, [registeredUser, setValue]);
 
   const handleDonationSelect = (option: { _id: string; name: string; amount: number }) => {
     setSelectedOption(option);

@@ -52,13 +52,13 @@ export const ContactSection: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-[50%_50%] gap-0 overflow-hidden rounded-lg">
         {/* Left Section - Background Image with Contact Form */}
         <div
-          className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center rounded-lg h-[638px] md:h-[700px] lg:h-[638px]"
+          className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center rounded-lg "
           style={{ backgroundImage: `url(${contactBg})` }}>
           {/* Overlay for better form visibility */}
           <div className="absolute inset-0 bg-black/10" />
 
           {/* Contact Form Card */}
-          <Card className="relative z-10 w-full max-w-[312px] sm:max-w-[382px] lg:max-w-[450px] bg-[#FFFFFF] shadow-xl rounded-lg">
+          <Card className="relative z-10 w-full max-w-[312px] sm:max-w-[382px] lg:max-w-[450px] bg-[#FFFFFF] shadow-xl rounded-lg mt-10 mb-10 ">
             <CardContent>
               {/* Header Section */}
               <div className="text-center mt-4">
@@ -154,7 +154,7 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* Right Section - Main Image */}
-        <div className="relative h-[300px] md:h-[400px] lg:h-[638px]  ">
+        <div className="relative   ">
           <LazyLoadImage className="w-full h-full object-cover" alt={t('contact.mainImageAlt') as string} src={contactMain} loading="lazy" />
 
           {/* Optional overlay for visual consistency */}

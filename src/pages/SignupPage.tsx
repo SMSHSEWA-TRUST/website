@@ -5,17 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import LogoImage from "../assets/images/Logo.png";
 import SignUpBgImage from "../assets/images/loginBg.png";
 import { useRegister } from "@/api/AuthQueries";
-
-// Indian states list
-const INDIAN_STATES = [
-  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
-  "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-  "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
-  "Andaman and Nicobar Islands", "Chandigarh", " Daman and Diu",
-  "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
-];
+import statesData from "../data/states-and-districts.json";
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -37,6 +27,7 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const registerMutation = useRegister();
+  const [focusedSelect, setFocusedSelect] = useState<string | null>(null);
 
   // Auto-fill phone number if coming from login page
   // Auto-fill all user details if coming back from OTP page
@@ -53,14 +44,48 @@ export default function SignupPage() {
 
   // User Details handlers
   const handleUserDetailsChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    // If state changes, clear district since district options will change
+    if (name === "state") {
+      setUserDetails({ ...userDetails, state: value, district: "" });
+      return;
+    }
+
+    // sanitize inputs for specific fields
+    if (name === "name") {
+      // Allow letters, spaces, apostrophe, dot and hyphen. Limit length to 50.
+      const sanitized = value.replace(/[^A-Za-z\s'.-]/g, '').slice(0, 50);
+      setUserDetails({ ...userDetails, name: sanitized });
+      return;
+    }
+
+    if (name === "phone") {
+      // Allow only digits and limit to 10 characters
+      const digits = value.replace(/\D/g, '').slice(0, 10);
+      setUserDetails({ ...userDetails, phone: digits });
+      return;
+    }
+
+    if (name === "pincode") {
+      // Allow only digits and limit to 6 characters
+      const digits = value.replace(/\D/g, '').slice(0, 6);
+      setUserDetails({ ...userDetails, pincode: digits });
+      return;
+    }
+
+    setUserDetails({ ...userDetails, [name]: value });
   };
 
   // Validation function
   const validateUserDetails = () => {
     if (!userDetails.name.trim()) return "Name is required";
+    // Name should be 2-50 characters and contain only allowed characters
+    const nameRegex = /^[A-Za-z\s'.-]{2,50}$/;
+    if (!nameRegex.test(userDetails.name.trim())) return "Enter a valid name (letters and spaces only)";
+
     const phone = userDetails.phone.replace(/\D/g, "");
-    if (phone.length < 10) return "Enter a valid phone number";
+    if (phone.length !== 10) return "Enter a valid 10-digit phone number";
+    if (phone.charAt(0) === '0') return "Phone number must not start with 0";
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userDetails.email)) return "Enter a valid email";
     if (!userDetails.dob) return "Date of birth is required";
@@ -151,33 +176,85 @@ export default function SignupPage() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">State</label>
-          <select
-            name="state"
-            value={userDetails.state}
+          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">Address</label>
+          <textarea
+            name="address"
+            placeholder="Enter your full address"
+            value={userDetails.address}
             onChange={handleUserDetailsChange}
             required
-            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
-          >
-            <option value="">Select State</option>
-            {INDIAN_STATES.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
+            rows={3}
+            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all resize-none"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">State</label>
+          <div className="relative">
+            <select
+              name="state"
+              value={userDetails.state}
+              onChange={handleUserDetailsChange}
+              onFocus={() => setFocusedSelect('state')}
+              onBlur={() => setFocusedSelect(null)}
+              required
+              className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all appearance-none"
+            >
+              <option value="">Select State</option>
+              {statesData.states.map((s: any) => (
+                <option key={s.state} value={s.state}>
+                  {s.state}
+                </option>
+              ))}
+            </select>
+            {/* Arrow icon - rotates when focused (select open) */}
+            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <svg
+                className={`h-4 w-4 text-gray-600 transform transition-transform duration-200 ${focusedSelect === 'state' ? 'rotate-180' : 'rotate-0'}`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">District</label>
-          <input
-            type="text"
-            name="district"
-            placeholder="Enter district"
-            value={userDetails.district}
-            onChange={handleUserDetailsChange}
-            required
-            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
-          />
+          <div className="relative">
+            <select
+              name="district"
+              value={userDetails.district}
+              onChange={handleUserDetailsChange}
+              onFocus={() => setFocusedSelect('district')}
+              onBlur={() => setFocusedSelect(null)}
+              required
+              className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all appearance-none"
+            >
+              <option value="">Select District</option>
+              {(() => {
+                // find districts for selected state from JSON
+                const stateObj = statesData.states.find((s: any) => s.state === userDetails.state);
+                const districts: string[] = stateObj ? stateObj.districts : [];
+                return districts.map((d) => (
+                  <option key={d} value={d}>{d}</option>
+                ));
+              })()}
+            </select>
+            {/* Arrow icon - rotates when focused (select open) */}
+            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <svg
+                className={`h-4 w-4 text-gray-600 transform transition-transform duration-200 ${focusedSelect === 'district' ? 'rotate-180' : 'rotate-0'}`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">Pin Code</label>
@@ -191,18 +268,6 @@ export default function SignupPage() {
             pattern="[0-9]{6}"
             required
             className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1 lg:mb-2">Address</label>
-          <textarea
-            name="address"
-            placeholder="Enter your full address"
-            value={userDetails.address}
-            onChange={handleUserDetailsChange}
-            required
-            rows={3}
-            className="w-full px-4 py-3 lg:py-4 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all resize-none"
           />
         </div>
       </form>
