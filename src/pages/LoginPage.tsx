@@ -15,7 +15,22 @@ export default function LoginPage() {
   const loginMutation = useLogin();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMobileNumber(e.target.value);
+    // Allow only digits, limit to 10 digits, and disallow starting with '0'
+    const raw = e.target.value || "";
+    // remove non-digit characters
+    const digits = raw.replace(/\D/g, "");
+
+    // If first digit is '0', ignore the input change but show an error
+    if (digits.length > 0 && digits.charAt(0) === "0") {
+      setError("Mobile number cannot start with 0");
+      return;
+    }
+
+    // enforce max 10 digits
+    const limited = digits.slice(0, 10);
+    setMobileNumber(limited);
+    // clear any previous error when user types valid input
+    setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,8 +38,13 @@ export default function LoginPage() {
     setError(null);
 
     const mobileDigits = mobileNumber.replace(/\D/g, "");
-    if (mobileDigits.length < 10) {
-      setError("Please enter a valid mobile number");
+    if (mobileDigits.length !== 10) {
+      setError("Please enter a 10-digit mobile number");
+      return;
+    }
+
+    if (mobileDigits.charAt(0) === "0") {
+      setError("Mobile number cannot start with 0");
       return;
     }
 
