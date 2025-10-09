@@ -5,8 +5,6 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import contactBg from "@/assets/images/image-7.webp";
 import contactLine from "@/assets/images/line-4.png";
-import contactMain from "@/assets/images/image-6.webp";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Controller, useForm } from "react-hook-form";
 import { useContactUSForm } from "@/api/ContactQueries";
 import { useI18n } from '@/lib/i18n';
@@ -52,7 +50,7 @@ export const ContactSection: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-[50%_50%] gap-0 overflow-hidden rounded-lg">
         {/* Left Section - Background Image with Contact Form */}
         <div
-          className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center rounded-lg "
+          className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center rounded-lg h-[638px] md:h-[700px] lg:h-[638px]"
           style={{ backgroundImage: `url(${contactBg})` }}>
           {/* Overlay for better form visibility */}
           <div className="absolute inset-0 bg-black/10" />
@@ -68,7 +66,7 @@ export const ContactSection: React.FC = () => {
 
                 {/* Decorative Line */}
                 <div className="flex justify-center">
-                  <LazyLoadImage
+                  <img
                     className="w-64 h-4 object-contain"
                     alt={t('contact.decorativeAlt') as string}
                     src={contactLine}
@@ -154,8 +152,14 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* Right Section - Main Image */}
-        <div className="relative   ">
-          <LazyLoadImage className="w-full h-full object-cover" alt={t('contact.mainImageAlt') as string} src={contactMain} loading="lazy" />
+        <div className="relative    h-[638px] md:h-[700px] lg:h-[638px]">
+          <iframe
+            title="Ujjain Satellite View"
+            src="https://maps.google.com/maps?q=15%2C%20Kakriya%20Parisar%2C%20near%20Cheritable%20Hospital%2C%20Awantipura%2C%20Geeta%20Colony%2C%20Ujjain%2C%20Madhya%20Pradesh%20456001&z=18&output=embed&t=k"
+            className="w-full h-full border-0"
+            loading="lazy"
+            aria-label={t('contact.mainImageAlt') as string}
+          />
 
           {/* Optional overlay for visual consistency */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent lg:hidden" />
