@@ -105,6 +105,9 @@ export default function FamilyDetailsPage() {
             // Update user data in localStorage but do NOT show success message for skip
             updateUserInStorage({ isFamilyDetailsAdded: true });
 
+            // Clear the new signup flag
+            localStorage.removeItem('isNewSignup');
+
             // Check if there's a saved redirect destination
             const redirectDestination = localStorage.getItem('auth_redirect_destination');
 
@@ -133,6 +136,9 @@ export default function FamilyDetailsPage() {
             console.error("Error updating skip status:", err);
             // Even if API call fails, update localStorage to prevent redirect loop
             updateUserInStorage({ isFamilyDetailsAdded: true });
+
+            // Clear the new signup flag
+            localStorage.removeItem('isNewSignup');
 
             // Check if there's a saved redirect destination
             const redirectDestination = localStorage.getItem('auth_redirect_destination');
@@ -204,6 +210,9 @@ export default function FamilyDetailsPage() {
 
             // Update user data in localStorage to reflect isFamilyDetailsAdded: true
             updateUserInStorage({ isFamilyDetailsAdded: true });
+
+            // Clear the new signup flag
+            localStorage.removeItem('isNewSignup');
 
             // Show custom success message
             setSuccess("Family details saved successfully!");

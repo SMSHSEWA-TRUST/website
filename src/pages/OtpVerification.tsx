@@ -104,13 +104,23 @@ export default function OtpVerification() {
       // Check if user has added family details
       const userData = data?.data || {};
 
+      // Check if this is a signup flow (coming from signup page)
+      const isSignupFlow = !!(location.state as any)?.userDetails;
+
+      // Store signup flag temporarily to help FamilyDetailsGuard know if user just signed up
+      if (isSignupFlow) {
+        localStorage.setItem("isNewSignup", "true");
+      }
+
       setTimeout(() => {
-        if (shouldShowFamilyDetails(userData)) {
-          // User hasn't added family details, redirect to family details page
-          // The redirect destination will be handled after family details completion
+       
+        if (isSignupFlow && shouldShowFamilyDetails(userData)) {
+          
           navigate("/family-details", { replace: true });
         } else {
-          // User has already added family details, handle redirect
+          // Clear the signup flag if not going to family details
+          localStorage.removeItem("isNewSignup");
+          
           const redirectDestination = localStorage.getItem('auth_redirect_destination');
 
           if (redirectDestination) {

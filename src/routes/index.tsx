@@ -15,6 +15,9 @@ const PujaPage = lazy(() => import('../pages/Puja').then(module => ({ default: m
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const SignupPage = lazy(() => import('../pages/SignupPage'));
 const FamilyDetailsPage = lazy(() => import('../pages/FamilyDetailsPage'));
+const ProfilePage = lazy(() => import('../pages/Profile'));
+const MembershipHistory = lazy(() => import('../pages/MembershipHistory'));
+const DonationHistory = lazy(() => import('../pages/DonationHistory'));
 const TermsPage = lazy(() => import('../pages/TermsAndConditions').then(module => ({ default: module.TermsPage })));
 const PrivacyPage = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPage })));
 
@@ -88,6 +91,21 @@ export const AppRoutes = (): JSX.Element => {
         <Route path="/family-details" element={
           <FamilyDetailsGuard skipFamilyCheck={true}>
             <FamilyDetailsPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/profile" element={
+          <FamilyDetailsGuard>
+            <ProfilePage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/membership-history" element={
+          <FamilyDetailsGuard>
+            <MembershipHistory />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/donations-history" element={
+          <FamilyDetailsGuard>
+            <DonationHistory />
           </FamilyDetailsGuard>
         } />
       </Routes>

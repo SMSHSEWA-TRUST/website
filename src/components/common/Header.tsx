@@ -18,6 +18,24 @@ const Header = (): JSX.Element => {
   const { t, lang, setLang } = useI18n();
   const marqueeWrapperRef = useRef<HTMLDivElement | null>(null);
   const langSelectorRef = useRef<HTMLDivElement | null>(null);
+  // user menu state & refs (separate refs for desktop and mobile to avoid ref overwrite)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuDesktopRef = useRef<HTMLDivElement | null>(null);
+  const userMenuMobileRef = useRef<HTMLDivElement | null>(null);
+
+  // derive user name from localStorage if available
+  const userName = (() => {
+    try {
+      const raw = localStorage.getItem("user");
+      if (raw) {
+        const parsed = JSON.parse(raw as string) as any;
+        return parsed?.name || parsed?.fullName || parsed?.username || localStorage.getItem("userName") || "User";
+      }
+    } catch (e) {
+      // ignore parse errors
+    }
+    return localStorage.getItem("userName") || "User";
+  })();
 
   // Mobile language dropdown state
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
@@ -44,6 +62,32 @@ const Header = (): JSX.Element => {
       document.removeEventListener("keydown", handleKey);
     };
   }, [isLangMenuOpen]);
+
+  // Close user menu when clicking outside or pressing Escape
+  useEffect(() => {
+    const handleDocClick = (e: MouseEvent) => {
+      if (!isUserMenuOpen) return;
+      const target = e.target as Node | null;
+
+      const clickInsideDesktop = userMenuDesktopRef.current && target && userMenuDesktopRef.current.contains(target);
+      const clickInsideMobile = userMenuMobileRef.current && target && userMenuMobileRef.current.contains(target);
+
+      if (!clickInsideDesktop && !clickInsideMobile) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsUserMenuOpen(false);
+    };
+
+    document.addEventListener("click", handleDocClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("click", handleDocClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [isUserMenuOpen]);
 
   // Ensure marquee doesn't overlap the language selector: measure right-side width and add padding to marquee wrapper
   useEffect(() => {
@@ -82,7 +126,7 @@ const Header = (): JSX.Element => {
 
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          
+
           if (currentY > lastScrollY.current && currentY > 200) {
             setIsHidden(true);
           }
@@ -274,16 +318,96 @@ const Header = (): JSX.Element => {
 
             {/* Register/Login or Logout Button */}
             {isLoggedIn ? (
-              <div className="flex-shrink-0">
-                <Button
-                  onClick={() => {
-                    localStorage.clear();
-                    window.location.reload();
-                  }}
-                  className="font-secondaryFont bg-[#8b0000] hover:bg-[#660000] text-white px-4 py-2 textDescription font-normal"
+              <div className="flex-shrink-0 relative" ref={userMenuDesktopRef}>
+                <button
+                  aria-haspopup="true"
+                  aria-expanded={isUserMenuOpen}
+                  onClick={() => setIsUserMenuOpen((s) => !s)}
+                  className="flex items-center gap-3 bg-[#8b0000] text-white rounded-full px-3 py-2 shadow-sm cursor-pointer"
                 >
-                  {t("auth.logout")}
-                </Button>
+                  {/* user icon */}
+                  <div className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-white" aria-hidden>
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+
+                  {/* label - show on md+ as in screenshot */}
+                  <div className="hidden md:flex flex-col text-left leading-none">
+                    <span className="text-sm font-medium text-white ">{userName}</span>
+                  </div>
+
+                  {/* chevron - white */}
+                  <svg className="w-4 h-4 text-white" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                    <path d="M6 8l4 4 4-4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+
+                {/* Dropdown */}
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl py-3 z-50 border border-gray-100" role="menu">
+                    <div className="px-3 space-y-1">
+                      <Link to="/profile" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="text-gray-700 text-base">Personal Profile</span>
+                      </Link>
+
+                      {/* <Link to="/puja-bookings" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <rect x="3" y="7" width="18" height="13" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M16 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M8 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="text-gray-700 text-base">Puja Bookings</span>
+                      </Link>
+
+                      <Link to="/prashad-orders" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M7 16l5-5 5 5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="text-gray-700 text-base">Prashad Orders</span>
+                      </Link> */}
+
+                      <Link to="/donations-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path d="M12 8v8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M16 6H8v4H6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="text-gray-700 text-base">Donations History</span>
+                      </Link>
+
+                      <Link to="/membership-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <rect x="3" y="4" width="18" height="14" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M8 2v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="text-gray-700 text-base">Membership History</span>
+                      </Link>
+
+                      <div className="pt-2">
+                        <button
+                          onClick={() => {
+                            localStorage.clear();
+                            window.location.reload();
+                          }}
+                          className="w-full bg-[#8b0000] text-white py-2 rounded-md flex items-center justify-center gap-2"
+                        >
+                          <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M16 17l5-5-5-5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-white font-medium">Log Out</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex-shrink-0">
@@ -474,8 +598,8 @@ const Header = (): JSX.Element => {
                 <Button
                   variant="link"
                   className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/"
-                    ? "text-[#8b0000]"
-                    : "text-[#333333] hover:text-[#8b0000]"
+                    ? "text-[#8b0000] underline"
+                    : "text-[#333333] hover:text-[#8b0000] no-underline"
                     }`}
                 >
                   {t("nav.home")}
@@ -485,8 +609,8 @@ const Header = (): JSX.Element => {
                 <Button
                   variant="link"
                   className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/about"
-                    ? "text-[#8b0000]"
-                    : "text-[#333333] hover:text-[#8b0000]"
+                    ? "text-[#8b0000] underline"
+                    : "text-[#333333] hover:text-[#8b0000] no-underline"
                     }`}
                 >
                   {t("nav.about")}
@@ -495,9 +619,9 @@ const Header = (): JSX.Element => {
               <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button
                   variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/puja"
-                    ? "text-[#8b0000]"
-                    : "text-[#333333] hover:text-[#8b0000]"
+                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/gallery"
+                    ? "text-[#8b0000] underline"
+                    : "text-[#333333] hover:text-[#8b0000] no-underline"
                     }`}
                 >
                   {t("nav.puja")}
@@ -507,8 +631,8 @@ const Header = (): JSX.Element => {
                 <Button
                   variant="link"
                   className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/membership"
-                    ? "text-[#8b0000]"
-                    : "text-[#333333] hover:text-[#8b0000]"
+                    ? "text-[#8b0000] underline"
+                    : "text-[#333333] hover:text-[#8b0000] no-underline"
                     }`}
                 >
                   {t("nav.membership")}
@@ -518,8 +642,8 @@ const Header = (): JSX.Element => {
                 <Button
                   variant="link"
                   className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/blogs"
-                    ? "text-[#8b0000]"
-                    : "text-[#333333] hover:text-[#8b0000]"
+                    ? "text-[#8b0000] underline"
+                    : "text-[#333333] hover:text-[#8b0000] no-underline"
                     }`}
                 >
                   {t("nav.blogs")}
@@ -529,31 +653,87 @@ const Header = (): JSX.Element => {
                 <Button
                   variant="link"
                   className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/contact"
-                    ? "text-[#8b0000]"
-                    : "text-[#333333] hover:text-[#8b0000]"
+                    ? "text-[#8b0000] underline"
+                    : "text-[#333333] hover:text-[#8b0000] no-underline"
                     }`}
                 >
                   {t("nav.contact")}
                 </Button>
               </Link>
-              {/* Mobile Register/Login in menu */}
+
+              {/* User Profile Options (only shown when logged in) */}
+              {isLoggedIn && (
+                <>
+                  {/* Divider */}
+                  <div className="border-t border-gray-200 my-2"></div>
+
+                  <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button
+                      variant="link"
+                      className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
+                    >
+                      Personal Profile
+                    </Button>
+                  </Link>
+
+                  {/* <Link to="/puja-bookings" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button
+                      variant="link"
+                      className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
+                    >
+                      Puja Bookings
+                    </Button>
+                  </Link>
+
+                  <Link to="/prashad-orders" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button
+                      variant="link"
+                      className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
+                    >
+                      Prashad Orders
+                    </Button>
+                  </Link> */}
+
+                  <Link to="/donations" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button
+                      variant="link"
+                      className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
+                    >
+                      Donations
+                    </Button>
+                  </Link>
+
+                  <Link to="/membership-history" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button
+                      variant="link"
+                      className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
+                    >
+                      Membership History
+                    </Button>
+                  </Link>
+                </>
+              )}
+
+              {/* Mobile Register/Login/Logout Button */}
               {!isLoggedIn ? (
                 <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal ">
+                  <Button className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal mx-4">
                     {t("auth.register")}
                   </Button>
                 </Link>
               ) : (
-                <Button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    localStorage.clear();
-                    window.location.reload();
-                  }}
-                  className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal"
-                >
-                  {t("auth.logout")}
-                </Button>
+                <div className="px-4 pt-2">
+                  <Button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      localStorage.clear();
+                      window.location.reload();
+                    }}
+                    className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal"
+                  >
+                    {t("auth.logout")}
+                  </Button>
+                </div>
               )}
             </nav>
           </div>

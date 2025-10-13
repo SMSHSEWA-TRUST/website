@@ -22,12 +22,15 @@ export const FamilyDetailsGuard: React.FC<FamilyDetailsGuardProps> = ({
         const authToken = localStorage.getItem('authToken');
         if (!authToken) return; // Not logged in, no need to check
 
+        // Check if this is a new signup (only redirect for new signups)
+        const isNewSignup = localStorage.getItem('isNewSignup') === 'true';
+        
         // Get user data and check if they need to add family details
         const userData = getUserFromStorage();
 
-        if (userData && shouldShowFamilyDetails(userData)) {
-            // User is logged in but hasn't added family details
-            // Redirect to family details page
+       
+        if (isNewSignup && userData && shouldShowFamilyDetails(userData)) {
+           
             navigate('/family-details', { replace: true });
         }
     }, [navigate, skipFamilyCheck]);

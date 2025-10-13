@@ -11,7 +11,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     const location = useLocation();
 
-   
+
     // showing non-top sections.
     React.useEffect(() => {
         try {
@@ -23,8 +23,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
         }
     }, [location.pathname]);
 
-    // Do not show header/footer on the signup, login and otp pages
-    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details'];
+    // Do not show header/footer on the signup, login, otp, and profile pages
+    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details', '/profile', '/membership-history', '/donations-history'];
     const hideHeaderFooter = hiddenPaths.includes(location.pathname);
 
     return (
