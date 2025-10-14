@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGetMyDonations } from "@/api/DaanQueries";
 
 interface DonationCard {
     id: number;
@@ -21,69 +22,36 @@ const DonationHistory = () => {
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedDonation, setSelectedDonation] = useState<DonationCard | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageLimit] = useState(10);
 
-    const [donations] = useState<DonationCard[]>([
-        {
-            id: 1,
-            name: "Mohan Lal",
-            mahaNO: "+91 9876543210",
-            mobileNo: "+91 9876543210",
-            email: "mohanlal@gmail.com",
-            donationType: "Bhumi Daan",
-            amount: "₹1,25,000",
-            time: "10:23 AM",
-            date: "05/09/2025",
-            paymentMode: "UPI",
-            paymentStatus: "Paid",
-            donationId: "#23164589",
-            bookedOn: "10:23 AM · 15/09/2025",
-        },
-        {
-            id: 2,
-            name: "Mohan Lal",
-            mahaNO: "+91 9876543210",
-            mobileNo: "+91 9876543210",
-            email: "mohanlal@gmail.com",
-            donationType: "Bhumi Daan",
-            amount: "₹1,25,000",
-            time: "10:23 AM",
-            date: "05/09/2025",
-            paymentMode: "UPI",
-            paymentStatus: "Paid",
-            donationId: "#23164589",
-            bookedOn: "10:23 AM · 15/09/2025",
-        },
-        {
-            id: 3,
-            name: "Mohan Lal",
-            mahaNO: "+91 9876543210",
-            mobileNo: "+91 9876543210",
-            email: "mohanlal@gmail.com",
-            donationType: "Bhumi Daan",
-            amount: "₹1,25,000",
-            time: "10:23 AM",
-            date: "05/09/2025",
-            paymentMode: "UPI",
-            paymentStatus: "Paid",
-            donationId: "#23164589",
-            bookedOn: "10:23 AM · 15/09/2025",
-        },
-        {
-            id: 4,
-            name: "Mohan Lal",
-            mahaNO: "+91 9876543210",
-            mobileNo: "+91 9876543210",
-            email: "mohanlal@gmail.com",
-            donationType: "Bhumi Daan",
-            amount: "₹1,25,000",
-            time: "10:23 AM",
-            date: "05/09/2025",
-            paymentMode: "UPI",
-            paymentStatus: "Paid",
-            donationId: "#23164589",
-            bookedOn: "10:23 AM · 15/09/2025",
-        },
-    ]);
+    // Fetch donations from API
+    const { data: donationsData, isLoading, isError } = useGetMyDonations(currentPage, pageLimit);
+
+    // Extract data from API response (axios interceptor returns response.data)
+    const apiDonations = (donationsData as any)?.data || [];
+    const pagination = (donationsData as any)?.pagination;
+
+    console.log('API Response:', donationsData); // Remove this when implementing actual data
+
+    // Map API data to DonationCard interface
+    const donations: DonationCard[] = apiDonations.length > 0
+        ? apiDonations.map((item: any) => ({
+            id: item.id,
+            name: item.name || "N/A",
+            mahaNO: item.mahaNO || "N/A",
+            mobileNo: item.mobileNo || item.phoneNumber || "N/A",
+            email: item.email || "N/A",
+            donationType: item.donationType || "N/A",
+            amount: item.amount ? `₹${item.amount}` : "N/A",
+            time: item.time || "N/A",
+            date: item.date || "N/A",
+            paymentMode: item.paymentMode || "N/A",
+            paymentStatus: item.paymentStatus || "Unpaid",
+            donationId: item.donationId || item.id || "N/A",
+            bookedOn: item.bookedOn || item.createdAt || "N/A",
+        }))
+        : [];
 
     const handleViewDetails = (donation: DonationCard) => {
         setSelectedDonation(donation);
@@ -94,6 +62,11 @@ const DonationHistory = () => {
         setIsModalOpen(false);
         setSelectedDonation(null);
     };
+
+    const handlePageChange = (newPage: number) => {
+        setCurrentPage(newPage);
+    };
+
 
     return (
         <div className="min-h-screen bg-[#FFFFFF] lg:max-w-[1400px] mx-auto">
@@ -137,91 +110,107 @@ const DonationHistory = () => {
                     </div>
                 </section>
 
+                {/* Loading State */}
+                {isLoading && (
+                    <div className="flex justify-center items-center py-12">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AD2F16]"></div>
+                    </div>
+                )}
+
+                {/* Error State */}
+                {isError && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                        <p className="text-red-600 font-medium">Failed to load donation history. Please try again later.</p>
+                    </div>
+                )}
+
                 {/* Donation Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
-                    {donations.map((donation) => (
-                        <div
-                            key={donation.id}
-                            className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 border border-gray-100"
-                        >
-                            {/* Card Content */}
-                            <div className="space-y-3">
-                                {/* Name */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Name</span>
-                                    <span className="text-sm font-bold text-gray-900">{donation.name}</span>
-                                </div>
-
-                                {/* Maha No */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Maha No</span>
-                                    <span className="text-sm font-bold text-gray-900">{donation.mahaNO}</span>
-                                </div>
-
-                                {/* Mobile No */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Mobile No</span>
-                                    <span className="text-sm font-bold text-gray-900">{donation.mobileNo}</span>
-                                </div>
-
-                                {/* Email Id */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Email Id</span>
-                                    <span className="text-sm font-bold text-gray-900 break-all">{donation.email}</span>
-                                </div>
-
-                                {/* Donation Type */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Donation Type</span>
-                                    <span className="text-sm font-bold text-gray-900">{donation.donationType}</span>
-                                </div>
-
-                                {/* Amount */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Amount</span>
-                                    <span className="text-sm font-bold text-gray-900">{donation.amount}</span>
-                                </div>
-
-                                {/* Time */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Time</span>
-                                    <span className="text-sm font-bold text-gray-900">{donation.time}</span>
-                                </div>
-
-                                {/* Date */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Date</span>
-                                    <span className="text-sm font-bold text-gray-900">{donation.date}</span>
-                                </div>
-
-                                {/* Payment Mode */}
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-gray-400 font-normal">Payment Mode</span>
-                                    <span className="text-sm font-bold text-gray-900">{donation.paymentMode}</span>
-                                </div>
-
-                                {/* Payment Status */}
-                                <div className="flex justify-between items-center">
-                                    <span className="text-xs text-gray-400 font-normal">Payment Status</span>
-                                    <span className="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-white text-green-600 border border-green-600">
-                                        {donation.paymentStatus}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* View Details Button */}
-                            <button
-                                onClick={() => handleViewDetails(donation)}
-                                className="w-full mt-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+                {!isLoading && !isError && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
+                        {donations.map((donation) => (
+                            <div
+                                key={donation.id}
+                                className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 border border-gray-100"
                             >
-                                View Details
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                                {/* Card Content */}
+                                <div className="space-y-3">
+                                    {/* Name */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Name</span>
+                                        <span className="text-sm font-bold text-gray-900">{donation.name}</span>
+                                    </div>
+
+                                    {/* Maha No */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Maha No</span>
+                                        <span className="text-sm font-bold text-gray-900">{donation.mahaNO}</span>
+                                    </div>
+
+                                    {/* Mobile No */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Mobile No</span>
+                                        <span className="text-sm font-bold text-gray-900">{donation.mobileNo}</span>
+                                    </div>
+
+                                    {/* Email Id */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Email Id</span>
+                                        <span className="text-sm font-bold text-gray-900 break-all">{donation.email}</span>
+                                    </div>
+
+                                    {/* Donation Type */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Donation Type</span>
+                                        <span className="text-sm font-bold text-gray-900">{donation.donationType}</span>
+                                    </div>
+
+                                    {/* Amount */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Amount</span>
+                                        <span className="text-sm font-bold text-gray-900">{donation.amount}</span>
+                                    </div>
+
+                                    {/* Time */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Time</span>
+                                        <span className="text-sm font-bold text-gray-900">{donation.time}</span>
+                                    </div>
+
+                                    {/* Date */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Date</span>
+                                        <span className="text-sm font-bold text-gray-900">{donation.date}</span>
+                                    </div>
+
+                                    {/* Payment Mode */}
+                                    <div className="flex justify-between items-start">
+                                        <span className="text-xs text-gray-400 font-normal">Payment Mode</span>
+                                        <span className="text-sm font-bold text-gray-900">{donation.paymentMode}</span>
+                                    </div>
+
+                                    {/* Payment Status */}
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs text-gray-400 font-normal">Payment Status</span>
+                                        <span className="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-white text-green-600 border border-green-600">
+                                            {donation.paymentStatus}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* View Details Button */}
+                                <button
+                                    onClick={() => handleViewDetails(donation)}
+                                    className="w-full mt-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+                                >
+                                    View Details
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 {/* Empty State (if no donations) */}
-                {donations.length === 0 && (
+                {!isLoading && !isError && donations.length === 0 && (
                     <div className="bg-white rounded-lg shadow-sm p-12 text-center">
                         <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg className="w-10 h-10 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -231,8 +220,111 @@ const DonationHistory = () => {
                                 <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">No Donation History</h3>
-                        <p className="text-sm text-gray-500">You don't have any donation history yet.</p>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">No Donations Found</h3>
+                        <p className="text-sm text-gray-500 mb-1">You haven't made any donations yet.</p>
+                        <p className="text-xs text-gray-400">Start your journey by making your first donation to our cause.</p>
+                    </div>
+                )}
+
+                {/* Pagination Controls */}
+                {!isLoading && !isError && donations.length > 0 && pagination && pagination.totalPages > 1 && (
+                    <div className="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 rounded-lg">
+                        <div className="flex flex-1 justify-between sm:hidden">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={!pagination.hasPrevPage}
+                                className={`relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium ${pagination.hasPrevPage
+                                        ? 'text-gray-700 hover:bg-gray-50'
+                                        : 'text-gray-300 cursor-not-allowed'
+                                    }`}
+                            >
+                                Previous
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={!pagination.hasNextPage}
+                                className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium ${pagination.hasNextPage
+                                        ? 'text-gray-700 hover:bg-gray-50'
+                                        : 'text-gray-300 cursor-not-allowed'
+                                    }`}
+                            >
+                                Next
+                            </button>
+                        </div>
+                        <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                            <div>
+                                <p className="text-sm text-gray-700">
+                                    Showing <span className="font-medium">{(currentPage - 1) * pageLimit + 1}</span> to{' '}
+                                    <span className="font-medium">
+                                        {Math.min(currentPage * pageLimit, pagination.total)}
+                                    </span> of{' '}
+                                    <span className="font-medium">{pagination.total}</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                    <button
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={!pagination.hasPrevPage}
+                                        className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 ${pagination.hasPrevPage
+                                                ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                                : 'cursor-not-allowed opacity-50'
+                                            }`}
+                                    >
+                                        <span className="sr-only">Previous</span>
+                                        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+                                        </svg>
+                                    </button>
+
+                                    {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
+                                        .filter(page => {
+                                            // Show first page, last page, current page, and pages around current page
+                                            return page === 1 ||
+                                                page === pagination.totalPages ||
+                                                Math.abs(page - currentPage) <= 1;
+                                        })
+                                        .map((page, index, array) => {
+                                            // Add ellipsis if there's a gap
+                                            const prevPage = index > 0 ? array[index - 1] : 0;
+                                            const showEllipsis = page - prevPage > 1;
+
+                                            return (
+                                                <div key={page} className="inline-flex">
+                                                    {showEllipsis && (
+                                                        <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">
+                                                            ...
+                                                        </span>
+                                                    )}
+                                                    <button
+                                                        onClick={() => handlePageChange(page)}
+                                                        className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${page === currentPage
+                                                                ? 'z-10 bg-[#AD2F16] text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#AD2F16]'
+                                                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                                            }`}
+                                                    >
+                                                        {page}
+                                                    </button>
+                                                </div>
+                                            );
+                                        })}
+
+                                    <button
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        disabled={!pagination.hasNextPage}
+                                        className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 ${pagination.hasNextPage
+                                                ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                                : 'cursor-not-allowed opacity-50'
+                                            }`}
+                                    >
+                                        <span className="sr-only">Next</span>
+                                        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
                 )}
             </main>

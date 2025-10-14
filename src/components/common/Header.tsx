@@ -694,7 +694,7 @@ const Header = (): JSX.Element => {
                     </Button>
                   </Link> */}
 
-                  <Link to="/donations" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link to="/donations-history" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
                       className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"

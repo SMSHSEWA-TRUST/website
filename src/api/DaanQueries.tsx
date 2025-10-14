@@ -3,9 +3,10 @@ import {
   getDaanDetailsById,
   getPlots,
   PurchaseDaanRequest,
+  getMyDonations,
 } from "@/services/daan.service";
-import {PurchaseRequestPayloadTypes} from "@/services/types";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import { PurchaseRequestPayloadTypes, DonationApiResponse } from "@/services/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const QueryKeys = {
   daan: "daan",
@@ -13,6 +14,7 @@ export const QueryKeys = {
   getDaanDetails: ["daan", "getDaanDetails"],
   getPlots: ["daan", "getPlots"],
   purchaseDaanRequest: ["daan", "purchaseDaanRequest"],
+  getMyDonations: ["daan", "getMyDonations"],
 };
 
 export const useGetAllDaan = () =>
@@ -39,3 +41,10 @@ export const usePurchaseReqestSubmission = () =>
     mutationKey: QueryKeys.purchaseDaanRequest,
     mutationFn: (payload: PurchaseRequestPayloadTypes) => PurchaseDaanRequest(payload),
   });
+
+export const useGetMyDonations = (page: number = 1, limit: number = 10) =>
+  useQuery({
+    queryKey: [...QueryKeys.getMyDonations, page, limit],
+    queryFn: () => getMyDonations(page, limit),
+  });
+

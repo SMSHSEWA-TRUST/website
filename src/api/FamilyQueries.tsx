@@ -1,4 +1,5 @@
 import { authTokenAxios } from '../services/axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface FamilyMember {
   name: string;
@@ -30,7 +31,7 @@ export const checkFamilyDetailsStatus = async (userId: string) => {
 
 export const updateFamilyDetails = async (userId: string, payload: FamilyDetailsPayload, skipToast = false) => {
   try {
-    const response = await authTokenAxios.post(`/user/puja-family/${userId}`, payload, {
+    const response = await authTokenAxios.put(`/user/puja-family/${userId}`, payload, {
       skipToast
     } as any);
     return response.data;
@@ -38,6 +39,93 @@ export const updateFamilyDetails = async (userId: string, payload: FamilyDetails
     console.error('Error updating family details:', error);
     throw error;
   }
+};
+
+// Add a family member
+export const addFamilyMember = async (userId: string, member: FamilyMember) => {
+  try {
+    // Send payload in the nested shape expected by the backend:
+    // { familyDetails: { members: [ { action: 'add', name, relation } ] } }
+    const payload = {
+      familyDetails: {
+        members: [
+          {
+            action: 'add',
+            name: member.name,
+            relation: member.relation,
+          },
+        ],
+      },
+    };
+
+    const response = await authTokenAxios.put(`/user/puja-family/${userId}`, payload);
+    return response.data;
+  } catch (error: any) {
+    console.error('Error adding family member:', error);
+    throw error;
+  }
+};
+
+// Delete a family member
+export const deleteFamilyMember = async (userId: string, memberId: string) => {
+  try {
+    // Send a nested payload so backend can delete an individual member by _id:
+    // { familyDetails: { members: [ { action: 'delete', _id: '<memberId>' } ] } }
+    const payload = {
+      familyDetails: {
+        members: [
+          {
+            action: 'delete',
+            _id: memberId,
+          },
+        ],
+      },
+    };
+
+    const response = await authTokenAxios.put(`/user/puja-family/${userId}`, payload);
+    return response.data;
+  } catch (error: any) {
+    console.error('Error deleting family member:', error);
+    throw error;
+  }
+};
+
+// React Query Hooks
+export const useAddFamilyMember = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, member }: { userId: string; member: FamilyMember }) =>
+      addFamilyMember(userId, member),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'profile'] });
+    },
+  });
+};
+
+export const useDeleteFamilyMember = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, memberId }: { userId: string; memberId: string }) =>
+      deleteFamilyMember(userId, memberId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'profile'] });
+    },
+  });
+};
+
+// Update family details (generic) - accepts FamilyDetailsPayload
+export const useUpdateFamilyDetails = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, payload }: { userId: string; payload: FamilyDetailsPayload | any }) =>
+      updateFamilyDetails(userId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'profile'] });
+    },
+  });
 };
 
 // Family Utils Functions

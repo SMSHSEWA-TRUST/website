@@ -1,34 +1,102 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import statesData from "../../data/states-and-districts.json";
+import {
+    useGetUserProfile,
+    useUpdateUserProfile,
+    useGetUserAddresses,
+    useAddUserAddress,
+    useUpdateUserAddress,
+    useDeleteUserAddress
+} from "../../api/ProfileQueries";
+import {
+    useDeleteFamilyMember,
+    useUpdateFamilyDetails
+} from "../../api/FamilyQueries";
+import { AddressModel, AddressPayload, AddressType } from "../../services/profile.service";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
 
-    const [user] = useState({
-        name: "Alexa Rawles",
-        memberId: "#32146897",
+    // Fetch user profile from API
+    const { data: profileData, isLoading: isLoadingProfile, refetch: refetchProfile } = useGetUserProfile();
+    const updateProfileMutation = useUpdateUserProfile();
+
+    // Address hooks - no longer need userId parameter
+    const { data: addressesData, isLoading: isLoadingAddresses, refetch: refetchAddresses } = useGetUserAddresses();
+    const addAddressMutation = useAddUserAddress();
+    const updateAddressMutation = useUpdateUserAddress();
+    const deleteAddressMutation = useDeleteUserAddress();
+
+    // Family member hooks
+    const deleteFamilyMemberMutation = useDeleteFamilyMember();
+    const updateFamilyDetailsMutation = useUpdateFamilyDetails();
+
+    // User state - will be populated from API only
+    const [user, setUser] = useState({
+        name: "",
+        memberId: "#N/A",
         email: "",
-        mobile: "+91 8876543210",
+        mobile: "",
         fatherName: "",
         motherName: "",
         avatar: "",
+        address: "",
     });
 
-    const [familyMembers] = useState([
-        { id: 1, name: "Radheai Sharma", relation: "Father", avatar: "" },
-        { id: 2, name: "Radharani Sharma", relation: "Mother", avatar: "" },
-        { id: 3, name: "Radheal Sharma", relation: "Father", avatar: "" },
-        { id: 4, name: "Radharani Sharma", relation: "Mother", avatar: "" },
-    ]);
+    // Family members state - will be populated from API only
+    const [familyMembersState, setFamilyMembersState] = useState<any[]>([]);
+
+    // Update user state when profile data changes
+    useEffect(() => {
+        if (profileData?.data?.user) {
+            const userData = profileData.data.user;
+            const members = userData?.familyDetails?.members || [];
+            const father = members.find((m: any) => String(m.relation || '').toLowerCase() === 'father')?.name || '';
+            const mother = members.find((m: any) => String(m.relation || '').toLowerCase() === 'mother')?.name || '';
+
+            setUser({
+                name: userData?.name || "",
+                memberId: userData?.memberId || userData?._id || "#N/A",
+                email: userData?.email || "",
+                mobile: userData?.phone || "",
+                fatherName: father,
+                motherName: mother,
+                avatar: userData?.avatar || userData?.profilePicture || "",
+                address: userData?.address || "",
+            });
+
+            setFamilyMembersState(members.map((member: any, index: number) => ({
+                id: member._id || member.id || index + 1,
+                _id: member._id || member.id,
+                name: member.name || "",
+                relation: member.relation || "",
+                avatar: "",
+            })));
+        }
+    }, [profileData]);
+
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editableUser, setEditableUser] = useState({
+        name: user.name,
+        email: user.email,
+        mobile: user.mobile,
+        fatherName: user.fatherName,
+        motherName: user.motherName,
+        address: user.address,
+    });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
     const [newMemberName, setNewMemberName] = useState("");
     const [newMemberRelation, setNewMemberRelation] = useState("");
+    const [isAddingMember, setIsAddingMember] = useState(false);
+    const [addMemberError, setAddMemberError] = useState("");
 
     // Address modal states
     const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false);
+    const [editingAddress, setEditingAddress] = useState<AddressModel | null>(null);
     const [addressForm, setAddressForm] = useState({
         name: "",
         email: "",
@@ -38,7 +106,7 @@ const ProfilePage = () => {
         state: "",
         district: "",
         pincode: "",
-        saveAs: "Home"
+        saveAs: "Home" as AddressType
     });
     const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
 
@@ -73,17 +141,329 @@ const ProfilePage = () => {
             pincode: "",
             saveAs: "Home"
         });
+        setEditingAddress(null);
     };
 
-    const [addresses] = useState([
-        {
-            id: 1,
-            type: "Home",
-            name: "Dexter Morgan",
-            phone: "+91 8518819091",
-            address: "Jalan By Pass Ngurah Rai, Denpasar, Bali, 80228",
-        },
-    ]);
+    // Parse address string to form fields
+    const parseAddressToForm = (address: AddressModel) => {
+        const addressParts = address.address.split(', ');
+
+        let addressLine1 = '';
+        let addressLine2 = '';
+        let district = '';
+        let state = '';
+        let pincode = '';
+
+        if (addressParts.length === 4) {
+            // Format: addressLine1, district, state, pincode
+            addressLine1 = addressParts[0] || '';
+            district = addressParts[1] || '';
+            state = addressParts[2] || '';
+            pincode = addressParts[3] || '';
+        } else if (addressParts.length >= 5) {
+            // Format: addressLine1, addressLine2, district, state, pincode
+            addressLine1 = addressParts[0] || '';
+            addressLine2 = addressParts[1] || '';
+            district = addressParts[2] || '';
+            state = addressParts[3] || '';
+            pincode = addressParts[4] || '';
+        }
+
+        setAddressForm({
+            name: address.name || '',
+            email: address.email || '',
+            mobile: address.phoneNumber || '',
+            addressLine1,
+            addressLine2,
+            state,
+            district,
+            pincode,
+            saveAs: address.type || 'Home'
+        });
+
+        // Set districts for the state
+        if (state) {
+            const selectedState = statesData.states.find(s => s.state === state);
+            setAvailableDistricts(selectedState?.districts || []);
+        }
+    };
+
+    // Open modal for adding new address
+    const handleOpenAddAddressModal = () => {
+        resetAddressForm();
+        setIsAddAddressModalOpen(true);
+    };
+
+    // Open modal for editing existing address
+    const handleEditAddress = (address: AddressModel) => {
+        setEditingAddress(address);
+        parseAddressToForm(address);
+        setIsAddAddressModalOpen(true);
+    };
+
+    // Close address modal
+    const handleCloseAddressModal = () => {
+        setIsAddAddressModalOpen(false);
+        resetAddressForm();
+    };
+
+    // Save address (add or update)
+    const handleSaveAddress = async () => {
+        try {
+            // Validation
+            if (!addressForm.name.trim()) {
+                toast.error("Please enter name");
+                return;
+            }
+            if (!addressForm.mobile.trim()) {
+                toast.error("Please enter mobile number");
+                return;
+            }
+            if (!addressForm.email.trim()) {
+                toast.error("Please enter email");
+                return;
+            }
+            if (!addressForm.addressLine1.trim()) {
+                toast.error("Please enter address line 1");
+                return;
+            }
+            if (!addressForm.state) {
+                toast.error("Please select state");
+                return;
+            }
+            if (!addressForm.district) {
+                toast.error("Please select district");
+                return;
+            }
+            if (!addressForm.pincode.trim()) {
+                toast.error("Please enter pincode");
+                return;
+            }
+
+            // Construct address string
+            const addressParts = [
+                addressForm.addressLine1.trim(),
+                addressForm.addressLine2.trim() ? addressForm.addressLine2.trim() : null,
+                addressForm.district,
+                addressForm.state,
+                addressForm.pincode
+            ].filter(Boolean);
+
+            const addressString = addressParts.join(', ');
+
+            const payload: AddressPayload = {
+                name: addressForm.name.trim(),
+                phoneNumber: addressForm.mobile.trim(),
+                email: addressForm.email.trim(),
+                address: addressString,
+                type: addressForm.saveAs,
+                isActive: true,
+                isPreferred: false
+            };
+
+            if (editingAddress) {
+                // Update existing address
+                await updateAddressMutation.mutateAsync({
+                    addressId: editingAddress._id,
+                    payload
+                });
+                toast.success("Address updated successfully!");
+            } else {
+                // Add new address
+                await addAddressMutation.mutateAsync(payload);
+                toast.success("Address added successfully!");
+            }
+
+            // Refetch addresses
+            await refetchAddresses();
+
+            // Close modal and reset form
+            handleCloseAddressModal();
+
+        } catch (error: any) {
+            console.error("Error saving address:", error);
+            toast.error(error?.response?.data?.message || "Failed to save address. Please try again.");
+        }
+    };
+
+    // Delete address
+    const _handleDeleteAddress = async (addressId: string) => {
+        if (!window.confirm("Are you sure you want to delete this address?")) {
+            return;
+        }
+
+        try {
+            await deleteAddressMutation.mutateAsync(addressId);
+
+            toast.success("Address deleted successfully!");
+            await refetchAddresses();
+
+        } catch (error: any) {
+            console.error("Error deleting address:", error);
+            toast.error(error?.response?.data?.message || "Failed to delete address. Please try again.");
+        }
+    };
+
+    const handleEditClick = () => {
+        setIsEditMode(true);
+        setEditableUser({
+            name: user.name,
+            email: user.email,
+            mobile: user.mobile,
+            fatherName: user.fatherName,
+            motherName: user.motherName,
+            address: user.address,
+        });
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditMode(false);
+        setEditableUser({
+            name: user.name,
+            email: user.email,
+            mobile: user.mobile,
+            fatherName: user.fatherName,
+            motherName: user.motherName,
+            address: user.address,
+        });
+    };
+
+    const handleSaveEdit = async () => {
+        try {
+            // Call the update profile API with only the payload
+            await updateProfileMutation.mutateAsync({
+                name: editableUser.name,
+                email: editableUser.email,
+                phone: editableUser.mobile,
+                fatherName: editableUser.fatherName,
+                motherName: editableUser.motherName,
+                address: editableUser.address,
+            });
+
+            setIsEditMode(false);
+
+            // Refetch profile data to get updated information
+            await refetchProfile();
+
+            // Reload to reflect all changes
+            window.location.reload();
+        } catch (error: any) {
+            console.error("Error updating profile:", error);
+            toast.error(error?.response?.data?.message || "Failed to update profile. Please try again.");
+        }
+    };
+
+    const handleInputChange = (field: string, value: string) => {
+        setEditableUser(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const handleAddFamilyMember = async () => {
+        // Reset error
+        setAddMemberError("");
+
+        // Validation
+        if (!newMemberName.trim()) {
+            setAddMemberError("Please enter a name");
+            return;
+        }
+
+        if (!newMemberRelation || newMemberRelation === "") {
+            setAddMemberError("Please select a relation");
+            return;
+        }
+
+        setIsAddingMember(true);
+
+        try {
+            // Get user data from API
+            const currentUserData = profileData?.data?.user;
+            const userId = currentUserData?.id || currentUserData?._id;
+
+            if (!userId) {
+                throw new Error("User ID not found. Please login again.");
+            }
+
+            // Build payload in the requested shape (only familyDetails.members)
+            const payload = {
+                familyDetails: {
+                    members: [
+                        {
+                            action: 'add',
+                            name: newMemberName.trim(),
+                            relation: newMemberRelation
+                        }
+                    ]
+                }
+            };
+
+
+            // Call mutation to update family details with the members array (action: 'add')
+            await updateFamilyDetailsMutation.mutateAsync({ userId, payload });
+
+            // Close modal and reset form
+            setIsAddMemberModalOpen(false);
+            setNewMemberName("");
+            setNewMemberRelation("");
+
+            // Show success message
+            toast.success("Family member added successfully!");
+
+        } catch (err: any) {
+            console.error("Error adding family member:", err);
+            setAddMemberError(err?.response?.data?.message || err?.message || "Failed to add family member. Please try again.");
+        } finally {
+            setIsAddingMember(false);
+        }
+    };
+
+    // Delete family member
+    const handleDeleteFamilyMember = async (memberId: string, memberName: string) => {
+        if (!window.confirm(`Are you sure you want to remove ${memberName} from family members?`)) {
+            return;
+        }
+
+        try {
+            // Get user data from API
+            const currentUserData = profileData?.data?.user;
+            const userId = currentUserData?.id || currentUserData?._id;
+
+            if (!userId) {
+                toast.error("User ID not found. Please login again.");
+                return;
+            }
+
+            // Call API to delete family member with action: 'delete'
+            await deleteFamilyMemberMutation.mutateAsync({
+                userId,
+                memberId
+            });
+
+            // Refetch profile to get updated data
+            await refetchProfile();
+
+            // Show success message
+            toast.success("Family member removed successfully!");
+
+        } catch (error: any) {
+            console.error("Error deleting family member:", error);
+            toast.error(error?.response?.data?.message || "Failed to remove family member. Please try again.");
+        }
+    };
+
+    // Show loading state while fetching profile
+    if (isLoadingProfile) {
+        return (
+            <div className="min-h-screen bg-[#FFFFFF] lg:max-w-[1400px] mx-auto flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AD2F16] mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading profile...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-[#FFFFFF] lg:max-w-[1400px] mx-auto">
@@ -100,8 +480,8 @@ const ProfilePage = () => {
                         </svg>
                     </button>
                     <div>
-                        <h1 className="text-sm md:text-lg font-medium text-gray-900">Welcome, Amanda</h1>
-                        <p className="text-xs text-gray-400">Tue, 07 June, 2022</p>
+                        <h1 className="text-sm md:text-lg font-medium text-gray-900">Welcome, {user.name || 'User'}</h1>
+                        <p className="text-xs text-gray-400">{new Date().toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}</p>
                     </div>
                 </div>
 
@@ -145,9 +525,41 @@ const ProfilePage = () => {
                                     <p className="text-xs md:text-sm text-gray-400">Member ID: {user.memberId}</p>
                                 </div>
                             </div>
-                            <button className="hidden md:block bg-[#AD2F16] hover:bg-[#a03333] text-white px-8 py-2 rounded text-sm transition-colors">
-                                Edit
-                            </button>
+                            {!isEditMode ? (
+                                <button
+                                    onClick={handleEditClick}
+                                    className="hidden md:block bg-[#AD2F16] hover:bg-[#a03333] text-white px-8 py-2 rounded text-sm transition-colors"
+                                >
+                                    Edit
+                                </button>
+                            ) : (
+                                <div className="hidden md:flex gap-3">
+                                    <button
+                                        onClick={handleCancelEdit}
+                                        className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded text-sm transition-colors"
+                                        disabled={updateProfileMutation.isPending}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleSaveEdit}
+                                        className="bg-[#AD2F16] hover:bg-[#a03333] text-white px-6 py-2 rounded text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        disabled={updateProfileMutation.isPending}
+                                    >
+                                        {updateProfileMutation.isPending ? (
+                                            <span className="flex items-center gap-2">
+                                                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Saving...
+                                            </span>
+                                        ) : (
+                                            'Save'
+                                        )}
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         {/* Form Fields */}
@@ -159,9 +571,12 @@ const ProfilePage = () => {
                                 </label>
                                 <input
                                     type="text"
+                                    value={isEditMode ? editableUser.name : user.name}
+                                    onChange={(e) => handleInputChange('name', e.target.value)}
                                     placeholder="Full Name"
-                                    className="px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-400 text-sm focus:outline-none focus:border-gray-300"
-                                    disabled
+                                    className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
+                                        }`}
+                                    disabled={!isEditMode}
                                 />
                             </div>
 
@@ -172,9 +587,11 @@ const ProfilePage = () => {
                                 </label>
                                 <input
                                     type="tel"
-                                    defaultValue={user.mobile}
-                                    className="px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-700 text-sm focus:outline-none focus:border-gray-300"
-                                    disabled
+                                    value={isEditMode ? editableUser.mobile : user.mobile}
+                                    onChange={(e) => handleInputChange('mobile', e.target.value)}
+                                    className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
+                                        }`}
+                                    disabled={!isEditMode}
                                 />
                             </div>
 
@@ -185,9 +602,12 @@ const ProfilePage = () => {
                                 </label>
                                 <input
                                     type="email"
+                                    value={isEditMode ? editableUser.email : user.email}
+                                    onChange={(e) => handleInputChange('email', e.target.value)}
                                     placeholder="Email ID"
-                                    className="px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-400 text-sm focus:outline-none focus:border-gray-300"
-                                    disabled
+                                    className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
+                                        }`}
+                                    disabled={!isEditMode}
                                 />
                             </div>
 
@@ -198,9 +618,12 @@ const ProfilePage = () => {
                                 </label>
                                 <input
                                     type="text"
+                                    value={isEditMode ? editableUser.fatherName : user.fatherName}
+                                    onChange={(e) => handleInputChange('fatherName', e.target.value)}
                                     placeholder="Father's name"
-                                    className="px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-400 text-sm focus:outline-none focus:border-gray-300"
-                                    disabled
+                                    className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
+                                        }`}
+                                    disabled={!isEditMode}
                                 />
                             </div>
 
@@ -211,9 +634,11 @@ const ProfilePage = () => {
                                 </label>
                                 <input
                                     type="tel"
-                                    defaultValue={user.mobile}
-                                    className="px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-700 text-sm focus:outline-none focus:border-gray-300"
-                                    disabled
+                                    value={isEditMode ? editableUser.mobile : user.mobile}
+                                    onChange={(e) => handleInputChange('mobile', e.target.value)}
+                                    className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
+                                        }`}
+                                    disabled={!isEditMode}
                                 />
                             </div>
 
@@ -224,12 +649,52 @@ const ProfilePage = () => {
                                 </label>
                                 <input
                                     type="text"
+                                    value={isEditMode ? editableUser.motherName : user.motherName}
+                                    onChange={(e) => handleInputChange('motherName', e.target.value)}
                                     placeholder="Mother's Name"
-                                    className="px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-400 text-sm focus:outline-none focus:border-gray-300"
-                                    disabled
+                                    className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
+                                        }`}
+                                    disabled={!isEditMode}
                                 />
                             </div>
                         </div>
+
+                        {/* Mobile Edit/Save/Cancel Buttons */}
+                        {!isEditMode ? (
+                            <button
+                                onClick={handleEditClick}
+                                className="md:hidden w-full mt-6 bg-[#AD2F16] hover:bg-[#a03333] text-white py-2.5 rounded text-sm transition-colors"
+                            >
+                                Edit Profile
+                            </button>
+                        ) : (
+                            <div className="md:hidden flex gap-3 mt-6">
+                                <button
+                                    onClick={handleCancelEdit}
+                                    className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2.5 rounded text-sm transition-colors"
+                                    disabled={updateProfileMutation.isPending}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSaveEdit}
+                                    className="flex-1 bg-[#AD2F16] hover:bg-[#a03333] text-white py-2.5 rounded text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={updateProfileMutation.isPending}
+                                >
+                                    {updateProfileMutation.isPending ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            Saving...
+                                        </span>
+                                    ) : (
+                                        'Save'
+                                    )}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </section>
 
@@ -247,7 +712,7 @@ const ProfilePage = () => {
 
                     {/* Mobile/Tablet: Vertical list of members */}
                     <div className="md:hidden space-y-3">
-                        {familyMembers.slice(0, 3).map((member) => (
+                        {familyMembersState.slice(0, 3).map((member: any) => (
                             <div key={member.id} className="flex items-center gap-3 bg-white border border-gray-200 rounded-lg px-3 py-3">
                                 <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 flex-shrink-0">
                                     <span className="text-base font-medium">{member.name[0]}</span>
@@ -260,7 +725,11 @@ const ProfilePage = () => {
                                             <p className="text-xs text-gray-400">{member.relation}</p>
                                         </div>
 
-                                        <button aria-label={`Remove ${member.name}`} className="w-5 h-5 flex items-center justify-center border border-gray-200 rounded-sm text-gray-500 hover:bg-gray-50 flex-shrink-0">
+                                        <button
+                                            onClick={() => handleDeleteFamilyMember(member._id, member.name)}
+                                            aria-label={`Remove ${member.name}`}
+                                            className="w-5 h-5 flex items-center justify-center border border-gray-200 rounded-sm text-gray-500 hover:bg-red-50 hover:border-red-300 hover:text-red-600 flex-shrink-0 transition-colors"
+                                        >
                                             <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                                 <path d="M18 6L6 18M6 6l12 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
@@ -271,7 +740,7 @@ const ProfilePage = () => {
                         ))}
 
                         {/* View All button - Mobile */}
-                        {familyMembers.length > 3 && (
+                        {familyMembersState.length > 3 && (
                             <button
                                 onClick={() => setIsModalOpen(true)}
                                 className="w-full text-center py-2 text-sm text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
@@ -283,7 +752,7 @@ const ProfilePage = () => {
 
                     {/* Desktop: Horizontal pill list - Show only first 3 members */}
                     <div className="hidden md:flex items-center justify-between overflow-x-auto pb-2">
-                        {familyMembers.slice(0, 4).map((member) => (
+                        {familyMembersState.slice(0, 4).map((member: any) => (
                             <div key={member.id} className="flex items-center gap-3 bg-white border border-gray-200 rounded-lg px-4 py-2 min-w-[220px]">
                                 <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 flex-shrink-0">
                                     <span className="text-base font-medium">{member.name[0]}</span>
@@ -296,7 +765,11 @@ const ProfilePage = () => {
                                             <p className="text-xs text-gray-400">{member.relation}</p>
                                         </div>
 
-                                        <button aria-label={`Remove ${member.name}`} className="w-6 h-6 flex items-center justify-center border border-gray-200 rounded-sm text-gray-500 hover:bg-gray-50 flex-shrink-0">
+                                        <button
+                                            onClick={() => handleDeleteFamilyMember(member._id, member.name)}
+                                            aria-label={`Remove ${member.name}`}
+                                            className="w-6 h-6 flex items-center justify-center border border-gray-200 rounded-sm text-gray-500 hover:bg-red-50 hover:border-red-300 hover:text-red-600 flex-shrink-0 transition-colors"
+                                        >
                                             <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                                 <path d="M18 6L6 18M6 6l12 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
@@ -307,7 +780,7 @@ const ProfilePage = () => {
                         ))}
 
                         {/* View All pill - Desktop - Only show if more than 3 members */}
-                        {familyMembers.length > 3 && (
+                        {familyMembersState.length > 3 && (
                             <button
                                 onClick={() => setIsModalOpen(true)}
                                 className="flex items-center justify-center border border-gray-200 rounded-lg px-4 py-2 min-w-[110px] bg-white text-sm text-gray-700 hover:bg-gray-50 cursor-pointer transition-colors"
@@ -339,7 +812,7 @@ const ProfilePage = () => {
                             {/* Modal Content */}
                             <div className="px-6 py-6 overflow-y-auto max-h-[calc(90vh-120px)]">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {familyMembers.map((member) => (
+                                    {familyMembersState.map((member: any) => (
                                         <div key={member.id} className="flex items-center gap-3 bg-white border border-gray-200 rounded-lg px-4 py-3 hover:shadow-sm transition-shadow">
                                             <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 flex-shrink-0">
                                                 <span className="text-lg font-medium">{member.name[0]}</span>
@@ -352,7 +825,11 @@ const ProfilePage = () => {
                                                         <p className="text-xs text-gray-400">{member.relation}</p>
                                                     </div>
 
-                                                    <button aria-label={`Remove ${member.name}`} className="w-6 h-6 flex items-center justify-center border border-gray-200 rounded-sm text-gray-500 hover:bg-gray-50 flex-shrink-0">
+                                                    <button
+                                                        onClick={() => handleDeleteFamilyMember(member._id, member.name)}
+                                                        aria-label={`Remove ${member.name}`}
+                                                        className="w-6 h-6 flex items-center justify-center border border-gray-200 rounded-sm text-gray-500 hover:bg-red-50 hover:border-red-300 hover:text-red-600 flex-shrink-0 transition-colors"
+                                                    >
                                                         <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                                             <path d="M18 6L6 18M6 6l12 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                                         </svg>
@@ -383,7 +860,7 @@ const ProfilePage = () => {
                         <div className="flex items-center justify-between">
                             <h2 className="text-sm md:text-lg font-semibold text-gray-900">My Address</h2>
                             <button
-                                onClick={() => setIsAddAddressModalOpen(true)}
+                                onClick={handleOpenAddAddressModal}
                                 className="bg-red-50 text-red-600 text-xs md:text-sm font-medium px-3 md:px-4 py-1.5 md:py-2 rounded-md hover:bg-red-100 transition-colors"
                             >
                                 +Add New Address
@@ -391,56 +868,72 @@ const ProfilePage = () => {
                         </div>
                     </div>
 
-                    <div className="px-1 md:px-4 pb-4 md:py-6 space-y-3 md:max-w-[500px]">
-                        {addresses.map((addr) => (
-                            <div key={addr.id} className="border border-gray-200 rounded-lg p-3 md:p-4 bg-white hover:shadow-sm transition-shadow">
-                                <div className="flex gap-3 md:gap-4 items-start">
-                                    {/* Icon */}
-                                    <div className="flex-shrink-0">
-                                        <div className="w-8 h-8 md:w-10 md:h-10 bg-red-50 rounded-full flex items-center justify-center">
-                                            <svg className="w-4 h-4 md:w-5 md:h-5 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                <circle cx="12" cy="10" r="3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                            </svg>
+                    <div className="px-1 md:px-4 pb-4 md:py-6 space-y-3 max-w-[500px]">
+                        {isLoadingAddresses ? (
+                            <div className="text-center py-8">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#AD2F16] mx-auto"></div>
+                                <p className="mt-2 text-sm text-gray-600">Loading addresses...</p>
+                            </div>
+                        ) : addressesData?.data && addressesData.data.length > 0 ? (
+                            addressesData.data.map((addr: AddressModel) => (
+                                <div key={addr._id} className="border border-gray-200 rounded-2xl p-4 bg-white hover:shadow-sm transition-shadow">
+                                    {/* Main flex container */}
+                                    <div className="flex gap-3">
+                                        {/* Location Icon */}
+                                        <div className="flex-shrink-0">
+                                            <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center">
+                                                <svg className="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                                    <circle cx="12" cy="10" r="3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                                </svg>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {/* Content */}
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-xs md:text-sm text-gray-500">Delivery address</span>
+                                        {/* Content Section */}
+                                        <div className="flex-1 min-w-0">
+                                            {/* Delivery address label */}
+                                            <div className="mb-1">
+                                                <span className="text-sm text-gray-500 font-normal">Delivery address</span>
+                                            </div>
 
+                                            {/* Address */}
+                                            <p className="text-base text-gray-900 font-semibold mb-3 leading-relaxed">
+                                                {addr.address}
+                                            </p>
+
+                                            {/* Name and Phone */}
+                                            <div className="flex items-center gap-2 text-sm">
+                                                <span className="text-gray-900 font-semibold">{addr.name}</span>
+                                                <span className="text-gray-400">+{addr.phoneNumber}</span>
+                                            </div>
                                         </div>
 
-                                        <p className="text-xs md:text-sm text-gray-900 font-medium mb-2 md:mb-3">
-                                            {addr.address}
-                                        </p>
+                                        {/* Right column: Type badge at top, Arrow at bottom */}
+                                        <div className="flex flex-col justify-between items-end flex-shrink-0">
+                                            {/* Type badge at top */}
+                                            <span className="px-3 py-1 bg-red-50 text-red-600 text-xs font-medium rounded-full">
+                                                {addr.type}
+                                            </span>
 
-                                        <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-2 text-xs md:text-sm">
-                                            <span className="text-gray-900 font-medium">{addr.name}</span>
-                                            <span className="text-gray-400">{addr.phone}</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Right side: Home tag and Arrow - Desktop only */}
-                                    <div className="flex flex-col items-end justify-between flex-shrink-0 h-full gap-10">
-                                        <span className="px-2 py-0.5 bg-red-50 text-red-600 text-xs font-medium rounded">
-                                            {addr.type}
-                                        </span>
-                                        <div className="mt-2">
-                                            <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
-                                                <svg className="w-4 h-4 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                    <path d="M9 18l6-6-6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            {/* Arrow button at bottom, vertically aligned with Home badge */}
+                                            <button
+                                                onClick={() => handleEditAddress(addr)}
+                                                className="w-6 h-6 flex items-center justify-center flex-shrink-0"
+                                                aria-label="Edit address"
+                                            >
+                                                <svg className="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
                                             </button>
                                         </div>
                                     </div>
-
-
-
                                 </div>
+                            ))
+                        ) : (
+                            <div className="text-center py-8 text-gray-500">
+                                <p className="text-sm">No addresses found. Add your first address!</p>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </section>
 
@@ -456,6 +949,7 @@ const ProfilePage = () => {
                                         setIsAddMemberModalOpen(false);
                                         setNewMemberName("");
                                         setNewMemberRelation("");
+                                        setAddMemberError("");
                                     }}
                                     className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
                                     aria-label="Close modal"
@@ -468,30 +962,39 @@ const ProfilePage = () => {
 
                             {/* Modal Content */}
                             <div className="px-6 py-6">
+                                {/* Error Message */}
+                                {addMemberError && (
+                                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                        <p className="text-sm text-red-600">{addMemberError}</p>
+                                    </div>
+                                )}
+
                                 {/* Full Name Field */}
                                 <div className="mb-6">
                                     <label className="block text-sm font-normal text-gray-900 mb-2">
-                                        Full Name
+                                        Full Name <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         placeholder="Full Name"
                                         value={newMemberName}
                                         onChange={(e) => setNewMemberName(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 text-sm placeholder-gray-400 focus:outline-none focus:border-gray-300 focus:bg-white transition-colors"
+                                        disabled={isAddingMember}
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 focus:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                     />
                                 </div>
 
                                 {/* Relation Field */}
                                 <div className="mb-8">
                                     <label className="block text-sm font-normal text-gray-900 mb-2">
-                                        Relation
+                                        Relation <span className="text-red-500">*</span>
                                     </label>
                                     <div className="relative">
                                         <select
                                             value={newMemberRelation}
                                             onChange={(e) => setNewMemberRelation(e.target.value)}
-                                            className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 text-sm appearance-none focus:outline-none focus:border-gray-300 focus:bg-white transition-colors cursor-pointer"
+                                            disabled={isAddingMember}
+                                            className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 text-sm appearance-none focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 focus:bg-white transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             <option value="">Select relation</option>
                                             <option value="Father">Father</option>
@@ -517,16 +1020,11 @@ const ProfilePage = () => {
 
                                 {/* Add Member Button */}
                                 <button
-                                    onClick={() => {
-                                        // Handle add member logic here
-                                        console.log("Adding member:", { name: newMemberName, relation: newMemberRelation });
-                                        setIsAddMemberModalOpen(false);
-                                        setNewMemberName("");
-                                        setNewMemberRelation("");
-                                    }}
-                                    className="w-full bg-[#AD2F16] hover:bg-[#8B0000] text-white font-medium py-3 rounded-lg transition-colors"
+                                    onClick={handleAddFamilyMember}
+                                    disabled={isAddingMember}
+                                    className="w-full bg-[#AD2F16] hover:bg-[#8B0000] text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#AD2F16]"
                                 >
-                                    Add Member
+                                    {isAddingMember ? "Adding Member..." : "Add Member"}
                                 </button>
                             </div>
                         </div>
@@ -539,12 +1037,11 @@ const ProfilePage = () => {
                         <div className="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
                             {/* Modal Header */}
                             <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 sticky top-0 bg-white z-10">
-                                <h3 className="text-base sm:text-xl font-semibold text-gray-900">Add New Address</h3>
+                                <h3 className="text-base sm:text-xl font-semibold text-gray-900">
+                                    {editingAddress ? 'Edit Address' : 'Add New Address'}
+                                </h3>
                                 <button
-                                    onClick={() => {
-                                        setIsAddAddressModalOpen(false);
-                                        resetAddressForm();
-                                    }}
+                                    onClick={handleCloseAddressModal}
                                     className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors flex-shrink-0"
                                     aria-label="Close modal"
                                 >
@@ -735,18 +1232,49 @@ const ProfilePage = () => {
                                     </div>
                                 </div>
 
-                                {/* Add Address Button */}
-                                <button
-                                    onClick={() => {
-                                        // Handle add address logic here
-                                        console.log("Adding address:", addressForm);
-                                        setIsAddAddressModalOpen(false);
-                                        resetAddressForm();
-                                    }}
-                                    className="w-full bg-[#AD2F16] hover:bg-[#8B0000] text-white font-medium py-2.5 sm:py-3 rounded-lg transition-colors text-sm sm:text-base"
-                                >
-                                    Add New Address
-                                </button>
+                                {/* Add/Update/Delete Buttons */}
+                                {editingAddress ? (
+                                    <div className="space-y-3">
+                                        {/* Update Button */}
+                                        <button
+                                            onClick={handleSaveAddress}
+                                            disabled={addAddressMutation.isPending || updateAddressMutation.isPending}
+                                            className="w-full bg-[#AD2F16] hover:bg-[#8B0000] text-white font-medium py-2.5 sm:py-3 rounded-lg transition-colors text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            {updateAddressMutation.isPending ? (
+                                                <span className="flex items-center justify-center gap-2">
+                                                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Updating...
+                                                </span>
+                                            ) : (
+                                                'Edit'
+                                            )}
+                                        </button>
+
+
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={handleSaveAddress}
+                                        disabled={addAddressMutation.isPending}
+                                        className="w-full bg-[#AD2F16] hover:bg-[#8B0000] text-white font-medium py-2.5 sm:py-3 rounded-lg transition-colors text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        {addAddressMutation.isPending ? (
+                                            <span className="flex items-center justify-center gap-2">
+                                                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Adding...
+                                            </span>
+                                        ) : (
+                                            'Add New Address'
+                                        )}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

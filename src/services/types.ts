@@ -10,3 +10,20 @@ export interface PurchaseRequestPayloadTypes {
   plotIds?: any;
   paymentMode ?: string;
 }
+
+export interface PaginationResponse {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+export interface DonationApiResponse {
+  success: boolean;
+  message: string;
+  count: number;
+  data: any[];
+  pagination: PaginationResponse;
+}

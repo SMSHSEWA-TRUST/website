@@ -8,3 +8,6 @@ export const getPlots = () => authTokenAxios.get(`/plots`);
 
 export const PurchaseDaanRequest = (payload: PurchaseRequestPayloadTypes) =>
   authTokenAxios.post("/purchase-requests", payload);
+
+export const getMyDonations = (page: number = 1, limit: number = 10) => 
+  authTokenAxios.get(`/donations/my-donation`, { params: { page, limit } });
