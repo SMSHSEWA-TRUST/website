@@ -16,7 +16,7 @@ export type UpdateProfilePayload = {
 };
 
 export const updateUserProfile = (payload: UpdateProfilePayload) => {
-  return authTokenAxios.put(`/user/update-profile/`, payload);
+  return authTokenAxios.patch(`/user/update-profile/`, payload);
 };
 
 // Address types
@@ -62,12 +62,12 @@ export const updateUserAddress = (addressId: string, payload: AddressPayload) =>
 
 // Delete an address
 export const deleteUserAddress = (addressId: string) => {
-  return authTokenAxios.delete(`/user/addresses/${addressId}`);
+  return authTokenAxios.delete(`/user-address/${addressId}`);
 };
 
 // Set preferred address
 export const setPreferredAddress = (addressId: string) => {
-  return authTokenAxios.patch(`/user/addresses/${addressId}/preferred`);
+  return authTokenAxios.patch(`/user-address/${addressId}/preferred`);
 };
 
 export default {

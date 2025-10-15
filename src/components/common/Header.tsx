@@ -587,11 +587,11 @@ const Header = (): JSX.Element => {
 
           {/* Mobile Navigation Menu */}
           <div
-            className={`${isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            className={`${isMobileMenuOpen ? "max-h-full opacity-100" : "max-h-0 opacity-0"
               } overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100 textHeading`}
           >
             <nav
-              className={`py-4 space-y-2 ${isMobileMenuOpen ? "max-h-80 overflow-y-auto" : ""
+              className={`py-4 space-y-2 ${isMobileMenuOpen ? "max-h-full overflow-y-auto" : ""
                 }`}
             >
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>

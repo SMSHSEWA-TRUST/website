@@ -109,12 +109,12 @@ export default function Gallery(): JSX.Element {
                             className="w-full h-28 sm:h-36 md:h-44 lg:h-48 object-cover transform transition-transform duration-300 group-hover:scale-105"
                             loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {/* <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         {item.title && (
                             <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-sm p-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 {item.title}
                             </div>
-                        )}
+                        )} */}
                     </button>
                 ))}
             </div>
