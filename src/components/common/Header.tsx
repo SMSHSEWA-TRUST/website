@@ -6,7 +6,7 @@ import { useLocation, Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "../ui/navigation-menu";
 import { useI18n } from "@/lib/i18n";
-
+import LogoutIcon from "@/assets/images/logOutLogo.png";
 const Header = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => {
@@ -398,10 +398,7 @@ const Header = (): JSX.Element => {
                           }}
                           className="w-full bg-[#8b0000] text-white py-2 rounded-md flex items-center justify-center gap-2"
                         >
-                          <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M16 17l5-5-5-5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
+                          <img src={LogoutIcon} alt="Logout" className="w-6 h-6 object-contain" />
                           <span className="text-white font-medium">Log Out</span>
                         </button>
                       </div>
@@ -729,9 +726,10 @@ const Header = (): JSX.Element => {
                       localStorage.clear();
                       window.location.reload();
                     }}
-                    className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal"
+                    className="font-secondaryFont w-full bg-[#8b0000] hover:bg-[#660000] text-white py-2 textDescription font-normal flex items-center justify-center gap-2"
                   >
-                    {t("auth.logout")}
+                    <img src={LogoutIcon} alt="Logout" className="w-5 h-5 object-contain" />
+                    <span>{t("auth.logout")}</span>
                   </Button>
                 </div>
               )}
