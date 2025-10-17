@@ -18,7 +18,7 @@ const About: React.FC = () => {
                 <div className="md:w-[50%] flex flex-col justify-start">
                     <div className="">
                         <div className="flex items-center">
-                            <h2 className=" textHeadingLg font-primaryFont text-[#4C291E] tracking-wide">About Us</h2>
+                            <h2 className=" textHeadingLg font-primaryFont text-[#4C291E] tracking-wide">{t("AboutpageAboutsection.title")}</h2>
 
 
                         </div>

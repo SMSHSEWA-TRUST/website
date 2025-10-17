@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useI18n } from '@/lib/i18n';
 import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { buyNow } from '@/services/subscription.service';
+import { buyNow, verifyPayment } from '@/services/subscription.service';
 import { useGetAllSubscriptions } from '@/api/SubscriptionQueries';
 
 
@@ -78,88 +78,146 @@ const SubscriptionPlans: React.FC = () => {
 
     const [processingIndex, setProcessingIndex] = useState<number | null>(null);
 
+    // Refactored Razorpay checkout flow: small helpers and clearer names
     const openRazorpayCheckout = async (planId: string, amountRupees?: number) => {
-        const authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-            // Save the intended subscription purchase
-            localStorage.setItem('auth_redirect_destination', JSON.stringify({
-                path: '/membership',
-                state: { planId: planId }
-            }));
-            navigate('/login');
-            return;
-        }
+        // Helper: ensure user is authenticated or redirect to login while preserving intent
+        const ensureAuthenticated = () => {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                localStorage.setItem('auth_redirect_destination', JSON.stringify({ path: '/membership', state: { planId } }));
+                navigate('/login');
+                return false;
+            }
+            return true;
+        };
 
-        // determine amount in paise
-        let amount = 100 * 100; // default ₹100
-        if (typeof amountRupees === 'number') {
-            amount = Math.round(amountRupees * 100);
-        } else {
-            // try to find in fetched plans
+        // Helper: compute amount in paise (Razorpay expects paise)
+        const computeAmountPaise = (maybeAmountRupees?: number) => {
+            if (typeof maybeAmountRupees === 'number') return Math.round(maybeAmountRupees * 100);
             const found = apiPlans.find((p: any) => p._id === planId || p.id === planId);
-            if (found && typeof found.amount === 'number') amount = Math.round(found.amount * 100);
-        }
+            if (found && typeof found.amount === 'number') return Math.round(found.amount * 100);
+            return 100 * 100; // default ₹100
+        };
 
-        // mark processing (disable button)
+        // Helper: load Razorpay script once
+        const loadRazorpayScript = () => new Promise<boolean>((resolve) => {
+            if ((window as any).Razorpay) return resolve(true);
+            const existing = document.querySelector('script[data-razorpay]');
+            if (existing) {
+                setTimeout(() => resolve(!!(window as any).Razorpay), 500);
+                return;
+            }
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.async = true;
+            script.setAttribute('data-razorpay', 'true');
+            script.onload = () => resolve(!!(window as any).Razorpay);
+            script.onerror = () => resolve(false);
+            document.head.appendChild(script);
+        });
+
+        // Helper: build the base options object for Razorpay
+        const buildRazorpayOptions = (paiseAmount: number, planIdStr: string) => {
+            const key = (import.meta as any).env?.VITE_RAZORPAY_KEY || '';
+            return {
+                key,
+                amount: paiseAmount,
+                currency: 'INR',
+                name: 'SM SHSEWA TRUST',
+                description: `Membership - ${planIdStr}`,
+                prefill: {
+                    name: (localStorage.getItem('name') || '') as string,
+                    email: (localStorage.getItem('email') || '') as string,
+                    contact: (localStorage.getItem('phone') || '') as string,
+                },
+                theme: { color: '#8B0000' },
+            } as any;
+        };
+
+        // Helper: extract a minimal server order object
+        const buildServerOrder = (respAny: any) => {
+            const srv = respAny && (respAny.order || respAny.data || respAny);
+            if (!srv) return null;
+            return {
+                id: srv.id || srv.order_id || null,
+                amount: typeof srv.amount === 'number' ? srv.amount : (srv.amount_paid || null),
+                currency: srv.currency || null,
+                receipt: srv.receipt || null,
+                status: srv.status || null,
+            };
+        };
+
+        // Helper: verify payment with backend
+        const handleVerification = async (razorResp: any, serverOrderObj: any, subscriptionId: string) => {
+            const payload = {
+                razorpay_payment_id: razorResp.razorpay_payment_id || razorResp.payment_id || razorResp.razorpay_paymentid,
+                razorpay_order_id: razorResp.razorpay_order_id || razorResp.order_id || razorResp.razorpay_orderid,
+                razorpay_signature: razorResp.razorpay_signature || razorResp.signature,
+                order: serverOrderObj,
+                subscriptionId,
+            };
+
+            try {
+                const verifyResp: any = await verifyPayment(payload);
+                if (verifyResp && verifyResp.success) {
+                    toast.success('Payment verified and recorded');
+                } else {
+                    console.warn('Payment verification response', verifyResp);
+                    toast.error('Payment completed but verification failed. Please contact support');
+                }
+            } catch (err) {
+                console.error('Payment verification call failed', err);
+                toast.error('Payment completed but verification failed. Please contact support');
+            }
+        };
+
+        // ----- Main flow -----
+        if (!ensureAuthenticated()) return;
+
+        const amountPaise = computeAmountPaise(amountRupees);
+
         const planIdx = apiPlans.findIndex((p: any) => p._id === planId || p.id === planId);
         setProcessingIndex(planIdx >= 0 ? planIdx : null);
 
+        // create server order (backend expects rupees)
+        const serverOrderResp = await createOrderOnServer(planId, amountPaise);
 
-        // Try server buy-now first (backend expects rupees)
-        const order = await createOrderOnServer(planId, amount);
+        const options: any = buildRazorpayOptions(amountPaise, planId);
 
-        const key = (import.meta as any).env?.VITE_RAZORPAY_KEY;
-        if (!key) {
-            console.warn('VITE_RAZORPAY_KEY not set. Please add it to your .env when using client-only checkout.');
+        const serverAny: any = serverOrderResp as any;
+        const nested = serverAny && (serverAny.order || serverAny.data || serverAny.orderDetails || null);
+
+        
+        if (nested && (nested.id || nested.order_id)) {
+            options.order_id = nested.id || nested.order_id;
+            if (typeof nested.amount === 'number') options.amount = nested.amount;
+            if (nested.currency) options.currency = nested.currency;
+        } else {
+            const returnedOrderId = serverAny && (serverAny.id || serverAny.order_id);
+            if (returnedOrderId) options.order_id = returnedOrderId;
+            if (serverAny && typeof serverAny.amount === 'number') options.amount = serverAny.amount;
+            if (serverAny && serverAny.currency) options.currency = serverAny.currency;
         }
 
-        const options: any = {
-            key: key || '', // if empty, Razorpay may still allow test mode depending on setup; prefer setting env var
-            amount: amount, // in paise
-            currency: 'INR',
-            name: 'SM SHSEWA TRUST',
-            description: `Membership - ${planId}`,
-            // prefill from user profile if available
-            prefill: {
-                name: (localStorage.getItem('name') || '') as string,
-                email: (localStorage.getItem('email') || '') as string,
-                contact: (localStorage.getItem('phone') || '') as string,
-            },
-            theme: {
-                color: '#8B0000',
-            },
-        };
-
-        // backend may return different shapes; try common fields
-        // Cast to any to safely inspect possible shapes returned by different backends
-        const orderAny: any = order as any;
-        const returnedOrderId = orderAny && (orderAny.id || orderAny.order_id || orderAny.orderId || orderAny.razorpay_order_id);
-        if (returnedOrderId) {
-            options.order_id = returnedOrderId;
-        }
-
-        // Some backends may return a redirect URL for hosted payment flow
-        if (orderAny && (orderAny.redirectUrl || orderAny.checkoutUrl)) {
-            // open hosted url in new tab instead of Razorpay inline
-            window.open(orderAny.redirectUrl || orderAny.checkoutUrl, '_blank');
+        
+        if (serverAny && (serverAny.redirectUrl || serverAny.checkoutUrl)) {
+            window.open(serverAny.redirectUrl || serverAny.checkoutUrl, '_blank');
             setProcessingIndex(null);
             return;
         }
 
-        options.handler = function (response: any) {
-            // response contains razorpay_payment_id, razorpay_order_id, razorpay_signature
-            console.log('Razorpay success response', response);
-            toast.success('Payment completed successfully');
-            // TODO: verify payment on server if necessary and record subscription
+        // success handler
+        options.handler = async (razorResp: any) => {
+            console.log('Razorpay success response', razorResp);
+            const serverOrderObj = buildServerOrder(serverAny);
+            await handleVerification(razorResp, serverOrderObj, planId);
         };
 
-        options.modal = {
-            ondismiss: function () {
-                console.log('Checkout closed by user');
-            },
-        };
+        options.modal = { ondismiss: () => console.log('Checkout closed by user') };
 
         try {
+            const loaded = await loadRazorpayScript();
+            if (!loaded) throw new Error('Razorpay script failed to load');
             const rzp = new (window as any).Razorpay(options);
             rzp.open();
         } catch (err) {
@@ -169,8 +227,7 @@ const SubscriptionPlans: React.FC = () => {
             setProcessingIndex(null);
         }
     };
-    // The billing toggle was removed in the new design; keep a simple flag if needed later
-    // (currently not used) - removed setState to avoid unused variable lint warnings
+
 
     return (
         <section className="py-16 px-4 bg-[#F8F5F0] mt-10 lg:mt-16">
