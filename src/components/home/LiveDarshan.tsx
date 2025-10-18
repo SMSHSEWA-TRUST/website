@@ -150,8 +150,8 @@ const SevaSection = ({
             aria-hidden
           />
 
-          {/* Foreground content */}
-          <div className="relative z-10 space-y-4">
+          {/* Foreground content - allow scrolling on smaller screens when content overflows */}
+          <div className={`relative z-10 space-y-4 ${isDesktop ? '' : 'max-h-[40vh] sm:max-h-[50vh] overflow-y-auto'}`}>
             {upcomingSevas.map((seva, index) => (
               <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
                 <h4 className="font-primaryFont font-normal text-[rgba(76, 41, 30, 1)] textHeading mb-2">
@@ -226,7 +226,7 @@ const LiveDarshan = (): JSX.Element => {
   }[]>([]);
 
   // fetch events from API using React Query
-  const { data: eventsData,  } = useGetEvents(selectedTemple);
+  const { data: eventsData, } = useGetEvents(selectedTemple);
 
   // map API response to the shape used by SevaSection
   useEffect(() => {
@@ -245,7 +245,7 @@ const LiveDarshan = (): JSX.Element => {
       items = maybe.events as EventItem[];
     }
 
-   
+
     const formatTime = (iso?: string) => {
       if (!iso) return "";
       try {
@@ -295,20 +295,17 @@ const LiveDarshan = (): JSX.Element => {
   const [modalTitle, setModalTitle] = useState<string | undefined>(undefined);
   const [modalDescription, setModalDescription] = useState<string | undefined>(undefined);
   const [modalDate, setModalDate] = useState<string | undefined>(undefined);
-  const [modalTime, setModalTime] = useState<string | undefined>(undefined);
 
   const handleOpenModal = (
     image?: string,
     title?: string,
     description?: string,
-    date?: string,
-    time?: string
+    date?: string
   ) => {
     setModalImage(image);
     setModalTitle(title);
     setModalDescription(description);
     setModalDate(date);
-    setModalTime(time);
     setIsModalOpen(true);
   };
 
@@ -318,7 +315,6 @@ const LiveDarshan = (): JSX.Element => {
     setModalTitle(undefined);
     setModalDescription(undefined);
     setModalDate(undefined);
-    setModalTime(undefined);
   };
 
   // close on ESC
@@ -532,7 +528,7 @@ const LiveDarshan = (): JSX.Element => {
       {/* Image Modal */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-6"
+          className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-6 overflow-y-auto"
           aria-modal="true"
           role="dialog">
           {/* Backdrop */}
@@ -541,8 +537,8 @@ const LiveDarshan = (): JSX.Element => {
             onClick={handleCloseModal}
           />
 
-          {/* Modal panel */}
-          <div className="relative z-10 w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-6 flex flex-col gap-2">
+          {/* Modal panel - cap height and allow internal scrolling on small/tablet */}
+          <div className="relative z-10 w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl  p-2 lg:p-6 flex flex-col gap-2 ">
             {/* Header */}
             <div className="flex items-start justify-between">
               <h3 className="text-2xl font-primaryFont font-semibold text-[#111]">{modalTitle || t('liveDarshan.modal.upcomingEvent')}</h3>
@@ -589,7 +585,7 @@ const LiveDarshan = (): JSX.Element => {
             <div className="w-full h-[1px] bg-[#a9331f] my-2" aria-hidden />
 
             {/* Description */}
-            <div className="text-sm text-[#444] leading-relaxed">
+            <div className="text-sm text-[#444] leading-relaxed max-h-[300px] overflow-y-auto">
               <p className="mb-3">{modalDescription || t('liveDarshan.modal.noDescription')}</p>
 
 

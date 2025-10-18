@@ -921,7 +921,7 @@ const ProfilePage = () => {
                         </div>
                     </div>
 
-                    <div className="px-1 md:px-4 pb-4 md:py-6 space-y-3 max-w-[500px]">
+                    <div className="px-1 md:px-4 pb-4 md:py-6 space-y-3 max-w-[550px]">
                         {isLoadingAddresses ? (
                             <div className="text-center py-8">
                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#AD2F16] mx-auto"></div>

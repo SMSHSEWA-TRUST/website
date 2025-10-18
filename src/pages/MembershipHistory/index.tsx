@@ -49,6 +49,20 @@ const MembershipHistory = () => {
         setCurrentPage(newPage);
     };
 
+    
+    let userName = 'Guest';
+    try {
+        const raw = localStorage.getItem('user');
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed.name === 'string' && parsed.name.trim().length > 0) {
+                userName = parsed.name;
+            }
+        }
+    } catch (e) {
+        console.error('Error parsing user data from localStorage:', e);
+    }
+
     return (
         <div className="min-h-screen bg-[#FFFFFF] lg:max-w-[1400px] mx-auto">
             {/* Header */}
@@ -64,8 +78,8 @@ const MembershipHistory = () => {
                         </svg>
                     </button>
                     <div>
-                        <h1 className="text-sm md:text-lg font-medium text-gray-900">Welcome, Amanda</h1>
-                        <p className="text-xs text-gray-400">Tue, 07 June, 2022</p>
+                        <h1 className="text-sm md:text-lg font-medium text-gray-900">Welcome, {userName}</h1>
+                        <p className="text-xs text-gray-400">{new Date().toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}</p>
                     </div>
                 </div>
 
@@ -206,8 +220,8 @@ const MembershipHistory = () => {
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={!pagination.hasPrevPage}
                                 className={`relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium ${pagination.hasPrevPage
-                                        ? 'text-gray-700 hover:bg-gray-50'
-                                        : 'text-gray-300 cursor-not-allowed'
+                                    ? 'text-gray-700 hover:bg-gray-50'
+                                    : 'text-gray-300 cursor-not-allowed'
                                     }`}
                             >
                                 Previous
@@ -216,8 +230,8 @@ const MembershipHistory = () => {
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={!pagination.hasNextPage}
                                 className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium ${pagination.hasNextPage
-                                        ? 'text-gray-700 hover:bg-gray-50'
-                                        : 'text-gray-300 cursor-not-allowed'
+                                    ? 'text-gray-700 hover:bg-gray-50'
+                                    : 'text-gray-300 cursor-not-allowed'
                                     }`}
                             >
                                 Next
@@ -239,8 +253,8 @@ const MembershipHistory = () => {
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={!pagination.hasPrevPage}
                                         className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 ${pagination.hasPrevPage
-                                                ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
-                                                : 'cursor-not-allowed opacity-50'
+                                            ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                            : 'cursor-not-allowed opacity-50'
                                             }`}
                                     >
                                         <span className="sr-only">Previous</span>
@@ -271,8 +285,8 @@ const MembershipHistory = () => {
                                                     <button
                                                         onClick={() => handlePageChange(page)}
                                                         className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${page === currentPage
-                                                                ? 'z-10 bg-[#AD2F16] text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#AD2F16]'
-                                                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                                            ? 'z-10 bg-[#AD2F16] text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#AD2F16]'
+                                                            : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
                                                             }`}
                                                     >
                                                         {page}
@@ -285,8 +299,8 @@ const MembershipHistory = () => {
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={!pagination.hasNextPage}
                                         className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 ${pagination.hasNextPage
-                                                ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
-                                                : 'cursor-not-allowed opacity-50'
+                                            ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                            : 'cursor-not-allowed opacity-50'
                                             }`}
                                     >
                                         <span className="sr-only">Next</span>

@@ -83,8 +83,31 @@ const DonationHistory = () => {
                         </svg>
                     </button>
                     <div>
-                        <h1 className="text-sm md:text-lg font-medium text-gray-900">Welcome, Amanda</h1>
-                        <p className="text-xs text-gray-400">Tue, 07 June, 2022</p>
+                        {/* Read user name from localStorage 'user' JSON */}
+                        {/** safe parse with fallback to 'Guest' **/}
+                        {(() => {
+                            let displayName = 'Guest';
+                            try {
+                                const raw = localStorage.getItem('user');
+                                if (raw) {
+                                    const parsed = JSON.parse(raw);
+                                    if (parsed && typeof parsed.name === 'string' && parsed.name.trim().length > 0) {
+                                        displayName = parsed.name;
+                                    }
+                                }
+                            } catch (e) {
+                                console.error('Error parsing user data from localStorage:', e);
+                            }
+
+                            const formattedDate = new Date().toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+
+                            return (
+                                <>
+                                    <h1 className="text-sm md:text-lg font-medium text-gray-900">Welcome, {displayName}</h1>
+                                    <p className="text-xs text-gray-400">{formattedDate}</p>
+                                </>
+                            );
+                        })()}
                     </div>
                 </div>
 
@@ -234,8 +257,8 @@ const DonationHistory = () => {
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={!pagination.hasPrevPage}
                                 className={`relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium ${pagination.hasPrevPage
-                                        ? 'text-gray-700 hover:bg-gray-50'
-                                        : 'text-gray-300 cursor-not-allowed'
+                                    ? 'text-gray-700 hover:bg-gray-50'
+                                    : 'text-gray-300 cursor-not-allowed'
                                     }`}
                             >
                                 Previous
@@ -244,8 +267,8 @@ const DonationHistory = () => {
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={!pagination.hasNextPage}
                                 className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium ${pagination.hasNextPage
-                                        ? 'text-gray-700 hover:bg-gray-50'
-                                        : 'text-gray-300 cursor-not-allowed'
+                                    ? 'text-gray-700 hover:bg-gray-50'
+                                    : 'text-gray-300 cursor-not-allowed'
                                     }`}
                             >
                                 Next
@@ -267,8 +290,8 @@ const DonationHistory = () => {
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={!pagination.hasPrevPage}
                                         className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 ${pagination.hasPrevPage
-                                                ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
-                                                : 'cursor-not-allowed opacity-50'
+                                            ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                            : 'cursor-not-allowed opacity-50'
                                             }`}
                                     >
                                         <span className="sr-only">Previous</span>
@@ -299,8 +322,8 @@ const DonationHistory = () => {
                                                     <button
                                                         onClick={() => handlePageChange(page)}
                                                         className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${page === currentPage
-                                                                ? 'z-10 bg-[#AD2F16] text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#AD2F16]'
-                                                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                                            ? 'z-10 bg-[#AD2F16] text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#AD2F16]'
+                                                            : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
                                                             }`}
                                                     >
                                                         {page}
@@ -313,8 +336,8 @@ const DonationHistory = () => {
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={!pagination.hasNextPage}
                                         className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 ${pagination.hasNextPage
-                                                ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
-                                                : 'cursor-not-allowed opacity-50'
+                                            ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                            : 'cursor-not-allowed opacity-50'
                                             }`}
                                     >
                                         <span className="sr-only">Next</span>
