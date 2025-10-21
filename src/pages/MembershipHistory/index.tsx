@@ -31,25 +31,52 @@ const MembershipHistory = () => {
 
     // Map API data to MembershipCard interface
     const memberships: MembershipCard[] = apiSubscriptions.length > 0
-        ? apiSubscriptions.map((item: any) => ({
-            id: item.id,
-            status: item.status || (item.isActive ? "active" : "expired"),
-            planType: item.planType || "Plan Type",
-            planName: item.subscriptionName || item.name || "N/A",
-            months: item.duration || item.months || "N/A",
-            amount: item.amount ? `₹${item.amount}` : "N/A",
-            paymentMode: item.paymentMode || "N/A",
-            paymentStatus: item.paymentStatus || "Unpaid",
-            validFrom: item.startDate || item.validFrom || "N/A",
-            validTill: item.endDate || item.validTill || "N/A",
-        }))
+        ? apiSubscriptions.map((item: any) => {
+            // Calculate end date based on start date + duration (in months)
+            const startDate = item.createdAt ? new Date(item.createdAt) : null;
+            const duration = item.subscription?.duration ? parseInt(item.subscription.duration) : 0;
+            let endDate = "N/A";
+
+            if (startDate && duration > 0) {
+                const calculatedEndDate = new Date(startDate);
+                calculatedEndDate.setMonth(calculatedEndDate.getMonth() + duration);
+                endDate = calculatedEndDate.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            }
+
+            // Determine status based on the API status field
+            let displayStatus: "active" | "expired" = "expired";
+            if (item.status === "created" || item.status === "completed" || item.status === "active") {
+                displayStatus = "active";
+            }
+
+            return {
+                id: item._id || item.id,
+                status: displayStatus,
+                planType: "Membership Plan",
+                planName: item.subscription?.title || "N/A",
+                months: item.subscription?.duration ? `${item.subscription.duration} Months` : "N/A",
+                amount: item.amount ? `₹${item.amount}` : "N/A",
+                paymentMode: item.paymentMode || "Online",
+                paymentStatus: item.status === "created" || item.status === "completed" ? "Paid" : "Unpaid",
+                validFrom: startDate ? startDate.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                }) : "N/A",
+                validTill: endDate,
+            };
+        })
         : [];
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
     };
 
-    
+
     let userName = 'Guest';
     try {
         const raw = localStorage.getItem('user');

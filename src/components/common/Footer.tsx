@@ -377,7 +377,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         color: "#fff",
 
                                     }}>
-                                    Shree Mahakaleshwar Salasar<br />Hanuman Sewa Trust
+                                    {t('header.title')}
                                 </h1>
                             </div>
 
@@ -421,13 +421,14 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             <div>
                                 <div className="flex justify-center">
                                     <p className="font-secondaryFont textDescription max-w-xs leading-relaxed text-gray-100 text-center">
-                                        Serving with Faith, Building with Seva
+                                        {t('footer.description.lead')}
+
                                     </p>
                                 </div>
 
                                 <div className="flex justify-center">
                                     <p className="font-secondaryFont textDescription max-w-xs leading-relaxed text-gray-100 text-center">
-                                        A spiritual movement dedicated to devotion, culture, and service. Join us in creating the grand Mahadham in Surat by 2029.
+                                        {t('footer.description.sub')}
                                     </p>
                                 </div>
                             </div>

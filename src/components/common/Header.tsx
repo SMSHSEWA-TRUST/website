@@ -353,7 +353,7 @@ const Header = (): JSX.Element => {
                           <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                           <path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span className="text-gray-700 text-base">Personal Profile</span>
+                        <span className="text-gray-700 text-base">{t("profile.personalProfile")}</span>
                       </Link>
 
                       {/* <Link to="/puja-bookings" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
@@ -362,7 +362,7 @@ const Header = (): JSX.Element => {
                           <path d="M16 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                           <path d="M8 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span className="text-gray-700 text-base">Puja Bookings</span>
+                        <span className="text-gray-700 text-base">{t("profile.pujaBookings")}</span>
                       </Link>
 
                       <Link to="/prashad-orders" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
@@ -370,7 +370,7 @@ const Header = (): JSX.Element => {
                           <path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                           <path d="M7 16l5-5 5 5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span className="text-gray-700 text-base">Prashad Orders</span>
+                        <span className="text-gray-700 text-base">{t("profile.prashadOrders")}</span>
                       </Link> */}
 
                       <Link to="/donations-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
@@ -379,7 +379,7 @@ const Header = (): JSX.Element => {
                           <path d="M16 6H8v4H6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                           <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span className="text-gray-700 text-base">Donations History</span>
+                        <span className="text-gray-700 text-base">{t("profile.donationsHistory")}</span>
                       </Link>
 
                       <Link to="/membership-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
@@ -387,7 +387,7 @@ const Header = (): JSX.Element => {
                           <rect x="3" y="4" width="18" height="14" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                           <path d="M8 2v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span className="text-gray-700 text-base">Membership History</span>
+                        <span className="text-gray-700 text-base">{t("profile.membershipHistory")}</span>
                       </Link>
 
                       <div className="pt-2">
@@ -399,7 +399,7 @@ const Header = (): JSX.Element => {
                           className="w-full bg-[#8b0000] text-white py-2 rounded-md flex items-center justify-center gap-2"
                         >
                           <img src={LogoutIcon} alt="Logout" className="w-6 h-6 object-contain" />
-                          <span className="text-white font-medium">Log Out</span>
+                          <span className="text-white font-medium">{t("auth.logout")}</span>
                         </button>
                       </div>
                     </div>
@@ -669,7 +669,7 @@ const Header = (): JSX.Element => {
                       variant="link"
                       className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
                     >
-                      Personal Profile
+                      {t("profile.personalProfile")}
                     </Button>
                   </Link>
 
@@ -678,7 +678,7 @@ const Header = (): JSX.Element => {
                       variant="link"
                       className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
                     >
-                      Puja Bookings
+                      {t("profile.pujaBookings")}
                     </Button>
                   </Link>
 
@@ -687,7 +687,7 @@ const Header = (): JSX.Element => {
                       variant="link"
                       className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
                     >
-                      Prashad Orders
+                      {t("profile.prashadOrders")}
                     </Button>
                   </Link> */}
 
@@ -696,7 +696,7 @@ const Header = (): JSX.Element => {
                       variant="link"
                       className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
                     >
-                      Donations
+                      {t("profile.donationsHistory")}
                     </Button>
                   </Link>
 
@@ -705,7 +705,7 @@ const Header = (): JSX.Element => {
                       variant="link"
                       className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
                     >
-                      Membership History
+                      {t("profile.membershipHistory")}
                     </Button>
                   </Link>
                 </>

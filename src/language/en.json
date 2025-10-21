@@ -54,6 +54,13 @@
         "register": "Register/Login",
         "logout": "Logout"
     },
+    "profile": {
+        "personalProfile": "Personal Profile",
+        "pujaBookings": "Puja Bookings",
+        "prashadOrders": "Prashad Orders",
+        "donationsHistory": "Donations History",
+        "membershipHistory": "Membership History"
+    },
     "hero": {
         "subheading": "Feel Lord Shiva's Power",
         "titles": [
@@ -99,8 +106,7 @@
             }
         ],
         "joinButton": "Join us",
-            "paragraph": "By 2029, Surat will not just host a temple, but a living symbol of Sanatan Dharma — where every visitor experiences devotion, service, and collective strength."
-
+        "paragraph": "By 2029, Surat will not just host a temple, but a living symbol of Sanatan Dharma — where every visitor experiences devotion, service, and collective strength."
     },
     "divine": {
         "heading": "Feel the Surreal Divine Power",
@@ -452,7 +458,6 @@
                 "title": "Bhumi Daan – The Supreme Offering in Sanatan Dharma",
                 "date": "2024-03-05"
             }
-          
         ]
     },
     "ContactPage": {
@@ -498,13 +503,11 @@
     },
     "AboutpageAboutsection": {
         "title": "About Us",
-        "content":[
-           {
-            "paragraph1": "Shri Mahakaleshwar Salasar Hanuman Seva Trust (SMSHST) is a spiritual and social trust established to unite faith and service. Inspired by the blessings of Mahakal Baba (Ujjain) and Salasar Balaji Maharaj (Rajasthan), we are on a sacred journey to build a grand Mahadham in Surat by 2029. This Mahadham will not just be a temple but a spiritual center where devotion, knowledge, and service converge.",
-            "paragraph2": "Our mission focuses on preserving Sanatan values, expanding service, and creating a spiritual legacy. We believe devotion is not only a personal practice but also a means to uplift society. SMSHST invites everyone to participate in this noble cause and become part of this historic journey. Our dream – a Mahadham of faith, an expansion of service, and an everlasting spiritual legacy for generations to come."
-        }
+        "content": [
+            {
+                "paragraph1": "Shri Mahakaleshwar Salasar Hanuman Seva Trust (SMSHST) is a spiritual and social trust established to unite faith and service. Inspired by the blessings of Mahakal Baba (Ujjain) and Salasar Balaji Maharaj (Rajasthan), we are on a sacred journey to build a grand Mahadham in Surat by 2029. This Mahadham will not just be a temple but a spiritual center where devotion, knowledge, and service converge.",
+                "paragraph2": "Our mission focuses on preserving Sanatan values, expanding service, and creating a spiritual legacy. We believe devotion is not only a personal practice but also a means to uplift society. SMSHST invites everyone to participate in this noble cause and become part of this historic journey. Our dream – a Mahadham of faith, an expansion of service, and an everlasting spiritual legacy for generations to come."
+            }
         ]
     }
-
-
 }

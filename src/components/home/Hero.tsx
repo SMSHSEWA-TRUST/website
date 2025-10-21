@@ -124,7 +124,7 @@ const Hero = (): JSX.Element => {
           <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col justify-center items-start px-6 sm:px-8">
             <div className="w-full max-w-sm">
               <p className="text-white textDescription font-tenor-sans font-normal mb-2 sm:mb-3">
-                <span className="font-secondaryFont">Feel Lord Shiva&apos;s Power</span>
+                <span className="font-secondaryFont">{t("hero.subheading")}</span>
               </p>
 
               <div
