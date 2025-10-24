@@ -105,6 +105,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   const handleDonationSelect = (option: { _id: string; name: string; amount: number }) => {
     setSelectedOption(option);
     setValue("donationDocId", option._id);
+    setValue("daanType", option.name); // Set daanType field with the selected donation type name (text)
     onAmountChange?.(option?.amount ?? 0);
   };
 
@@ -284,6 +285,12 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
       <form
         onSubmit={handleSubmit((formData: any) => {
+          // Ensure daanType is included in the form data with the selected donation type name (text)
+          if (selectedOption?.name) {
+            formData.daanType = selectedOption.name;
+            setValue("daanType", selectedOption.name);
+          }
+
           if (selectedPlots.length > 0) {
             if (data?.title === DialogTypesForDonation.BHUDAAN) {
               // Validate BhumiDaan contact details for ALL selected plots before proceeding

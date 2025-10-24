@@ -15,7 +15,18 @@ export type UpdateProfilePayload = {
   address?: string;
 };
 
-export const updateUserProfile = (payload: UpdateProfilePayload) => {
+// Accept either JSON payload or FormData (for file upload)
+export const updateUserProfile = (payload: UpdateProfilePayload | FormData) => {
+  // If payload is FormData, let axios set multipart headers automatically
+  if (payload instanceof FormData) {
+    return authTokenAxios.patch(`/user/update-profile/`, payload, {
+      headers: {
+        // Let the browser set the correct multipart boundary
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  }
+
   return authTokenAxios.patch(`/user/update-profile/`, payload);
 };
 

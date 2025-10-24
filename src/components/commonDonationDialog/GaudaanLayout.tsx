@@ -44,6 +44,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
   const DefaultValues = {
     donationDocId: data?.daanTypes?.[0]?._id ?? "",
+    daanType: data?.daanTypes?.[0]?._id ?? "", // Selected donation type ID
     name: user?.name ?? "",
     fatherName: "",
     motherName: "",
@@ -140,6 +141,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                   onClick={() => {
                     setSelectedDaanTypeId(it._id);
                     setValue('donationDocId', it._id);
+                    setValue('daanType', it._id); // Set daanType when Bhojan Daan item is selected
                     setValue('amount', it.amount ?? 0);
                     setUserPickedAmount(null);
                   }}
@@ -193,6 +195,9 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       phoneNumber: formdata.phoneNumber,
       totalAmount: finalPayingAmount,
       paymentMode: selectedPaymentMethod || undefined,
+      ...(formdata.daanType && {
+        daanType: formdata.daanType, // Include the selected donation type ID
+      }),
       ...(formdata.plotIds?.length > 0 && {
         // Send as an array (not a JSON string) so backend receives proper ObjectId array
         plotIds: formdata.plotIds,

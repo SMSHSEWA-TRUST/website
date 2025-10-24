@@ -63,7 +63,8 @@ const ProfilePage = () => {
                 mobile: userData?.phone || "",
                 fatherName: father,
                 motherName: mother,
-                avatar: userData?.avatar || userData?.profilePicture || "",
+                // backend returns profile photo in `profilePhoto` field
+                avatar: userData?.profilePhoto || userData?.avatar || userData?.profilePicture || "",
                 address: userData?.address || "",
             });
 
@@ -77,6 +78,14 @@ const ProfilePage = () => {
         }
     }, [profileData]);
 
+    // keep avatar preview in sync when user changes
+    useEffect(() => {
+        if (profileData?.data?.user) {
+            const userData = profileData.data.user;
+            setAvatarPreviewUrl(userData?.profilePhoto || userData?.avatar || userData?.profilePicture || "");
+        }
+    }, [profileData]);
+
     const [isEditMode, setIsEditMode] = useState(false);
     const [editableUser, setEditableUser] = useState({
         name: user.name,
@@ -86,6 +95,10 @@ const ProfilePage = () => {
         motherName: user.motherName,
         address: user.address,
     });
+
+    // Avatar upload state
+    const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(null);
+    const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string>(user.avatar || "");
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
@@ -365,6 +378,8 @@ const ProfilePage = () => {
             motherName: user.motherName,
             address: user.address,
         });
+        // reset selected avatar when entering edit mode
+        setSelectedAvatarFile(null);
     };
 
     const handleCancelEdit = () => {
@@ -381,15 +396,30 @@ const ProfilePage = () => {
 
     const handleSaveEdit = async () => {
         try {
-            // Call the update profile API with only the payload
-            await updateProfileMutation.mutateAsync({
-                name: editableUser.name,
-                email: editableUser.email,
-                phone: editableUser.mobile,
-                fatherName: editableUser.fatherName,
-                motherName: editableUser.motherName,
-                address: editableUser.address,
-            });
+            // If an avatar file is selected, send as FormData
+            if (selectedAvatarFile) {
+                const formData = new FormData();
+                // send file under field name 'img' per request
+                formData.append('img', selectedAvatarFile);
+                formData.append('name', editableUser.name || '');
+                formData.append('email', editableUser.email || '');
+                formData.append('phone', editableUser.mobile || '');
+                if (editableUser.fatherName) formData.append('fatherName', editableUser.fatherName);
+                if (editableUser.motherName) formData.append('motherName', editableUser.motherName);
+                if (editableUser.address) formData.append('address', editableUser.address);
+
+                await updateProfileMutation.mutateAsync(formData as any);
+            } else {
+                // Call the update profile API with only the payload
+                await updateProfileMutation.mutateAsync({
+                    name: editableUser.name,
+                    email: editableUser.email,
+                    phone: editableUser.mobile,
+                    fatherName: editableUser.fatherName,
+                    motherName: editableUser.motherName,
+                    address: editableUser.address,
+                } as any);
+            }
 
             setIsEditMode(false);
 
@@ -402,6 +432,20 @@ const ProfilePage = () => {
             console.error("Error updating profile:", error);
             toast.error(error?.response?.data?.message || "Failed to update profile. Please try again.");
         }
+    };
+
+    // Avatar file handlers
+    const handleAvatarFileChange = (file?: File | null) => {
+        if (!file) return;
+        setSelectedAvatarFile(file);
+        const url = URL.createObjectURL(file);
+        setAvatarPreviewUrl(url);
+    };
+
+    const triggerAvatarFileSelect = () => {
+        if (!isEditMode) return;
+        const input = document.getElementById('profile-avatar-input') as HTMLInputElement | null;
+        if (input) input.click();
     };
 
     const handleInputChange = (field: string, value: string) => {
@@ -564,8 +608,29 @@ const ProfilePage = () => {
                         <div className="flex flex-col md:flex-row items-start md:justify-between mb-6 md:mb-8 gap-4">
                             <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto">
                                 <div className="relative">
-                                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border-2 border-[#D05E2D]">
-                                        <div className="w-full h-full bg-gray-300"></div>
+                                    <div
+                                        role={isEditMode ? 'button' : undefined}
+                                        onClick={triggerAvatarFileSelect}
+                                        className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border-2 border-[#D05E2D] cursor-pointer"
+                                    >
+                                        {avatarPreviewUrl ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img src={avatarPreviewUrl} alt="avatar" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full bg-gray-300"></div>
+                                        )}
+
+                                        {/* hidden file input */}
+                                        <input
+                                            id="profile-avatar-input"
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            onChange={(e) => {
+                                                const f = e.target.files && e.target.files[0];
+                                                if (f) handleAvatarFileChange(f);
+                                            }}
+                                        />
                                     </div>
                                     {profileData?.data?.user?.recentSubscription ? (
                                         <div className="absolute -bottom-1 -right-1 px-2.5 py-0.5 rounded-md flex items-center justify-center text-white shadow-md" style={{ background: 'linear-gradient(90.44deg, #8B0000 0.41%, #AD2F16 99.66%)' }}>

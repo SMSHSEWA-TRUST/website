@@ -8,11 +8,12 @@ interface DonationCard {
     mobileNo: string;
     email: string;
     donationType: string;
+    daanType?: string;
     amount: string;
     time: string;
     date: string;
     paymentMode: string;
-    paymentStatus: "Paid" | "Unpaid";
+    paymentStatus: string;
     donationId: string;
     bookedOn: string;
 }
@@ -52,15 +53,15 @@ const DonationHistory = () => {
             return {
                 id: item._id || item.id,
                 name: item.name || "N/A",
-
-                obileNo: item.phoneNumber || item.mobileNo || "N/A",
+                mobileNo: item.phoneNumber || item.mobileNo || "N/A",
                 email: item.email || "N/A",
-                donationType: item.donationType || "General Donation",
+                donationType: item.daanId?.title || item.donationType || "General Donation",
+                daanType: item.daanType || undefined,
                 amount: item.totalAmount ? `₹${item.totalAmount}` : "N/A",
                 time: formattedTime,
                 date: formattedDate,
                 paymentMode: item.paymentMode || "N/A",
-                paymentStatus: item.paymentStatus === "completed" ? "Paid" : "Unpaid",
+                paymentStatus: item.paymentStatus || "N/A",
                 donationId: item._id || item.id || "N/A",
                 bookedOn: createdDate ? createdDate.toLocaleDateString('en-IN', {
                     day: '2-digit',
@@ -193,9 +194,9 @@ const DonationHistory = () => {
                                         <span className="text-sm font-bold text-gray-900 break-all">{donation.email}</span>
                                     </div>
 
-                                    {/* Donation Type */}
+                                    {/* Donation Title */}
                                     <div className="flex justify-between items-start">
-                                        <span className="text-xs text-gray-400 font-normal">Donation Type</span>
+                                        <span className="text-xs text-gray-400 font-normal">Donation Title</span>
                                         <span className="text-sm font-bold text-gray-900">{donation.donationType}</span>
                                     </div>
 
@@ -384,124 +385,82 @@ const DonationHistory = () => {
 
                         {/* Modal Content */}
                         <div className="p-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Land 1 Details */}
-                                <div className="bg-gray-50 rounded-lg p-5 border border-gray-200">
-                                    <h3 className="text-base font-semibold text-gray-900 mb-4">Land 1 Details</h3>
-
-                                    <div className="space-y-4">
-                                        {/* Name */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Name</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.name}</p>
-                                        </div>
-
-                                        {/* Mobile No */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Mobile No.</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.mobileNo}</p>
-                                        </div>
-
-                                        {/* Email ID */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Email ID</p>
-                                            <p className="text-sm font-normal text-gray-900 break-all">{selectedDonation.email}</p>
-                                        </div>
-
-                                        {/* Puja Type */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Puja Type</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.donationType}</p>
-                                        </div>
-
-                                        {/* Amount */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Amount</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.amount}</p>
-                                        </div>
-
-                                        {/* Time */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Time</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.time}</p>
-                                        </div>
-
-                                        {/* Date */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Date</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.date}</p>
-                                        </div>
-
-                                        {/* Payment Mode */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Payment Mode</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.paymentMode}</p>
-                                        </div>
-
-                                        {/* Payment Status */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Payment Status</p>
-                                            <span className="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-green-50 text-green-600 border border-green-200">
-                                                {selectedDonation.paymentStatus}
-                                            </span>
-                                        </div>
+                            <div className="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {/* Name */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Name</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.name}</p>
                                     </div>
-                                </div>
 
-                                {/* Land 2 Details */}
-                                <div className="bg-gray-50 rounded-lg p-5 border border-gray-200">
-                                    <h3 className="text-base font-semibold text-gray-900 mb-4">Land 2 Details</h3>
+                                    {/* Mobile No */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Mobile No.</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.mobileNo}</p>
+                                    </div>
 
-                                    <div className="space-y-4">
-                                        {/* Name */}
+                                    {/* Email ID */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Email ID</p>
+                                        <p className="text-sm font-normal text-gray-900 break-all">{selectedDonation.email}</p>
+                                    </div>
+
+                                    {/* Donation Title */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Donation Title</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.donationType}</p>
+                                    </div>
+
+                                    {/* Donation Type - Only show if daanType exists */}
+                                    {selectedDonation.daanType && (
                                         <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Name</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.name}</p>
+                                            <p className="text-xs font-medium text-gray-500 mb-1">Donation Type</p>
+                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.daanType}</p>
                                         </div>
+                                    )}
 
-                                        {/* Email ID & Mobile No */}
-                                        <div className="grid grid-cols-2 gap-2">
-                                            <div>
-                                                <p className="text-xs font-medium text-gray-500 mb-1">Email ID</p>
-                                                <p className="text-sm font-normal text-gray-900 break-all">{selectedDonation.email}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-medium text-gray-500 mb-1">Mobile No.</p>
-                                                <p className="text-sm font-normal text-gray-900">{selectedDonation.mobileNo}</p>
-                                            </div>
-                                        </div>
+                                    {/* Amount */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Amount</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.amount}</p>
+                                    </div>
 
-                                        {/* Donation Type & Amount */}
-                                        <div className="grid grid-cols-2 gap-2">
-                                            <div>
-                                                <p className="text-xs font-medium text-gray-500 mb-1">Donation Type</p>
-                                                <p className="text-sm font-normal text-gray-900">{selectedDonation.donationType}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-medium text-gray-500 mb-1">Amount</p>
-                                                <p className="text-sm font-normal text-gray-900">{selectedDonation.amount}</p>
-                                            </div>
-                                        </div>
+                                    {/* Time */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Time</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.time}</p>
+                                    </div>
 
-                                        {/* Booked on */}
-                                        <div>
-                                            <p className="text-xs font-medium text-gray-500 mb-1">Booked on</p>
-                                            <p className="text-sm font-normal text-gray-900">{selectedDonation.bookedOn}</p>
-                                        </div>
+                                    {/* Date */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Date</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.date}</p>
+                                    </div>
 
-                                        {/* Payment Mode & Payment Status */}
-                                        <div className="grid grid-cols-2 gap-2">
-                                            <div>
-                                                <p className="text-xs font-medium text-gray-500 mb-1">Payment Mode</p>
-                                                <p className="text-sm font-normal text-gray-900">{selectedDonation.paymentMode}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-medium text-gray-500 mb-1">Payment Status</p>
-                                                <span className="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-green-50 text-green-600 border border-green-200">
-                                                    {selectedDonation.paymentStatus}
-                                                </span>
-                                            </div>
-                                        </div>
+                                    {/* Booked on */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Booked on</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.bookedOn}</p>
+                                    </div>
+
+                                    {/* Payment Mode */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Payment Mode</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.paymentMode}</p>
+                                    </div>
+
+                                    {/* Payment Status */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Payment Status</p>
+                                        <span className="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-green-50 text-green-600 border border-green-200">
+                                            {selectedDonation.paymentStatus}
+                                        </span>
+                                    </div>
+
+                                    {/* Donation ID */}
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 mb-1">Donation ID</p>
+                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.donationId}</p>
                                     </div>
                                 </div>
                             </div>

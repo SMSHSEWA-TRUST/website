@@ -469,6 +469,19 @@ const Header = (): JSX.Element => {
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
+                  <Link to="/prashad">
+                    <Button
+                      variant="link"
+                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/prashad"
+                        ? "text-white underline"
+                        : "text-white/90 hover:text-white"
+                        }`}
+                    >
+                      {t("nav.prashad")}
+                    </Button>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
                   <Link to="/membership">
                     <Button
                       variant="link"
@@ -622,6 +635,17 @@ const Header = (): JSX.Element => {
                     }`}
                 >
                   {t("nav.puja")}
+                </Button>
+              </Link>
+              <Link to="/prashad" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button
+                  variant="link"
+                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/prashad"
+                    ? "text-[#8b0000] underline"
+                    : "text-[#333333] hover:text-[#8b0000] no-underline"
+                    }`}
+                >
+                  {t("nav.prashad")}
                 </Button>
               </Link>
               <Link to="/membership" onClick={() => setIsMobileMenuOpen(false)}>

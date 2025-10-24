@@ -8,7 +8,8 @@ export interface PurchaseRequestPayloadTypes {
   email: string;
   phoneNumber: number | string;
   plotIds?: any;
-  paymentMode ?: string;
+  paymentMode?: string;
+  daanType?: string; // Selected donation type ID from the checkbox/radio selection
 }
 
 export interface PaginationResponse {

@@ -20,6 +20,7 @@ const MembershipHistory = lazy(() => import('../pages/MembershipHistory'));
 const DonationHistory = lazy(() => import('../pages/DonationHistory'));
 const TermsPage = lazy(() => import('../pages/TermsAndConditions').then(module => ({ default: module.TermsPage })));
 const PrivacyPage = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPage })));
+const PrashadPage = lazy(() => import('../pages/Prashad').then(module => ({ default: module.PrashadPage })));
 
 export const AppRoutes = (): JSX.Element => {
   return (
@@ -106,6 +107,11 @@ export const AppRoutes = (): JSX.Element => {
         <Route path="/donations-history" element={
           <FamilyDetailsGuard>
             <DonationHistory />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/prashad" element={
+          <FamilyDetailsGuard>
+            <PrashadPage />
           </FamilyDetailsGuard>
         } />
       </Routes>

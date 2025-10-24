@@ -10,7 +10,6 @@ interface MembershipCard {
     months: string;
     amount: string;
     paymentMode: string;
-    paymentStatus: "Paid" | "Unpaid";
     validFrom: string;
     validTill: string;
 }
@@ -47,11 +46,8 @@ const MembershipHistory = () => {
                 });
             }
 
-            // Determine status based on the API status field
-            let displayStatus: "active" | "expired" = "expired";
-            if (item.status === "created" || item.status === "completed" || item.status === "active") {
-                displayStatus = "active";
-            }
+            // Determine status using the API's `currentlyActive` boolean field
+            const displayStatus: "active" | "expired" = item.currentlyActive === true ? "active" : "expired";
 
             return {
                 id: item._id || item.id,
@@ -61,7 +57,6 @@ const MembershipHistory = () => {
                 months: item.subscription?.duration ? `${item.subscription.duration} Months` : "N/A",
                 amount: item.amount ? `₹${item.amount}` : "N/A",
                 paymentMode: item.paymentMode || "Online",
-                paymentStatus: item.status === "created" || item.status === "completed" ? "Paid" : "Unpaid",
                 validFrom: startDate ? startDate.toLocaleDateString('en-IN', {
                     day: '2-digit',
                     month: 'short',
@@ -192,14 +187,6 @@ const MembershipHistory = () => {
                                     <div className="flex justify-between items-start">
                                         <span className="text-xs text-gray-400 font-normal">Payment Mode</span>
                                         <span className="text-sm font-bold text-gray-900">{membership.paymentMode}</span>
-                                    </div>
-
-                                    {/* Payment Status */}
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-xs text-gray-400 font-normal">Payment Status</span>
-                                        <span className="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-white text-green-600 border border-green-600">
-                                            {membership.paymentStatus}
-                                        </span>
                                     </div>
 
                                     {/* Validity Details */}

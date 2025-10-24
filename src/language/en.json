@@ -9,6 +9,7 @@
         "home": "Home",
         "about": "About",
         "puja": "Gallery",
+        "prashad": "Prashad",
         "membership": "Membership",
         "blogs": "Blogs",
         "contact": "Contact us"
@@ -48,6 +49,11 @@
             "title": "Gallery of Faith & Devotion",
             "semiTitle": "",
             "description": "Gallery of Faith & Devotion — step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
+        },
+        "prashad": {
+            "title": "Prashad's",
+            "semiTitle": "",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
         }
     },
     "auth": {
