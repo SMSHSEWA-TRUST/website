@@ -49,7 +49,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         >
             {/* Responsive Image Section */}
             {resolvedBackground && (
-                <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[50vh] lg:h-[60vh] xl:h-[60vh] overflow-hidden">
+                <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[50vh] lg:h-[60vh] xl:h-[60vh] overflow-hidden z-0">
                     <LazyLoadImage
                         src={resolvedBackground}
                         alt={resolvedTitle}

@@ -78,7 +78,7 @@ export const deleteUserAddress = (addressId: string) => {
 
 // Set preferred address
 export const setPreferredAddress = (addressId: string) => {
-  return authTokenAxios.patch(`/user-address/${addressId}/preferred`);
+  return authTokenAxios.put(`/user-address/${addressId}`);
 };
 
 export default {

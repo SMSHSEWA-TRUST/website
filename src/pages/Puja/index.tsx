@@ -5,12 +5,9 @@ import pujaWebp from '@/assets/images/puja.webp';
 
 // Lazy load components
 const HeroSection = React.lazy(() => import("../../components/common/HeroSection"));
-// const ScrollingBanner = React.lazy(() => import("../../components/home/ScrollingBanner"));
-// const ContactSection = React.lazy(() => import("../../components/home/ContactSection").then(module => ({ default: module.ContactSection })));
-// const BlogSection = React.lazy(() => import("../../components/home/BlogSection").then(module => ({ default: module.BlogSection })));
-// const Puja = React.lazy(() => import("../../components/puja/Puja"));
-// const Vedio = React.lazy(() => import("../../components/puja/Vedio"));
-const Gallery = React.lazy(() => import("../../components/puja/Gallery"));
+
+const Puja = React.lazy(() => import("../../components/puja/Puja"));
+
 export const PujaPage = (): JSX.Element => {
     return (
         <>
@@ -22,38 +19,18 @@ export const PujaPage = (): JSX.Element => {
                 />
             </Suspense>
 
-            {/* Puja Section */}
-            {/* <div >
+            {/* Pooja Section */}
+            <div >
                 <Suspense fallback={<SectionLoader />}>
                     <Puja />
                 </Suspense>
-            </div> */}
+            </div>
 
-            {/* Gallery Section */}
-            <Suspense fallback={<SectionLoader />}>
-                <Gallery
 
-                />
-            </Suspense>
 
-            {/* <Suspense fallback={<SectionLoader />}>
-                <Vedio />
-            </Suspense> */}
 
-            {/* Scrolling Banner */}
-            {/* <Suspense fallback={<ComponentLoader height="h-16" />}>
-                <ScrollingBanner />
-            </Suspense> */}
 
-            {/* Contact Section */}
-            {/* <Suspense fallback={<SectionLoader />}>
-                <ContactSection />
-            </Suspense> */}
 
-            {/* Blog Articles Section */}
-            {/* <Suspense fallback={<SectionLoader />}>
-                <BlogSection />
-            </Suspense> */}
         </>
     );
 };

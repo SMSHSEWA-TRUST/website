@@ -7,14 +7,36 @@ import { Button } from "../ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "../ui/navigation-menu";
 import { useI18n } from "@/lib/i18n";
 import LogoutIcon from "@/assets/images/logOutLogo.png";
+import CartModal from "../prashad/CartViewModal";
+import { useGetCart } from "@/api/CartQueries";
+
 const Header = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
   const isLoggedIn = Boolean(localStorage.getItem("authToken"));
+
+  // Fetch cart data to get cart item count (only when logged in)
+  const { data: cartData } = useGetCart();
+
+  // Get cart item count from either CartPreviewData or CartData structure
+  const cartItemCount = (() => {
+    if (!cartData?.data) return 0;
+    // Check if it's CartPreviewData structure with nested cart
+    if ('cart' in cartData.data && cartData.data.cart?.items) {
+      return cartData.data.cart.items.length;
+    }
+    // Check if it's CartData structure with direct items
+    if ('items' in cartData.data && cartData.data.items) {
+      return cartData.data.items.length;
+    }
+    return 0;
+  })();
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
   const { t, lang, setLang } = useI18n();
   const marqueeWrapperRef = useRef<HTMLDivElement | null>(null);
   const langSelectorRef = useRef<HTMLDivElement | null>(null);
@@ -316,47 +338,49 @@ const Header = (): JSX.Element => {
               </div>
             </div>
 
-            {/* Register/Login or Logout Button */}
+            {/* Register/Login or Logout Button with Cart Icon */}
             {isLoggedIn ? (
-              <div className="flex-shrink-0 relative" ref={userMenuDesktopRef}>
-                <button
-                  aria-haspopup="true"
-                  aria-expanded={isUserMenuOpen}
-                  onClick={() => setIsUserMenuOpen((s) => !s)}
-                  className="flex items-center gap-3 bg-[#8b0000] text-white rounded-full px-3 py-2 shadow-sm cursor-pointer"
-                >
-                  {/* user icon */}
-                  <div className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-white" aria-hidden>
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <div className="flex-shrink-0 flex items-center gap-3">
+                {/* User Menu */}
+                <div className="relative" ref={userMenuDesktopRef}>
+                  <button
+                    aria-haspopup="true"
+                    aria-expanded={isUserMenuOpen}
+                    onClick={() => setIsUserMenuOpen((s) => !s)}
+                    className="flex items-center gap-3 bg-[#8b0000] text-white rounded-full px-3 py-2 shadow-sm cursor-pointer"
+                  >
+                    {/* user icon */}
+                    <div className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-white" aria-hidden>
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+
+                    {/* label - show on md+ as in screenshot */}
+                    <div className="hidden md:flex flex-col text-left leading-none">
+                      <span className="text-sm font-medium text-white ">{userName}</span>
+                    </div>
+
+                    {/* chevron - white */}
+                    <svg className="w-4 h-4 text-white" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                      <path d="M6 8l4 4 4-4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                  </div>
+                  </button>
 
-                  {/* label - show on md+ as in screenshot */}
-                  <div className="hidden md:flex flex-col text-left leading-none">
-                    <span className="text-sm font-medium text-white ">{userName}</span>
-                  </div>
+                  {/* Dropdown */}
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl py-3 z-50 border border-gray-100" role="menu">
+                      <div className="px-3 space-y-1">
+                        <Link to="/profile" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                          <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-gray-700 text-base">{t("profile.personalProfile")}</span>
+                        </Link>
 
-                  {/* chevron - white */}
-                  <svg className="w-4 h-4 text-white" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-                    <path d="M6 8l4 4 4-4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-
-                {/* Dropdown */}
-                {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl py-3 z-50 border border-gray-100" role="menu">
-                    <div className="px-3 space-y-1">
-                      <Link to="/profile" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
-                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <span className="text-gray-700 text-base">{t("profile.personalProfile")}</span>
-                      </Link>
-
-                      {/* <Link to="/puja-bookings" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                        {/* <Link to="/puja-bookings" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
                         <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                           <rect x="3" y="7" width="18" height="13" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                           <path d="M16 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -373,38 +397,55 @@ const Header = (): JSX.Element => {
                         <span className="text-gray-700 text-base">{t("profile.prashadOrders")}</span>
                       </Link> */}
 
-                      <Link to="/donations-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
-                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <path d="M12 8v8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M16 6H8v4H6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <span className="text-gray-700 text-base">{t("profile.donationsHistory")}</span>
-                      </Link>
+                        <Link to="/donations-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                          <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M12 8v8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M16 6H8v4H6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-gray-700 text-base">{t("profile.donationsHistory")}</span>
+                        </Link>
 
-                      <Link to="/membership-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
-                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <rect x="3" y="4" width="18" height="14" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M8 2v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <span className="text-gray-700 text-base">{t("profile.membershipHistory")}</span>
-                      </Link>
+                        <Link to="/membership-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                          <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="4" width="18" height="14" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M8 2v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-gray-700 text-base">{t("profile.membershipHistory")}</span>
+                        </Link>
 
-                      <div className="pt-2">
-                        <button
-                          onClick={() => {
-                            localStorage.clear();
-                            window.location.reload();
-                          }}
-                          className="w-full bg-[#8b0000] text-white py-2 rounded-md flex items-center justify-center gap-2"
-                        >
-                          <img src={LogoutIcon} alt="Logout" className="w-6 h-6 object-contain" />
-                          <span className="text-white font-medium">{t("auth.logout")}</span>
-                        </button>
+                        <div className="pt-2">
+                          <button
+                            onClick={() => {
+                              localStorage.clear();
+                              window.location.reload();
+                            }}
+                            className="w-full bg-[#8b0000] text-white py-2 rounded-md flex items-center justify-center gap-2"
+                          >
+                            <img src={LogoutIcon} alt="Logout" className="w-6 h-6 object-contain" />
+                            <span className="text-white font-medium">{t("auth.logout")}</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
+
+                {/* Cart Icon */}
+                <button
+                  onClick={() => setIsCartModalOpen(true)}
+                  className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="View cart"
+                >
+                  <svg className="w-6 h-6 text-[#8b0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  {cartItemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                      {cartItemCount}
+                    </span>
+                  )}
+                </button>
               </div>
             ) : (
               <div className="flex-shrink-0">
@@ -456,6 +497,19 @@ const Header = (): JSX.Element => {
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
+                  <Link to="/puja">
+                    <Button
+                      variant="link"
+                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/puja"
+                        ? "text-white underline"
+                        : "text-white/90 hover:text-white"
+                        }`}
+                    >
+                      {t("nav.puja")}
+                    </Button>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
                   <Link to="/gallery">
                     <Button
                       variant="link"
@@ -464,7 +518,7 @@ const Header = (): JSX.Element => {
                         : "text-white/90 hover:text-white"
                         }`}
                     >
-                      {t("nav.puja")}
+                      {t("nav.gallery")}
                     </Button>
                   </Link>
                 </NavigationMenuItem>
@@ -555,6 +609,24 @@ const Header = (): JSX.Element => {
 
             {/* Mobile Actions */}
             <div className="flex items-center gap-2 flex-shrink-0">
+              {/* Cart Icon for Mobile */}
+              {isLoggedIn && (
+                <button
+                  onClick={() => setIsCartModalOpen(true)}
+                  className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="View cart"
+                >
+                  <svg className="w-5 h-5 text-[#8b0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  {cartItemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
+                      {cartItemCount}
+                    </span>
+                  )}
+                </button>
+              )}
+
               <button
                 onClick={toggleMobileMenu}
                 className="flex flex-col items-center justify-center w-8 h-8 space-y-1 text-[#333333] focus:outline-none"
@@ -626,6 +698,17 @@ const Header = (): JSX.Element => {
                   {t("nav.about")}
                 </Button>
               </Link>
+              <Link to="/puja" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button
+                  variant="link"
+                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/puja"
+                    ? "text-[#8b0000] underline"
+                    : "text-[#333333] hover:text-[#8b0000] no-underline"
+                    }`}
+                >
+                  {t("nav.puja")}
+                </Button>
+              </Link>
               <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button
                   variant="link"
@@ -634,7 +717,7 @@ const Header = (): JSX.Element => {
                     : "text-[#333333] hover:text-[#8b0000] no-underline"
                     }`}
                 >
-                  {t("nav.puja")}
+                  {t("nav.gallery")}
                 </Button>
               </Link>
               <Link to="/prashad" onClick={() => setIsMobileMenuOpen(false)}>
@@ -761,6 +844,12 @@ const Header = (): JSX.Element => {
           </div>
         </div>
       </div>
+
+      {/* Cart Modal */}
+      <CartModal
+        isOpen={isCartModalOpen}
+        onClose={() => setIsCartModalOpen(false)}
+      />
     </header>
   );
 };

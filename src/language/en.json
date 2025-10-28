@@ -8,7 +8,8 @@
     "nav": {
         "home": "Home",
         "about": "About",
-        "puja": "Gallery",
+        "puja": "Pooja",
+        "gallery": "Gallery",
         "prashad": "Prashad",
         "membership": "Membership",
         "blogs": "Blogs",
@@ -62,7 +63,7 @@
     },
     "profile": {
         "personalProfile": "Personal Profile",
-        "pujaBookings": "Puja Bookings",
+        "pujaBookings": "Pooja Bookings",
         "prashadOrders": "Prashad Orders",
         "donationsHistory": "Donations History",
         "membershipHistory": "Membership History"

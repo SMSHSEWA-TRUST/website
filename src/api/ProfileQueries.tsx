@@ -17,12 +17,16 @@ export const QueryKeys = {
 };
 
 // Hook to fetch user profile
-export const useGetUserProfile = () =>
-    useQuery({
+export const useGetUserProfile = () => {
+    const isLoggedIn = Boolean(localStorage.getItem("authToken"));
+
+    return useQuery({
         queryKey: QueryKeys.profile,
         queryFn: getUserProfile,
         staleTime: 1000 * 60 * 5, // 5 minutes
+        enabled: isLoggedIn, // Only fetch profile when user is logged in
     });
+};
 
 // Hook to update user profile
 export const useUpdateUserProfile = () => {
@@ -50,12 +54,16 @@ export const useUpdateUserProfile = () => {
 };
 
 // Hook to fetch user addresses
-export const useGetUserAddresses = () =>
-    useQuery({
+export const useGetUserAddresses = () => {
+    const isLoggedIn = Boolean(localStorage.getItem("authToken"));
+
+    return useQuery({
         queryKey: QueryKeys.addresses,
         queryFn: getUserAddresses,
         staleTime: 1000 * 60 * 5, // 5 minutes
+        enabled: isLoggedIn, // Only fetch addresses when user is logged in
     });
+};
 
 // Hook to add a new address
 export const useAddUserAddress = () => {

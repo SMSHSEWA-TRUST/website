@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import lineImage from "@/assets/images/line.png";
 import PrashadDetailModal from './PrashadDetailModal';
+import { useGetPrasad } from '@/api/PrasadQueries';
 
 export interface PrashadPlan {
     id: number;
@@ -11,23 +12,60 @@ export interface PrashadPlan {
     description?: string;
     whatsInBox?: string;
     gallery?: string[];
+    category?: string;
+    _id?: string;
 }
 
 interface PrashadSectionProps {
     title: string;
     description?: string;
-    plans: PrashadPlan[];
+    plans?: PrashadPlan[];
     className?: string;
+    useApiData?: boolean; // Flag to determine if API data should be used
+    categoryFilter?: string; // Category to filter by
 }
 
 const PrashadSection: React.FC<PrashadSectionProps> = ({
     title,
     description,
-    plans,
-    className = ""
+    plans: propPlans,
+    className = "",
+    useApiData = true, // Default to using API data
+    categoryFilter // Category filter
 }) => {
     const [selectedPlan, setSelectedPlan] = useState<PrashadPlan | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Fetch data from API
+    const { data: apiData, isLoading, isError } = useGetPrasad();
+
+    // Determine which plans to use
+    let plans: PrashadPlan[] = useApiData && apiData?.data
+        ? apiData.data.map(item => ({
+            _id: item._id,
+            id: item.id || parseInt(item._id),
+            name: item.name,
+            price: item.price,
+            image: item.images && item.images.length > 0 ? item.images[0] : item.image, // Use first image from images array
+            description: item.description,
+            whatsInBox: item.itemsIncluded ? item.itemsIncluded.join(', ') : item.whatsInBox, // Map itemsIncluded to whatsInBox
+            gallery: item.images || item.gallery, // Use images array as gallery
+            category: item.category
+        }))
+        : (propPlans || []);
+
+    // Apply category filter if provided
+    if (categoryFilter && useApiData) {
+        plans = plans.filter(plan => {
+            if (!plan.category) return false;
+
+            // Normalize both category and filter for comparison
+            const normalizedCategory = plan.category.toLowerCase().trim();
+            const normalizedFilter = categoryFilter.toLowerCase().trim();
+
+            return normalizedCategory === normalizedFilter;
+        });
+    }
 
     const handleCardClick = (plan: PrashadPlan) => {
         setSelectedPlan(plan);
@@ -38,6 +76,42 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
         setIsModalOpen(false);
         setTimeout(() => setSelectedPlan(null), 300);
     };
+
+    // Handle loading state
+    if (useApiData && isLoading) {
+        return (
+            <section className={`w-full bg-white py-8 md:py-12 ${className}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-8">
+                        <h2 className="font-primaryFont text-[28px] sm:text-[36px] lg:text-[42px] text-[#8b0000] mb-3">
+                            {title}
+                        </h2>
+                    </div>
+                    <div className="flex justify-center items-center py-12">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8b0000]"></div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    // Handle error state
+    if (useApiData && isError) {
+        return (
+            <section className={`w-full bg-white py-8 md:py-12 ${className}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-8">
+                        <h2 className="font-primaryFont text-[28px] sm:text-[36px] lg:text-[42px] text-[#8b0000] mb-3">
+                            {title}
+                        </h2>
+                    </div>
+                    <div className="text-center py-12">
+                        <p className="text-gray-600 font-secondaryFont">Failed to load prasad items. Please try again later.</p>
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <>

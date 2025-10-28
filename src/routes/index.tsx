@@ -11,6 +11,7 @@ const MemberShipPage = lazy(() => import('../pages/MemberShip/inedx').then(modul
 const ContactPage = lazy(() => import('../pages/Contact').then(module => ({ default: module.ContactPage })));
 const BlogPage = lazy(() => import('../pages/Blog').then(module => ({ default: module.BlogPage })));
 const BlogDetailsPage = lazy(() => import('../pages/BlogDetails').then(module => ({ default: module.BlogDetailsPage })));
+const GalleryPage = lazy(() => import('../pages/Gallery').then(module => ({ default: module.GalleryPage })));
 const PujaPage = lazy(() => import('../pages/Puja').then(module => ({ default: module.PujaPage })));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const SignupPage = lazy(() => import('../pages/SignupPage'));
@@ -58,6 +59,11 @@ export const AppRoutes = (): JSX.Element => {
           </FamilyDetailsGuard>
         } />
         <Route path="/gallery" element={
+          <FamilyDetailsGuard>
+            <GalleryPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/puja" element={
           <FamilyDetailsGuard>
             <PujaPage />
           </FamilyDetailsGuard>
