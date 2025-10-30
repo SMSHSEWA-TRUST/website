@@ -430,6 +430,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                   initialSelectedPlots={submittedForm?.selectedPlots ?? []}
                   initialSameDetailsForAll={submittedForm?.sameDetailsForAll ?? false}
                   initialExpandedPlots={submittedForm?.expandedPlots ?? {}}
+                  initialFormData={submittedForm}
                 />
               </Card>
             )}

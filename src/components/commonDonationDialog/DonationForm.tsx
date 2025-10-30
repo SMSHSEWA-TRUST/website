@@ -16,6 +16,7 @@ type DonationFormProps = {
   initialSelectedPlots?: any[];
   initialSameDetailsForAll?: boolean;
   initialExpandedPlots?: Record<string, boolean>;
+  initialFormData?: any;
 };
 
 // Validation helpers
@@ -35,6 +36,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   initialSelectedPlots = [],
   initialSameDetailsForAll = false,
   initialExpandedPlots = {},
+  initialFormData,
 }) => {
   const [selectedOption, setSelectedOption] = useState(data?.daanTypes?.[0] ?? null);
   const [selectedPlots, setSelectedPlots] = useState<any[]>(initialSelectedPlots);
@@ -101,6 +103,26 @@ const DonationForm: React.FC<DonationFormProps> = ({
       // console.warn('Failed to prefill form values from registered user', e);
     }
   }, [registeredUser, setValue]);
+
+  // Initialize form data from initialFormData for retention on back navigation
+  useEffect(() => {
+    if (!initialFormData || !data?.daanTypes) return;
+    // Set selected donation option
+    if (initialFormData.donationDocId) {
+      const option = data.daanTypes.find((o: any) => o._id === initialFormData.donationDocId);
+      if (option) {
+        setSelectedOption(option);
+        onAmountChange?.(option.amount);
+      }
+    }
+    // Set form field values
+    const fields = ['name', 'fatherName', 'motherName', 'phoneNumber', 'email', 'address'];
+    fields.forEach(field => {
+      if (initialFormData[field] !== undefined) {
+        setValue(field, initialFormData[field]);
+      }
+    });
+  }, [initialFormData, data?.daanTypes, setValue, onAmountChange]);
 
   const handleDonationSelect = (option: { _id: string; name: string; amount: number }) => {
     setSelectedOption(option);

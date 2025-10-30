@@ -65,6 +65,52 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
         }
     }, [isOpen, prasadId]);
 
+    // Robust body scroll lock: fix body position to prevent background scrolling and avoid layout shift.
+    useEffect(() => {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+        const body = document.body;
+        const docEl = document.documentElement;
+
+        // Save originals to restore later
+        const originalBodyOverflow = body.style.overflow;
+        const originalBodyPosition = body.style.position;
+        const originalBodyTop = body.style.top;
+        const originalBodyPaddingRight = body.style.paddingRight;
+
+        let savedScrollY = 0;
+
+        if (isOpen) {
+            // Save current scroll
+            savedScrollY = window.scrollY || window.pageYOffset;
+
+            // Calculate scrollbar width and set padding-right to avoid layout shift
+            const scrollBarWidth = window.innerWidth - docEl.clientWidth;
+            if (scrollBarWidth > 0) body.style.paddingRight = `${scrollBarWidth}px`;
+
+            // Lock body in place
+            body.style.position = 'fixed';
+            body.style.top = `-${savedScrollY}px`;
+            body.style.left = '0';
+            body.style.right = '0';
+            body.style.overflow = 'hidden';
+        }
+
+        return () => {
+            // Restore body styles
+            body.style.overflow = originalBodyOverflow;
+            body.style.position = originalBodyPosition;
+            body.style.top = originalBodyTop;
+            body.style.paddingRight = originalBodyPaddingRight;
+
+            // Restore scroll position
+            if (isOpen) {
+                const scrollY = Math.abs(Number(body.style.top || '0')) || savedScrollY;
+                window.scrollTo(0, scrollY);
+            }
+        };
+    }, [isOpen]);
+
     if (!isOpen || !plan) return null;
 
     const handleQuantityChange = (change: number) => {

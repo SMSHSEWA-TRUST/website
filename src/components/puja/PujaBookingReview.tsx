@@ -107,10 +107,24 @@ export default function PujaBookingReview(props: PujaBookingReviewProps) {
                 address: bookingData.address,
             };
 
-            // Calculate puja date (tomorrow)
-            const pujaDate = new Date();
-            pujaDate.setDate(pujaDate.getDate() + 1);
-            const formattedPujaDate = pujaDate.toISOString();
+            // Use the user-selected puja date when available. Format as YYYY-MM-DD
+            const formatDateOnly = (d: Date) => {
+                const yyyy = d.getFullYear();
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                const dd = String(d.getDate()).padStart(2, '0');
+                return `${yyyy}-${mm}-${dd}`; // e.g. 2025-10-30
+            };
+
+            let formattedPujaDate: string;
+            if (bookingData.selectedDate) {
+                const sel = new Date(bookingData.selectedDate);
+                formattedPujaDate = formatDateOnly(sel);
+            } else {
+                // fallback to tomorrow (legacy behaviour) formatted as YYYY-MM-DD
+                const pujaDate = new Date();
+                pujaDate.setDate(pujaDate.getDate() + 1);
+                formattedPujaDate = formatDateOnly(pujaDate);
+            }
 
             // Parse the time slot to create startTime and endTime
             const timeSlot: TimeSlot = {

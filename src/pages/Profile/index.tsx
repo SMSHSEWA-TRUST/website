@@ -410,15 +410,23 @@ const ProfilePage = () => {
 
                 await updateProfileMutation.mutateAsync(formData as any);
             } else {
-                // Call the update profile API with only the payload
-                await updateProfileMutation.mutateAsync({
+                // When user didn't select a new avatar file, include the existing
+                // avatar/profile url so backend keeps the image unchanged.
+                const payload: any = {
                     name: editableUser.name,
                     email: editableUser.email,
                     phone: editableUser.mobile,
                     fatherName: editableUser.fatherName,
                     motherName: editableUser.motherName,
                     address: editableUser.address,
-                } as any);
+                };
+
+                
+                if (avatarPreviewUrl) {
+                    payload.profilePhoto = avatarPreviewUrl;
+                }
+
+                await updateProfileMutation.mutateAsync(payload as any);
             }
 
             setIsEditMode(false);
@@ -427,7 +435,7 @@ const ProfilePage = () => {
             await refetchProfile();
 
             // Reload to reflect all changes
-            window.location.reload();
+            // window.location.reload();
         } catch (error: any) {
             console.error("Error updating profile:", error);
             toast.error(error?.response?.data?.message || "Failed to update profile. Please try again.");
@@ -869,7 +877,7 @@ const ProfilePage = () => {
                     </div>
 
                     {/* Desktop: Horizontal pill list - Show only first 3 members */}
-                    <div className="hidden md:flex items-center justify-between overflow-x-auto pb-2">
+                    <div className="hidden md:flex items-center gap-10 overflow-x-auto pb-2">
                         {familyMembersState.slice(0, 4).map((member: any) => (
                             <div key={member.id} className="flex items-center gap-3 bg-white border border-gray-200 rounded-lg px-4 py-2 min-w-[220px]">
                                 <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 flex-shrink-0">

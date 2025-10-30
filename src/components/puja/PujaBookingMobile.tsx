@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { getEvents, EventItem } from '@/services/events.service';
 import PujaBookingReview from './PujaBookingReview';
+import PoojaBookingConfirmation from './PoojaBookingConfirmation';
 import { PoojaItem } from '@/services/pooja.service';
 
 interface Props {
@@ -18,6 +19,8 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
     const [sameAsAccount, setSameAsAccount] = useState<boolean>(false);
     const [showReview, setShowReview] = useState<boolean>(false);
+    const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+    const [confirmationData, setConfirmationData] = useState<any>(null);
     const [customTime, setCustomTime] = useState<string>('');
 
     const [formData, setFormData] = useState({
@@ -68,6 +71,31 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
             }));
         }
     }, [sameAsAccount, registeredUser]);
+
+    // Reset form when selectedPooja changes
+    useEffect(() => {
+        setSelectedPujaType('purnima');
+        setSelectedDate(null);
+        setCurrentMonth(new Date());
+        setSameAsAccount(false);
+        setShowReview(false);
+        setCustomTime('');
+        setFormData({
+            fullName: '',
+            gotra: '',
+            nakshatra: '',
+            sankalp: '',
+            numberOfMembers: '',
+            email: '',
+            mobile: '',
+            alternateMobile: '',
+            address: '',
+            pujaTypeDetails: selectedPooja?.title || '',
+            specialRequests: '',
+            prasadDelivery: 'yes',
+            personalizedMessage: '',
+        });
+    }, [selectedPooja]);
 
     useEffect(() => {
         if (selectedPooja && selectedPooja.title) {
@@ -343,9 +371,16 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                                 <label className="block text-sm">Gotra</label>
                                 <select name="gotra" value={formData.gotra} onChange={handleInputChange} className="w-full px-3 py-2 border rounded">
                                     <option value="">Select Gotra</option>
-                                    <option value="Bhardwaj">Bhardwaj</option>
+                                    <option value="Bharadwaj">Bharadwaj</option>
                                     <option value="Kashyap">Kashyap</option>
-                                    <option value="Bhard">Bhard</option>
+                                    <option value="Vashishth">Vashishth</option>
+                                    <option value="Gautam">Gautam</option>
+                                    <option value="Jamadagni">Jamadagni</option>
+                                    <option value="Vishwamitra">Vishwamitra</option>
+                                    <option value="Atri">Atri</option>
+                                    <option value="Agastya">Agastya</option>
+                                    <option value="Bhrigu">Bhrigu</option>
+                                    <option value="Angiras">Angiras</option>
                                 </select>
                             </div>
                             <div>
@@ -355,11 +390,45 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                                     <option value="Ashwini">Ashwini</option>
                                     <option value="Bharani">Bharani</option>
                                     <option value="Krittika">Krittika</option>
+                                    <option value="Rohini">Rohini</option>
+                                    <option value="Mrigashira">Mrigashira</option>
+                                    <option value="Ardra">Ardra</option>
+                                    <option value="Punarvasu">Punarvasu</option>
+                                    <option value="Pushya">Pushya</option>
+                                    <option value="Ashlesha">Ashlesha</option>
+                                    <option value="Magha">Magha</option>
+                                    <option value="Purva Phalguni">Purva Phalguni</option>
+                                    <option value="Uttara Phalguni">Uttara Phalguni</option>
+                                    <option value="Hasta">Hasta</option>
+                                    <option value="Chitra">Chitra</option>
+                                    <option value="Swati">Swati</option>
+                                    <option value="Vishaka">Vishaka</option>
+                                    <option value="Anuradha">Anuradha</option>
+                                    <option value="Jyeshtha">Jyeshtha</option>
+                                    <option value="Mula">Mula</option>
+                                    <option value="Purva Ashadha">Purva Ashadha</option>
+                                    <option value="Uttara Ashadha">Uttara Ashadha</option>
+                                    <option value="Shravana">Shravana</option>
+                                    <option value="Dhanishta">Dhanishta</option>
+                                    <option value="Shatabhisha">Shatabhisha</option>
+                                    <option value="Purva Bhadrapada">Purva Bhadrapada</option>
+                                    <option value="Uttara Bhadrapada">Uttara Bhadrapada</option>
+                                    <option value="Revati">Revati</option>
                                 </select>
                             </div>
                             <div>
                                 <label className="block text-sm">Sankalp</label>
-                                <input name="sankalp" value={formData.sankalp} onChange={handleInputChange} className="w-full px-3 py-2 border rounded" />
+                                <select name="sankalp" value={formData.sankalp} onChange={handleInputChange} className="w-full px-3 py-2 border rounded">
+                                    <option value="">Select Sankalp</option>
+                                    <option value="Kamya Karma">Kamya Karma</option>
+                                    <option value="Nitya Karma">Nitya Karma</option>
+                                    <option value="Prayaschitta Karma">Prayaschitta Karma</option>
+                                    <option value="Ishti Karma">Ishti Karma</option>
+                                    <option value="Paushti Karma">Paushti Karma</option>
+                                    <option value="Abhichara Karma">Abhichara Karma</option>
+                                    <option value="Shanti Karma">Shanti Karma</option>
+                                    <option value="Pushti Karma">Pushti Karma</option>
+                                </select>
                             </div>
                             <div>
                                 <label className="block text-sm">No. of Members</label>
@@ -411,7 +480,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                         <h3 className="text-lg font-bold">Other Details</h3>
                         <div>
                             <label className="block text-sm mb-1">Puja Type</label>
-                            <input name="pujaTypeDetails" value={formData.pujaTypeDetails} onChange={handleInputChange} className="w-full px-3 py-2 border rounded" />
+                            <input name="pujaTypeDetails" value={formData.pujaTypeDetails} onChange={handleInputChange} readOnly className="w-full px-3 py-2 border rounded bg-gray-100" />
                         </div>
                         <div>
                             <label className="block text-sm mb-1">Special Requests</label>
@@ -444,10 +513,39 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                 isOpen={showReview}
                 onClose={() => { setShowReview(false); onClose(); }}
                 onBack={() => setShowReview(false)}
+                onBookingSuccess={(booking) => {
+                    setConfirmationData(booking);
+                    setShowConfirmation(true);
+                    setShowReview(false);
+                }}
                 bookingData={bookingData}
                 pujaTypeId={selectedPooja?._id || ''}
                 amount={selectedPooja?.price || 0}
             />
+
+            {showConfirmation && (
+                <PoojaBookingConfirmation
+                    isOpen={showConfirmation}
+                    onClose={() => {
+                        setShowConfirmation(false);
+                        onClose();
+                    }}
+                    bookingData={confirmationData || {
+                        pujaType: bookingData.pujaTypeDetails || selectedPooja?.title || '',
+                        pujaDescription: selectedPooja?.description || '',
+                        pujaImage: selectedPooja?.image || selectedPooja?.images?.[0] || '',
+                        bookingId: '',
+                        pujaDate: bookingData.selectedDate ? new Date(bookingData.selectedDate).toISOString().split('T')[0] : '',
+                        timeSlot: bookingData.selectedTimeSlot || '',
+                        numberOfPeople: parseInt(bookingData.numberOfMembers || '1') || 1,
+                        includesPreshad: bookingData.prasadDelivery === 'yes',
+                        userName: bookingData.fullName || '',
+                        phoneNumber: bookingData.mobile || '',
+                        bookingDate: new Date().toLocaleDateString(),
+                        bookingTime: new Date().toLocaleTimeString(),
+                    }}
+                />
+            )}
         </div>
     );
 }

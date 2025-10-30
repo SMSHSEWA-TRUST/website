@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetMyDonations } from "@/api/DaanQueries";
 
@@ -72,6 +72,19 @@ const DonationHistory = () => {
         })
         : [];
 
+    // Helper to compute badge classes based on payment status
+    const getStatusBadgeClass = (status?: string) => {
+        const s = (status || '').toLowerCase();
+        if (s === 'pending') {
+            return 'bg-yellow-50 text-yellow-700 border border-yellow-300';
+        }
+        if (s === 'reject' || s === 'rejected') {
+            return 'bg-red-50 text-red-600 border border-red-200';
+        }
+        // default (success/other) - keep previous green style
+        return 'bg-white text-green-600 border border-green-600';
+    };
+
     const handleViewDetails = (donation: DonationCard) => {
         setSelectedDonation(donation);
         setIsModalOpen(true);
@@ -85,6 +98,19 @@ const DonationHistory = () => {
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
     };
+
+    // Prevent background page from scrolling when modal is open
+    useEffect(() => {
+        const originalOverflow = document.body.style.overflow;
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = originalOverflow;
+        }
+        return () => {
+            document.body.style.overflow = originalOverflow;
+        };
+    }, [isModalOpen]);
 
 
     return (
@@ -227,7 +253,7 @@ const DonationHistory = () => {
                                     {/* Payment Status */}
                                     <div className="flex justify-between items-center">
                                         <span className="text-xs text-gray-400 font-normal">Payment Status</span>
-                                        <span className="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-white text-green-600 border border-green-600">
+                                        <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold ${getStatusBadgeClass(donation.paymentStatus)}`}>
                                             {donation.paymentStatus}
                                         </span>
                                     </div>
@@ -452,7 +478,7 @@ const DonationHistory = () => {
                                     {/* Payment Status */}
                                     <div>
                                         <p className="text-xs font-medium text-gray-500 mb-1">Payment Status</p>
-                                        <span className="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-green-50 text-green-600 border border-green-200">
+                                        <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold ${getStatusBadgeClass(selectedDonation.paymentStatus)}`}>
                                             {selectedDonation.paymentStatus}
                                         </span>
                                     </div>

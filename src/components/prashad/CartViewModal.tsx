@@ -48,7 +48,7 @@ const CartItemDisplay: React.FC<{
 
     const name = prasad?.name || "Unknown Item";
     const description = prasad?.description || "";
-    const price = cartItem.amount / cartItem.quantity;
+    const price = cartItem.amount * cartItem.quantity;
     const image = prasad?.images?.[0];
 
     return (
@@ -451,7 +451,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                 {/* Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
                     {/* Left Side - Main Content */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="lg:col-span-2 order-2 lg:order-1 space-y-6">
                         {/* Delivery Address */}
                         <div className="border border-gray-200 rounded-2xl p-5">
                             <div className="flex items-start justify-between mb-3">
@@ -549,7 +549,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                     </div>
 
                     {/* Right Side - Order Summary */}
-                    <div className="lg:col-span-1">
+                    <div className="lg:col-span-1 order-1 lg:order-2">
                         <div className="sticky top-6">
                             <h3 className="font-secondaryFont text-lg font-semibold text-gray-900 mb-6">
                                 Your Order

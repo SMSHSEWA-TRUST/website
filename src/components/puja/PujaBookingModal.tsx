@@ -71,6 +71,46 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
         }
     }, [sameAsAccount, registeredUser]);
 
+    // Reset form when modal opens or selectedPooja changes
+    useEffect(() => {
+        if (isOpen) {
+            setSelectedPujaType('purnima');
+            setSelectedDate(null);
+            setCurrentMonth(new Date());
+            setSameAsAccount(false);
+            setShowReview(false);
+            setCustomTime('');
+            setFormData({
+                fullName: '',
+                gotra: '',
+                nakshatra: '',
+                sankalp: '',
+                numberOfMembers: '',
+                email: '',
+                mobile: '',
+                alternateMobile: '',
+                address: '',
+                pujaTypeDetails: selectedPooja?.title || '',
+                specialRequests: '',
+                prasadDelivery: 'yes',
+                personalizedMessage: '',
+            });
+        }
+    }, [isOpen, selectedPooja]);
+
+    // Prevent background scrolling when modal is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
     // Set pooja name/title by default when selectedPooja changes
     useEffect(() => {
         if (selectedPooja && selectedPooja.title) {
@@ -429,12 +469,19 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                         name="gotra"
                                         value={formData.gotra}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none text-gray-400"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
                                     >
                                         <option value="">Select Gotra</option>
-                                        <option value="bharadwaj">Bharadwaj</option>
-                                        <option value="kashyap">Kashyap</option>
-                                        <option value="vashishta">Vashishta</option>
+                                        <option value="Bharadwaj">Bharadwaj</option>
+                                        <option value="Kashyap">Kashyap</option>
+                                        <option value="Vashishth">Vashishth</option>
+                                        <option value="Gautam">Gautam</option>
+                                        <option value="Jamadagni">Jamadagni</option>
+                                        <option value="Vishwamitra">Vishwamitra</option>
+                                        <option value="Atri">Atri</option>
+                                        <option value="Agastya">Agastya</option>
+                                        <option value="Bhrigu">Bhrigu</option>
+                                        <option value="Angiras">Angiras</option>
                                     </select>
                                 </div>
 
@@ -444,25 +491,57 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                         name="nakshatra"
                                         value={formData.nakshatra}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none text-gray-400"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
                                     >
                                         <option value="">Select Nakshatra</option>
-                                        <option value="ashwini">Ashwini</option>
-                                        <option value="bharani">Bharani</option>
-                                        <option value="krittika">Krittika</option>
+                                        <option value="Ashwini">Ashwini</option>
+                                        <option value="Bharani">Bharani</option>
+                                        <option value="Krittika">Krittika</option>
+                                        <option value="Rohini">Rohini</option>
+                                        <option value="Mrigashira">Mrigashira</option>
+                                        <option value="Ardra">Ardra</option>
+                                        <option value="Punarvasu">Punarvasu</option>
+                                        <option value="Pushya">Pushya</option>
+                                        <option value="Ashlesha">Ashlesha</option>
+                                        <option value="Magha">Magha</option>
+                                        <option value="Purva Phalguni">Purva Phalguni</option>
+                                        <option value="Uttara Phalguni">Uttara Phalguni</option>
+                                        <option value="Hasta">Hasta</option>
+                                        <option value="Chitra">Chitra</option>
+                                        <option value="Swati">Swati</option>
+                                        <option value="Vishaka">Vishaka</option>
+                                        <option value="Anuradha">Anuradha</option>
+                                        <option value="Jyeshtha">Jyeshtha</option>
+                                        <option value="Mula">Mula</option>
+                                        <option value="Purva Ashadha">Purva Ashadha</option>
+                                        <option value="Uttara Ashadha">Uttara Ashadha</option>
+                                        <option value="Shravana">Shravana</option>
+                                        <option value="Dhanishta">Dhanishta</option>
+                                        <option value="Shatabhisha">Shatabhisha</option>
+                                        <option value="Purva Bhadrapada">Purva Bhadrapada</option>
+                                        <option value="Uttara Bhadrapada">Uttara Bhadrapada</option>
+                                        <option value="Revati">Revati</option>
                                     </select>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Sankalp</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="sankalp"
                                         value={formData.sankalp}
                                         onChange={handleInputChange}
-                                        placeholder="Full Name"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
-                                    />
+                                    >
+                                        <option value="">Select Sankalp</option>
+                                        <option value="Kamya Karma">Kamya Karma</option>
+                                        <option value="Nitya Karma">Nitya Karma</option>
+                                        <option value="Prayaschitta Karma">Prayaschitta Karma</option>
+                                        <option value="Ishti Karma">Ishti Karma</option>
+                                        <option value="Paushti Karma">Paushti Karma</option>
+                                        <option value="Abhichara Karma">Abhichara Karma</option>
+                                        <option value="Shanti Karma">Shanti Karma</option>
+                                        <option value="Pushti Karma">Pushti Karma</option>
+                                    </select>
                                 </div>
 
                                 <div>
@@ -545,7 +624,8 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                         value={formData.pujaTypeDetails}
                                         onChange={handleInputChange}
                                         placeholder="Full Name"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
+                                        readOnly
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none bg-gray-100"
                                     />
                                 </div>
 
@@ -667,7 +747,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                         pujaDescription: selectedPooja?.description || '',
                         pujaImage: selectedPooja?.image || selectedPooja?.images?.[0] || '',
                         bookingId: '',
-                        pujaDate: selectedDate ? new Date(selectedDate).toLocaleDateString() : '',
+                        pujaDate: selectedDate ? selectedDate.toISOString().split('T')[0] : '',
                         timeSlot: customTime || '',
                         numberOfPeople: parseInt(formData.numberOfMembers || '1') || 1,
                         includesPreshad: formData.prasadDelivery === 'yes',

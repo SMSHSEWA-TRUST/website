@@ -15,6 +15,7 @@ const DonationSection = () => {
   const { data, isFetching } = useGetAllDaan();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const [openedFromRedirect, setOpenedFromRedirect] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   // Handler for donate button: opens dialog and for Bhumi-specific card scrolls to the donations section
@@ -35,6 +36,7 @@ const DonationSection = () => {
     // here because calling scrollIntoView on mobile causes the page to move
     // while the modal is opening which produces the behaviour you reported.
     setSelectedCategory(category);
+    setOpenedFromRedirect(false);
     setOpenDialog(true);
   };
 
@@ -118,6 +120,7 @@ const DonationSection = () => {
           // Then open the dialog after scroll is initiated
           setTimeout(() => {
             setSelectedCategory(match);
+            setOpenedFromRedirect(true);
             setOpenDialog(true);
           }, 600);
         } else if (String(focus).toLowerCase() === 'donations') {
@@ -172,7 +175,7 @@ const DonationSection = () => {
 
   // When dialog closes after being opened from redirect, ensure we stay on donations section
   useEffect(() => {
-    if (!openDialog && selectedCategory) {
+    if (!openDialog && selectedCategory && openedFromRedirect) {
       // Dialog just closed, ensure user stays on donations section
       // Check if the donations section is not in view
       const checkAndScroll = () => {
@@ -192,7 +195,11 @@ const DonationSection = () => {
 
       checkAndScroll();
     }
-  }, [openDialog, selectedCategory]);
+    // Reset the flag when dialog closes
+    if (!openDialog) {
+      setOpenedFromRedirect(false);
+    }
+  }, [openDialog, selectedCategory, openedFromRedirect]);
   if (isFetching) return null;
   return (
     <>

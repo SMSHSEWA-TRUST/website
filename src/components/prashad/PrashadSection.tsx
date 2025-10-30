@@ -114,8 +114,8 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
     }
 
     return (
-        <>
-            <section className={`w-full bg-white py-8 md:py-12 ${className}`}>
+        
+            <div className={`w-full bg-white py-8 md:py-12 ${className}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Section Title */}
                     <div className="text-center mb-8">
@@ -185,15 +185,16 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                         ))}
                     </div>
                 </div>
-            </section>
 
-            {/* Modal */}
-            <PrashadDetailModal
-                plan={selectedPlan}
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
-            />
-        </>
+                {/* Modal */}
+                <PrashadDetailModal
+                    plan={selectedPlan}
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                />
+            </div>
+
+          
     );
 };
 
