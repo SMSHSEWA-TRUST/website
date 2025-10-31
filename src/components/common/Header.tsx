@@ -380,22 +380,22 @@ const Header = (): JSX.Element => {
                           <span className="text-gray-700 text-base">{t("profile.personalProfile")}</span>
                         </Link>
 
-                        {/* <Link to="/puja-bookings" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
-                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <rect x="3" y="7" width="18" height="13" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M16 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M8 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <span className="text-gray-700 text-base">{t("profile.pujaBookings")}</span>
-                      </Link>
+                        <Link to="/puja-bookings" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                          <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="7" width="18" height="13" rx="2" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M16 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M8 3v4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-gray-700 text-base">{t("profile.pujaBookings")}</span>
+                        </Link>
 
-                      <Link to="/prashad-orders" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
-                        <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M7 16l5-5 5 5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <span className="text-gray-700 text-base">{t("profile.prashadOrders")}</span>
-                      </Link> */}
+                        <Link to="/prashad-order-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
+                          <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M7 16l5-5 5 5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-gray-700 text-base">{t("profile.prashadOrders")}</span>
+                        </Link>
 
                         <Link to="/donations-history" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
                           <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -669,13 +669,17 @@ const Header = (): JSX.Element => {
 
           {/* Mobile Navigation Menu */}
           <div
-            className={`${isMobileMenuOpen ? "max-h-full opacity-100" : "max-h-0 opacity-0"
-              } overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100 textHeading`}
+            className="transition-all duration-300 ease-in-out bg-white border-t border-gray-100 textHeading"
+            // Use a viewport-based maxHeight when open and allow vertical scrolling so the menu never overflows the screen
+            style={{
+              maxHeight: isMobileMenuOpen ? 'calc(100vh - 180px)' : '0px',
+              overflowY: isMobileMenuOpen ? 'auto' : 'hidden',
+              opacity: isMobileMenuOpen ? 1 : 0,
+              WebkitOverflowScrolling: isMobileMenuOpen ? 'touch' : undefined,
+            }}
+            aria-hidden={!isMobileMenuOpen}
           >
-            <nav
-              className={`py-4 space-y-2 ${isMobileMenuOpen ? "max-h-full overflow-y-auto" : ""
-                }`}
-            >
+            <nav className="py-4 space-y-2">
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button
                   variant="link"
@@ -780,7 +784,7 @@ const Header = (): JSX.Element => {
                     </Button>
                   </Link>
 
-                  {/* <Link to="/puja-bookings" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link to="/puja-bookings" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
                       className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
@@ -789,14 +793,14 @@ const Header = (): JSX.Element => {
                     </Button>
                   </Link>
 
-                  <Link to="/prashad-orders" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link to="/prashad-order-history" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button
                       variant="link"
                       className="font-secondaryFont w-full text-center font-normal py-1.5 px-4 transition-colors text-[#00000080] hover:text-[#8b0000] text-sm"
                     >
                       {t("profile.prashadOrders")}
                     </Button>
-                  </Link> */}
+                  </Link>
 
                   <Link to="/donations-history" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button

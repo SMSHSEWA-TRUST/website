@@ -19,11 +19,21 @@ const VideoPlayerSection = ({
   selectedTemple,
   isDesktop,
   liveBadgeText,
+  liveVideoUrls,
 }: {
   selectedTemple: string;
   isDesktop: boolean;
   liveBadgeText?: string;
+  liveVideoUrls?: { [key: string]: string };
 }) => {
+  // derive video src from liveVideoUrls mapping; fall back to previous hardcoded urls
+  const fallbackUrls: { [k: string]: string } = {
+    'Mahakaleshwar': 'https://www.youtube.com/embed/SyvlfWBCw7I?si=MjvSk7Uxks9welTV&controls=1&autoplay=1&mute=1',
+    'Salasar Balaji': 'https://www.youtube.com/embed/lW--ukmD8Wc?si=sXMi9WppuEPEX83C&controls=1&autoplay=1&mute=1',
+  };
+
+  const videoSrc = (liveVideoUrls && liveVideoUrls[selectedTemple]) || fallbackUrls[selectedTemple];
+
   return (
     <div className={isDesktop ? "flex-shrink-0 h-full flex-1 flex flex-col " : ""}>
       <div
@@ -32,27 +42,16 @@ const VideoPlayerSection = ({
         style={isDesktop ? { height: "100%" } : {}}>
         {/* Video Player */}
         <div className={isDesktop ? "relative w-full h-full" : "relative aspect-video"}>
-          {selectedTemple === "Mahakaleshwar" && (
+          {videoSrc ? (
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/SyvlfWBCw7I?si=MjvSk7Uxks9welTV&controls=1&autoplay=1&mute=1"
-              title="Live Darshan Video - Mahakaleshwar"
+              src={videoSrc}
+              title={`Live Darshan Video - ${selectedTemple}`}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
-          )}
-
-          {selectedTemple === "Salasar Balaji" && (
-            <iframe
-              className="w-full h-full"
-              src="https://www.youtube.com/embed/lW--ukmD8Wc?si=sXMi9WppuEPEX83C&controls=1&autoplay=1&mute=1"
-              title="Live Darshan Video - Salasar Balaji"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          )}
+          ) : null}
 
           {/* Live Badge */}
           <Badge className="absolute top-4 right-4 bg-red-600 text-white border-white px-3 py-1 shadow-lg">
@@ -213,6 +212,7 @@ const LiveDarshan = (): JSX.Element => {
   const { t } = useI18n();
   const [selectedTemple, setSelectedTemple] = useState<string>("Mahakaleshwar");
   const [countdown, setCountdown] = useState("00:00:00");
+  const [liveVideoUrls, setLiveVideoUrls] = useState<{ [key: string]: string }>({});
 
 
 
@@ -227,6 +227,85 @@ const LiveDarshan = (): JSX.Element => {
 
   // fetch events from API using React Query
   const { data: eventsData, } = useGetEvents(selectedTemple);
+
+  // Fetch live video URLs from API and map to temples
+  useEffect(() => {
+    let mounted = true;
+    const normalizeYouTubeUrl = (raw?: string) => {
+      if (!raw) return '';
+      try {
+        const trimmed = raw.trim();
+        // If it's already an embed URL, ensure params exist
+        if (/youtube\.com\/embed\//i.test(trimmed)) {
+          if (/[?&](autoplay|controls|mute)=/i.test(trimmed)) return trimmed;
+          return trimmed + (trimmed.includes('?') ? '&' : '?') + 'controls=1&autoplay=1&mute=1';
+        }
+
+        // If it's a watch URL like https://www.youtube.com/watch?v=VIDEOID
+        const watchMatch = trimmed.match(/[?&]v=([^&]+)/);
+        if (watchMatch && watchMatch[1]) {
+          return `https://www.youtube.com/embed/${watchMatch[1]}?controls=1&autoplay=1&mute=1`;
+        }
+
+        // If it's a short youtu.be link
+        const shortMatch = trimmed.match(/youtu\.be\/([^?&]+)/i);
+        if (shortMatch && shortMatch[1]) {
+          return `https://www.youtube.com/embed/${shortMatch[1]}?controls=1&autoplay=1&mute=1`;
+        }
+
+        // Last resort: try to parse as URL and grab v param
+        try {
+          const u = new URL(trimmed);
+          const v = u.searchParams.get('v');
+          if (v) return `https://www.youtube.com/embed/${v}?controls=1&autoplay=1&mute=1`;
+        } catch (e) {
+          // ignore
+        }
+
+        // Unknown format, return as-is (iframe may fail)
+        return trimmed;
+      } catch (e) {
+        return raw || '';
+      }
+    };
+    const fetchVideos = async () => {
+      try {
+        const res = await fetch('https://api.smshsewatrust.com/api/liveVideos/');
+        if (!res.ok) throw new Error('Failed to fetch live videos');
+        const json = await res.json();
+        const arr = Array.isArray(json?.data) ? json.data : (Array.isArray(json) ? json : []);
+
+        // According to spec: first item -> Salasar Balaji, second item -> Mahakaleshwar (always count 2)
+        const urls: { [key: string]: string } = {};
+        if (arr.length >= 2) {
+          urls['Salasar Balaji'] = normalizeYouTubeUrl(arr[0]?.videoUrl);
+          urls['Mahakaleshwar'] = normalizeYouTubeUrl(arr[1]?.videoUrl);
+        } else if (arr.length === 1) {
+          // fallback: if only one entry, try to map by scheduledPlace
+          const item = arr[0];
+          if (String(item?.scheduledPlace || '').toLowerCase().includes('salasar')) urls['Salasar Balaji'] = normalizeYouTubeUrl(item.videoUrl);
+          else if (String(item?.scheduledPlace || '').toLowerCase().includes('mahakaleshwar')) urls['Mahakaleshwar'] = normalizeYouTubeUrl(item.videoUrl);
+        }
+
+        // as an extra fallback, try to map by scheduledPlace for robustness
+        if (arr.length > 0 && (!urls['Salasar Balaji'] || !urls['Mahakaleshwar'])) {
+          arr.forEach((it: any) => {
+            const place = String(it?.scheduledPlace || '').toLowerCase();
+            if (place.includes('salasar') && !urls['Salasar Balaji']) urls['Salasar Balaji'] = normalizeYouTubeUrl(it.videoUrl);
+            if (place.includes('mahakaleshwar') && !urls['Mahakaleshwar']) urls['Mahakaleshwar'] = normalizeYouTubeUrl(it.videoUrl);
+          });
+        }
+
+        if (mounted) setLiveVideoUrls(urls);
+      } catch (err) {
+        // ignore - keep fallbacks in the player
+        console.error('Failed to load live videos', err);
+      }
+    };
+
+    fetchVideos();
+    return () => { mounted = false; };
+  }, []);
 
   // map API response to the shape used by SevaSection
   useEffect(() => {
@@ -501,7 +580,7 @@ const LiveDarshan = (): JSX.Element => {
           <div className="hidden xl:flex xl:justify-center xl:items-stretch gap-4 h-[600px] max-w-full mx-36 ">
             {/* When there's no meaningful seva data, let the video take full width */}
             <div className={"h-full flex flex-col " + (hasSevas ? "w-[73%]" : "w-full")}>
-              <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} liveBadgeText={t('liveDarshan.liveBadge')} />
+              <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={true} liveBadgeText={t('liveDarshan.liveBadge')} liveVideoUrls={liveVideoUrls} />
             </div>
 
             {hasSevas && (
@@ -515,7 +594,7 @@ const LiveDarshan = (): JSX.Element => {
           {/* Mobile Layout */}
           <div className="xl:hidden grid grid-cols-1 gap-6 mx-4">
             <div>
-              <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={false} liveBadgeText={t('liveDarshan.liveBadge')} />
+              <VideoPlayerSection selectedTemple={selectedTemple} isDesktop={false} liveBadgeText={t('liveDarshan.liveBadge')} liveVideoUrls={liveVideoUrls} />
             </div>
             {hasSevas && (
               <SevaSection isDesktop={false} upcomingSevas={upcomingSevas} onViewDetails={handleOpenModal} titleText={t('liveDarshan.upcomingEventsTitle')} viewDetailsText={t('liveDarshan.viewDetails')} />

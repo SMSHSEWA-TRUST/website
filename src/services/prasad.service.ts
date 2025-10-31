@@ -1,3 +1,12 @@
+// Prashad Order History API integration
+export interface PrashadOrderHistoryResponse {
+  success: boolean;
+  data: any[];
+  message?: string;
+}
+
+export const getPrasadOrderHistory = (): Promise<PrashadOrderHistoryResponse> =>
+  authTokenAxios.get("/prasad/history");
 import { authTokenAxios } from "./axios";
 
 export interface PrasadItem {

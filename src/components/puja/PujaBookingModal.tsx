@@ -162,18 +162,22 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
         // Add previous month's days
         const prevMonthLastDay = new Date(year, month, 0).getDate();
         for (let i = startingDayOfWeek - 1; i >= 0; i--) {
-            days.push({ day: prevMonthLastDay - i, isCurrentMonth: false });
+            days.push({ day: prevMonthLastDay - i, isCurrentMonth: false, isPast: true });
         }
 
         // Add current month's days
         for (let i = 1; i <= daysInMonth; i++) {
-            days.push({ day: i, isCurrentMonth: true });
+            const thisDate = new Date(year, month, i, 23, 59, 59, 999);
+            const now = new Date();
+            // Only allow today or future dates
+            const isPast = thisDate < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            days.push({ day: i, isCurrentMonth: true, isPast });
         }
 
         // Add next month's days to complete the grid
         const remainingDays = 42 - days.length; // 6 rows * 7 days
         for (let i = 1; i <= remainingDays; i++) {
-            days.push({ day: i, isCurrentMonth: false });
+            days.push({ day: i, isCurrentMonth: false, isPast: true });
         }
 
         return days;
@@ -187,8 +191,8 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
         setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
     };
 
-    const handleDateClick = (day: number, isCurrentMonth: boolean) => {
-        if (isCurrentMonth) {
+    const handleDateClick = (day: number, isCurrentMonth: boolean, isPast: boolean) => {
+        if (isCurrentMonth && !isPast) {
             const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
             setSelectedDate(newDate);
             // Reset time when date changes
@@ -335,13 +339,15 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                     return (
                                         <button
                                             key={index}
-                                            onClick={() => handleDateClick(item.day, item.isCurrentMonth)}
+                                            onClick={() => handleDateClick(item.day, item.isCurrentMonth, item.isPast)}
                                             className={`
                                                 aspect-square flex items-center justify-center rounded text-[10px] font-medium
                                                 transition-all duration-200 min-w-[24px] min-h-[24px]
                                                 ${item.isCurrentMonth ? 'text-white hover:bg-[#8B0000]/30' : 'text-white/40'}
                                                 ${isSelected ? 'bg-[#8B0000] text-white font-bold' : ''}
+                                                ${item.isPast ? 'opacity-40 cursor-not-allowed' : ''}
                                             `}
+                                            disabled={item.isPast}
                                         >
                                             {item.day}
                                         </button>
@@ -361,12 +367,85 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Enter Time
+                                        {selectedDate && (() => {
+                                            const now = new Date();
+                                            if (
+                                                selectedDate.getFullYear() === now.getFullYear() &&
+                                                selectedDate.getMonth() === now.getMonth() &&
+                                                selectedDate.getDate() === now.getDate()
+                                            ) {
+                                                const pad = (n: number) => n.toString().padStart(2, '0');
+                                                const currentTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+                                                return (
+                                                    <span className="text-xs text-orange-600 ml-2">
+                                                        (Available from {currentTime} onwards)
+                                                    </span>
+                                                );
+                                            }
+                                            return null;
+                                        })()}
                                     </label>
                                     <input
                                         type="time"
                                         value={customTime}
-                                        onChange={(e) => setCustomTime(e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
+                                        onChange={(e) => {
+                                            const selectedTime = e.target.value;
+                                            if (!selectedDate) {
+                                                setCustomTime(selectedTime);
+                                                return;
+                                            }
+
+                                            const now = new Date();
+                                            // If selected date is today, validate time is not in the past
+                                            if (
+                                                selectedDate.getFullYear() === now.getFullYear() &&
+                                                selectedDate.getMonth() === now.getMonth() &&
+                                                selectedDate.getDate() === now.getDate()
+                                            ) {
+                                                const [hours, minutes] = selectedTime.split(':').map(Number);
+                                                const selectedDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+                                                if (selectedDateTime <= now) {
+                                                    // Don't allow past times for today - clear the input
+                                                    setCustomTime('');
+                                                    return;
+                                                }
+                                            }
+                                            setCustomTime(selectedTime);
+                                        }}
+                                        className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${selectedDate && (() => {
+                                                const now = new Date();
+                                                return selectedDate.getFullYear() === now.getFullYear() &&
+                                                    selectedDate.getMonth() === now.getMonth() &&
+                                                    selectedDate.getDate() === now.getDate() ? 'bg-orange-50 border-orange-300' : '';
+                                            })()
+                                            }`}
+                                        min={(() => {
+                                            if (!selectedDate) return undefined;
+                                            const now = new Date();
+                                            // If selected date is today, restrict min time to now
+                                            if (
+                                                selectedDate.getFullYear() === now.getFullYear() &&
+                                                selectedDate.getMonth() === now.getMonth() &&
+                                                selectedDate.getDate() === now.getDate()
+                                            ) {
+                                                // Format as HH:MM
+                                                const pad = (n: number) => n.toString().padStart(2, '0');
+                                                return `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+                                            }
+                                            return undefined;
+                                        })()}
+                                        placeholder={selectedDate && (() => {
+                                            const now = new Date();
+                                            if (
+                                                selectedDate.getFullYear() === now.getFullYear() &&
+                                                selectedDate.getMonth() === now.getMonth() &&
+                                                selectedDate.getDate() === now.getDate()
+                                            ) {
+                                                const pad = (n: number) => n.toString().padStart(2, '0');
+                                                return `From ${pad(now.getHours())}:${pad(now.getMinutes())} onwards`;
+                                            }
+                                            return '';
+                                        })()}
                                     />
                                 </div>
 

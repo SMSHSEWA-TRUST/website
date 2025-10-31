@@ -350,7 +350,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     const galleryImages = currentImages.length > 0 ? currentImages : [plan.image].filter(Boolean);
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 overflow-y-auto">
+        <div className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-4 overflow-y-auto">
             {/* Backdrop */}
             <div
                 className="fixed inset-0 bg-black/50 backdrop-blur-sm"
@@ -358,7 +358,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
             />
 
             {/* Modal Content */}
-            <div className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 rounded-3xl shadow-2xl w-full max-w-4xl my-8">
+            <div className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 rounded-3xl shadow-2xl w-full max-w-4xl sm:my-8 my-4 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
                 {/* Loading State */}
                 {isLoading && (
                     <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-3xl flex items-center justify-center z-10">
@@ -375,7 +375,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
 
                 {/* Scrollable Content */}
                 <div className="overflow-hidden rounded-3xl">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-[600px]">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 md:min-h-[600px]">
                         {/* Left Side - Images */}
                         <div className="bg-white/80 backdrop-blur-sm p-8 lg:p-10 flex flex-col">
                             {/* Back Button */}
@@ -395,7 +395,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                                     <LazyLoadImage
                                         src={galleryImages[selectedImage]}
                                         alt={currentName}
-                                        className="w-full h-full object-cover max-h-[520px]"
+                                        className="w-full h-full object-cover max-h-[350px]"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-gray-300 bg-gradient-to-br from-gray-100 to-gray-200">

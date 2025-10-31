@@ -85,3 +85,28 @@ export interface BookPoojaResponse {
 
 export const bookPooja = (payload: BookPoojaPayload): Promise<BookPoojaResponse> => 
   authTokenAxios.post(`/pooja/book-pooja`, payload);
+
+// Booking history types & helper
+export interface PoojaBooking {
+  id: string;
+  bookingId: string;
+  name: string;
+  mobileNo: string;
+  email: string;
+  pujaType: string;
+  amount: string;
+  time: string;
+  date: string;
+  paymentMode: string;
+  paymentStatus: string;
+  [key: string]: any;
+}
+
+export interface PoojaBookingHistoryResponse {
+  success: boolean;
+  data: PoojaBooking[];
+  message?: string;
+}
+
+export const getPoojaHistory = (): Promise<PoojaBookingHistoryResponse> =>
+  authTokenAxios.get(`/pooja/get-pooja-history`);

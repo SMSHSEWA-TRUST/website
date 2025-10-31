@@ -3,7 +3,8 @@ import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, Trash2, Minus, Plus, Edit } from 'lucide-react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useGetCart, useUpdateCartItem, useCreateOrder, useVerifyPayment } from '@/api/CartQueries';
-import { useGetUserAddresses, useSetPreferredAddress } from '@/api/ProfileQueries';
+import { useGetUserAddresses, useSetPreferredAddress, useAddUserAddress, useUpdateUserAddress, useDeleteUserAddress } from '@/api/ProfileQueries';
+import statesData from '../../data/states-and-districts.json';
 import toast from 'react-hot-toast';
 
 interface PrasadData {
@@ -50,6 +51,7 @@ const CartItemDisplay: React.FC<{
     const description = prasad?.description || "";
     const price = cartItem.amount * cartItem.quantity;
     const image = prasad?.images?.[0];
+    const stock = prasad?.stock ?? 0;
 
     return (
         <div className="relative border-b border-gray-100 pb-4">
@@ -95,7 +97,10 @@ const CartItemDisplay: React.FC<{
             {/* Quantity and Price */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <span className="font-secondaryFont text-xs text-gray-500">Quantity</span>
+                    <div className="flex flex-col">
+                        <span className="font-secondaryFont text-xs text-gray-500">Quantity</span>
+                        <span className="font-secondaryFont text-xs text-gray-400">{stock > 0 ? `In stock: ${stock}` : 'Out of stock'}</span>
+                    </div>
                     <div className="flex items-center gap-1 border border-gray-300 rounded">
                         <button
                             onClick={() => onQuantityChange(cartItem._id, -1)}
@@ -110,7 +115,7 @@ const CartItemDisplay: React.FC<{
                         </span>
                         <button
                             onClick={() => onQuantityChange(cartItem._id, 1)}
-                            disabled={isUpdating}
+                            disabled={isUpdating || stock <= 0 || cartItem.quantity >= stock}
                             className="w-6 h-6 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                             aria-label="Increase quantity"
                         >
@@ -138,7 +143,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
     const { data: cartData, isLoading, refetch } = useGetCart();
 
     // Fetch user addresses from API
-    const { data: addressesData, isLoading: isLoadingAddresses } = useGetUserAddresses();
+    const { data: addressesData, isLoading: isLoadingAddresses, refetch: refetchAddresses } = useGetUserAddresses();
 
 
     // Update cart item mutation
@@ -154,6 +159,25 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState<AddressModel | null>(null);    // Update items when cart data is fetched
+    // Address add/edit states reused from Profile page
+    const addAddressMutation = useAddUserAddress();
+    const updateAddressMutation = useUpdateUserAddress();
+    const deleteAddressMutation = useDeleteUserAddress();
+    const [isAddEditAddressOpen, setIsAddEditAddressOpen] = useState(false);
+    const [editingAddress, setEditingAddress] = useState<AddressModel | null>(null);
+    const [addressForm, setAddressForm] = useState({
+        name: "",
+        email: "",
+        mobile: "",
+        addressLine1: "",
+        addressLine2: "",
+        state: "",
+        district: "",
+        pincode: "",
+        saveAs: "Home" as 'Home' | 'Office' | 'Other'
+    });
+    const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
+    const [addressErrors, setAddressErrors] = useState<{ [key: string]: string }>({});
     useEffect(() => {
         if (cartData?.data) {
             // Check if it's CartPreviewData structure with nested cart
@@ -174,6 +198,222 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
             setSelectedAddress(preferredAddress || addressesData.data[0]);
         }
     }, [addressesData]);
+
+    // Update districts when state changes
+    useEffect(() => {
+        if (addressForm.state) {
+            const selectedState = (statesData as any).states.find((s: any) => s.state === addressForm.state);
+            setAvailableDistricts(selectedState?.districts || []);
+        } else {
+            setAvailableDistricts([]);
+        }
+    }, [addressForm.state]);
+
+    const handleAddressFormChange = (field: string, value: string) => {
+        if (field === 'mobile') {
+            let digits = String(value || '').replace(/\D/g, '');
+            digits = digits.replace(/^0+/, '');
+            if (digits.length > 10) digits = digits.slice(0, 10);
+            setAddressForm(prev => ({ ...prev, mobile: digits }));
+            setAddressErrors(prev => ({ ...prev, mobile: '' }));
+            return;
+        }
+
+        if (field === 'pincode') {
+            let digits = String(value || '').replace(/\D/g, '');
+            if (digits.length > 6) digits = digits.slice(0, 6);
+            setAddressForm(prev => ({ ...prev, pincode: digits }));
+            setAddressErrors(prev => ({ ...prev, pincode: '' }));
+            return;
+        }
+
+        setAddressForm(prev => ({
+            ...prev,
+            [field]: value,
+            ...(field === 'state' ? { district: '' } : {})
+        }));
+        setAddressErrors(prev => ({ ...prev, [field]: '' }));
+    };
+
+    const resetAddressForm = () => {
+        setAddressForm({
+            name: "",
+            email: "",
+            mobile: "",
+            addressLine1: "",
+            addressLine2: "",
+            state: "",
+            district: "",
+            pincode: "",
+            saveAs: "Home"
+        });
+        setEditingAddress(null);
+        setAddressErrors({});
+    };
+
+    const parseAddressToForm = (address: AddressModel) => {
+        const addressParts = (address.address || '').split(', ');
+
+        let addressLine1 = '';
+        let addressLine2 = '';
+        let district = '';
+        let state = '';
+        let pincode = '';
+
+        if (addressParts.length === 4) {
+            addressLine1 = addressParts[0] || '';
+            district = addressParts[1] || '';
+            state = addressParts[2] || '';
+            pincode = addressParts[3] || '';
+        } else if (addressParts.length >= 5) {
+            addressLine1 = addressParts[0] || '';
+            addressLine2 = addressParts[1] || '';
+            district = addressParts[2] || '';
+            state = addressParts[3] || '';
+            pincode = addressParts[4] || '';
+        }
+
+        setAddressForm({
+            name: address.name || '',
+            email: address.email || '',
+            mobile: address.phoneNumber || '',
+            addressLine1,
+            addressLine2,
+            state,
+            district,
+            pincode,
+            saveAs: address.type || 'Home'
+        });
+
+        if (state) {
+            const selectedState = (statesData as any).states.find((s: any) => s.state === state);
+            setAvailableDistricts(selectedState?.districts || []);
+        }
+    };
+
+    const handleOpenAddAddressModal = () => {
+        resetAddressForm();
+        setIsAddEditAddressOpen(true);
+    };
+
+    const handleEditAddress = (address: AddressModel) => {
+        setEditingAddress(address);
+        parseAddressToForm(address);
+        setIsAddEditAddressOpen(true);
+    };
+
+    const handleSelectAddress = async (address: AddressModel) => {
+        try {
+            await setPreferredAddressMutation.mutateAsync(address._id);
+            setSelectedAddress(address);
+            setIsAddressModalOpen(false);
+            toast.success('Delivery address updated');
+        } catch (error) {
+            toast.error('Failed to update preferred address');
+        }
+    };
+
+    const handleCloseAddEdit = () => {
+        setIsAddEditAddressOpen(false);
+        resetAddressForm();
+    };
+
+    const handleSaveAddress = async () => {
+        try {
+            const errors: { [k: string]: string } = {};
+            if (!addressForm.name.trim()) {
+                errors.name = 'Please enter a name';
+            } else if (addressForm.name.trim().length < 2) {
+                errors.name = 'Name must be at least 2 characters';
+            }
+
+            const mobile = String(addressForm.mobile || '');
+            if (!mobile) {
+                errors.mobile = 'Please enter mobile number';
+            } else if (!/^\d{10}$/.test(mobile)) {
+                errors.mobile = 'Mobile must be 10 digits';
+            } else if (/^0/.test(mobile)) {
+                errors.mobile = 'Mobile cannot start with 0';
+            }
+
+            if (!addressForm.email.trim()) {
+                errors.email = 'Please enter an email';
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addressForm.email.trim())) {
+                errors.email = 'Invalid email address';
+            }
+
+            if (!addressForm.addressLine1.trim()) {
+                errors.addressLine1 = 'Please enter address';
+            }
+
+            if (!addressForm.state) {
+                errors.state = 'Please select state';
+            }
+
+            if (!addressForm.district) {
+                errors.district = 'Please select district';
+            }
+
+            const pincode = String(addressForm.pincode || '');
+            if (!pincode) {
+                errors.pincode = 'Please enter pincode';
+            } else if (!/^\d{6}$/.test(pincode)) {
+                errors.pincode = 'Pincode must be 6 digits';
+            }
+
+            if (Object.keys(errors).length > 0) {
+                setAddressErrors(errors);
+                return;
+            }
+
+            const addressParts = [
+                addressForm.addressLine1.trim(),
+                addressForm.addressLine2.trim() ? addressForm.addressLine2.trim() : null,
+                addressForm.district,
+                addressForm.state,
+                addressForm.pincode
+            ].filter(Boolean);
+
+            const addressString = addressParts.join(', ');
+
+            const payload = {
+                name: addressForm.name.trim(),
+                phoneNumber: addressForm.mobile.trim(),
+                email: addressForm.email.trim(),
+                address: addressString,
+                type: addressForm.saveAs,
+                isActive: true,
+                isPreferred: false
+            };
+
+            if (editingAddress) {
+                await updateAddressMutation.mutateAsync({ addressId: editingAddress._id, payload });
+                toast.success('Address updated successfully');
+            } else {
+                await addAddressMutation.mutateAsync(payload);
+                toast.success('Address added successfully');
+            }
+
+            await refetchAddresses();
+            handleCloseAddEdit();
+        } catch (error: any) {
+            console.error('Error saving address:', error);
+            toast.error(error?.response?.data?.message || 'Failed to save address. Please try again.');
+        }
+    };
+
+    const _handleDeleteAddress = async (addressId: string) => {
+        if (!window.confirm('Are you sure you want to delete this address?')) return;
+        try {
+            await deleteAddressMutation.mutateAsync(addressId);
+            toast.success('Address deleted successfully');
+            await refetchAddresses();
+            handleCloseAddEdit();
+        } catch (error: any) {
+            console.error('Error deleting address:', error);
+            toast.error(error?.response?.data?.message || 'Failed to delete address. Please try again.');
+        }
+    };
 
     // Refetch cart data when modal opens and lock body scroll
     useEffect(() => {
@@ -204,7 +444,46 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
         // Determine action based on change value
         const action = change > 0 ? 'add' : 'remove';
         const quantity = Math.abs(change);
+        // Find current cart item to validate against stock
+        const current = cartItems.find(ci => ci._id === id);
+        const stock = current?.prasad?.stock ?? 0;
+        const currentQty = current?.quantity ?? 0;
 
+        if (change > 0) {
+            const availableToAdd = stock - currentQty;
+            if (availableToAdd <= 0) {
+                toast.error(`Only ${stock} item${stock === 1 ? '' : 's'} in stock`);
+                return;
+            }
+
+            // If requested addition is more than available, cap it and inform user
+            const toAdd = Math.min(quantity, availableToAdd);
+            if (toAdd < quantity) {
+                toast(`Only ${availableToAdd} additional item${availableToAdd === 1 ? '' : 's'} can be added`, { icon: '⚠️' });
+            }
+
+            updateCartMutation.mutate(
+                {
+                    itemId: id,
+                    data: {
+                        action: 'add',
+                        quantity: toAdd,
+                    },
+                },
+                {
+                    onSuccess: () => {
+                        refetch();
+                    },
+                    onError: (error) => {
+                        console.error('Error updating cart item:', error);
+                        toast.error('Failed to update cart item. Please try again.');
+                    },
+                }
+            );
+            return;
+        }
+
+        // removal (decrease or remove)
         updateCartMutation.mutate(
             {
                 itemId: id,
@@ -215,12 +494,11 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
             },
             {
                 onSuccess: () => {
-                    console.log('Cart item updated successfully');
                     refetch();
                 },
                 onError: (error) => {
                     console.error('Error updating cart item:', error);
-                    alert('Failed to update cart item. Please try again.');
+                    toast.error('Failed to update cart item. Please try again.');
                 },
             }
         );
@@ -251,7 +529,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                 },
                 onError: (error) => {
                     console.error('Error removing cart item:', error);
-                    alert('Failed to remove cart item. Please try again.');
+                    toast.error('Failed to remove cart item. Please try again.');
                 },
             }
         );
@@ -279,6 +557,15 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
 
         if (cartItems.length === 0) {
             toast.error('Your cart is empty');
+            return;
+        }
+
+        // Prevent checkout if any item is out of stock or requested quantity exceeds stock
+        if (cartItems.some(item => {
+            const stock = item.prasad?.stock ?? 0;
+            return stock <= 0 || item.quantity > stock;
+        })) {
+            toast.error('One or more items in your cart exceed available stock or are out of stock. Please adjust quantities.');
             return;
         }
 
@@ -421,6 +708,11 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
     const vatax = charges.taxes;
     const subtotal = calculateSubtotal();
     const total = getTotal();
+    // Check for stock issues: out of stock or quantity exceeding stock
+    const hasStockIssue = cartItems.some(item => {
+        const stock = item.prasad?.stock ?? 0;
+        return stock <= 0 || item.quantity > stock;
+    });
 
     if (!isOpen) return null;
 
@@ -541,10 +833,10 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                         {/* Proceed to Payment Button */}
                         <button
                             onClick={handleProceedToPayment}
-                            disabled={isProcessingPayment || cartItems.length === 0}
+                            disabled={isProcessingPayment || cartItems.length === 0 || hasStockIssue}
                             className="w-full bg-[#8b0000] hover:bg-[#660000] text-white font-secondaryFont font-semibold py-4 rounded-2xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isProcessingPayment ? 'Processing...' : 'Proceed to Payment'}
+                            {isProcessingPayment ? 'Processing...' : hasStockIssue ? 'Check stock' : 'Proceed to Payment'}
                         </button>
                     </div>
 
@@ -626,10 +918,17 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100000] p-4">
                         <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
                             {/* Modal Header */}
-                            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                            <div className="flex items-center gap-4 px-6 py-4 border-b border-gray-200">
                                 <h3 className="font-secondaryFont text-xl font-semibold text-gray-900">
                                     Select Delivery Address
                                 </h3>
+                                <div className="flex-1" />
+                                <button
+                                    onClick={handleOpenAddAddressModal}
+                                    className="mr-3 bg-red-50 text-red-600 text-xs font-semibold px-3 py-1 rounded-md hover:bg-red-100"
+                                >
+                                    + Add New
+                                </button>
                                 <button
                                     onClick={() => setIsAddressModalOpen(false)}
                                     className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
@@ -653,17 +952,8 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                                         {addressesData.data.map((addr: AddressModel) => (
                                             <div
                                                 key={addr._id}
-                                                onClick={async () => {
-                                                    try {
-                                                        await setPreferredAddressMutation.mutateAsync(addr._id);
-                                                        setSelectedAddress(addr);
-                                                        setIsAddressModalOpen(false);
-                                                        toast.success('Delivery address updated');
-                                                    } catch (error) {
-                                                        toast.error('Failed to update preferred address');
-                                                    }
-                                                }}
-                                                className={`border rounded-2xl p-4 cursor-pointer transition-all ${selectedAddress?._id === addr._id
+                                                onClick={() => handleSelectAddress(addr)}
+                                                className={`border rounded-2xl p-4 transition-all cursor-pointer ${selectedAddress?._id === addr._id
                                                     ? 'border-red-600 bg-red-50'
                                                     : 'border-gray-200 hover:border-red-300 hover:bg-gray-50'
                                                     }`}
@@ -696,18 +986,29 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                                                     {/* Address Content */}
                                                     <div className="flex-1 min-w-0">
                                                         <div className="flex items-center gap-2 mb-1">
-                                                            <span className="text-sm text-gray-500 font-normal">Delivery address</span>
+                                                            <span className="text-xs text-gray-500 font-normal">Delivery address</span>
                                                             <span className="px-3 py-0.5 bg-red-50 text-red-600 text-xs font-medium rounded-full">
                                                                 {addr.type}
                                                             </span>
                                                         </div>
-                                                        <p className="text-base text-gray-900 font-semibold mb-2 leading-relaxed">
+                                                        <p className="text-sm text-gray-900 font-semibold mb-2 leading-relaxed">
                                                             {addr.address}
                                                         </p>
-                                                        <div className="flex items-center gap-2 text-sm">
-                                                            <span className="text-gray-900 font-semibold">{addr.name}</span>
-                                                            <span className="text-gray-400">+{addr.phoneNumber}</span>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-sm text-gray-900 font-semibold">{addr.name}</span>
+                                                            <span className="text-xs text-gray-400">+{addr.phoneNumber}</span>
                                                         </div>
+                                                    </div>
+
+                                                    {/* Edit Button */}
+                                                    <div className="flex-shrink-0 flex items-start">
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); handleEditAddress(addr); }}
+                                                            className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 text-red-600"
+                                                            aria-label="Edit address"
+                                                        >
+                                                            <ChevronRight className="w-4 h-4" />
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -732,6 +1033,176 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                                     className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg transition-colors"
                                 >
                                     Cancel
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                )}
+
+                {/* Add / Edit Address Modal (popup) */}
+                {isAddEditAddressOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100001] p-4">
+                        <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+                            {/* Modal Header */}
+                            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                                <h3 className="font-secondaryFont text-xl font-semibold text-gray-900">
+                                    {editingAddress ? 'Edit Address' : 'Add New Address'}
+                                </h3>
+                                <button
+                                    onClick={handleCloseAddEdit}
+                                    className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+                                    aria-label="Close modal"
+                                >
+                                    <svg className="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M18 6L6 18M6 6l12 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            {/* Modal Content */}
+                            <div className="px-6 py-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                                    <div>
+                                        <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-1.5">Name <span className="text-red-500">*</span></label>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Name"
+                                            value={addressForm.name}
+                                            onChange={(e) => handleAddressFormChange('name', e.target.value)}
+                                            className="w-full px-3 py-2 sm:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-900 text-xs sm:text-sm"
+                                        />
+                                        {addressErrors.name && <p className="text-red-500 text-xs mt-1">{addressErrors.name}</p>}
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-1.5">Email</label>
+                                        <input
+                                            type="email"
+                                            placeholder="example@gmail.com"
+                                            value={addressForm.email}
+                                            onChange={(e) => handleAddressFormChange('email', e.target.value)}
+                                            className="w-full px-3 py-2 sm:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-900 text-xs sm:text-sm"
+                                        />
+                                        {addressErrors.email && <p className="text-red-500 text-xs mt-1">{addressErrors.email}</p>}
+                                    </div>
+                                </div>
+
+                                <div className="mb-3 sm:mb-4">
+                                    <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-1.5">Mobile No <span className="text-red-500">*</span></label>
+                                    <input
+                                        type="tel"
+                                        placeholder="Enter Mobile Number"
+                                        value={addressForm.mobile}
+                                        onChange={(e) => handleAddressFormChange('mobile', e.target.value)}
+                                        className="w-full px-3 py-2 sm:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-900 text-xs sm:text-sm"
+                                        maxLength={10}
+                                    />
+                                    {addressErrors.mobile && <p className="text-red-500 text-xs mt-1">{addressErrors.mobile}</p>}
+                                </div>
+
+                                <div className="mb-3 sm:mb-4">
+                                    <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-1.5">Address Line 1</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Write address here"
+                                        value={addressForm.addressLine1}
+                                        onChange={(e) => handleAddressFormChange('addressLine1', e.target.value)}
+                                        className="w-full px-3 py-2 sm:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-900 text-xs sm:text-sm"
+                                    />
+                                    {addressErrors.addressLine1 && <p className="text-red-500 text-xs mt-1">{addressErrors.addressLine1}</p>}
+                                </div>
+
+                                <div className="mb-3 sm:mb-4">
+                                    <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-1.5">Address Line 2</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Write address here"
+                                        value={addressForm.addressLine2}
+                                        onChange={(e) => handleAddressFormChange('addressLine2', e.target.value)}
+                                        className="w-full px-3 py-2 sm:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-900 text-xs sm:text-sm"
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
+                                    <div>
+                                        <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-1.5">State</label>
+                                        <div className="relative">
+                                            <select
+                                                value={addressForm.state}
+                                                onChange={(e) => handleAddressFormChange('state', e.target.value)}
+                                                className="w-full px-3 py-2 sm:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-500 text-xs sm:text-sm"
+                                            >
+                                                <option value="">Select State</option>
+                                                {(statesData as any).states.map((state: any) => (
+                                                    <option key={state.state} value={state.state}>{state.state}</option>
+                                                ))}
+                                            </select>
+                                            {addressErrors.state && <p className="text-red-500 text-xs mt-1">{addressErrors.state}</p>}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-1.5">District</label>
+                                        <div className="relative">
+                                            <select
+                                                value={addressForm.district}
+                                                onChange={(e) => handleAddressFormChange('district', e.target.value)}
+                                                disabled={!addressForm.state}
+                                                className="w-full px-3 py-2 sm:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-500 text-xs sm:text-sm"
+                                            >
+                                                <option value="">Select District</option>
+                                                {availableDistricts.map((district) => (
+                                                    <option key={district} value={district}>{district}</option>
+                                                ))}
+                                            </select>
+                                            {addressErrors.district && <p className="text-red-500 text-xs mt-1">{addressErrors.district}</p>}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-1.5">Pincode</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter Pincode"
+                                        value={addressForm.pincode}
+                                        onChange={(e) => handleAddressFormChange('pincode', e.target.value)}
+                                        className="w-full px-3 py-2 sm:py-2.5 border border-gray-200 rounded bg-gray-50 text-gray-900 text-xs sm:text-sm"
+                                        maxLength={6}
+                                    />
+                                    {addressErrors.pincode && <p className="text-red-500 text-xs mt-1">{addressErrors.pincode}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-xs sm:text-sm font-normal text-gray-900 mb-2">Save as</label>
+                                    <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+                                        <label className="flex items-center cursor-pointer"><input type="radio" name="saveAs" value="Home" checked={addressForm.saveAs === 'Home'} onChange={(e) => handleAddressFormChange('saveAs', e.target.value)} className="w-3.5 h-3.5 text-red-600" /> <span className="ml-2 text-xs sm:text-sm">Home</span></label>
+                                        <label className="flex items-center cursor-pointer"><input type="radio" name="saveAs" value="Office" checked={addressForm.saveAs === 'Office'} onChange={(e) => handleAddressFormChange('saveAs', e.target.value)} className="w-3.5 h-3.5 text-red-600" /> <span className="ml-2 text-xs sm:text-sm">Office</span></label>
+                                        <label className="flex items-center cursor-pointer"><input type="radio" name="saveAs" value="Other" checked={addressForm.saveAs === 'Other'} onChange={(e) => handleAddressFormChange('saveAs', e.target.value)} className="w-3.5 h-3.5 text-red-600" /> <span className="ml-2 text-xs sm:text-sm">Other</span></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Modal Footer */}
+                            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50">
+                                {editingAddress && (
+                                    <button
+                                        onClick={() => editingAddress && _handleDeleteAddress(editingAddress._id)}
+                                        className="px-4 py-2 text-sm text-red-600 bg-red-50 rounded"
+                                    >
+                                        Delete
+                                    </button>
+                                )}
+                                <button
+                                    onClick={handleCloseAddEdit}
+                                    className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSaveAddress}
+                                    className="px-6 py-2 text-sm font-medium text-white bg-[#8b0000] rounded-lg hover:bg-[#660000]"
+                                >
+                                    {editingAddress ? (updateAddressMutation.isPending ? 'Updating...' : 'Update') : (addAddressMutation.isPending ? 'Adding...' : 'Add')}
                                 </button>
                             </div>
                         </div>

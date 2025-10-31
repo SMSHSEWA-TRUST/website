@@ -19,9 +19,11 @@ const FamilyDetailsPage = lazy(() => import('../pages/FamilyDetailsPage'));
 const ProfilePage = lazy(() => import('../pages/Profile'));
 const MembershipHistory = lazy(() => import('../pages/MembershipHistory'));
 const DonationHistory = lazy(() => import('../pages/DonationHistory'));
+const PrashadOrderHistory = lazy(() => import('../pages/PrashadOrderHistory'));
 const TermsPage = lazy(() => import('../pages/TermsAndConditions').then(module => ({ default: module.TermsPage })));
 const PrivacyPage = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPage })));
 const PrashadPage = lazy(() => import('../pages/Prashad').then(module => ({ default: module.PrashadPage })));
+const PujaBookingsPage = lazy(() => import('../pages/PujaBookingsHistory').then(module => ({ default: module.default })));
 
 export const AppRoutes = (): JSX.Element => {
   return (
@@ -110,9 +112,19 @@ export const AppRoutes = (): JSX.Element => {
             <MembershipHistory />
           </FamilyDetailsGuard>
         } />
+        <Route path="/puja-bookings" element={
+          <FamilyDetailsGuard>
+            <PujaBookingsPage />
+          </FamilyDetailsGuard>
+        } />
         <Route path="/donations-history" element={
           <FamilyDetailsGuard>
             <DonationHistory />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/prashad-order-history" element={
+          <FamilyDetailsGuard>
+            <PrashadOrderHistory />
           </FamilyDetailsGuard>
         } />
         <Route path="/prashad" element={

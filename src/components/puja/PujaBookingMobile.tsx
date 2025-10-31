@@ -135,19 +135,25 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
         const daysInMonth = lastDay.getDate();
         const startingDayOfWeek = firstDay.getDay();
 
-        const days: { day: number; isCurrentMonth: boolean }[] = [];
+        const days: { day: number; isCurrentMonth: boolean; isPast: boolean }[] = [];
         const prevMonthLastDay = new Date(year, month, 0).getDate();
-        for (let i = startingDayOfWeek - 1; i >= 0; i--) days.push({ day: prevMonthLastDay - i, isCurrentMonth: false });
-        for (let i = 1; i <= daysInMonth; i++) days.push({ day: i, isCurrentMonth: true });
+        for (let i = startingDayOfWeek - 1; i >= 0; i--) days.push({ day: prevMonthLastDay - i, isCurrentMonth: false, isPast: true });
+        for (let i = 1; i <= daysInMonth; i++) {
+            const thisDate = new Date(year, month, i, 23, 59, 59, 999);
+            const now = new Date();
+            // Only allow today or future dates
+            const isPast = thisDate < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            days.push({ day: i, isCurrentMonth: true, isPast });
+        }
         const remainingDays = 42 - days.length;
-        for (let i = 1; i <= remainingDays; i++) days.push({ day: i, isCurrentMonth: false });
+        for (let i = 1; i <= remainingDays; i++) days.push({ day: i, isCurrentMonth: false, isPast: true });
         return days;
     };
 
     const handlePrevMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
     const handleNextMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
-    const handleDateClick = (day: number, isCurrentMonth: boolean) => {
-        if (isCurrentMonth) {
+    const handleDateClick = (day: number, isCurrentMonth: boolean, isPast: boolean) => {
+        if (isCurrentMonth && !isPast) {
             const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
             setSelectedDate(newDate);
             setCustomTime('');
@@ -231,7 +237,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                             </div>
                             <div className="grid grid-cols-7 gap-0.5">
                                 {getDaysInMonth(currentMonth).map((item, idx) => (
-                                    <button key={idx} onClick={() => handleDateClick(item.day, item.isCurrentMonth)} className={`aspect-square flex items-center justify-center rounded text-[10px] ${item.isCurrentMonth ? 'text-white' : 'text-white/40'} ${isDateSelected(item.day, item.isCurrentMonth) ? 'bg-[#8B0000]' : ''}`}>
+                                    <button key={idx} onClick={() => handleDateClick(item.day, item.isCurrentMonth, item.isPast)} className={`aspect-square flex items-center justify-center rounded text-[10px] ${item.isCurrentMonth ? 'text-white' : 'text-white/40'} ${isDateSelected(item.day, item.isCurrentMonth) ? 'bg-[#8B0000]' : ''} ${item.isPast ? 'opacity-40 cursor-not-allowed' : ''}`} disabled={item.isPast}>
                                         {item.day}
                                     </button>
                                 ))}
@@ -242,8 +248,88 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                             <div className="bg-gray-50 rounded-xl p-4">
                                 <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2"><Clock className="w-5 h-5" /> Select Time</h3>
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">Enter Time</label>
-                                    <input type="time" value={customTime} onChange={(e) => setCustomTime(e.target.value)} className="w-full px-4 py-2 border rounded" />
+                                    <label className="block text-sm font-medium mb-2">
+                                        Enter Time
+                                        {selectedDate && (() => {
+                                            const now = new Date();
+                                            if (
+                                                selectedDate.getFullYear() === now.getFullYear() &&
+                                                selectedDate.getMonth() === now.getMonth() &&
+                                                selectedDate.getDate() === now.getDate()
+                                            ) {
+                                                const pad = (n: number) => n.toString().padStart(2, '0');
+                                                const currentTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+                                                return (
+                                                    <span className="text-xs text-orange-600 ml-2">
+                                                        (Available from {currentTime} onwards)
+                                                    </span>
+                                                );
+                                            }
+                                            return null;
+                                        })()}
+                                    </label>
+                                    <input
+                                        type="time"
+                                        value={customTime}
+                                        onChange={(e) => {
+                                            const selectedTime = e.target.value;
+                                            if (!selectedDate) {
+                                                setCustomTime(selectedTime);
+                                                return;
+                                            }
+
+                                            const now = new Date();
+                                            // If selected date is today, validate time is not in the past
+                                            if (
+                                                selectedDate.getFullYear() === now.getFullYear() &&
+                                                selectedDate.getMonth() === now.getMonth() &&
+                                                selectedDate.getDate() === now.getDate()
+                                            ) {
+                                                const [hours, minutes] = selectedTime.split(':').map(Number);
+                                                const selectedDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+                                                if (selectedDateTime <= now) {
+                                                    // Don't allow past times for today - clear the input
+                                                    setCustomTime('');
+                                                    return;
+                                                }
+                                            }
+                                            setCustomTime(selectedTime);
+                                        }}
+                                        className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${selectedDate && (() => {
+                                                const now = new Date();
+                                                return selectedDate.getFullYear() === now.getFullYear() &&
+                                                    selectedDate.getMonth() === now.getMonth() &&
+                                                    selectedDate.getDate() === now.getDate() ? 'bg-orange-50 border-orange-300' : '';
+                                            })()
+                                            }`}
+                                        min={(() => {
+                                            if (!selectedDate) return undefined;
+                                            const now = new Date();
+                                            // If selected date is today, restrict min time to now
+                                            if (
+                                                selectedDate.getFullYear() === now.getFullYear() &&
+                                                selectedDate.getMonth() === now.getMonth() &&
+                                                selectedDate.getDate() === now.getDate()
+                                            ) {
+                                                // Format as HH:MM
+                                                const pad = (n: number) => n.toString().padStart(2, '0');
+                                                return `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+                                            }
+                                            return undefined;
+                                        })()}
+                                        placeholder={selectedDate && (() => {
+                                            const now = new Date();
+                                            if (
+                                                selectedDate.getFullYear() === now.getFullYear() &&
+                                                selectedDate.getMonth() === now.getMonth() &&
+                                                selectedDate.getDate() === now.getDate()
+                                            ) {
+                                                const pad = (n: number) => n.toString().padStart(2, '0');
+                                                return `From ${pad(now.getHours())}:${pad(now.getMinutes())} onwards`;
+                                            }
+                                            return '';
+                                        })()}
+                                    />
                                 </div>
                                 {customTime && <div className="mt-3 p-3 bg-white rounded-lg border">Selected Time: <span className="font-semibold">{customTime}</span></div>}
 
