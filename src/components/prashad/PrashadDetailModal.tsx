@@ -7,6 +7,7 @@ import { useGetPrasadById } from '@/api/PrasadQueries';
 import { useAddToCart, useVerifyPayment } from '@/api/CartQueries';
 import { useGetPrasadCharge } from '@/api/ChargeQueries';
 import toast from 'react-hot-toast';
+import { isAuthenticated, saveRedirectDestination } from '@/lib/authRedirect';
 
 interface PrashadPlan {
     id: number;
@@ -49,7 +50,12 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     const currentName = displayData?.name || plan?.name || '';
     const currentPrice = displayData?.price || plan?.price || 0;
     const currentDescription = displayData?.description || plan?.description || '';
-    const currentImages = displayData?.images || (displayData?.image ? [displayData.image] : plan?.gallery || (plan?.image ? [plan.image] : []));
+
+    // Handle images: featuredImage as main image, images array for gallery
+    const apiImages = displayData?.images || [];
+    const featuredImage = displayData?.featuredImage;
+    const galleryImages = featuredImage ? [featuredImage, ...apiImages] : apiImages.length > 0 ? apiImages : (displayData?.image ? [displayData.image] : plan?.gallery || (plan?.image ? [plan.image] : []));
+
     const currentStock = displayData?.stock || 999; // Default to high number if stock not available
 
     // Handle itemsIncluded properly - check if it exists and has items
@@ -124,6 +130,14 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     };
 
     const handleAddToCart = () => {
+        // If not authenticated, save redirect intent and go to login immediately
+        if (!isAuthenticated()) {
+            try {
+                saveRedirectDestination(window.location.pathname, { openPrasadDetail: true, prasadId });
+            } catch (e) { }
+            window.location.href = '/login';
+            return;
+        }
         // Calculate total amount
         const amount = currentPrice * quantity;
 
@@ -143,6 +157,16 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                 },
                 onError: (error) => {
                     console.error('Error adding to cart:', error);
+                    const status = (error as any)?.response?.status;
+                    if (status === 401) {
+                        // Save rich redirect intent so after login we can re-open the prasad modal
+                        localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                            path: window.location.pathname,
+                            state: { openPrasadDetail: true, prasadId }
+                        }));
+                        window.location.href = '/login';
+                        return;
+                    }
                     alert('Failed to add item to cart. Please try again.');
                 },
             }
@@ -152,6 +176,14 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
 
     // Open a dedicated checkout modal which fetches charges and then proceeds to payment
     const handleBuyNow = () => {
+        // If not authenticated, save redirect intent and go to login immediately
+        if (!isAuthenticated()) {
+            try {
+                saveRedirectDestination(window.location.pathname, { openPrasadDetail: true, prasadId });
+            } catch (e) { }
+            window.location.href = '/login';
+            return;
+        }
         setIsBuyNowCheckoutOpen(true);
     };
 
@@ -255,9 +287,12 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                 rzp.open();
             } catch (err: any) {
                 // if unauthorized, preserve intent and redirect to login similar to other flows
-                const status = err?.response?.status;
+                const status = (err as any)?.response?.status;
                 if (status === 401) {
-                    localStorage.setItem('auth_redirect_destination', JSON.stringify({ path: window.location.pathname }));
+                    localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                        path: window.location.pathname,
+                        state: { openPrasadDetail: true, prasadId }
+                    }));
                     window.location.href = '/login';
                     return;
                 }
@@ -347,7 +382,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     };
 
     // Generate gallery images or use placeholder
-    const galleryImages = currentImages.length > 0 ? currentImages : [plan.image].filter(Boolean);
+    // Note: galleryImages is now defined above, so we don't redefine it here
 
     return (
         <div className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-4 overflow-y-auto">
@@ -408,20 +443,20 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
 
                             {/* Gallery Thumbnails - horizontal, scrollable like e-commerce */}
                             <div className="mt-4 w-full">
-                                <div className="flex gap-3 overflow-x-auto py-2 scrollbar-hide">
+                                <div className="flex gap-2 overflow-x-auto py-2 scrollbar-hide pl-2 pr-2">
                                     {galleryImages.map((img, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImage(index)}
                                             aria-current={selectedImage === index}
-                                            className={`flex-none rounded-lg overflow-hidden shadow-sm transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 ${selectedImage === index ? 'ring-2 ring-[#8b0000] scale-105' : ''}`}
+                                            className={`shadow-sm transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 ${selectedImage === index ? 'ring-2 ring-[#8b0000] ' : ''}`}
                                             style={{ minWidth: 88 }}
                                         >
                                             {img ? (
                                                 <LazyLoadImage
                                                     src={img}
                                                     alt={`${currentName} ${index + 1}`}
-                                                    className="w-20 h-20 object-cover sm:w-24 sm:h-24 md:w-28 md:h-28"
+                                                    className="w-20 h-20 object-cover sm:w-24 sm:h-24 md:w-28 md:h-28 "
                                                 />
                                             ) : (
                                                 <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center text-gray-300 bg-gradient-to-br from-gray-100 to-gray-200">

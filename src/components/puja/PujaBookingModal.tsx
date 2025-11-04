@@ -21,6 +21,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
     const [sameAsAccount, setSameAsAccount] = useState<boolean>(false);
     const [showReview, setShowReview] = useState<boolean>(false);
     const [customTime, setCustomTime] = useState<string>('');
+    const [timeError, setTimeError] = useState<boolean>(false);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const [confirmationData, setConfirmationData] = useState<any | null>(null);
 
@@ -80,6 +81,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
             setSameAsAccount(false);
             setShowReview(false);
             setCustomTime('');
+            setTimeError(false);
             setFormData({
                 fullName: '',
                 gotra: '',
@@ -197,6 +199,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
             setSelectedDate(newDate);
             // Reset time when date changes
             setCustomTime('');
+            setTimeError(false);
         }
     };
 
@@ -367,7 +370,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Enter Time
-                                        {selectedDate && (() => {
+                                        {selectedDate && timeError && (() => {
                                             const now = new Date();
                                             if (
                                                 selectedDate.getFullYear() === now.getFullYear() &&
@@ -392,6 +395,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                             const selectedTime = e.target.value;
                                             if (!selectedDate) {
                                                 setCustomTime(selectedTime);
+                                                setTimeError(false);
                                                 return;
                                             }
 
@@ -407,18 +411,17 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                                 if (selectedDateTime <= now) {
                                                     // Don't allow past times for today - clear the input
                                                     setCustomTime('');
+                                                    setTimeError(true);
                                                     return;
+                                                } else {
+                                                    setTimeError(false);
                                                 }
+                                            } else {
+                                                setTimeError(false);
                                             }
                                             setCustomTime(selectedTime);
                                         }}
-                                        className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${selectedDate && (() => {
-                                                const now = new Date();
-                                                return selectedDate.getFullYear() === now.getFullYear() &&
-                                                    selectedDate.getMonth() === now.getMonth() &&
-                                                    selectedDate.getDate() === now.getDate() ? 'bg-orange-50 border-orange-300' : '';
-                                            })()
-                                            }`}
+                                        className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${timeError ? 'bg-orange-50 border-orange-300' : ''}`}
                                         min={(() => {
                                             if (!selectedDate) return undefined;
                                             const now = new Date();

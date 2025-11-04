@@ -1,17 +1,17 @@
 import { Button } from "../ui/button";
 import { useI18n } from '@/lib/i18n';
 import { useNavigate } from 'react-router-dom';
+import { useGetFeature } from '@/api/FeatureQueries';
 
 // Image imports
-import tempImage8Webp from '@/assets/images/temp-image-8.webp';
-import tempImage10Webp from '@/assets/images/temp-image-10.webp';
-import tempImage9Webp from '@/assets/images/temp-image-9.webp';
 import instagramIcon from '@/assets/images/instalogo.svg';
 
 
 const GridLayout = (): JSX.Element => {
     const { t } = useI18n();
     const navigate = useNavigate();
+    const { data } = useGetFeature();
+    const galleryImages = data?.data?.filter((item: any) => item.purpose === 'galleryImage') || [];
     return (
         <section className="w-full mt-4 ">
             <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-2 h-auto lg:h-[700px]">
@@ -27,17 +27,17 @@ const GridLayout = (): JSX.Element => {
                         </p>
                         <div className="flex gap-2">
                             <Button className="group border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont"
-                            onClick={() => window.open('https://www.instagram.com/smshsewatrust/', '_blank')}>
+                                onClick={() => window.open('https://www.instagram.com/smshsewatrust/', '_blank')}>
                                 <img src={instagramIcon} alt="Instagram" className="w-5 h-5 lg:w-6 lg:h-6 mr-2 filter transition duration-200 group-hover:invert" />
                                 <span className="font-secondaryFont font-normal textDescription tracking-wide">
                                     {t('grid.instagram')}
                                 </span>
                             </Button>
-<Button onClick={() => navigate('/gallery')} className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
-    <span className="font-secondaryFont font-normal textDescription tracking-wide">
-        {t('grid.gallery')}
-    </span>
-</Button>
+                            <Button onClick={() => navigate('/gallery')} className="border border-[#8b0000] bg-white hover:bg-[#8b0000] text-[#8b0000] hover:text-white px-4 py-2 lg:px-6 lg:py-3 rounded-lg transition-colors duration-200 font-secondaryFont">
+                                <span className="font-secondaryFont font-normal textDescription tracking-wide">
+                                    {t('grid.gallery')}
+                                </span>
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -48,14 +48,14 @@ const GridLayout = (): JSX.Element => {
                         <img
                             className="w-full h-32 sm:h-40 lg:h-full object-cover "
                             alt="Portrait Image 2"
-                            src={tempImage8Webp}
+                            src={galleryImages[0]?.fileUrl}
                         />
                     </div>
                     <div className="relative overflow-hidden rounded-lg lg:rounded-2xl group">
                         <img
                             className="w-full h-32 sm:h-40 lg:h-full object-cover "
                             alt="Temple Image 2"
-                            src={tempImage10Webp}
+                            src={galleryImages[1]?.fileUrl}
                         />
                     </div>
                 </div>
@@ -65,7 +65,7 @@ const GridLayout = (): JSX.Element => {
                     <img
                         className="w-full h-40 sm:h-48 lg:h-full object-cover rounded-lg "
                         alt="Large Temple Image"
-                        src={tempImage9Webp}
+                        src={galleryImages[2]?.fileUrl}
                     />
                 </div>
 
@@ -75,14 +75,14 @@ const GridLayout = (): JSX.Element => {
                         <img
                             className="w-full h-32 sm:h-40 lg:h-full object-cover "
                             alt="Portrait Image 2"
-                            src={tempImage8Webp}
+                            src={galleryImages[3]?.fileUrl}
                         />
                     </div>
                     <div className="relative overflow-hidden rounded-lg lg:rounded-2xl group ">
                         <img
                             className="w-full h-32 sm:h-40 lg:h-full object-cover "
                             alt="Temple Image 2"
-                            src={tempImage10Webp}
+                            src={galleryImages[4]?.fileUrl}
                         />
                     </div>
                 </div>

@@ -6,19 +6,16 @@ import { getPrasadOrderHistory } from "@/services/prasad.service";
 
 interface PrashadOrder {
     _id: string;
+    user: string;
+    subscription: string;
+    prasad: any[]; // Array of prasad items
     orderId: string;
-    name: string;
-    mobileNo: string;
-    email: string;
-    prashadPack: string;
-    amount: string;
-    time: string;
-    date: string;
-    paymentMode: string;
-    paymentStatus: string;
-    boxContents?: string[];
-    shippingAddress?: string;
-    bookedOn?: string;
+    status: string;
+    amount: number;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    paymentId: string;
 }
 
 const PrashadOrderHistory = () => {
@@ -117,42 +114,26 @@ const PrashadOrderHistory = () => {
                                     <span className="font-bold">{order.orderId}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-xs text-gray-400">Name</span>
-                                    <span className="font-bold">{order.name}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-xs text-gray-400">Mobile No.</span>
-                                    <span className="font-bold">{order.mobileNo}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-xs text-gray-400">Email ID</span>
-                                    <span className="font-bold break-all">{order.email}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-xs text-gray-400">Prashad Pack</span>
-                                    <span className="font-bold">{order.prashadPack}</span>
-                                </div>
-                                <div className="flex justify-between">
                                     <span className="text-xs text-gray-400">Amount</span>
-                                    <span className="font-bold">{order.amount}</span>
+                                    <span className="font-bold">₹{order.amount}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-xs text-gray-400">Time</span>
-                                    <span className="font-bold">{order.time}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-xs text-gray-400">Date</span>
-                                    <span className="font-bold">{order.date}</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-xs text-gray-400">Payment Mode</span>
-                                    <span className="font-bold">{order.paymentMode}</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-xs text-gray-400">Payment Status</span>
-                                    <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold ${getStatusBadgeClass(order.paymentStatus)}`}>
-                                        {order.paymentStatus}
+                                    <span className="text-xs text-gray-400">Status</span>
+                                    <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold ${getStatusBadgeClass(order.status)}`}>
+                                        {order.status}
                                     </span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-xs text-gray-400">Created At</span>
+                                    <span className="font-bold">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-xs text-gray-400">Payment ID</span>
+                                    <span className="font-bold break-all">{order.paymentId}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-xs text-gray-400">Prasad Items</span>
+                                    <span className="font-bold">{order.prasad.length}</span>
                                 </div>
                             </div>
 
@@ -196,60 +177,61 @@ const PrashadOrderHistory = () => {
                                         </div>
 
                                         <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">Name</p>
-                                            <p className="text-sm font-semibold text-gray-900">{selectedOrder.name}</p>
-                                        </div>
-
-                                        <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">Email ID</p>
-                                            <p className="text-sm text-gray-900 break-all">{selectedOrder.email}</p>
-                                        </div>
-
-                                        <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">Mobile No.</p>
-                                            <p className="text-sm font-semibold text-gray-900">{selectedOrder.mobileNo}</p>
-                                        </div>
-
-                                        <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">Prashad Type</p>
-                                            <p className="text-sm font-semibold text-gray-900">{selectedOrder.prashadPack}</p>
-                                        </div>
-
-                                        <div className="flex justify-between">
                                             <p className="text-xs text-gray-400">Amount</p>
-                                            <p className="text-sm font-semibold text-gray-900">{selectedOrder.amount}</p>
-                                        </div>
-
-                                        <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">Booked on</p>
-                                            <p className="text-sm font-semibold text-gray-900">{selectedOrder.bookedOn || `${selectedOrder.time} - ${selectedOrder.date}`}</p>
-                                        </div>
-
-                                        <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">Payment Mode</p>
-                                            <p className="text-sm font-semibold text-gray-900">{selectedOrder.paymentMode}</p>
+                                            <p className="text-sm font-semibold text-gray-900">₹{selectedOrder.amount}</p>
                                         </div>
 
                                         <div className="flex justify-between items-center">
-                                            <p className="text-xs text-gray-400">Payment Status</p>
-                                            <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold ${getStatusBadgeClass(selectedOrder.paymentStatus)}`}>
-                                                {selectedOrder.paymentStatus}
+                                            <p className="text-xs text-gray-400">Status</p>
+                                            <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold ${getStatusBadgeClass(selectedOrder.status)}`}>
+                                                {selectedOrder.status}
                                             </span>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <p className="text-xs text-gray-400">Created At</p>
+                                            <p className="text-sm font-semibold text-gray-900">{new Date(selectedOrder.createdAt).toLocaleString()}</p>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <p className="text-xs text-gray-400">Updated At</p>
+                                            <p className="text-sm font-semibold text-gray-900">{new Date(selectedOrder.updatedAt).toLocaleString()}</p>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <p className="text-xs text-gray-400">Payment ID</p>
+                                            <p className="text-sm font-semibold text-gray-900 break-all">{selectedOrder.paymentId}</p>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <p className="text-xs text-gray-400">User ID</p>
+                                            <p className="text-sm font-semibold text-gray-900 break-all">{selectedOrder.user}</p>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <p className="text-xs text-gray-400">Subscription ID</p>
+                                            <p className="text-sm font-semibold text-gray-900 break-all">{selectedOrder.subscription}</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Right card - box contents & shipping address */}
+                                {/* Right card - prasad items */}
                                 <div className="flex flex-col">
                                     <div className="bg-white rounded-lg p-5 border border-gray-100 shadow-sm flex-1">
                                         <div className="mb-4">
-                                            <h3 className="text-sm font-semibold text-gray-900">Box Contents</h3>
-                                            <p className="text-sm text-gray-700 mt-2">{(selectedOrder.boxContents || []).join(', ')}</p>
-                                        </div>
-
-                                        <div>
-                                            <h3 className="text-sm font-semibold text-gray-900">Shipping Address</h3>
-                                            <p className="text-sm text-gray-500 whitespace-pre-line mt-2">{selectedOrder.shippingAddress}</p>
+                                            <h3 className="text-sm font-semibold text-gray-900">Prasad Items</h3>
+                                            {selectedOrder.prasad.length > 0 ? (
+                                                <ul className="text-sm text-gray-700 mt-2 space-y-1">
+                                                    {selectedOrder.prasad.map((item, index) => (
+                                                        <li key={index} className="flex justify-between">
+                                                            <span>{item.name || `Item ${index + 1}`}</span>
+                                                            <span>₹{item.price || item.amount || 'N/A'}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <p className="text-sm text-gray-500 mt-2">No prasad items</p>
+                                            )}
                                         </div>
                                     </div>
 

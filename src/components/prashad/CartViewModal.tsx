@@ -12,6 +12,7 @@ interface PrasadData {
     name: string;
     description: string;
     images: string[];
+    featuredImage?: string;
     price: number;
     stock: number;
     itemsIncluded: string[];
@@ -50,7 +51,7 @@ const CartItemDisplay: React.FC<{
     const name = prasad?.name || "Unknown Item";
     const description = prasad?.description || "";
     const price = cartItem.amount * cartItem.quantity;
-    const image = prasad?.images?.[0];
+    const image = prasad?.featuredImage || prasad?.images?.[0];
     const stock = prasad?.stock ?? 0;
 
     return (

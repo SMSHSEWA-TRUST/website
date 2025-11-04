@@ -22,6 +22,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const [confirmationData, setConfirmationData] = useState<any>(null);
     const [customTime, setCustomTime] = useState<string>('');
+    const [timeError, setTimeError] = useState<boolean>(false);
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -80,6 +81,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
         setSameAsAccount(false);
         setShowReview(false);
         setCustomTime('');
+        setTimeError(false);
         setFormData({
             fullName: '',
             gotra: '',
@@ -157,6 +159,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
             const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
             setSelectedDate(newDate);
             setCustomTime('');
+            setTimeError(false);
         }
     };
 
@@ -250,7 +253,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                                 <div>
                                     <label className="block text-sm font-medium mb-2">
                                         Enter Time
-                                        {selectedDate && (() => {
+                                        {selectedDate && timeError && (() => {
                                             const now = new Date();
                                             if (
                                                 selectedDate.getFullYear() === now.getFullYear() &&
@@ -275,6 +278,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                                             const selectedTime = e.target.value;
                                             if (!selectedDate) {
                                                 setCustomTime(selectedTime);
+                                                setTimeError(false);
                                                 return;
                                             }
 
@@ -290,18 +294,17 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                                                 if (selectedDateTime <= now) {
                                                     // Don't allow past times for today - clear the input
                                                     setCustomTime('');
+                                                    setTimeError(true);
                                                     return;
+                                                } else {
+                                                    setTimeError(false);
                                                 }
+                                            } else {
+                                                setTimeError(false);
                                             }
                                             setCustomTime(selectedTime);
                                         }}
-                                        className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${selectedDate && (() => {
-                                                const now = new Date();
-                                                return selectedDate.getFullYear() === now.getFullYear() &&
-                                                    selectedDate.getMonth() === now.getMonth() &&
-                                                    selectedDate.getDate() === now.getDate() ? 'bg-orange-50 border-orange-300' : '';
-                                            })()
-                                            }`}
+                                        className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${timeError ? 'bg-orange-50 border-orange-300' : ''}`}
                                         min={(() => {
                                             if (!selectedDate) return undefined;
                                             const now = new Date();

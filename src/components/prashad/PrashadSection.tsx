@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import lineImage from "@/assets/images/line.png";
 import PrashadDetailModal from './PrashadDetailModal';
 import { useGetPrasad } from '@/api/PrasadQueries';
 import { useAddToCart } from '@/api/CartQueries';
+import { saveRedirectDestination, isAuthenticated } from '@/lib/authRedirect';
 
 export interface PrashadPlan {
     id: number;
@@ -34,39 +36,45 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
     useApiData = true, // Default to using API data
     categoryFilter // Category filter
 }) => {
+
     const [selectedPlan, setSelectedPlan] = useState<PrashadPlan | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     // Fetch data from API
     const { data: apiData, isLoading, isError } = useGetPrasad();
 
-    // Determine which plans to use
-    let plans: PrashadPlan[] = useApiData && apiData?.data
-        ? apiData.data.map(item => ({
-            _id: item._id,
-            id: item.id || parseInt(item._id),
-            name: item.name,
-            price: item.price,
-            image: item.images && item.images.length > 0 ? item.images[0] : item.image, // Use first image from images array
-            description: item.description,
-            whatsInBox: item.itemsIncluded ? item.itemsIncluded.join(', ') : item.whatsInBox, // Map itemsIncluded to whatsInBox
-            gallery: item.images || item.gallery, // Use images array as gallery
-            category: item.category
-        }))
-        : (propPlans || []);
+    // Determine which plans to use (memoized to avoid identity changes each render)
+    const plans: PrashadPlan[] = useMemo(() => {
+        let computed: PrashadPlan[] = useApiData && apiData?.data
+            ? apiData.data.map((item: any) => {
+                const primaryImage = item?.featuredImage || (Array.isArray(item?.images) && item.images.length > 0 ? item.images[0] : item?.image);
+                return {
+                    _id: item._id,
+                    id: item.id || (item._id ? parseInt(item._id) : undefined),
+                    name: item.name,
+                    price: item.price,
+                    image: primaryImage,
+                    description: item.description,
+                    whatsInBox: item.itemsIncluded ? item.itemsIncluded.join(', ') : item.whatsInBox,
+                    gallery: item.images || item.gallery,
+                    category: item.category
+                } as PrashadPlan;
+            })
+            : (propPlans || []);
 
-    // Apply category filter if provided
-    if (categoryFilter && useApiData) {
-        plans = plans.filter(plan => {
-            if (!plan.category) return false;
-
-            // Normalize both category and filter for comparison
-            const normalizedCategory = plan.category.toLowerCase().trim();
-            const normalizedFilter = categoryFilter.toLowerCase().trim();
-
-            return normalizedCategory === normalizedFilter;
-        });
-    }
+        // Apply category filter if provided (for API data only)
+        if (categoryFilter && useApiData) {
+            computed = computed.filter(plan => {
+                if (!plan.category) return false;
+                const normalizedCategory = plan.category.toLowerCase().trim();
+                const normalizedFilter = categoryFilter.toLowerCase().trim();
+                return normalizedCategory === normalizedFilter;
+            });
+        }
+        return computed;
+        // Dependencies: recompute only when data or filters change
+    }, [useApiData, apiData?.data, propPlans, categoryFilter]);
 
     // Cart mutation hook
     const addToCartMutation = useAddToCart();
@@ -76,6 +84,15 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
         const prasadId = plan._id || String(plan.id || '');
         if (!prasadId) {
             alert('Unable to add item to cart');
+            return;
+        }
+
+        // If not authenticated, save redirect intent and go to login immediately
+        if (!isAuthenticated()) {
+            try {
+                saveRedirectDestination(window.location.pathname, { openPrasadDetail: true, prasadId });
+            } catch (e) { }
+            navigate('/login');
             return;
         }
 
@@ -89,8 +106,9 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                 onError: (err: any) => {
                     const status = err?.response?.status;
                     if (status === 401) {
-                        localStorage.setItem('auth_redirect_destination', JSON.stringify({ path: window.location.pathname }));
-                        window.location.href = '/login';
+                        // Save rich redirect intent so after login we can re-open the prasad modal
+                        saveRedirectDestination(window.location.pathname, { openPrasadDetail: true, prasadId });
+                        navigate('/login');
                         return;
                     }
                     alert('Failed to add to cart. Please try again.');
@@ -98,6 +116,30 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
             }
         );
     };
+
+    // If navigation brought us here with an intent to open a specific prasad detail, handle it.
+    const location = useLocation();
+    useEffect(() => {
+        try {
+            const navState = (location.state as any) || {};
+            // Example: { openPrasadDetail: true, prasadId: '...' }
+            if (navState.openPrasadDetail && navState.prasadId) {
+                // Try to find matching plan and open modal
+                const found = plans.find(p => (p._id || String(p.id || '')) === String(navState.prasadId));
+                if (found) {
+                    setSelectedPlan(found);
+                    setIsModalOpen(true);
+                    // Clear navigation state via router to prevent repeated opens ONLY after success
+                    try {
+                        navigate(location.pathname + location.search, { replace: true });
+                    } catch (e) { }
+                }
+            }
+        } catch (e) {
+            // ignore
+        }
+        // only run once on mount or when plans change
+    }, [location.state, plans, navigate, location.pathname, location.search]);
 
     // Open modal for a plan (image click) — does NOT add to cart
     const handleOpenModal = (plan: PrashadPlan) => {
@@ -187,9 +229,10 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                     {plans.map((plan) => (
                         <div
                             key={plan.id}
-                            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105"
+                            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105 cursor-pointer"
+                            onClick={() => handleOpenModal(plan)}
                         >
-                            <div className="aspect-square bg-gray-200 relative cursor-pointer" onClick={() => handleOpenModal(plan)}>
+                            <div className="aspect-square bg-gray-200 relative">
                                 {plan.image ? (
                                     <LazyLoadImage
                                         src={plan.image}

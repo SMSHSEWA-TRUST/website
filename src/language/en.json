@@ -516,5 +516,18 @@
                 "paragraph2": "Our mission focuses on preserving Sanatan values, expanding service, and creating a spiritual legacy. We believe devotion is not only a personal practice but also a means to uplift society. SMSHST invites everyone to participate in this noble cause and become part of this historic journey. Our dream – a Mahadham of faith, an expansion of service, and an everlasting spiritual legacy for generations to come."
             }
         ]
+    },
+
+    "PoojaPage":{
+        "title":"Pooja's at Temple"
+    },
+    "parshadPage":{
+        "title":[
+            {
+                "title1":"Shri Mahakaleshwar Prasad",
+                 "title2":"Shri Salasar Balaji Prasad",
+                 "title3":"Idols & Photo Frames"
+            }
+        ]
     }
 }

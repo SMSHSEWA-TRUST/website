@@ -110,3 +110,6 @@ export interface PoojaBookingHistoryResponse {
 
 export const getPoojaHistory = (): Promise<PoojaBookingHistoryResponse> =>
   authTokenAxios.get(`/pooja/get-pooja-history`);
+
+export const cancelPooja = (id: string): Promise<any> => 
+  authTokenAxios.put(`/pooja/cancel-pooja?id=${id}`);

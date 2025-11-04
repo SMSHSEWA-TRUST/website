@@ -221,7 +221,7 @@ export default function OtpVerification() {
                   type="text"
                   name="otp"
                   maxLength={1}
-                  className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg sm:text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                  className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg sm:text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all mt-1"
                   value={data}
                   onChange={e => handleChange(e.target, index)}
                   onKeyDown={e => handleKeyDown(e, index)}
@@ -322,7 +322,7 @@ export default function OtpVerification() {
                       type="text"
                       name="otp"
                       maxLength={1}
-                      className="w-14 h-14 xl:w-16 xl:h-16 text-center text-xl xl:text-2xl font-bold border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                      className="w-14 h-14 xl:w-16 xl:h-16 text-center text-xl xl:text-2xl font-bold border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all mt-2"
                       value={data}
                       onChange={e => handleChange(e.target, index)}
                       onKeyDown={e => handleKeyDown(e, index)}

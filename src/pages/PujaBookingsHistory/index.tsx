@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPoojaHistory } from "../../services/pooja.service";
+import { getPoojaHistory, cancelPooja } from "../../services/pooja.service";
 
 interface BookingCard {
     _id: string;
@@ -77,9 +77,16 @@ const PujaBookingsHistory = () => {
         setSelectedBooking(null);
     };
 
-    const cancelBooking = (id: string) => {
+    const cancelBooking = async (id: string) => {
         if (!confirm('Are you sure you want to cancel this booking?')) return;
-        setBookings(prev => prev.map(b => b._id === id ? { ...b, paymentStatus: 'Booking Cancelled' } : b));
+        try {
+            await cancelPooja(id);
+            setBookings(prev => prev.map(b => b._id === id ? { ...b, paymentStatus: 'Booking Cancelled' } : b));
+            alert('Booking cancelled successfully.');
+        } catch (error) {
+            console.error('Failed to cancel booking:', error);
+            alert('Failed to cancel booking. Please try again.');
+        }
         if (selectedBooking && selectedBooking._id === id) closeModal();
     };
 
@@ -201,10 +208,17 @@ const PujaBookingsHistory = () => {
                                 )}
                             </div>
 
-                            <div className="flex gap-3 mt-4">
-                                <button onClick={() => openModal(b)} className="flex-1 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50">View Receipt</button>
-                                <button onClick={() => cancelBooking(b._id)} className="py-2 px-3 text-sm bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50">Cancel Booking</button>
-                            </div>
+                            {(() => {
+                                const isCancelled = ((b.status || '').toLowerCase() === 'cancelled') || ((b.paymentStatus || '').toLowerCase().includes('cancel'));
+                                return (
+                                    <div className="flex gap-3 mt-4">
+                                        <button onClick={() => openModal(b)} className="flex-1 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50">View Receipt</button>
+                                        {!isCancelled && (
+                                            <button onClick={() => cancelBooking(b._id)} className="py-2 px-3 text-sm bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50">Cancel Booking</button>
+                                        )}
+                                    </div>
+                                );
+                            })()}
                         </div>
                     ))}
                 </div>

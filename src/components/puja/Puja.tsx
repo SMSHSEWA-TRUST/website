@@ -3,8 +3,12 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import PujaBookingModal from './PujaBookingModal';
 import { useGetPooja } from '@/api/PoojaQueries';
 import { PoojaItem } from '@/services/pooja.service';
+import { useI18n } from "../../lib/i18n";
+
 
 export default function Puja() {
+    const { t } = useI18n();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPooja, setSelectedPooja] = useState<PoojaItem | null>(null);
 
@@ -38,7 +42,7 @@ export default function Puja() {
         <div className="px-4 md:px-16 lg:px-24  ">
 
             <div className='flex flex-col gap-7 mt-10'>
-                <div> <h2 className="font-primaryFont textHeadingLg text-[#8B0000] text-center mb-2">Pooja's at Temple</h2>
+                <div> <h2 className="font-primaryFont textHeadingLg text-[#8B0000] text-center mb-2">{t("PoojaPage.title")}</h2>
 
                     <div className="flex items-center justify-center  w-full">
                         <div className="flex items-center w-full max-w-md">
