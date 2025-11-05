@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import PujaBookingModal from './PujaBookingModal';
 import { useGetPooja } from '@/api/PoojaQueries';
 import { PoojaItem } from '@/services/pooja.service';
 import { useI18n } from "../../lib/i18n";
+import { useNavigate, useLocation } from 'react-router-dom';
+import { saveRedirectDestination, isAuthenticated } from '@/lib/authRedirect';
 
 
 export default function Puja() {
     const { t } = useI18n();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPooja, setSelectedPooja] = useState<PoojaItem | null>(null);
@@ -15,7 +19,31 @@ export default function Puja() {
     // Fetch pooja data from API
     const { data: poojaResponse, isLoading, isError } = useGetPooja();
 
+    // Handle redirect back from login/OTP verification
+    useEffect(() => {
+        const state = location.state as any;
+        if (state?.openBookingModal && state?.selectedPooja && isAuthenticated()) {
+            setSelectedPooja(state.selectedPooja);
+            setIsModalOpen(true);
+            // Clear the state to prevent re-opening on refresh
+            navigate(location.pathname, { replace: true });
+        }
+    }, [location.state, navigate, location.pathname]);
+
     const handleBookNow = (pooja: PoojaItem) => {
+        // Check if user is authenticated
+        if (!isAuthenticated()) {
+            // Save redirect destination with pooja details
+            saveRedirectDestination('/puja', {
+                openBookingModal: true,
+                selectedPooja: pooja
+            });
+            // Navigate to login
+            navigate('/login');
+            return;
+        }
+
+        // User is authenticated, proceed with booking
         setSelectedPooja(pooja);
         setIsModalOpen(true);
     };

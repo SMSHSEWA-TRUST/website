@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Minus, Plus } from 'lucide-react';
-import CartModal from './CartViewModal';
+// CartModal replaced by full-page checkout navigation
 import { useBuyNow } from '@/api/BuyNowQueries';
 import { useGetPrasadById } from '@/api/PrasadQueries';
 import { useAddToCart, useVerifyPayment } from '@/api/CartQueries';
 import { useGetPrasadCharge } from '@/api/ChargeQueries';
 import toast from 'react-hot-toast';
 import { isAuthenticated, saveRedirectDestination } from '@/lib/authRedirect';
+import { useNavigate } from 'react-router-dom';
 
 interface PrashadPlan {
     id: number;
@@ -29,7 +30,8 @@ interface PrashadDetailModalProps {
 const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, onClose }) => {
     const [quantity, setQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState(0);
-    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+    // Full page checkout; no modal state needed
+    const navigate = useNavigate();
 
     // Fetch detailed prasad data when modal opens
     const prasadId = plan?._id || String(plan?.id || '');
@@ -151,9 +153,10 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
             {
                 onSuccess: (data) => {
                     console.log('Added to cart successfully:', data);
-                    alert(`Added ${quantity} x ${currentName} to cart successfully!`);
-                    // Open checkout modal
-                    setIsCheckoutOpen(true);
+                    // Navigate to full-page checkout
+                    navigate('/checkout');
+                    // Optionally close detail modal
+                    onClose();
                 },
                 onError: (error) => {
                     console.error('Error adding to cart:', error);
@@ -376,10 +379,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
         );
     };
 
-    const handleCloseCheckout = () => {
-        setIsCheckoutOpen(false);
-        onClose();
-    };
+    // removed checkout modal handlers
 
     // Generate gallery images or use placeholder
     // Note: galleryImages is now defined above, so we don't redefine it here
@@ -605,11 +605,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
             {/* Buy Now Checkout Modal (opened when user clicks Buy Now) */}
             {isBuyNowCheckoutOpen && <BuyNowCheckoutModal />}
 
-            {/* Cart Checkout Modal */}
-            <CartModal
-                isOpen={isCheckoutOpen}
-                onClose={handleCloseCheckout}
-            />
+            {/* Cart checkout modal removed - using /checkout route */}
         </div>
     );
 };

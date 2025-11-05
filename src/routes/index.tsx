@@ -24,6 +24,7 @@ const TermsPage = lazy(() => import('../pages/TermsAndConditions').then(module =
 const PrivacyPage = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPage })));
 const PrashadPage = lazy(() => import('../pages/Prashad').then(module => ({ default: module.PrashadPage })));
 const PujaBookingsPage = lazy(() => import('../pages/PujaBookingsHistory').then(module => ({ default: module.default })));
+const CheckoutPage = lazy(() => import('../pages/Checkout').then(module => ({ default: module.CheckoutPage })));
 
 export const AppRoutes = (): JSX.Element => {
   return (
@@ -130,6 +131,11 @@ export const AppRoutes = (): JSX.Element => {
         <Route path="/prashad" element={
           <FamilyDetailsGuard>
             <PrashadPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/checkout" element={
+          <FamilyDetailsGuard>
+            <CheckoutPage />
           </FamilyDetailsGuard>
         } />
       </Routes>

@@ -24,6 +24,16 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
     const [customTime, setCustomTime] = useState<string>('');
     const [timeError, setTimeError] = useState<boolean>(false);
 
+    // Validation states
+    const [validationErrors, setValidationErrors] = useState({
+        selectedDate: '',
+        customTime: '',
+        fullName: '',
+        mobile: '',
+        address: '',
+        numberOfMembers: ''
+    });
+
     const [formData, setFormData] = useState({
         fullName: '',
         gotra: '',
@@ -82,6 +92,14 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
         setShowReview(false);
         setCustomTime('');
         setTimeError(false);
+        setValidationErrors({
+            selectedDate: '',
+            customTime: '',
+            fullName: '',
+            mobile: '',
+            address: '',
+            numberOfMembers: ''
+        });
         setFormData({
             fullName: '',
             gotra: '',
@@ -104,6 +122,58 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
             setFormData(prev => ({ ...prev, pujaTypeDetails: selectedPooja.title }));
         }
     }, [selectedPooja]);
+
+    // Validation functions
+    const validateMandatoryFields = () => {
+        const errors = {
+            selectedDate: '',
+            customTime: '',
+            fullName: '',
+            mobile: '',
+            address: '',
+            numberOfMembers: ''
+        };
+
+        if (!selectedDate) {
+            errors.selectedDate = 'Please select a date';
+        }
+
+        if (!customTime) {
+            errors.customTime = 'Please select a time';
+        }
+
+        if (!formData.fullName.trim()) {
+            errors.fullName = 'Full name is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.fullName.trim())) {
+            errors.fullName = 'Name should only contain letters and spaces';
+        }
+
+        if (!formData.mobile.trim()) {
+            errors.mobile = 'Mobile number is required';
+        } else {
+            const cleanMobile = formData.mobile.replace(/\s/g, '');
+            if (!/^[0-9]{10}$/.test(cleanMobile)) {
+                errors.mobile = 'Mobile number must be exactly 10 digits';
+            } else if (cleanMobile.startsWith('0')) {
+                errors.mobile = 'Mobile number cannot start with 0';
+            }
+        }
+
+        if (!formData.address.trim()) {
+            errors.address = 'Address is required';
+        }
+
+        if (!formData.numberOfMembers.trim()) {
+            errors.numberOfMembers = 'Number of members is required';
+        } else if (!/^[0-9]+$/.test(formData.numberOfMembers.trim())) {
+            errors.numberOfMembers = 'Please enter a valid number';
+        } else if (parseInt(formData.numberOfMembers) < 1) {
+            errors.numberOfMembers = 'Number of members must be at least 1';
+        }
+
+        setValidationErrors(errors);
+        return Object.values(errors).every(error => error === '');
+    };
 
     // Fetch events (lightweight) so mobile can show events for selected date
     useEffect(() => {
@@ -173,18 +243,120 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+
+        // Restrict name field to only letters and spaces
+        if (name === 'fullName') {
+            const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+            setFormData({ ...formData, [name]: filteredValue });
+            return;
+        }
+
+        // Restrict mobile fields to only numbers
+        if (name === 'mobile' || name === 'alternateMobile') {
+            const filteredValue = value.replace(/[^0-9]/g, '');
+            // Limit to 10 digits
+            if (filteredValue.length <= 10) {
+                setFormData({ ...formData, [name]: filteredValue });
+            }
+            return;
+        }
+
+        // Restrict numberOfMembers to only numbers
+        if (name === 'numberOfMembers') {
+            const filteredValue = value.replace(/[^0-9]/g, '');
+            setFormData({ ...formData, [name]: filteredValue });
+            return;
+        }
+
+        setFormData({ ...formData, [name]: value });
     };
 
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-    const nextStep = () => setStep(s => Math.min(4, s + 1));
+    const nextStep = () => {
+        if (step === 1) {
+            // Validate date and time on step 1
+            const dateTimeErrors = {
+                selectedDate: !selectedDate ? 'Please select a date' : '',
+                customTime: !customTime ? 'Please select a time' : '',
+                fullName: '',
+                mobile: '',
+                address: '',
+                numberOfMembers: ''
+            };
+            setValidationErrors(dateTimeErrors);
+            if (!selectedDate || !customTime) return;
+        } else if (step === 2) {
+            // Validate basic details on step 2
+            let nameError = '';
+            if (!formData.fullName.trim()) {
+                nameError = 'Full name is required';
+            } else if (!/^[a-zA-Z\s]+$/.test(formData.fullName.trim())) {
+                nameError = 'Name should only contain letters and spaces';
+            }
+
+            let numberOfMembersError = '';
+            if (!formData.numberOfMembers.trim()) {
+                numberOfMembersError = 'Number of members is required';
+            } else if (!/^[0-9]+$/.test(formData.numberOfMembers.trim())) {
+                numberOfMembersError = 'Please enter a valid number';
+            } else if (parseInt(formData.numberOfMembers) < 1) {
+                numberOfMembersError = 'Number of members must be at least 1';
+            }
+
+            const basicDetailsErrors = {
+                selectedDate: '',
+                customTime: '',
+                fullName: nameError,
+                mobile: '',
+                address: '',
+                numberOfMembers: numberOfMembersError
+            };
+            setValidationErrors(basicDetailsErrors);
+            if (nameError || numberOfMembersError) return;
+        } else if (step === 3) {
+            // Validate contact details on step 3
+            let mobileError = '';
+            let addressError = '';
+
+            if (!formData.mobile.trim()) {
+                mobileError = 'Mobile number is required';
+            } else {
+                const cleanMobile = formData.mobile.replace(/\s/g, '');
+                if (!/^[0-9]{10}$/.test(cleanMobile)) {
+                    mobileError = 'Mobile number must be exactly 10 digits';
+                } else if (cleanMobile.startsWith('0')) {
+                    mobileError = 'Mobile number cannot start with 0';
+                }
+            }
+
+            if (!formData.address.trim()) {
+                addressError = 'Address is required';
+            }
+
+            const contactErrors = {
+                selectedDate: '',
+                customTime: '',
+                fullName: '',
+                mobile: mobileError,
+                address: addressError,
+                numberOfMembers: ''
+            };
+            setValidationErrors(contactErrors);
+            if (mobileError || addressError) return;
+        }
+
+        setStep(s => Math.min(4, s + 1));
+    };
     const prevStep = () => setStep(s => Math.max(1, s - 1));
 
     const handleSubmit = () => {
-        // open review
-        setShowReview(true);
+        // Validate all mandatory fields before proceeding
+        if (validateMandatoryFields()) {
+            setShowReview(true);
+        }
     };
 
     const bookingData = {
@@ -217,7 +389,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
             <div>
                 {step === 1 && (
                     <div className="space-y-4">
-                        <div className="grid grid-cols-2 gap-2">
+                        {/* <div className="grid grid-cols-2 gap-2">
                             {pujaTypes.map((type) => (
                                 <label key={type.id} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
                                     <input type="radio" name="pujaType" value={type.id} checked={selectedPujaType === type.id} onChange={(e) => setSelectedPujaType(e.target.value)} className="sr-only" />
@@ -225,7 +397,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                                     <div className="text-sm">{type.label}</div>
                                 </label>
                             ))}
-                        </div>
+                        </div> */}
 
                         <div className="bg-[#AD2F16] rounded-xl p-3 text-white">
                             <div className="flex justify-between items-center mb-2">
@@ -438,8 +610,20 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                             )}
                         </div>
 
+                        {/* Validation errors for date and time */}
+                        {(validationErrors.selectedDate || validationErrors.customTime) && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                                {validationErrors.selectedDate && (
+                                    <p className="text-red-600 text-sm mb-1">{validationErrors.selectedDate}</p>
+                                )}
+                                {validationErrors.customTime && (
+                                    <p className="text-red-600 text-sm">{validationErrors.customTime}</p>
+                                )}
+                            </div>
+                        )}
+
                         <div className="flex gap-2">
-                            <button onClick={nextStep} disabled={!selectedDate} className="flex-1 bg-[#8B0000] text-white py-3 rounded">Continue</button>
+                            <button onClick={nextStep} className="flex-1 bg-[#8B0000] text-white py-3 rounded">Continue</button>
                         </div>
                     </div>
                 )}
@@ -453,8 +637,17 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
 
                         <div className="space-y-3">
                             <div>
-                                <label className="block text-sm">Full Name</label>
-                                <input name="fullName" value={formData.fullName} onChange={handleInputChange} className="w-full px-3 py-2 border rounded" />
+                                <label className="block text-sm">Full Name *</label>
+                                <input
+                                    name="fullName"
+                                    value={formData.fullName}
+                                    onChange={handleInputChange}
+                                    className={`w-full px-3 py-2 border rounded ${validationErrors.fullName ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                    placeholder="Enter your full name"
+                                />
+                                {validationErrors.fullName && (
+                                    <p className="text-red-600 text-xs mt-1">{validationErrors.fullName}</p>
+                                )}
                             </div>
                             <div>
                                 <label className="block text-sm">Gotra</label>
@@ -520,8 +713,19 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm">No. of Members</label>
-                                <input name="numberOfMembers" value={formData.numberOfMembers} onChange={handleInputChange} className="w-full px-3 py-2 border rounded" />
+                                <label className="block text-sm">No. of Members *</label>
+                                <input
+                                    name="numberOfMembers"
+                                    value={formData.numberOfMembers}
+                                    onChange={handleInputChange}
+                                    className={`w-full px-3 py-2 border rounded ${validationErrors.numberOfMembers ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                    placeholder="Enter number of members"
+                                    type="number"
+                                    min="1"
+                                />
+                                {validationErrors.numberOfMembers && (
+                                    <p className="text-red-600 text-xs mt-1">{validationErrors.numberOfMembers}</p>
+                                )}
                             </div>
                         </div>
 
@@ -545,15 +749,44 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                             </div>
                             <div>
                                 <label className="block text-sm">Mobile No*</label>
-                                <input name="mobile" value={formData.mobile} onChange={handleInputChange} className="w-full px-3 py-2 border rounded" />
+                                <input
+                                    name="mobile"
+                                    value={formData.mobile}
+                                    onChange={handleInputChange}
+                                    className={`w-full px-3 py-2 border rounded ${validationErrors.mobile ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                    placeholder="9876543210"
+                                    maxLength={10}
+                                    type="tel"
+                                />
+                                {validationErrors.mobile && (
+                                    <p className="text-red-600 text-xs mt-1">{validationErrors.mobile}</p>
+                                )}
                             </div>
                             <div>
                                 <label className="block text-sm">Alternate Mobile No.</label>
-                                <input name="alternateMobile" value={formData.alternateMobile} onChange={handleInputChange} className="w-full px-3 py-2 border rounded" />
+                                <input
+                                    name="alternateMobile"
+                                    value={formData.alternateMobile}
+                                    onChange={handleInputChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                    placeholder="9876543210"
+                                    maxLength={10}
+                                    type="tel"
+                                />
                             </div>
                             <div>
                                 <label className="block text-sm">Address*</label>
-                                <textarea name="address" value={formData.address} onChange={handleInputChange} rows={3} className="w-full px-3 py-2 border rounded resize-none" />
+                                <textarea
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleInputChange}
+                                    rows={3}
+                                    className={`w-full px-3 py-2 border rounded resize-none ${validationErrors.address ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                    placeholder="Enter your complete address"
+                                />
+                                {validationErrors.address && (
+                                    <p className="text-red-600 text-xs mt-1">{validationErrors.address}</p>
+                                )}
                             </div>
                         </div>
 

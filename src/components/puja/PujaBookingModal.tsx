@@ -25,6 +25,16 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const [confirmationData, setConfirmationData] = useState<any | null>(null);
 
+    // Validation states
+    const [validationErrors, setValidationErrors] = useState({
+        selectedDate: '',
+        customTime: '',
+        fullName: '',
+        mobile: '',
+        address: '',
+        numberOfMembers: ''
+    });
+
     const [formData, setFormData] = useState({
         fullName: '',
         gotra: '',
@@ -82,6 +92,14 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
             setShowReview(false);
             setCustomTime('');
             setTimeError(false);
+            setValidationErrors({
+                selectedDate: '',
+                customTime: '',
+                fullName: '',
+                mobile: '',
+                address: '',
+                numberOfMembers: ''
+            });
             setFormData({
                 fullName: '',
                 gotra: '',
@@ -122,6 +140,58 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
             }));
         }
     }, [selectedPooja]);
+
+    // Validation functions
+    const validateMandatoryFields = () => {
+        const errors = {
+            selectedDate: '',
+            customTime: '',
+            fullName: '',
+            mobile: '',
+            address: '',
+            numberOfMembers: ''
+        };
+
+        if (!selectedDate) {
+            errors.selectedDate = 'Please select a date';
+        }
+
+        if (!customTime) {
+            errors.customTime = 'Please select a time';
+        }
+
+        if (!formData.fullName.trim()) {
+            errors.fullName = 'Full name is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.fullName.trim())) {
+            errors.fullName = 'Name should only contain letters and spaces';
+        }
+
+        if (!formData.mobile.trim()) {
+            errors.mobile = 'Mobile number is required';
+        } else {
+            const cleanMobile = formData.mobile.replace(/\s/g, '');
+            if (!/^[0-9]{10}$/.test(cleanMobile)) {
+                errors.mobile = 'Mobile number must be exactly 10 digits';
+            } else if (cleanMobile.startsWith('0')) {
+                errors.mobile = 'Mobile number cannot start with 0';
+            }
+        }
+
+        if (!formData.address.trim()) {
+            errors.address = 'Address is required';
+        }
+
+        if (!formData.numberOfMembers.trim()) {
+            errors.numberOfMembers = 'Number of members is required';
+        } else if (!/^[0-9]+$/.test(formData.numberOfMembers.trim())) {
+            errors.numberOfMembers = 'Please enter a valid number';
+        } else if (parseInt(formData.numberOfMembers) < 1) {
+            errors.numberOfMembers = 'Number of members must be at least 1';
+        }
+
+        setValidationErrors(errors);
+        return Object.values(errors).every(error => error === '');
+    };
 
     // State for events fetched from API
     const [events, setEvents] = useState<EventItem[]>([]);
@@ -213,21 +283,59 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+
+        // Restrict name field to only letters and spaces
+        if (name === 'fullName') {
+            const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+            setFormData({
+                ...formData,
+                [name]: filteredValue
+            });
+            return;
+        }
+
+        // Restrict mobile fields to only numbers
+        if (name === 'mobile' || name === 'alternateMobile') {
+            const filteredValue = value.replace(/[^0-9]/g, '');
+            // Limit to 10 digits
+            if (filteredValue.length <= 10) {
+                setFormData({
+                    ...formData,
+                    [name]: filteredValue
+                });
+            }
+            return;
+        }
+
+        // Restrict numberOfMembers to only numbers
+        if (name === 'numberOfMembers') {
+            const filteredValue = value.replace(/[^0-9]/g, '');
+            setFormData({
+                ...formData,
+                [name]: filteredValue
+            });
+            return;
+        }
+
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [name]: value
         });
     };
 
     const handleSubmit = () => {
-        console.log('Form submitted:', {
-            pujaType: selectedPujaType,
-            selectedDate,
-            selectedTimeSlot: customTime,
-            ...formData
-        });
-        // Open review page
-        setShowReview(true);
+        // Validate all mandatory fields before proceeding
+        if (validateMandatoryFields()) {
+            console.log('Form submitted:', {
+                pujaType: selectedPujaType,
+                selectedDate,
+                selectedTimeSlot: customTime,
+                ...formData
+            });
+            // Open review page
+            setShowReview(true);
+        }
     };
 
     const handleCloseReview = () => {
@@ -277,7 +385,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                     {/* Left Side - Calendar & Events */}
                     <div className=" space-y-6 w-[35%]">
                         {/* Pooja Type Selection - 2x2 Grid */}
-                        <div className="grid grid-cols-2 gap-3">
+                        {/* <div className="grid grid-cols-2 gap-3">
                             {pujaTypes.map((type) => (
                                 <label
                                     key={type.id}
@@ -301,7 +409,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                     <span className="ml-3 text-sm font-medium text-gray-700">{type.label}</span>
                                 </label>
                             ))}
-                        </div>
+                        </div> */}
 
                         {/* Calendar */}
                         <div className="bg-[#AD2F16] rounded-xl p-3 text-white">
@@ -534,15 +642,18 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
 
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
                                     <input
                                         type="text"
                                         name="fullName"
                                         value={formData.fullName}
                                         onChange={handleInputChange}
-                                        placeholder="Full Name"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
+                                        placeholder="Enter your full name"
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${validationErrors.fullName ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                                     />
+                                    {validationErrors.fullName && (
+                                        <p className="text-red-600 text-xs mt-1">{validationErrors.fullName}</p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -627,15 +738,19 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">No. of Members</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">No. of Members *</label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="numberOfMembers"
                                         value={formData.numberOfMembers}
                                         onChange={handleInputChange}
-                                        placeholder="No. of Members"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
+                                        placeholder="Enter number of members"
+                                        min="1"
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${validationErrors.numberOfMembers ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                                     />
+                                    {validationErrors.numberOfMembers && (
+                                        <p className="text-red-600 text-xs mt-1">{validationErrors.numberOfMembers}</p>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -657,15 +772,19 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Mobile No.</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Mobile No. *</label>
                                     <input
                                         type="tel"
                                         name="mobile"
                                         value={formData.mobile}
                                         onChange={handleInputChange}
-                                        placeholder="+91 9876543210"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
+                                        placeholder="9876543210"
+                                        maxLength={10}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none ${validationErrors.mobile ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                                     />
+                                    {validationErrors.mobile && (
+                                        <p className="text-red-600 text-xs mt-1">{validationErrors.mobile}</p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -675,21 +794,25 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                         name="alternateMobile"
                                         value={formData.alternateMobile}
                                         onChange={handleInputChange}
-                                        placeholder="+91 9876543210"
+                                        placeholder="9876543210"
+                                        maxLength={10}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Address*</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Address *</label>
                                     <textarea
                                         name="address"
                                         value={formData.address}
                                         onChange={handleInputChange}
-                                        placeholder="Lincoln Street, Park Avenue, Bangalore"
+                                        placeholder="Enter your complete address"
                                         rows={3}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none resize-none"
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none resize-none ${validationErrors.address ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                                     />
+                                    {validationErrors.address && (
+                                        <p className="text-red-600 text-xs mt-1">{validationErrors.address}</p>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -775,6 +898,21 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                                 />
                             </div>
                         </div>
+
+                        {/* Validation errors summary */}
+                        {(validationErrors.selectedDate || validationErrors.customTime || validationErrors.fullName || validationErrors.mobile || validationErrors.address || validationErrors.numberOfMembers) && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                                <h4 className="text-red-800 font-semibold mb-2">Please fix the following errors:</h4>
+                                <ul className="space-y-1 text-red-600 text-sm">
+                                    {validationErrors.selectedDate && <li>• {validationErrors.selectedDate}</li>}
+                                    {validationErrors.customTime && <li>• {validationErrors.customTime}</li>}
+                                    {validationErrors.fullName && <li>• {validationErrors.fullName}</li>}
+                                    {validationErrors.mobile && <li>• {validationErrors.mobile}</li>}
+                                    {validationErrors.address && <li>• {validationErrors.address}</li>}
+                                    {validationErrors.numberOfMembers && <li>• {validationErrors.numberOfMembers}</li>}
+                                </ul>
+                            </div>
+                        )}
 
                         {/* Continue Button */}
                         <button

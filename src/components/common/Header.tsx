@@ -2,17 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import tempLogo from "@/assets/images/temp-logo.png";
 import lineImage from "@/assets/images/line.png";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "../ui/navigation-menu";
 import { useI18n } from "@/lib/i18n";
 import LogoutIcon from "@/assets/images/logOutLogo.png";
-import CartModal from "../prashad/CartViewModal";
+// Cart modal replaced by full-page checkout navigation
 import { useGetCart } from "@/api/CartQueries";
 
 const Header = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
   const isLoggedIn = Boolean(localStorage.getItem("authToken"));
@@ -433,7 +433,7 @@ const Header = (): JSX.Element => {
 
                 {/* Cart Icon */}
                 <button
-                  onClick={() => setIsCartModalOpen(true)}
+                  onClick={() => navigate('/checkout')}
                   className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
                   aria-label="View cart"
                 >
@@ -612,7 +612,7 @@ const Header = (): JSX.Element => {
               {/* Cart Icon for Mobile */}
               {isLoggedIn && (
                 <button
-                  onClick={() => setIsCartModalOpen(true)}
+                  onClick={() => navigate('/checkout')}
                   className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
                   aria-label="View cart"
                 >
@@ -849,11 +849,7 @@ const Header = (): JSX.Element => {
         </div>
       </div>
 
-      {/* Cart Modal */}
-      <CartModal
-        isOpen={isCartModalOpen}
-        onClose={() => setIsCartModalOpen(false)}
-      />
+      {/* Cart modal removed; using /checkout route instead */}
     </header>
   );
 };

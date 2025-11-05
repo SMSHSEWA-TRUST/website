@@ -25,7 +25,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     }, [location.pathname]);
 
     // Do not show header/footer on the signup, login, otp, and profile pages
-    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details', '/profile', '/membership-history', '/donations-history', '/prashad-order-history', '/puja-bookings'];
+    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details', '/profile', '/membership-history', '/donations-history', '/prashad-order-history', '/puja-bookings', '/checkout'];
     const hideHeaderFooter = hiddenPaths.includes(location.pathname);
 
     return (
