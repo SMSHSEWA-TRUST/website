@@ -6,6 +6,7 @@ import BlogSidebar from './BlogSidebar';
 import { BlogDetailsLoader, ComponentLoader } from '@/components/ui/LoadingComponents';
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
+import '@/styles/wordpress-content.css';
 
 // helper to strip HTML tags from WP-rendered strings for sidebar display
 const stripHtml = (html?: string) => {
@@ -135,8 +136,8 @@ const BlogDetails: React.FC<Props> = (props) => {
                 )}
                 {!error && entry ? (
                     <article>
-                        {/* Render sanitized & parsed content */}
-                        <div className="prose max-w-none">{parsedContent}</div>
+                        {/* Render sanitized & parsed content with WordPress styling */}
+                        <div className="wp-content">{parsedContent}</div>
                     </article>
                 ) : !error && !loading ? (
                     <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">

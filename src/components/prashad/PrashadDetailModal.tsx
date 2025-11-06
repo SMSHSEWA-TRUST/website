@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Minus, Plus } from 'lucide-react';
-// CartModal replaced by full-page checkout navigation
-import { useBuyNow } from '@/api/BuyNowQueries';
 import { useGetPrasadById } from '@/api/PrasadQueries';
-import { useAddToCart, useVerifyPayment } from '@/api/CartQueries';
-import { useGetPrasadCharge } from '@/api/ChargeQueries';
-import toast from 'react-hot-toast';
+import { useAddToCart } from '@/api/CartQueries';
 import { isAuthenticated, saveRedirectDestination } from '@/lib/authRedirect';
 import { useNavigate } from 'react-router-dom';
+import BuyNowCheckoutModal from './BuyNowCheckoutModal';
 
 interface PrashadPlan {
     id: number;
@@ -39,10 +36,6 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
 
     // Add to cart mutation
     const addToCartMutation = useAddToCart();
-    // Buy Now mutation - keep hooks together and before any early return
-    const buyNowMutation = useBuyNow();
-    // Verify payment mutation from cart queries (reused for buy-now verification)
-    const verifyPaymentMutation = useVerifyPayment();
     const [isBuyNowCheckoutOpen, setIsBuyNowCheckoutOpen] = useState(false);
 
     // Use API data if available, otherwise fall back to plan prop
@@ -191,192 +184,8 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     };
 
     // Close Buy Now checkout and optionally close main modal
-    const handleCloseBuyNow = (alsoCloseParent = false) => {
+    const handleCloseBuyNow = () => {
         setIsBuyNowCheckoutOpen(false);
-        if (alsoCloseParent) onClose();
-    };
-
-    // Buy Now Checkout Modal - fetches charge info and initiates server order + Razorpay
-    const BuyNowCheckoutModal: React.FC = () => {
-        const { data: chargesApiResp, isLoading: isLoadingCharges } = useGetPrasadCharge(prasadId, isBuyNowCheckoutOpen && !!prasadId);
-        const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-
-        const chargeItem = (chargesApiResp && chargesApiResp.data && Array.isArray(chargesApiResp.data) && chargesApiResp.data[0]) || null;
-        const deliveryCharges = chargeItem ? Number(chargeItem.deliveryCharges || 0) : 0;
-        const serviceFee = chargeItem ? Number(chargeItem.serviceFee || 0) : 0;
-        const taxes = chargeItem ? Number(chargeItem.taxes || 0) : 0;
-
-        const subtotal = currentPrice * quantity;
-        const totalRupees = Math.round(subtotal + deliveryCharges + serviceFee + taxes);
-
-        const proceedToPayment = async () => {
-            // Reuse existing buyNow mutation to create server order for buy-now
-            if (!prasadId) return;
-            setIsProcessingPayment(true);
-            try {
-                // amount sent to server should be in rupees (send total including charges)
-                const amountRupees = totalRupees;
-                const serverOrder: any = await buyNowMutation.mutateAsync({ prasadId, amount: amountRupees });
-
-                // Build options for Razorpay similar to cart flow
-                const loadRazorpayScript = () => new Promise<boolean>((resolve) => {
-                    if ((window as any).Razorpay) return resolve(true);
-                    const existing = document.querySelector('script[data-razorpay]');
-                    if (existing) {
-                        setTimeout(() => resolve(!!(window as any).Razorpay), 500);
-                        return;
-                    }
-                    const script = document.createElement('script');
-                    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-                    script.async = true;
-                    script.setAttribute('data-razorpay', 'true');
-                    script.onload = () => resolve(!!(window as any).Razorpay);
-                    script.onerror = () => resolve(false);
-                    document.head.appendChild(script);
-                });
-
-                const loaded = await loadRazorpayScript();
-                if (!loaded) throw new Error('Razorpay script failed to load');
-
-                // normalize server response: look for nested order or direct fields
-                const srv = serverOrder && (serverOrder.order || serverOrder.data || serverOrder);
-
-                const options: any = {
-                    key: (import.meta as any).env?.VITE_RAZORPAY_KEY || '',
-                    amount: (srv && (srv.amount || srv.amount_paid)) || Math.round(currentPrice * quantity) * 100,
-                    currency: (srv && srv.currency) || 'INR',
-                    name: 'SM SHSEWA TRUST',
-                    description: `Prasad - ${currentName}`,
-                    prefill: {
-                        name: (localStorage.getItem('name') || '') as string,
-                        email: (localStorage.getItem('email') || '') as string,
-                        contact: (localStorage.getItem('phone') || '') as string,
-                    },
-                    theme: { color: '#8B0000' },
-                    modal: { ondismiss: () => { setIsProcessingPayment(false); } },
-                };
-
-                // attach order id from server if available
-                if (srv && (srv.id || srv.order_id)) {
-                    options.order_id = srv.id || srv.order_id;
-                } else {
-                    const returnedId = serverOrder && (serverOrder.id || serverOrder.order_id);
-                    if (returnedId) options.order_id = returnedId;
-                }
-
-                // Payment success handler - verify on backend using same verify endpoint
-                options.handler = async (response: any) => {
-                    try {
-                        const verifyPayload = {
-                            razorpay_order_id: response.razorpay_order_id,
-                            razorpay_payment_id: response.razorpay_payment_id,
-                            razorpay_signature: response.razorpay_signature,
-                        };
-                        const verifyResp = await verifyPaymentMutation.mutateAsync(verifyPayload as any);
-                        if (verifyResp && (verifyResp as any).success) {
-                            toast.success('Payment verified successfully!');
-                            handleCloseBuyNow(true);
-                        } else {
-                            console.warn('Payment verification response:', verifyResp);
-                            toast.error('Payment completed but verification failed. Please contact support.');
-                        }
-                    } catch (err) {
-                        console.error('Verification call failed', err);
-                        toast.error('Payment completed but verification failed. Please contact support.');
-                    }
-                };
-
-                const rzp = new (window as any).Razorpay(options);
-                rzp.open();
-            } catch (err: any) {
-                // if unauthorized, preserve intent and redirect to login similar to other flows
-                const status = (err as any)?.response?.status;
-                if (status === 401) {
-                    localStorage.setItem('auth_redirect_destination', JSON.stringify({
-                        path: window.location.pathname,
-                        state: { openPrasadDetail: true, prasadId }
-                    }));
-                    window.location.href = '/login';
-                    return;
-                }
-                console.error('Buy Now / Payment error', err);
-                toast.error('Failed to initiate payment. Please try again.');
-            } finally {
-                setIsProcessingPayment(false);
-            }
-        };
-
-        if (!isBuyNowCheckoutOpen) return null;
-
-        return (
-            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
-                <div className="fixed inset-0 bg-black/50" onClick={() => handleCloseBuyNow()} />
-                <div className="bg-white rounded-2xl shadow-xl max-w-xl w-full z-10 p-6">
-                    <div className="flex items-start justify-between mb-4">
-                        <h3 className="text-xl font-semibold">Checkout</h3>
-                        <button onClick={() => handleCloseBuyNow()} aria-label="Close">✕</button>
-                    </div>
-
-                    <div className="space-y-4 mb-4">
-                        <div>
-                            <div className="text-sm text-gray-600">Item</div>
-                            <div className="text-lg font-semibold">{currentName}</div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-600">Quantity</div>
-                            <div className="text-lg font-semibold">{quantity}</div>
-                        </div>
-                        <div>
-                            <div className="text-sm text-gray-600">Price</div>
-                            <div className="text-lg font-semibold">₹{currentPrice}</div>
-                        </div>
-
-                        <div>
-                            <div className="text-sm text-gray-600">Charges</div>
-                            {isLoadingCharges ? (
-                                <div className="text-sm text-gray-500">Loading charges...</div>
-                            ) : chargeItem ? (
-                                <div className="text-sm text-gray-700 space-y-1">
-                                    <div className="flex items-center justify-between">
-                                        <span>Subtotal</span>
-                                        <span>₹{subtotal.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span>Delivery Charges</span>
-                                        <span>₹{deliveryCharges.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span>Service Fee</span>
-                                        <span>₹{serviceFee.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span>Taxes</span>
-                                        <span>₹{taxes.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between pt-2 border-t">
-                                        <span className="font-semibold">Total</span>
-                                        <span className="font-semibold">₹{totalRupees.toFixed(2)}</span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="text-sm text-gray-500">No extra charges</div>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="flex gap-3">
-                        <button
-                            onClick={proceedToPayment}
-                            disabled={isProcessingPayment}
-                            className="flex-1 bg-[#8b0000] text-white py-3 rounded-lg font-semibold disabled:opacity-60"
-                        >
-                            {isProcessingPayment ? 'Processing...' : 'Proceed to Payment'}
-                        </button>
-                        <button onClick={() => handleCloseBuyNow()} className="px-4 py-3 rounded-lg border">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        );
     };
 
     // removed checkout modal handlers
@@ -565,16 +374,9 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                                 <button
                                     onClick={handleBuyNow}
                                     className="font-secondaryFont py-4 px-6 rounded-xl border-2 border-[#8b0000] text-[#8b0000] text-base font-semibold hover:bg-[#8b0000] hover:text-white transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2"
-                                    disabled={displayData?.stock === 0 || displayData?.isAvailable === false || buyNowMutation.isPending}
+                                    disabled={displayData?.stock === 0 || displayData?.isAvailable === false}
                                 >
-                                    {buyNowMutation.isPending ? (
-                                        <>
-                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#8b0000]"></div>
-                                            Processing...
-                                        </>
-                                    ) : (
-                                        'Buy Now'
-                                    )}
+                                    Buy Now
                                 </button>
                                 <button
                                     onClick={handleAddToCart}
@@ -601,9 +403,17 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                 </div>
             </div>
 
-            {/* Checkout Modal */}
             {/* Buy Now Checkout Modal (opened when user clicks Buy Now) */}
-            {isBuyNowCheckoutOpen && <BuyNowCheckoutModal />}
+            <BuyNowCheckoutModal
+                isOpen={isBuyNowCheckoutOpen}
+                onClose={handleCloseBuyNow}
+                prasadId={prasadId}
+                prasadName={currentName}
+                prasadPrice={currentPrice}
+                quantity={quantity}
+                prasadImage={galleryImages[0]}
+                onQuantityChange={setQuantity}
+            />
 
             {/* Cart checkout modal removed - using /checkout route */}
         </div>
