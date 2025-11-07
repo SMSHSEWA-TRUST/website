@@ -45,8 +45,8 @@ const Header = (): JSX.Element => {
   const userMenuDesktopRef = useRef<HTMLDivElement | null>(null);
   const userMenuMobileRef = useRef<HTMLDivElement | null>(null);
 
-  // derive user name from localStorage if available
-  const userName = (() => {
+  // derive user name from localStorage if available and keep it reactive
+  const [userName, setUserName] = useState<string>(() => {
     try {
       const raw = localStorage.getItem("user");
       if (raw) {
@@ -57,7 +57,49 @@ const Header = (): JSX.Element => {
       // ignore parse errors
     }
     return localStorage.getItem("userName") || "User";
-  })();
+  });
+
+  // Keep header name updated when localStorage changes (other tabs) or we dispatch a custom event (same tab)
+  useEffect(() => {
+    const updateFromStorageValue = () => {
+      try {
+        const raw = localStorage.getItem('user');
+        if (raw) {
+          const parsed = JSON.parse(raw as string) as any;
+          setUserName(parsed?.name || parsed?.fullName || parsed?.username || localStorage.getItem('userName') || 'User');
+          return;
+        }
+      } catch (err) {
+        // fall through
+      }
+      setUserName(localStorage.getItem('userName') || 'User');
+    };
+
+    const onStorage = (e: StorageEvent) => {
+      if (!e.key || e.key === 'user' || e.key === 'userName') {
+        updateFromStorageValue();
+      }
+    };
+
+    const onUserUpdated = (ev: Event) => {
+      // Custom event detail contains updated user object
+      const detail = (ev as CustomEvent).detail;
+      if (detail && detail.name) {
+        setUserName(detail.name);
+        return;
+      }
+      // fallback to reading localStorage
+      updateFromStorageValue();
+    };
+
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('userUpdated', onUserUpdated as EventListener);
+
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('userUpdated', onUserUpdated as EventListener);
+    };
+  }, []);
 
   // Mobile language dropdown state
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);

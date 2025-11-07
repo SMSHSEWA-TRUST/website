@@ -235,10 +235,23 @@ const LiveDarshan = (): JSX.Element => {
       if (!raw) return '';
       try {
         const trimmed = raw.trim();
+
         // If it's already an embed URL, ensure params exist
         if (/youtube\.com\/embed\//i.test(trimmed)) {
           if (/[?&](autoplay|controls|mute)=/i.test(trimmed)) return trimmed;
           return trimmed + (trimmed.includes('?') ? '&' : '?') + 'controls=1&autoplay=1&mute=1';
+        }
+
+        // Direct live URL: /live/VIDEOID (e.g. https://www.youtube.com/live/5pa56mf9ba4?si=...)
+        const liveMatch = trimmed.match(/youtube\.com\/live\/([^?&/]+)/i);
+        if (liveMatch && liveMatch[1]) {
+          return `https://www.youtube.com/embed/${liveMatch[1]}?controls=1&autoplay=1&mute=1`;
+        }
+
+        // Shorts URL: /shorts/VIDEOID -> embed
+        const shortsMatch = trimmed.match(/youtube\.com\/shorts\/([^?&/]+)/i);
+        if (shortsMatch && shortsMatch[1]) {
+          return `https://www.youtube.com/embed/${shortsMatch[1]}?controls=1&autoplay=1&mute=1`;
         }
 
         // If it's a watch URL like https://www.youtube.com/watch?v=VIDEOID
@@ -248,21 +261,33 @@ const LiveDarshan = (): JSX.Element => {
         }
 
         // If it's a short youtu.be link
-        const shortMatch = trimmed.match(/youtu\.be\/([^?&]+)/i);
+        const shortMatch = trimmed.match(/youtu\.be\/([^?&/]+)/i);
         if (shortMatch && shortMatch[1]) {
           return `https://www.youtube.com/embed/${shortMatch[1]}?controls=1&autoplay=1&mute=1`;
         }
 
-        // Last resort: try to parse as URL and grab v param
+        // Last resort: parse URL and try to extract a sensible id from the pathname
         try {
           const u = new URL(trimmed);
-          const v = u.searchParams.get('v');
-          if (v) return `https://www.youtube.com/embed/${v}?controls=1&autoplay=1&mute=1`;
+          const host = (u.hostname || '').toLowerCase();
+
+          // youtu.be/<id>
+          if (host.includes('youtu.be')) {
+            const id = u.pathname.replace(/^\//, '').split('/')[0];
+            if (id) return `https://www.youtube.com/embed/${id}?controls=1&autoplay=1&mute=1`;
+          }
+
+          // youtube.com/* -> take the last path segment as a fallback id (covers several patterns)
+          if (host.includes('youtube.com')) {
+            const parts = u.pathname.split('/').filter(Boolean);
+            const last = parts[parts.length - 1];
+            if (last) return `https://www.youtube.com/embed/${last}?controls=1&autoplay=1&mute=1`;
+          }
         } catch (e) {
-          // ignore
+          // ignore parse errors
         }
 
-        // Unknown format, return as-is (iframe may fail)
+        // Unknown format: return as-is (iframe may fail) but still prefer trimmed value
         return trimmed;
       } catch (e) {
         return raw || '';
@@ -275,25 +300,50 @@ const LiveDarshan = (): JSX.Element => {
         const json = await res.json();
         const arr = Array.isArray(json?.data) ? json.data : (Array.isArray(json) ? json : []);
 
-        // According to spec: first item -> Salasar Balaji, second item -> Mahakaleshwar (always count 2)
+        // Build mapping by reading scheduledPlace/title/description first (robust, case-insensitive).
+        // Only fall back to positional mapping if no explicit place info is available.
         const urls: { [key: string]: string } = {};
-        if (arr.length >= 2) {
-          urls['Salasar Balaji'] = normalizeYouTubeUrl(arr[0]?.videoUrl);
-          urls['Mahakaleshwar'] = normalizeYouTubeUrl(arr[1]?.videoUrl);
-        } else if (arr.length === 1) {
-          // fallback: if only one entry, try to map by scheduledPlace
-          const item = arr[0];
-          if (String(item?.scheduledPlace || '').toLowerCase().includes('salasar')) urls['Salasar Balaji'] = normalizeYouTubeUrl(item.videoUrl);
-          else if (String(item?.scheduledPlace || '').toLowerCase().includes('mahakaleshwar')) urls['Mahakaleshwar'] = normalizeYouTubeUrl(item.videoUrl);
+
+        // First pass: map items that mention the place explicitly in scheduledPlace/title/description
+        arr.forEach((it: any) => {
+          const fields = [it?.scheduledPlace, it?.title, it?.description]
+            .filter(Boolean)
+            .map((s: any) => String(s).toLowerCase())
+            .join(' ');
+          const video = normalizeYouTubeUrl(it?.videoUrl);
+          if (!video) return;
+
+          if (fields.includes('salasar') || fields.includes('balaji')) {
+            if (!urls['Salasar Balaji']) urls['Salasar Balaji'] = video;
+            return;
+          }
+
+          if (fields.includes('mahakaleshwar') || fields.includes('mahakal')) {
+            if (!urls['Mahakaleshwar']) urls['Mahakaleshwar'] = video;
+            return;
+          }
+        });
+
+        // Second pass: try looser matching (title/description if not matched above)
+        if ((!urls['Salasar Balaji'] || !urls['Mahakaleshwar']) && arr.length > 0) {
+          arr.forEach((it: any) => {
+            const text = [it?.title, it?.description, it?.scheduledPlace].filter(Boolean).join(' ').toLowerCase();
+            const video = normalizeYouTubeUrl(it?.videoUrl);
+            if (!video) return;
+            if (!urls['Salasar Balaji'] && text.includes('salasar')) urls['Salasar Balaji'] = video;
+            if (!urls['Mahakaleshwar'] && text.includes('mahakaleshwar')) urls['Mahakaleshwar'] = video;
+          });
         }
 
-        // as an extra fallback, try to map by scheduledPlace for robustness
-        if (arr.length > 0 && (!urls['Salasar Balaji'] || !urls['Mahakaleshwar'])) {
-          arr.forEach((it: any) => {
-            const place = String(it?.scheduledPlace || '').toLowerCase();
-            if (place.includes('salasar') && !urls['Salasar Balaji']) urls['Salasar Balaji'] = normalizeYouTubeUrl(it.videoUrl);
-            if (place.includes('mahakaleshwar') && !urls['Mahakaleshwar']) urls['Mahakaleshwar'] = normalizeYouTubeUrl(it.videoUrl);
-          });
+        // Last resort: if still missing and we have at least two items, use positional mapping
+        if (arr.length >= 2) {
+          if (!urls['Salasar Balaji']) urls['Salasar Balaji'] = normalizeYouTubeUrl(arr[0]?.videoUrl);
+          if (!urls['Mahakaleshwar']) urls['Mahakaleshwar'] = normalizeYouTubeUrl(arr[1]?.videoUrl);
+        } else if (arr.length === 1) {
+          const item = arr[0];
+          const place = String(item?.scheduledPlace || '').toLowerCase();
+          if (place.includes('salasar') || place.includes('balaji')) urls['Salasar Balaji'] = normalizeYouTubeUrl(item.videoUrl);
+          else if (place.includes('mahakaleshwar') || place.includes('mahakal')) urls['Mahakaleshwar'] = normalizeYouTubeUrl(item.videoUrl);
         }
 
         if (mounted) setLiveVideoUrls(urls);

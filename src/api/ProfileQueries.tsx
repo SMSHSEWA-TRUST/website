@@ -38,15 +38,24 @@ export const useUpdateUserProfile = () => {
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: QueryKeys.profile });
 
-
             if (data?.data?.user) {
+                // Merge with existing stored user if present so we don't drop fields
                 const existingUser = localStorage.getItem('user');
-                if (existingUser) {
-                    const parsedUser = JSON.parse(existingUser);
-                    const updatedUser = { ...parsedUser, ...data.data.user };
+                const updatedUser = existingUser
+                    ? { ...JSON.parse(existingUser), ...data.data.user }
+                    : data.data.user;
+
+                try {
                     localStorage.setItem('user', JSON.stringify(updatedUser));
-                } else {
-                    localStorage.setItem('user', JSON.stringify(data.data.user));
+                    // Keep a lightweight `userName` key for quick header access
+                    if (updatedUser.name) {
+                        localStorage.setItem('userName', updatedUser.name);
+                    }
+
+                    // Notify same-window listeners (Header listens for this) so UI updates immediately
+                    window.dispatchEvent(new CustomEvent('userUpdated', { detail: updatedUser }));
+                } catch (e) {
+                    // ignore storage errors
                 }
             }
         },

@@ -237,10 +237,24 @@ const ProfilePage = () => {
             setIsEditMode(false);
 
             // Refetch profile data to get updated information
-            await refetchProfile();
+            // refetchProfile returns the react-query result; try to extract the updated user
+            const refetchResult = await refetchProfile();
 
-            // Reload to reflect all changes
-            // window.location.reload();
+            // Try to pick updated user from refetch result or fallback to existing profileData
+            const updatedUser = refetchResult?.data?.data?.user || profileData?.data?.user;
+
+            // Update localStorage and notify other parts of the app (same-window listeners)
+            try {
+                if (updatedUser) {
+                    localStorage.setItem('user', JSON.stringify(updatedUser));
+                    if (updatedUser.name) localStorage.setItem('userName', updatedUser.name);
+
+                    // Dispatch a small custom event so same-window listeners (like Header) can update
+                    window.dispatchEvent(new CustomEvent('userUpdated', { detail: updatedUser }));
+                }
+            } catch (e) {
+                // ignore storage errors
+            }
         } catch (error: any) {
             console.error("Error updating profile:", error);
             toast.error(error?.response?.data?.message || "Failed to update profile. Please try again.");

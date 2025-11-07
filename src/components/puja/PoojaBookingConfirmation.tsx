@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { X, Download, Users } from 'lucide-react';
 import Barcode from 'react-barcode';
+import html2canvas from 'html2canvas';
 // Import local background image so bundler resolves the path correctly
 import PoojaBookingImg from '../../assets/images/PoojaBooking.png';
 
@@ -28,11 +29,107 @@ const PoojaBookingConfirmation: React.FC<PoojaBookingConfirmationProps> = ({
     onClose,
     bookingData,
 }) => {
+    const cardRef = useRef<HTMLDivElement>(null);
 
     if (!isOpen) return null;
 
-    const handleDownload = () => {
-        window.print();
+    const handleDownload = async () => {
+        if (!cardRef.current) return;
+
+        try {
+            const original = cardRef.current;
+
+            // Clone the card so we do not modify or flicker the visible UI
+            const clone = original.cloneNode(true) as HTMLElement;
+
+            // Remove any elements we don't want in the captured image (button marked with data-capture-ignore)
+            clone.querySelectorAll('[data-capture-ignore]').forEach((el) => el.remove());
+
+            // Match the original size so the captured image aligns with what's shown
+            const rect = original.getBoundingClientRect();
+            clone.style.width = `${Math.round(rect.width)}px`;
+            clone.style.height = `${Math.round(rect.height)}px`;
+
+            // Place the clone off-screen but in the document so html2canvas can render it
+            clone.style.position = 'fixed';
+            clone.style.left = '-9999px';
+            clone.style.top = '0';
+            clone.style.zIndex = '9999';
+            // Ensure clone is visible (not display:none) for html2canvas
+            clone.style.display = 'block';
+            clone.style.overflow = 'visible';
+
+            document.body.appendChild(clone);
+
+            // Wait for fonts to load for more accurate rendering (if supported)
+            if ((document as any).fonts && (document as any).fonts.ready) {
+                try {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    await document.fonts.ready;
+                } catch (e) {
+                    // ignore font loading errors and proceed
+                }
+            }
+
+            // Wait for any images inside the clone to load to avoid missing images
+            const imgs = Array.from(clone.querySelectorAll('img')) as HTMLImageElement[];
+            if (imgs.length) {
+                await Promise.all(imgs.map((img) => {
+                    return new Promise<void>((resolve) => {
+                        if (img.complete) return resolve();
+                        const onDone = () => {
+                            img.removeEventListener('load', onDone);
+                            img.removeEventListener('error', onDone);
+                            resolve();
+                        };
+                        img.addEventListener('load', onDone);
+                        img.addEventListener('error', onDone);
+                        // In some cases the browser won't begin loading off-screen cloned images; set src again to nudge it.
+                        try {
+                            const src = img.getAttribute('src');
+                            if (src) img.src = src;
+                        } catch (e) {
+                            // ignore
+                        }
+                    });
+                }));
+            }
+
+            // Small pause to allow styles to compute for the clone
+            await new Promise((r) => setTimeout(r, 50));
+
+            // Capture the off-screen clone to avoid altering the real UI
+            const canvas = await html2canvas(clone, {
+                backgroundColor: null,
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: false, // avoid tainting the canvas where possible
+                imageTimeout: 15000,
+            });
+
+            // Clean up the clone from the DOM
+            document.body.removeChild(clone);
+
+            // Convert canvas to blob and download
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `Pooja-Booking-${bookingData.bookingId}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                } else {
+                    console.error('Failed to create blob from canvas.');
+                }
+            });
+        } catch (error) {
+            console.error('Error downloading card:', error);
+        }
     };
 
     return (
@@ -64,7 +161,10 @@ const PoojaBookingConfirmation: React.FC<PoojaBookingConfirmationProps> = ({
                         </button>
                     </div>
                     {/* Centered white receipt card with ticket notch */}
-                    <div className="relative z-10 mx-auto w-full max-w-full sm:max-w-[550px] px-3 sm:px-4 md:px-6 flex flex-col items-center mt-1 md:mt-2 mb-4 md:mb-6">
+                    <div
+                        ref={cardRef}
+                        className="relative z-10 mx-auto w-full max-w-full sm:max-w-[550px] px-3 sm:px-4 md:px-6 flex flex-col items-center mt-1 md:mt-2 mb-4 md:mb-6"
+                    >
                         {/* Ticket notch effect */}
                         {/* <div className="relative w-full">
                             <div className="absolute -top-2 left-0 w-5 h-5 bg-[#B22222] rounded-full" style={{ zIndex: 2 }} />
@@ -156,6 +256,7 @@ const PoojaBookingConfirmation: React.FC<PoojaBookingConfirmationProps> = ({
                                 </div>
                                 <p className="text-[10px] md:text-[11px] text-gray-600 text-center mb-4 px-2 md:px-3 leading-relaxed">Scan the code when you go for the puja, show this ticket to the temple officials before proceeding for the puja.</p>
                                 <button
+                                    data-capture-ignore
                                     onClick={handleDownload}
                                     className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-800 hover:to-red-700 text-white font-bold py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg text-sm"
                                 >

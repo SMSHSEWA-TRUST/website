@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useGetPrasadCharge } from '@/api/ChargeQueries';
+import { useGetPrasadById } from '@/api/PrasadQueries';
 import { useBuyNow } from '@/api/BuyNowQueries';
 import { useVerifyPayment } from '@/api/CartQueries';
 import toast from 'react-hot-toast';
@@ -48,6 +49,9 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     const buyNowMutation = useBuyNow();
     const verifyPaymentMutation = useVerifyPayment();
 
+    // Fetch prasad details to get stock information so we can prevent ordering more than available
+    const { data: prasadDetails } = useGetPrasadById(prasadId, isOpen && !!prasadId);
+
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
     // Calculate charges
@@ -56,10 +60,14 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     const serviceFee = chargeItem ? Number(chargeItem.serviceFee || 0) : 0;
     const taxes = chargeItem ? Number(chargeItem.taxes || 0) : 0;
 
+    const currentStock = prasadDetails?.data?.stock ?? Number.POSITIVE_INFINITY;
+
     const subtotal = prasadPrice * localQuantity;
     const shipping = deliveryCharges;
     const vatTax = serviceFee + taxes;
     const totalAmount = Math.round(subtotal + shipping + vatTax);
+
+    const hasStockIssue = !isFinite(currentStock) ? false : (currentStock <= 0 || localQuantity > currentStock);
 
     // Get selected address
     const selectedAddress = addressesData?.data?.find((addr: AddressModel) => addr._id === selectedAddressId);
@@ -67,11 +75,15 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     // Handle quantity change
     const handleQuantityChange = (change: number) => {
         const newQuantity = localQuantity + change;
-        if (newQuantity >= 1) {
+        // enforce min 1 and max = currentStock
+        if (newQuantity >= 1 && newQuantity <= currentStock) {
             setLocalQuantity(newQuantity);
             if (onQuantityChange) {
                 onQuantityChange(newQuantity);
             }
+        } else if (newQuantity > currentStock) {
+            // optional: inform user when trying to exceed stock
+            toast.error(`Only ${currentStock} item${currentStock === 1 ? '' : 's'} available`);
         }
     };
 
@@ -341,7 +353,21 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                 <div className="flex items-start justify-between mb-3">
                                     <h4 className="text-base font-medium text-gray-900">{prasadName}</h4>
                                     {/* Delete Icon */}
-                                    <button className="text-red-600 hover:text-red-700" aria-label="Remove item">
+                                    <button
+                                        onClick={() => {
+                                            // Confirm with the user, then inform parent and close modal
+                                            if (!window.confirm('Remove this item from your order?')) return;
+                                            try {
+                                                if (onQuantityChange) onQuantityChange(0);
+                                                toast.success('Item removed from order');
+                                            } catch (e) {
+                                                // ignore
+                                            }
+                                            onClose();
+                                        }}
+                                        className="text-red-600 hover:text-red-700"
+                                        aria-label="Remove item"
+                                    >
                                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <polyline points="3 6 5 6 21 6" strokeLinecap="round" strokeLinejoin="round" />
                                             <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -389,7 +415,8 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                             </span>
                                             <button
                                                 onClick={() => handleQuantityChange(1)}
-                                                className="p-2 hover:bg-gray-100 transition-colors"
+                                                disabled={localQuantity >= currentStock}
+                                                className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                                                 aria-label="Increase quantity"
                                             >
                                                 <svg className="w-4 h-4 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -398,6 +425,9 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                                 </svg>
                                             </button>
                                         </div>
+                                        {isFinite(currentStock) && (
+                                            <p className="text-xs text-red-600 mt-1">{localQuantity >= currentStock ? `Only ${currentStock} available` : ``}</p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -439,7 +469,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                     <div className="px-6 py-4 border-t border-gray-200">
                         <button
                             onClick={proceedToPayment}
-                            disabled={isProcessingPayment || !selectedAddressId || isLoadingCharges}
+                            disabled={isProcessingPayment || !selectedAddressId || isLoadingCharges || hasStockIssue}
                             className="w-full bg-[#AD2F16] hover:bg-[#8B0000] text-white font-semibold py-4 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                             {isProcessingPayment ? (
@@ -451,6 +481,9 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                 'Proceed to Payment'
                             )}
                         </button>
+                        {hasStockIssue && (
+                            <p className="mt-2 text-sm text-red-600">{currentStock <= 0 ? 'Item is out of stock' : `Only ${currentStock} item${currentStock === 1 ? '' : 's'} available`}</p>
+                        )}
                     </div>
                 </div>
             </div>
