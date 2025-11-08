@@ -1974,6 +1974,11 @@ react-lazy-load-image-component@^1.6.3:
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
 
+react-masonry-css@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.npmjs.org/react-masonry-css/-/react-masonry-css-1.0.16.tgz"
+  integrity sha512-KSW0hR2VQmltt/qAa3eXOctQDyOu7+ZBevtKgpNDSzT7k5LA/0XntNa9z9HKCdz3QlxmJHglTZ18e4sX4V8zZQ==
+
 react-player@^3.3.3:
   version "3.3.3"
   resolved "https://registry.npmjs.org/react-player/-/react-player-3.3.3.tgz"

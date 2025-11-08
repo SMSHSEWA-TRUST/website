@@ -70,15 +70,17 @@ const BhudaanSection: React.FC = () => {
                             const token = localStorage.getItem("authToken");
                             if (!token) {
                                 // Save the intended destination before redirecting to login
+                                // Redirect directly to the donation page with a focus on bhumi
                                 localStorage.setItem('auth_redirect_destination', JSON.stringify({
-                                    path: '/',
-                                    state: { focus: 'bhumi' }
+                                    path: '/donation',
+                                    state: { focus: 'bhumi', returnTo: 'bhudaan' }
                                 }));
                                 navigate('/login');
                                 return;
                             }
 
-                            navigate('/', { state: { focus: 'bhumi' } });
+                            // Navigate directly to the donation page and request the BHUMI focus
+                            navigate('/donation', { state: { focus: 'bhumi', returnTo: 'bhudaan' } });
                         }}
                         className="bg-white text-[#8B0000] textDescription font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont"
                     >

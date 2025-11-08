@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { X, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { getEvents, EventItem } from '@/services/events.service';
-import PujaBookingReview from './PujaBookingReview';
-import PoojaBookingConfirmation from './PoojaBookingConfirmation';
 import { PoojaItem } from '@/services/pooja.service';
 
 interface Props {
     onClose: () => void;
     selectedPooja?: PoojaItem | null;
+    initialBookingData?: {
+        selectedPujaType: string;
+        selectedDate: Date | null;
+        selectedTimeSlot?: string;
+        fullName: string;
+        gotra: string;
+        nakshatra: string;
+        sankalp: string;
+        numberOfMembers: string;
+        email: string;
+        mobile: string;
+        alternateMobile: string;
+        address: string;
+        pujaTypeDetails: string;
+        specialRequests: string;
+        prasadDelivery: string;
+        personalizedMessage: string;
+    } | null;
 }
 
-export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
+export default function PujaBookingMobile({ onClose, selectedPooja, initialBookingData }: Props) {
     // Steps: 1=Calendar, 2=Basic Details, 3=Contact Details, 4=Other Details, 5=Review
     const [step, setStep] = useState<number>(1);
 
@@ -18,9 +35,6 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
     const [sameAsAccount, setSameAsAccount] = useState<boolean>(false);
-    const [showReview, setShowReview] = useState<boolean>(false);
-    const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
-    const [confirmationData, setConfirmationData] = useState<any>(null);
     const [customTime, setCustomTime] = useState<string>('');
     const [timeError, setTimeError] = useState<boolean>(false);
 
@@ -63,6 +77,10 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
         return null;
     });
 
+    const navigate = useNavigate();
+
+    // When user checks "Same as account" populate fields from registered user.
+    // Do NOT clear fields automatically when unchecked to avoid overwriting restored data from Review page.
     useEffect(() => {
         if (sameAsAccount && registeredUser) {
             setFormData(prev => ({
@@ -72,56 +90,76 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                 mobile: registeredUser.phone || '',
                 address: registeredUser.address || '',
             }));
-        } else if (!sameAsAccount) {
-            setFormData(prev => ({
-                ...prev,
-                fullName: '',
-                email: '',
-                mobile: '',
-                address: '',
-            }));
         }
     }, [sameAsAccount, registeredUser]);
 
-    // Reset form when selectedPooja changes
+    // Reset form when selectedPooja changes (only if not restoring from review)
     useEffect(() => {
-        setSelectedPujaType('purnima');
-        setSelectedDate(null);
-        setCurrentMonth(new Date());
-        setSameAsAccount(false);
-        setShowReview(false);
-        setCustomTime('');
-        setTimeError(false);
-        setValidationErrors({
-            selectedDate: '',
-            customTime: '',
-            fullName: '',
-            mobile: '',
-            address: '',
-            numberOfMembers: ''
-        });
-        setFormData({
-            fullName: '',
-            gotra: '',
-            nakshatra: '',
-            sankalp: '',
-            numberOfMembers: '',
-            email: '',
-            mobile: '',
-            alternateMobile: '',
-            address: '',
-            pujaTypeDetails: selectedPooja?.title || '',
-            specialRequests: '',
-            prasadDelivery: 'yes',
-            personalizedMessage: '',
-        });
-    }, [selectedPooja]);
+        if (!initialBookingData) {
+            setSelectedPujaType('purnima');
+            setSelectedDate(null);
+            setCurrentMonth(new Date());
+            setSameAsAccount(false);
+            setCustomTime('');
+            setTimeError(false);
+            setValidationErrors({
+                selectedDate: '',
+                customTime: '',
+                fullName: '',
+                mobile: '',
+                address: '',
+                numberOfMembers: ''
+            });
+            setFormData({
+                fullName: '',
+                gotra: '',
+                nakshatra: '',
+                sankalp: '',
+                numberOfMembers: '',
+                email: '',
+                mobile: '',
+                alternateMobile: '',
+                address: '',
+                pujaTypeDetails: selectedPooja?.title || '',
+                specialRequests: '',
+                prasadDelivery: 'yes',
+                personalizedMessage: '',
+            });
+        }
+    }, [selectedPooja, initialBookingData]);
+
+    // Restore booking data if provided
+    useEffect(() => {
+        if (initialBookingData) {
+            setSelectedPujaType(initialBookingData.selectedPujaType || 'purnima');
+            const restoredDate = initialBookingData.selectedDate
+                ? (initialBookingData.selectedDate instanceof Date ? initialBookingData.selectedDate : new Date(initialBookingData.selectedDate))
+                : null;
+            setSelectedDate(restoredDate);
+            setCustomTime(initialBookingData.selectedTimeSlot || '');
+            setFormData({
+                fullName: initialBookingData.fullName || '',
+                gotra: initialBookingData.gotra || '',
+                nakshatra: initialBookingData.nakshatra || '',
+                sankalp: initialBookingData.sankalp || '',
+                numberOfMembers: initialBookingData.numberOfMembers || '',
+                email: initialBookingData.email || '',
+                mobile: initialBookingData.mobile || '',
+                alternateMobile: initialBookingData.alternateMobile || '',
+                address: initialBookingData.address || '',
+                pujaTypeDetails: initialBookingData.pujaTypeDetails || selectedPooja?.title || '',
+                specialRequests: initialBookingData.specialRequests || '',
+                prasadDelivery: initialBookingData.prasadDelivery || 'yes',
+                personalizedMessage: initialBookingData.personalizedMessage || '',
+            });
+        }
+    }, [initialBookingData, selectedPooja]);
 
     useEffect(() => {
-        if (selectedPooja && selectedPooja.title) {
+        if (selectedPooja && selectedPooja.title && !initialBookingData) {
             setFormData(prev => ({ ...prev, pujaTypeDetails: selectedPooja.title }));
         }
-    }, [selectedPooja]);
+    }, [selectedPooja, initialBookingData]);
 
     // Validation functions
     const validateMandatoryFields = () => {
@@ -191,13 +229,6 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
     }, []);
 
     // (no events fetched in mobile stepper — keep flow lightweight)
-
-    const pujaTypes = [
-        { id: 'purnima', label: 'Purnima Pooja' },
-        { id: 'special', label: 'Special Pooja' },
-        { id: 'verySpecial', label: 'Very Special Pooja' },
-        { id: 'veryVerySpecial', label: 'Very Very Special Pooja' }
-    ];
 
     const getDaysInMonth = (date: Date) => {
         const year = date.getFullYear();
@@ -350,12 +381,30 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
 
         setStep(s => Math.min(4, s + 1));
     };
-    const prevStep = () => setStep(s => Math.max(1, s - 1));
+
+    // Handle go back: if we're past step 1 go to the previous step (retain data),
+    // otherwise close the mobile booking (navigate back to Pooja page)
+    const handleGoBack = () => {
+        if (step > 1) {
+            setStep(s => Math.max(1, s - 1));
+        } else {
+            onClose();
+        }
+    };
+
+    // Display name for header — prefer registered user, fall back to entered full name or 'Guest'
+    const userName = (registeredUser && (registeredUser.name || registeredUser.username)) || formData.fullName || 'Guest';
 
     const handleSubmit = () => {
         // Validate all mandatory fields before proceeding
         if (validateMandatoryFields()) {
-            setShowReview(true);
+            navigate('/puja-booking-review', {
+                state: {
+                    bookingData,
+                    pujaTypeId: selectedPooja?._id || '',
+                    amount: selectedPooja?.price || 0
+                }
+            });
         }
     };
 
@@ -367,14 +416,29 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
     } as any;
 
     return (
-        <div className="p-4">
-            <div className="sticky top-0 bg-white z-20 flex items-center gap-3 mb-4">
-                <button onClick={onClose} className="p-2 bg-gray-100 rounded-full">
-                    <X className="w-5 h-5" />
-                </button>
-                <h2 className="text-lg font-semibold">Puja Booking</h2>
-            </div>
+        <div >
 
+            <div className=' flex flex-col gap-2 mt-2 mb-2'>
+                <header className=" lg:flex sticky top-0 bg-[#FFFFFF]   items-center justify-between border-b md:border-0 ">
+                    <div className="flex items-center gap-2 md:gap-4">
+                        <button onClick={handleGoBack} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" aria-label="Go back">
+                            <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
+                        <div>
+                            <h1 className="text-sm md:text-lg font-medium text-gray-900">Welcome, {userName}</h1>
+                            <p className="text-xs text-gray-400">{new Date().toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                        </div>
+                    </div>
+                </header>
+
+                <section className="bg-white rounded-lg shadow-sm  overflow-hidden">
+                    <div className="bg-gradient-to-r from-[#AD2F16] to-[#8B0000] px-4 md:px-6 py-3 md:py-4">
+                        <h2 className="text-white text-sm md:text-base font-normal">Pooja Booking</h2>
+                    </div>
+                </section>
+            </div>
             {/* Step indicator */}
             <div className="flex items-center gap-3 mb-4">
                 {[1, 2, 3, 4].map((i) => (
@@ -730,7 +794,6 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                         </div>
 
                         <div className="flex gap-2">
-                            <button onClick={prevStep} className="flex-1 border py-3 rounded">Back</button>
                             <button onClick={nextStep} className="flex-1 bg-[#8B0000] text-white py-3 rounded">Continue</button>
                         </div>
                     </div>
@@ -791,7 +854,6 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                         </div>
 
                         <div className="flex gap-2">
-                            <button onClick={prevStep} className="flex-1 border py-3 rounded">Back</button>
                             <button onClick={nextStep} className="flex-1 bg-[#8B0000] text-white py-3 rounded">Continue</button>
                         </div>
                     </div>
@@ -822,7 +884,6 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
                         </div>
 
                         <div className="flex gap-2">
-                            <button onClick={prevStep} className="flex-1 border py-3 rounded">Back</button>
                             <button onClick={handleSubmit} className="flex-1 bg-[#8B0000] text-white py-3 rounded">Continue</button>
                         </div>
                     </div>
@@ -831,43 +892,6 @@ export default function PujaBookingMobile({ onClose, selectedPooja }: Props) {
 
             </div>
 
-            <PujaBookingReview
-                isOpen={showReview}
-                onClose={() => { setShowReview(false); onClose(); }}
-                onBack={() => setShowReview(false)}
-                onBookingSuccess={(booking) => {
-                    setConfirmationData(booking);
-                    setShowConfirmation(true);
-                    setShowReview(false);
-                }}
-                bookingData={bookingData}
-                pujaTypeId={selectedPooja?._id || ''}
-                amount={selectedPooja?.price || 0}
-            />
-
-            {showConfirmation && (
-                <PoojaBookingConfirmation
-                    isOpen={showConfirmation}
-                    onClose={() => {
-                        setShowConfirmation(false);
-                        onClose();
-                    }}
-                    bookingData={confirmationData || {
-                        pujaType: bookingData.pujaTypeDetails || selectedPooja?.title || '',
-                        pujaDescription: selectedPooja?.description || '',
-                        pujaImage: selectedPooja?.image || selectedPooja?.images?.[0] || '',
-                        bookingId: '',
-                        pujaDate: bookingData.selectedDate ? new Date(bookingData.selectedDate).toISOString().split('T')[0] : '',
-                        timeSlot: bookingData.selectedTimeSlot || '',
-                        numberOfPeople: parseInt(bookingData.numberOfMembers || '1') || 1,
-                        includesPreshad: bookingData.prasadDelivery === 'yes',
-                        userName: bookingData.fullName || '',
-                        phoneNumber: bookingData.mobile || '',
-                        bookingDate: new Date().toLocaleDateString(),
-                        bookingTime: new Date().toLocaleTimeString(),
-                    }}
-                />
-            )}
         </div>
     );
 }

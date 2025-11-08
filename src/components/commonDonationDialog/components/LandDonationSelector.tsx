@@ -25,6 +25,20 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
   const plotsData = plots || [];
 
   const [selectedPlots, setSelectedPlots] = useState<plotTypes[]>(initialSelectedPlots);
+  const [showAllPlots, setShowAllPlots] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  // Detect mobile view
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is md breakpoint in Tailwind
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Initialize callbacks with initial selected plots
   useEffect(() => {
@@ -103,6 +117,15 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
   // entries — everything comes from the API as you requested.
   const sortedPlots = [...plotsData].sort((a, b) => (a.plotNumber || 0) - (b.plotNumber || 0));
 
+  // Determine which plots to display based on mobile view and showAllPlots state
+  const MOBILE_INITIAL_LIMIT = 10;
+  const displayedPlots = isMobile && !showAllPlots
+    ? sortedPlots.slice(0, MOBILE_INITIAL_LIMIT)
+    : sortedPlots;
+
+  const hasMorePlots = isMobile && sortedPlots.length > MOBILE_INITIAL_LIMIT;
+  const hiddenPlotsCount = sortedPlots.length - MOBILE_INITIAL_LIMIT;
+
   return (
     <div className="max-w-6xl bg-white">
       <h1 className="text-1xl font-bold text-gray-800 mb-2">
@@ -133,8 +156,8 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
       </div>
 
       {/* Plot Grid */}
-      <div className="flex flex-wrap  gap-2 mb-8 p-4 bg-gray-50 rounded-lg">
-        {sortedPlots.map((plot: plotTypes) => {
+      <div className="flex flex-wrap  gap-2 mb-4 p-4 bg-gray-50 rounded-lg">
+        {displayedPlots.map((plot: plotTypes) => {
           const titleText = `Plot ${plot.plotNumber} - ${String(plot.status || '').replace(/_/g, ' ').toUpperCase()} - ₹${Number(plot.price || 0).toLocaleString()}${selectedPlots.some(p => p._id === plot._id) ? ' (Selected)' : ''}`;
           return (
             <div
@@ -148,6 +171,31 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
           );
         })}
       </div>
+
+      {/* View All Button - Only visible on mobile when there are more plots */}
+      {hasMorePlots && !showAllPlots && (
+        <div className="mb-6 flex justify-center">
+          <button
+            onClick={() => setShowAllPlots(true)}
+            className="bg-[#AD2F16] hover:bg-[#8B1810] text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md flex items-center gap-2">
+            <span>View All Plots</span>
+            <span className="bg-white/20 px-2 py-0.5 rounded text-sm">
+              +{hiddenPlotsCount} more
+            </span>
+          </button>
+        </div>
+      )}
+
+      {/* Show Less Button - Visible on mobile when all plots are shown */}
+      {isMobile && showAllPlots && hasMorePlots && (
+        <div className="mb-6 flex justify-center">
+          <button
+            onClick={() => setShowAllPlots(false)}
+            className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md">
+            Show Less
+          </button>
+        </div>
+      )}
 
       {/* Clear Selection Button */}
       {selectedPlots.length > 0 && (

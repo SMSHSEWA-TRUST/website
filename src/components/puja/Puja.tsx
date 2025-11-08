@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import PujaBookingModal from './PujaBookingModal';
 import { useGetPooja } from '@/api/PoojaQueries';
 import { PoojaItem } from '@/services/pooja.service';
 import { useI18n } from "../../lib/i18n";
@@ -13,8 +12,7 @@ export default function Puja() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedPooja, setSelectedPooja] = useState<PoojaItem | null>(null);
+
 
     // Fetch pooja data from API
     const { data: poojaResponse, isLoading, isError } = useGetPooja();
@@ -23,12 +21,13 @@ export default function Puja() {
     useEffect(() => {
         const state = location.state as any;
         if (state?.openBookingModal && state?.selectedPooja && isAuthenticated()) {
-            setSelectedPooja(state.selectedPooja);
-            setIsModalOpen(true);
-            // Clear the state to prevent re-opening on refresh
-            navigate(location.pathname, { replace: true });
+            // Navigate to booking page with selected pooja
+            navigate('/puja-booking', {
+                state: { selectedPooja: state.selectedPooja },
+                replace: true
+            });
         }
-    }, [location.state, navigate, location.pathname]);
+    }, [location.state, navigate]);
 
     const handleBookNow = (pooja: PoojaItem) => {
         // Check if user is authenticated
@@ -43,9 +42,8 @@ export default function Puja() {
             return;
         }
 
-        // User is authenticated, proceed with booking
-        setSelectedPooja(pooja);
-        setIsModalOpen(true);
+        // User is authenticated, navigate to booking page
+        navigate('/puja-booking', { state: { selectedPooja: pooja } });
     };
 
     if (isLoading) {
@@ -164,12 +162,7 @@ export default function Puja() {
                 </div>
             </div>
 
-            {/* Pooja Booking Modal */}
-            <PujaBookingModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                selectedPooja={selectedPooja}
-            />
+
         </div>
     );
 }

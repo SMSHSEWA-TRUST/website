@@ -182,3 +182,20 @@
     }
   }
 }
+
+/* Masonry grid styles for react-masonry-css
+   - Uses 1rem gutters to align with Tailwind `gap-4` (16px)
+   - `.my-masonry-grid` is the outer container, `.my-masonry-grid_column` is the column wrapper
+*/
+.my-masonry-grid {
+  display: flex;
+  margin-left: -1rem; /* offset the column padding */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 1rem; /* gutter */
+  background-clip: padding-box;
+}
+.my-masonry-grid_column > div {
+  margin-bottom: 1rem; /* vertical gutter between items */
+}

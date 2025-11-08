@@ -1,29 +1,75 @@
 import { useState, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight, Calendar, Clock } from 'lucide-react';
-import PujaBookingMobile from './PujaBookingMobile';
+import { ChevronLeft, ChevronRight, Calendar, Clock } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import PujaBookingMobile from '@/components/puja/PujaBookingMobile';
 import { getEvents, EventItem } from '@/services/events.service';
-import PujaBookingReview from './PujaBookingReview';
-import PoojaBookingConfirmation from './PoojaBookingConfirmation';
 import { PoojaItem } from '@/services/pooja.service';
 
-interface PujaBookingModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+interface PujaBookingPageProps {
     selectedPooja?: PoojaItem | null;
 }
 
+export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: PujaBookingPageProps = {}) {
+    const navigate = useNavigate();
+    const location = useLocation();
 
+    // derive user name for header (same logic as in PujaBookingsHistory)
+    let userName = 'Guest';
+    try {
+        const raw = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed.name === 'string' && parsed.name.trim().length > 0) userName = parsed.name;
+        }
+    } catch (e) {
+        // ignore
+    }
 
-export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: PujaBookingModalProps) {
+    // Get selectedPooja from location state or props
+    const selectedPooja = (location.state as any)?.selectedPooja || propSelectedPooja;
+
+    // State to hold restored booking data
+    const [restoredBookingData, setRestoredBookingData] = useState<any>(null);
+
+    // Restore booking data from location state if available
+    useEffect(() => {
+        const state = location.state as any;
+        if (state?.bookingData) {
+            const bookingData = state.bookingData;
+            setSelectedPujaType(bookingData.selectedPujaType || 'purnima');
+            // bookingData.selectedDate may be a Date or an ISO string depending on navigation serialization
+            const restoredDate = bookingData.selectedDate
+                ? (bookingData.selectedDate instanceof Date ? bookingData.selectedDate : new Date(bookingData.selectedDate))
+                : null;
+            setSelectedDate(restoredDate);
+            setCustomTime(bookingData.selectedTimeSlot || '');
+            setFormData({
+                fullName: bookingData.fullName || '',
+                gotra: bookingData.gotra || '',
+                nakshatra: bookingData.nakshatra || '',
+                sankalp: bookingData.sankalp || '',
+                numberOfMembers: bookingData.numberOfMembers || '',
+                email: bookingData.email || '',
+                mobile: bookingData.mobile || '',
+                alternateMobile: bookingData.alternateMobile || '',
+                address: bookingData.address || '',
+                pujaTypeDetails: bookingData.pujaTypeDetails || selectedPooja?.title || '',
+                specialRequests: bookingData.specialRequests || '',
+                prasadDelivery: bookingData.prasadDelivery || 'yes',
+                personalizedMessage: bookingData.personalizedMessage || '',
+            });
+            setRestoredBookingData(bookingData);
+        } else {
+            setRestoredBookingData(null);
+        }
+    }, [location.state, selectedPooja]);
+
     const [selectedPujaType, setSelectedPujaType] = useState<string>('purnima');
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date()); // Default to current month/year
     const [sameAsAccount, setSameAsAccount] = useState<boolean>(false);
-    const [showReview, setShowReview] = useState<boolean>(false);
     const [customTime, setCustomTime] = useState<string>('');
     const [timeError, setTimeError] = useState<boolean>(false);
-    const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
-    const [confirmationData, setConfirmationData] = useState<any | null>(null);
 
     // Validation states
     const [validationErrors, setValidationErrors] = useState({
@@ -61,6 +107,8 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
     });
 
     // Handle "Same as account" checkbox
+    // When checked, populate the form from registered user. When unchecked, do NOT automatically clear the fields
+    // because that would overwrite restored booking data when navigating back from Review.
     useEffect(() => {
         if (sameAsAccount && registeredUser) {
             setFormData(prev => ({
@@ -70,26 +118,17 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                 mobile: registeredUser.phone || '',
                 address: registeredUser.address || '',
             }));
-        } else if (!sameAsAccount) {
-            // Clear the fields when unchecked (optional - you can remove this if you want to keep the values)
-            setFormData(prev => ({
-                ...prev,
-                fullName: '',
-                email: '',
-                mobile: '',
-                address: '',
-            }));
         }
     }, [sameAsAccount, registeredUser]);
 
-    // Reset form when modal opens or selectedPooja changes
+    // Reset form on mount or when selectedPooja changes (only if not restoring from review)
     useEffect(() => {
-        if (isOpen) {
+        const state = location.state as any;
+        if (!state?.bookingData) {
             setSelectedPujaType('purnima');
             setSelectedDate(null);
             setCurrentMonth(new Date());
             setSameAsAccount(false);
-            setShowReview(false);
             setCustomTime('');
             setTimeError(false);
             setValidationErrors({
@@ -116,30 +155,18 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                 personalizedMessage: '',
             });
         }
-    }, [isOpen, selectedPooja]);
+    }, [selectedPooja, location.state]);
 
-    // Prevent background scrolling when modal is open
+    // Set pooja name/title by default when selectedPooja changes (only if not restoring)
     useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, [isOpen]);
-
-    // Set pooja name/title by default when selectedPooja changes
-    useEffect(() => {
-        if (selectedPooja && selectedPooja.title) {
+        const state = location.state as any;
+        if (selectedPooja && selectedPooja.title && !state?.bookingData) {
             setFormData(prev => ({
                 ...prev,
                 pujaTypeDetails: selectedPooja.title
             }));
         }
-    }, [selectedPooja]);
+    }, [selectedPooja, location.state]);
 
     // Validation functions
     const validateMandatoryFields = () => {
@@ -213,12 +240,7 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
             .finally(() => setLoadingEvents(false));
     }, []);
 
-    const pujaTypes = [
-        { id: 'purnima', label: 'Purnima Pooja', color: 'bg-[#D2691E]' },
-        { id: 'special', label: 'Special Pooja', color: 'bg-[#FFA500]' },
-        { id: 'verySpecial', label: 'Very Special Pooja', color: 'bg-[#4169E1]' },
-        { id: 'veryVerySpecial', label: 'Very Very Special Pooja', color: 'bg-[#32CD32]' }
-    ];
+
 
     // Calendar functions
     const getDaysInMonth = (date: Date) => {
@@ -333,22 +355,34 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
                 selectedTimeSlot: customTime,
                 ...formData
             });
-            // Open review page
-            setShowReview(true);
+            // Navigate to review page
+            handleNavigateToReview();
         }
     };
 
-    const handleCloseReview = () => {
-        setShowReview(false);
-        onClose();
+    const handleNavigateToReview = () => {
+        navigate('/puja-booking-review', {
+            state: {
+                bookingData: {
+                    selectedPujaType,
+                    selectedDate,
+                    selectedTimeSlot: customTime,
+                    ...formData
+                },
+                pujaTypeId: selectedPooja?._id || '',
+                amount: selectedPooja?.price || 0
+            }
+        });
     };
 
-    const handleBackFromReview = () => {
-        setShowReview(false);
+    const handleGoBack = () => {
+        navigate('/puja');
     };
 
-    if (!isOpen) return null;
-
+    // Helper function for mobile close
+    const handleMobileClose = () => {
+        navigate('/puja');
+    };
 
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
@@ -367,50 +401,37 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
     }
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+        <div className="min-h-screen bg-gray-50">
+            {/* Page Container */}
+            <div className="bg-white min-h-screen px-4 md:px-16  py-4 lg:py-5">
                 {/* Header (hidden on small screens - mobile component shows its own header) */}
-                <div className="hidden lg:flex sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center rounded-t-2xl">
-                    <h2 className="text-2xl font-bold text-gray-900">Pooja Booking</h2>
-                    <button
-                        onClick={onClose}
-                        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                    >
-                        <X className="w-6 h-6 text-gray-600" />
-                    </button>
+                <div className='hidden lg:flex flex-col gap-2 mt-2 mb-2'>
+                    <header className=" lg:flex sticky top-0 bg-[#FFFFFF]   items-center justify-between border-b md:border-0 ">
+                        <div className="flex items-center gap-2 md:gap-4">
+                            <button onClick={handleGoBack} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" aria-label="Go back">
+                                <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
+                            <div>
+                                <h1 className="text-sm md:text-lg font-medium text-gray-900">Welcome, {userName}</h1>
+                                <p className="text-xs text-gray-400">{new Date().toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                            </div>
+                        </div>
+                    </header>
+
+                    <section className="bg-white rounded-lg shadow-sm  overflow-hidden">
+                        <div className="bg-gradient-to-r from-[#AD2F16] to-[#8B0000] px-4 md:px-6 py-3 md:py-4">
+                            <h2 className="text-white text-sm md:text-base font-normal">Pooja Booking</h2>
+                        </div>
+                    </section>
                 </div>
 
-                {/* Desktop / Tablet layout (hidden on small) */}
-                <div className="hidden lg:flex flex-col lg:flex-row gap-8 p-6">
-                    {/* Left Side - Calendar & Events */}
-                    <div className=" space-y-6 w-[35%]">
-                        {/* Pooja Type Selection - 2x2 Grid */}
-                        {/* <div className="grid grid-cols-2 gap-3">
-                            {pujaTypes.map((type) => (
-                                <label
-                                    key={type.id}
-                                    className="flex items-center cursor-pointer group"
-                                >
-                                    <div className="relative flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="pujaType"
-                                            value={type.id}
-                                            checked={selectedPujaType === type.id}
-                                            onChange={(e) => setSelectedPujaType(e.target.value)}
-                                            className="sr-only"
-                                        />
-                                        <div className={`w-4 h-4 rounded-full ${type.color} flex items-center justify-center`}>
-                                            {selectedPujaType === type.id && (
-                                                <div className="w-2 h-2 bg-white rounded-full"></div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <span className="ml-3 text-sm font-medium text-gray-700">{type.label}</span>
-                                </label>
-                            ))}
-                        </div> */}
 
+                {/* Desktop / Tablet layout (hidden on small) */}
+                <div className="hidden lg:flex flex-col lg:flex-row gap-8 ">
+                    {/* Left Side - Calendar & Events */}
+                    <div className="space-y-6 w-[35%]">
                         {/* Calendar */}
                         <div className="bg-[#AD2F16] rounded-xl p-3 text-white">
                             {/* Calendar Header */}
@@ -926,58 +947,11 @@ export default function PujaBookingModal({ isOpen, onClose, selectedPooja }: Puj
 
                 {/* Mobile layout: show mobile-specific stepper component */}
                 <div className="lg:hidden">
-                    <PujaBookingMobile onClose={onClose} selectedPooja={selectedPooja} />
+                    <PujaBookingMobile onClose={handleMobileClose} selectedPooja={selectedPooja} initialBookingData={restoredBookingData} />
                 </div>
             </div>
 
-            {/* Review Modal */}
-            <PujaBookingReview
-                isOpen={showReview}
-                onClose={handleCloseReview}
-                onBack={handleBackFromReview}
-                onBookingSuccess={(mappedBooking) => {
-                    const finalBooking = {
-                        ...mappedBooking,
-                        pujaImage: mappedBooking.pujaImage || selectedPooja?.image || selectedPooja?.images?.[0] || '',
-                        pujaDescription: mappedBooking.pujaDescription || selectedPooja?.description || ''
-                    };
-                    setConfirmationData(finalBooking);
-                    setShowConfirmation(true);
-                    setShowReview(false);
-                }}
-                bookingData={{
-                    selectedPujaType,
-                    selectedDate,
-                    selectedTimeSlot: customTime,
-                    ...formData
-                }}
-                pujaTypeId={selectedPooja?._id || ''}
-                amount={selectedPooja?.price || 0}
-            />
 
-            {showConfirmation && (
-                <PoojaBookingConfirmation
-                    isOpen={showConfirmation}
-                    onClose={() => {
-                        setShowConfirmation(false);
-                        onClose();
-                    }}
-                    bookingData={confirmationData || {
-                        pujaType: formData.pujaTypeDetails || selectedPooja?.title || '',
-                        pujaDescription: selectedPooja?.description || '',
-                        pujaImage: selectedPooja?.image || selectedPooja?.images?.[0] || '',
-                        bookingId: '',
-                        pujaDate: selectedDate ? selectedDate.toISOString().split('T')[0] : '',
-                        timeSlot: customTime || '',
-                        numberOfPeople: parseInt(formData.numberOfMembers || '1') || 1,
-                        includesPreshad: formData.prasadDelivery === 'yes',
-                        userName: formData.fullName || '',
-                        phoneNumber: formData.mobile || '',
-                        bookingDate: new Date().toLocaleDateString(),
-                        bookingTime: new Date().toLocaleTimeString(),
-                    }}
-                />
-            )}
         </div>
     );
 }

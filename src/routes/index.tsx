@@ -13,6 +13,9 @@ const BlogPage = lazy(() => import('../pages/Blog').then(module => ({ default: m
 const BlogDetailsPage = lazy(() => import('../pages/BlogDetails').then(module => ({ default: module.BlogDetailsPage })));
 const GalleryPage = lazy(() => import('../pages/Gallery').then(module => ({ default: module.GalleryPage })));
 const PujaPage = lazy(() => import('../pages/Puja').then(module => ({ default: module.PujaPage })));
+const PujaBookingPage = lazy(() => import('../pages/PujaBooking').then(module => ({ default: module.default })));
+const PujaBookingReviewPage = lazy(() => import('../pages/PujaBookingReview').then(module => ({ default: module.default })));
+const PujaBookingConfirmationPage = lazy(() => import('../pages/PujaBookingConfirmation').then(module => ({ default: module.default })));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const SignupPage = lazy(() => import('../pages/SignupPage'));
 const FamilyDetailsPage = lazy(() => import('../pages/FamilyDetailsPage'));
@@ -25,6 +28,7 @@ const PrivacyPage = lazy(() => import('../pages/PrivacyPolicy').then(module => (
 const PrashadPage = lazy(() => import('../pages/Prashad').then(module => ({ default: module.PrashadPage })));
 const PujaBookingsPage = lazy(() => import('../pages/PujaBookingsHistory').then(module => ({ default: module.default })));
 const CheckoutPage = lazy(() => import('../pages/Checkout').then(module => ({ default: module.CheckoutPage })));
+const DonationPage = lazy(() => import('../pages/Donation').then(module => ({ default: module.DonationPage })));
 
 export const AppRoutes = (): JSX.Element => {
   return (
@@ -69,6 +73,21 @@ export const AppRoutes = (): JSX.Element => {
         <Route path="/puja" element={
           <FamilyDetailsGuard>
             <PujaPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/puja-booking" element={
+          <FamilyDetailsGuard>
+            <PujaBookingPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/puja-booking-review" element={
+          <FamilyDetailsGuard>
+            <PujaBookingReviewPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/puja-booking-confirmation" element={
+          <FamilyDetailsGuard>
+            <PujaBookingConfirmationPage />
           </FamilyDetailsGuard>
         } />
         {/* Authentication routes - skip family check */}
@@ -136,6 +155,11 @@ export const AppRoutes = (): JSX.Element => {
         <Route path="/checkout" element={
           <FamilyDetailsGuard>
             <CheckoutPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/donation" element={
+          <FamilyDetailsGuard>
+            <DonationPage />
           </FamilyDetailsGuard>
         } />
       </Routes>
