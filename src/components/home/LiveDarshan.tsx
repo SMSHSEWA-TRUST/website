@@ -8,7 +8,7 @@ import omPng from "@/assets/images/om.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import pujaImageWebp from '@/assets/images/pujaImage.webp';
 import { useI18n } from '@/lib/i18n';
-import { useGetEvents } from '@/api/EventsQueries';
+import { useGetLiveEvents } from '@/api/EventsQueries';
 import type { EventItem } from '@/services/events.service';
 
 
@@ -225,17 +225,8 @@ const LiveDarshan = (): JSX.Element => {
     image?: string;
   }[]>([]);
 
-  // Get today's date in YYYY-MM-DD format
-  const getTodayDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  // fetch events from API using React Query
-  const { data: eventsData, } = useGetEvents(selectedTemple, getTodayDate());
+  // fetch events from API using React Query (live section - only schedulePlace, no todayDate)
+  const { data: eventsData, } = useGetLiveEvents(selectedTemple);
 
   // Fetch live video URLs from API and map to temples
   useEffect(() => {

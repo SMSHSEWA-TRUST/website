@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, Calendar } from 'lucide-react';
 import { getEvents, EventItem } from '@/services/events.service';
 import { PoojaItem } from '@/services/pooja.service';
 
@@ -213,11 +213,15 @@ export default function PujaBookingMobile({ onClose, selectedPooja, initialBooki
         return Object.values(errors).every(error => error === '');
     };
 
-    // Fetch events (lightweight) so mobile can show events for selected date
+    // Fetch events for selected date or current month
     useEffect(() => {
         setLoadingEvents(true);
 
-        getEvents(undefined)
+        // If a specific date is selected, fetch events for that date
+        // Otherwise, fetch events for the current month
+        const dateToFetch = selectedDate || currentMonth;
+
+        getEvents(undefined, dateToFetch, true)
             .then(res => {
                 setEvents(res.data || []);
                 setEventsError(null);
@@ -227,7 +231,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja, initialBooki
                 setEventsError('Failed to load events');
             })
             .finally(() => setLoadingEvents(false));
-    }, []);
+    }, [selectedDate, currentMonth]);
 
     // (no events fetched in mobile stepper — keep flow lightweight)
 
@@ -573,107 +577,107 @@ export default function PujaBookingMobile({ onClose, selectedPooja, initialBooki
                                 </div>
                                 {customTime && <div className="mt-3 p-3 bg-white rounded-lg border">Selected Time: <span className="font-semibold">{customTime}</span></div>}
 
-                                {/* Events on selected date */}
-                                <div className="mt-3">
-                                    <h4 className="text-sm font-medium mb-2">Events on this date</h4>
+                                {/* Events for selected date - similar to desktop */}
+                                <div className="mt-4">
+                                    <h4 className="text-lg font-bold text-gray-900 mb-3">
+                                        Events for {selectedDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                    </h4>
                                     {loadingEvents ? (
-                                        <div className="text-sm text-gray-500">Loading events...</div>
+                                        <div className="text-gray-500">Loading events...</div>
                                     ) : eventsError ? (
-                                        <div className="text-sm text-red-500">{eventsError}</div>
+                                        <div className="text-red-500">{eventsError}</div>
+                                    ) : events.length === 0 ? (
+                                        <div className="text-gray-500">
+                                            No events for {selectedDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}.
+                                        </div>
                                     ) : (
-                                        (() => {
-                                            const list = (Array.isArray(events) ? events : []).filter(ev => {
-                                                const dateStr = (ev as any).scheduleDate || (ev as any).date;
-                                                if (!dateStr) return false;
-                                                const evDate = new Date(dateStr);
-                                                if (isNaN(evDate.getTime())) return false;
-                                                return selectedDate && evDate.toDateString() === selectedDate.toDateString();
-                                            });
-
-                                            if (list.length === 0) return <div className="text-sm text-gray-500">No events for selected date.</div>;
-
-                                            return (
-                                                <div className="space-y-2 max-h-40 overflow-y-auto">
-                                                    {list.map((ev) => {
-                                                        const imgSrc = (ev as any).imageUrl || (ev as any).image || '/api/placeholder/80/80';
-                                                        return (
-                                                            <div key={(ev as any)._id || (ev as any).id || Math.random()} className="flex items-start gap-3 p-2 bg-white rounded border">
-                                                                <div className="w-12 h-10 bg-gray-100 rounded overflow-hidden flex-shrink-0">
-                                                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                                    <img src={imgSrc as any} alt={(ev as any).title || (ev as any).name} className="w-full h-full object-cover" />
-                                                                </div>
-                                                                <div className="flex-1">
-                                                                    <div className="text-sm font-medium">{(ev as any).title || (ev as any).name}</div>
-                                                                    <div className="text-xs text-gray-500">{(((ev as any).scheduleDate || (ev as any).date) ? new Date(((ev as any).scheduleDate || (ev as any).date)).toLocaleString() : '')}</div>
-                                                                </div>
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                            );
-                                        })()
-                                    )}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Upcoming events for the month (mobile) - similar to modal's list */}
-                        <div className="mt-3">
-                            <h3 className="text-lg font-bold text-gray-900 mb-3">Upcoming Events</h3>
-                            {loadingEvents ? (
-                                <div className="text-sm text-gray-500">Loading events...</div>
-                            ) : eventsError ? (
-                                <div className="text-sm text-red-500">{eventsError}</div>
-                            ) : (
-                                (() => {
-                                    const safeEvents = Array.isArray(events) ? events : [];
-                                    const filtered = safeEvents.filter((ev: EventItem) => {
-                                        const dateStr = (ev as any).scheduleDate || (ev as any).date;
-                                        if (!dateStr) return false;
-                                        const evDate = new Date(dateStr);
-                                        if (isNaN(evDate.getTime())) return false;
-                                        return evDate.getMonth() === currentMonth.getMonth() && evDate.getFullYear() === currentMonth.getFullYear();
-                                    });
-
-                                    if (filtered.length === 0) return <div className="text-sm text-gray-500">No upcoming events this month.</div>;
-
-                                    return (
-                                        <div className="space-y-3 max-h-56 overflow-y-auto">
-                                            {filtered.slice(0, 6).map((ev: EventItem, idx: number) => {
-                                                const dateStr = (ev as any).scheduleDate || (ev as any).date;
-                                                const evDate = dateStr ? new Date(dateStr) : null;
-                                                const timeStr = (ev as any).time || (ev as any).startTime || '';
-                                                const img = (ev as any).imageUrl || (ev as any).image || '/api/placeholder/80/80';
-                                                const title = (ev as any).title || (ev as any).name || 'Event';
-                                                const desc = (ev as any).description || (ev as any).excerpt || '';
-
+                                        <div className="space-y-3 max-h-60 overflow-y-auto">
+                                            {events.map((event) => {
+                                                const dateStr = (event as any).scheduleDate || event.date;
+                                                const eventDate = dateStr ? new Date(dateStr) : null;
+                                                const formattedDate = eventDate && !isNaN(eventDate.getTime())
+                                                    ? eventDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+                                                    : '';
                                                 return (
-                                                    <div key={(ev as any)._id || (ev as any).id || idx} className="flex items-start gap-3 bg-white rounded-lg p-3 shadow-sm">
-                                                        <div className="w-16 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
-                                                            {img ? (
-                                                                // eslint-disable-next-line @next/next/no-img-element
-                                                                <img src={img as any} alt={title as any} className="w-full h-full object-cover" />
-                                                            ) : (
-                                                                <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">No Image</div>
-                                                            )}
-                                                        </div>
-                                                        <div className="flex-1">
-                                                            <div className="flex items-center justify-between">
-                                                                <h4 className="font-semibold text-sm text-gray-900">{title}</h4>
-                                                                {evDate && (
-                                                                    <div className="text-xs text-gray-500">{evDate.toLocaleDateString()} {timeStr ? ` • ${timeStr}` : ''}</div>
+                                                    <div key={event._id || event.id} className="flex gap-3 p-3 bg-white rounded-lg border hover:bg-gray-50 transition-colors">
+                                                        <img
+                                                            src={event.imageUrl || event.image || '/api/placeholder/60/60'}
+                                                            alt={event.title}
+                                                            className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                                                        />
+                                                        <div className="flex-1 min-w-0">
+                                                            <h5 className="font-semibold text-gray-900 mb-1 text-sm">{event.title}</h5>
+                                                            <p className="text-xs text-gray-600 line-clamp-2 mb-2">{event.description}</p>
+                                                            <div className="flex items-center gap-3 text-xs text-gray-500">
+                                                                <div className="flex items-center gap-1">
+                                                                    <Calendar className="w-3 h-3" />
+                                                                    <span>{formattedDate}</span>
+                                                                </div>
+                                                                {event.time && (
+                                                                    <div className="flex items-center gap-1">
+                                                                        <Clock className="w-3 h-3" />
+                                                                        <span>{event.time}</span>
+                                                                    </div>
                                                                 )}
                                                             </div>
-                                                            <p className="text-xs text-gray-600 mt-1 line-clamp-2">{desc}</p>
                                                         </div>
                                                     </div>
                                                 );
                                             })}
                                         </div>
-                                    );
-                                })()
-                            )}
-                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Show upcoming events when no specific date is selected */}
+                        {!selectedDate && (
+                            <div className="mt-4">
+                                <h3 className="text-lg font-bold text-gray-900 mb-3">Upcoming Events</h3>
+                                {loadingEvents ? (
+                                    <div className="text-gray-500">Loading events...</div>
+                                ) : eventsError ? (
+                                    <div className="text-red-500">{eventsError}</div>
+                                ) : events.length === 0 ? (
+                                    <div className="text-gray-500">No events for this month.</div>
+                                ) : (
+                                    <div className="space-y-3 max-h-60 overflow-y-auto">
+                                        {events.slice(0, 5).map((event) => {
+                                            const dateStr = (event as any).scheduleDate || event.date;
+                                            const eventDate = dateStr ? new Date(dateStr) : null;
+                                            const formattedDate = eventDate && !isNaN(eventDate.getTime())
+                                                ? eventDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+                                                : '';
+                                            return (
+                                                <div key={event._id || event.id} className="flex gap-3 p-3 bg-white rounded-lg border hover:bg-gray-50 transition-colors">
+                                                    <img
+                                                        src={event.imageUrl || event.image || '/api/placeholder/60/60'}
+                                                        alt={event.title}
+                                                        className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                                                    />
+                                                    <div className="flex-1 min-w-0">
+                                                        <h5 className="font-semibold text-gray-900 mb-1 text-sm">{event.title}</h5>
+                                                        <p className="text-xs text-gray-600 line-clamp-2 mb-2">{event.description}</p>
+                                                        <div className="flex items-center gap-3 text-xs text-gray-500">
+                                                            <div className="flex items-center gap-1">
+                                                                <Calendar className="w-3 h-3" />
+                                                                <span>{formattedDate}</span>
+                                                            </div>
+                                                            {event.time && (
+                                                                <div className="flex items-center gap-1">
+                                                                    <Clock className="w-3 h-3" />
+                                                                    <span>{event.time}</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         {/* Validation errors for date and time */}
                         {(validationErrors.selectedDate || validationErrors.customTime) && (

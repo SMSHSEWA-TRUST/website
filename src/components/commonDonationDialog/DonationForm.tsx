@@ -47,6 +47,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   const [expandedPlots, setExpandedPlots] = useState<Record<string, boolean>>(initialExpandedPlots);
   const [plotFieldErrors, setPlotFieldErrors] = useState<Record<string, Record<string, string>>>({});
   const [notEditableMsgs, setNotEditableMsgs] = useState<Record<string, string>>({});
+  const [plotSelectionError, setPlotSelectionError] = useState<string>("");
 
   // Read stored registered user (if any) to prefill and lock contact fields
   const storedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
@@ -57,7 +58,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
     if (!registeredUser) return;
     const firstId = selectedPlots?.[0]?._id;
     if (!firstId) return;
+
     setLandContacts(prev => {
+      // Check if we already have contact data for the first plot to avoid unnecessary updates
+      const existingContact = prev[firstId];
+      if (existingContact && existingContact.name && existingContact.phoneNumber && existingContact.email) {
+        return prev; // Don't update if we already have data
+      }
+
       const next = { ...prev };
       // try to read father/mother from nested familyDetails.members array (if present)
       const familyMembers = registeredUser.familyDetails?.members || [];
@@ -65,18 +73,18 @@ const DonationForm: React.FC<DonationFormProps> = ({
       const motherFromFamily = familyMembers.find((m: any) => String(m.relation || '').toLowerCase() === 'mother')?.name;
 
       next[firstId] = {
-        ...(next[firstId] || {}),
+        ...(existingContact || {}),
         // prefer existing values, fall back to registered user values (including nested family members)
-        name: next[firstId]?.name || registeredUser.name || next[firstId]?.name || "",
-        fatherName: next[firstId]?.fatherName || fatherFromFamily || registeredUser.fatherName || next[firstId]?.fatherName || "",
-        motherName: next[firstId]?.motherName || motherFromFamily || registeredUser.motherName || next[firstId]?.motherName || "",
-        phoneNumber: next[firstId]?.phoneNumber || registeredUser.phone || next[firstId]?.phoneNumber || "",
-        email: next[firstId]?.email || registeredUser.email || next[firstId]?.email || "",
-        address: next[firstId]?.address || registeredUser.address || next[firstId]?.address || "",
+        name: existingContact?.name || registeredUser.name || "",
+        fatherName: existingContact?.fatherName || fatherFromFamily || registeredUser.fatherName || "",
+        motherName: existingContact?.motherName || motherFromFamily || registeredUser.motherName || "",
+        phoneNumber: existingContact?.phoneNumber || registeredUser.phone || "",
+        email: existingContact?.email || registeredUser.email || "",
+        address: existingContact?.address || registeredUser.address || "",
       };
       return next;
     });
-  }, [registeredUser, selectedPlots]);
+  }, [registeredUser?.name, registeredUser?.phone, registeredUser?.email, registeredUser?.address, registeredUser?.fatherName, registeredUser?.motherName, selectedPlots?.[0]?._id]);
 
   // If user is registered, prefill top-level form fields so Controllers show stored values
   useEffect(() => {
@@ -136,6 +144,8 @@ const DonationForm: React.FC<DonationFormProps> = ({
   useEffect(() => {
     setLandContacts(prev => {
       const next: Record<string, any> = { ...prev };
+      let hasChanges = false;
+
       selectedPlots.forEach(plot => {
         if (!next[plot._id]) {
           next[plot._id] = {
@@ -146,54 +156,95 @@ const DonationForm: React.FC<DonationFormProps> = ({
             email: "",
             address: "",
           };
+          hasChanges = true;
         }
       });
+
       Object.keys(next).forEach(key => {
-        if (!selectedPlots.some(p => p._id === key)) delete next[key];
+        if (!selectedPlots.some(p => p._id === key)) {
+          delete next[key];
+          hasChanges = true;
+        }
       });
-      return next;
+
+      return hasChanges ? next : prev;
     });
 
     setExpandedPlots(prev => {
-      const next: Record<string, boolean> = { ...prev };
-      if (selectedPlots.length > 0) {
-        const firstId = selectedPlots[0]._id;
-        if (!next[firstId]) next[firstId] = true;
-        selectedPlots.forEach(p => {
-          if (!next.hasOwnProperty(p._id)) next[p._id] = p._id === firstId;
-        });
-        Object.keys(next).forEach(k => {
-          if (!selectedPlots.some(p => p._id === k)) delete next[k];
-        });
-      } else {
-        return {};
+      if (selectedPlots.length === 0) {
+        return Object.keys(prev).length > 0 ? {} : prev;
       }
-      return next;
+
+      const next: Record<string, boolean> = { ...prev };
+      let hasChanges = false;
+      const firstId = selectedPlots[0]._id;
+
+      if (!next[firstId]) {
+        next[firstId] = true;
+        hasChanges = true;
+      }
+
+      selectedPlots.forEach(p => {
+        if (!next.hasOwnProperty(p._id)) {
+          next[p._id] = p._id === firstId;
+          hasChanges = true;
+        }
+      });
+
+      Object.keys(next).forEach(k => {
+        if (!selectedPlots.some(p => p._id === k)) {
+          delete next[k];
+          hasChanges = true;
+        }
+      });
+
+      return hasChanges ? next : prev;
     });
-  }, [selectedPlots]);
+  }, [selectedPlots.map(p => p._id).join(','), selectedPlots.length]);
 
   // Initialize landContacts from parent-provided initial contacts when available
   useEffect(() => {
     if (!initialPlotContacts) return;
     // only initialize if we don't already have contacts (avoid overwriting in-progress edits)
-    if (Object.keys(landContacts).length === 0) {
-      setLandContacts(initialPlotContacts);
-    }
+    setLandContacts(prev => {
+      if (Object.keys(prev).length === 0) {
+        return initialPlotContacts;
+      }
+      return prev;
+    });
   }, [initialPlotContacts]);
 
   useEffect(() => {
     if (!sameDetailsForAll) return;
     const firstId = selectedPlots?.[0]?._id;
     if (!firstId) return;
+
     setLandContacts(prev => {
       const base = prev[firstId] || {};
-      const copy: Record<string, any> = {};
+      const copy: Record<string, any> = { ...prev };
+
+      // Only update if there are actual changes
+      let hasChanges = false;
       selectedPlots.forEach(p => {
-        copy[p._id] = { ...base };
+        if (p._id !== firstId) {
+          const currentContact = prev[p._id] || {};
+          const newContact = { ...base };
+
+          // Check if the contact is actually different
+          const isDifferent = Object.keys(newContact).some(key =>
+            (currentContact as any)[key] !== (newContact as any)[key]
+          );
+
+          if (isDifferent) {
+            copy[p._id] = newContact;
+            hasChanges = true;
+          }
+        }
       });
-      return copy;
+
+      return hasChanges ? copy : prev;
     });
-  }, [sameDetailsForAll, selectedPlots]);
+  }, [sameDetailsForAll, selectedPlots?.[0]?._id]);
 
   // Ensure when sameDetailsForAll is turned OFF we clear other plots' contact info
   useEffect(() => {
@@ -201,14 +252,22 @@ const DonationForm: React.FC<DonationFormProps> = ({
     // If unchecked, keep the first plot's details (if any) and clear others
     const firstId = selectedPlots?.[0]?._id;
     if (!firstId) return;
+
     setLandContacts(prev => {
-      const next: Record<string, any> = {};
+      const next: Record<string, any> = { ...prev };
+      let hasChanges = false;
+
       // preserve first plot if it exists in prev
-      if (prev[firstId]) next[firstId] = { ...prev[firstId] };
+      if (prev[firstId] && !next[firstId]) {
+        next[firstId] = { ...prev[firstId] };
+        hasChanges = true;
+      }
+
       // ensure other selected plots exist but are empty
       selectedPlots.forEach(p => {
         if (p._id === firstId) return;
-        next[p._id] = {
+
+        const emptyContact = {
           name: "",
           fatherName: "",
           motherName: "",
@@ -216,28 +275,54 @@ const DonationForm: React.FC<DonationFormProps> = ({
           email: "",
           address: "",
         };
+
+        const currentContact = prev[p._id] || {};
+        const isDifferent = Object.keys(emptyContact).some(key =>
+          (currentContact as any)[key] !== (emptyContact as any)[key]
+        );
+
+        if (isDifferent) {
+          next[p._id] = emptyContact;
+          hasChanges = true;
+        }
       });
-      return next;
+
+      return hasChanges ? next : prev;
     });
-  }, [sameDetailsForAll, selectedPlots]);
+  }, [sameDetailsForAll, selectedPlots?.[0]?._id, selectedPlots?.length]);
 
   // If less than 2 plots are selected, disable sameDetailsForAll and ensure other contacts cleared
   useEffect(() => {
     if (selectedPlots.length >= 2) return;
+
     // if there is only one or zero plots selected, we shouldn't have the "same for all" enabled
-    setSameDetailsForAll(false);
+    setSameDetailsForAll(prev => prev ? false : prev);
+
     if (selectedPlots.length === 1) {
       const firstId = selectedPlots[0]._id;
       setLandContacts(prev => {
+        // Only update if we have more than one contact or if the single contact isn't for the first plot
+        const prevKeys = Object.keys(prev);
+        if (prevKeys.length === 1 && prevKeys[0] === firstId) {
+          return prev; // No change needed
+        }
+
         const next: Record<string, any> = {};
         if (prev[firstId]) next[firstId] = { ...prev[firstId] };
         return next;
       });
-    } else {
+    } else if (selectedPlots.length === 0) {
       // no plots selected -> clear landContacts
-      setLandContacts({});
+      setLandContacts(prev => Object.keys(prev).length > 0 ? {} : prev);
     }
-  }, [selectedPlots]);
+  }, [selectedPlots.length]);
+
+  // Clear plot selection error when user selects plots
+  useEffect(() => {
+    if (data?.title === DialogTypesForDonation.BHUDAAN && selectedPlots.length > 0 && plotSelectionError) {
+      setPlotSelectionError("");
+    }
+  }, [selectedPlots.length, data?.title, plotSelectionError]);
 
   const handleLandContactChange = (plotId: string, field: string, value: any) => {
     setLandContacts(prev => {
@@ -304,7 +389,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
       </div>
 
       {data?.title === DialogTypesForDonation.BHUDAAN && (
-        <BhumiDaanPlotSection onAmountChange={onAmountChange} plots={data?.plots ?? []} onPlotsChange={setSelectedPlots} initialSelectedPlots={initialSelectedPlots} />
+        <div>
+          <BhumiDaanPlotSection onAmountChange={onAmountChange} plots={data?.plots ?? []} onPlotsChange={setSelectedPlots} initialSelectedPlots={initialSelectedPlots} />
+          {plotSelectionError && (
+            <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-600 text-sm font-medium">{plotSelectionError}</p>
+            </div>
+          )}
+        </div>
       )}
 
       <form
@@ -313,6 +405,17 @@ const DonationForm: React.FC<DonationFormProps> = ({
           if (selectedOption?.name) {
             formData.daanType = selectedOption.name;
             setValue("daanType", selectedOption.name);
+          }
+
+          // Validation for BHUDAAN: Ensure at least one plot is selected
+          if (data?.title === DialogTypesForDonation.BHUDAAN && selectedPlots.length === 0) {
+            setPlotSelectionError(t("donationPage.form.plotSelectionRequired") || "Please select at least one land plot to proceed.");
+            return;
+          }
+          
+          // Clear plot selection error if we have plots selected
+          if (data?.title === DialogTypesForDonation.BHUDAAN && selectedPlots.length > 0) {
+            setPlotSelectionError("");
           }
 
           if (selectedPlots.length > 0) {

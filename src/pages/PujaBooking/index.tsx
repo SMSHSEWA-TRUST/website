@@ -225,11 +225,15 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
     const [loadingEvents, setLoadingEvents] = useState<boolean>(false);
     const [eventsError, setEventsError] = useState<string | null>(null);
 
-    // Fetch events on mount
+    // Fetch events for selected date or current month
     useEffect(() => {
         setLoadingEvents(true);
 
-        getEvents(undefined)
+        // If a specific date is selected, fetch events for that date
+        // Otherwise, fetch events for the current month
+        const dateToFetch = selectedDate || currentMonth;
+
+        getEvents(undefined, dateToFetch, true)
             .then((res) => {
                 setEvents(res.data || []);
                 setEventsError(null);
@@ -239,7 +243,7 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
                 setEvents([]);
             })
             .finally(() => setLoadingEvents(false));
-    }, []);
+    }, [selectedDate, currentMonth]);
 
 
 
@@ -389,16 +393,28 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
         'July', 'August', 'September', 'October', 'November', 'December'];
     const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-    // Filter events for the current selected month using scheduleDate
+    // Events are already filtered by API based on selected date/month
+    // If selectedDate is chosen, show events for that specific date
+    // Otherwise show events for the current month (already filtered by API)
     let filteredEvents: EventItem[] = [];
     if (Array.isArray(events)) {
-        filteredEvents = events.filter((event: EventItem) => {
-            const dateStr = (event as any).scheduleDate || event.date;
-            if (!dateStr) return false;
-            const eventDate = new Date(dateStr);
-            if (isNaN(eventDate.getTime())) return false;
-            return eventDate.getMonth() === currentMonth.getMonth() && eventDate.getFullYear() === currentMonth.getFullYear();
-        });
+        if (selectedDate) {
+            // Show events for the specific selected date
+            filteredEvents = events.filter((event: EventItem) => {
+                const dateStr = (event as any).scheduleDate || event.date;
+                if (!dateStr) return false;
+                const eventDate = new Date(dateStr);
+                if (isNaN(eventDate.getTime())) return false;
+                return (
+                    eventDate.getDate() === selectedDate.getDate() &&
+                    eventDate.getMonth() === selectedDate.getMonth() &&
+                    eventDate.getFullYear() === selectedDate.getFullYear()
+                );
+            });
+        } else {
+            // Show all events for the current month (already filtered by API)
+            filteredEvents = events;
+        }
     }
 
     return (
@@ -597,14 +613,24 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
 
                         {/* Upcoming Events */}
                         <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">Upcoming Events</h3>
+                            <h3 className="text-xl font-bold text-gray-900 mb-4">
+                                {selectedDate
+                                    ? `Events for ${selectedDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}`
+                                    : 'Upcoming Events'
+                                }
+                            </h3>
                             <div className="space-y-4 max-h-[400px] overflow-y-auto">
                                 {loadingEvents ? (
                                     <div className="text-gray-500">Loading events...</div>
                                 ) : eventsError ? (
                                     <div className="text-red-500">{eventsError}</div>
                                 ) : filteredEvents.length === 0 ? (
-                                    <div className="text-gray-500">No events for this month.</div>
+                                    <div className="text-gray-500">
+                                        {selectedDate
+                                            ? `No events for ${selectedDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}.`
+                                            : 'No events for this month.'
+                                        }
+                                    </div>
                                 ) : (
                                     filteredEvents.map((event) => {
                                         const dateStr = (event as any).scheduleDate || event.date;

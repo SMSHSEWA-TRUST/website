@@ -563,7 +563,8 @@
             "contactInformation": "Contact Information",
             "landDetailsTitle": "Land {{plotNumber}} Details",
             "sameDetailsForAll": "Same Details for other Lands",
-            "notEditableMessage": "This field is prefilled from your registered account and cannot be edited."
+            "notEditableMessage": "This field is prefilled from your registered account and cannot be edited.",
+            "plotSelectionRequired": "Please select at least one land plot to proceed with your donation."
         },
         "landSelector": {
             "title": "Select your Land Areas to Donate",
