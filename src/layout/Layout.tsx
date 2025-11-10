@@ -25,8 +25,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     }, [location.pathname]);
 
     // Do not show header/footer on the signup, login, otp, profile pages, donation page, and puja booking pages
-    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details', '/profile', '/membership-history', '/donations-history', '/prashad-order-history', '/puja-bookings', '/checkout', '/donation', '/puja-booking', '/puja-booking-review', '/puja-booking-confirmation'];
-    const hideHeaderFooter = hiddenPaths.includes(location.pathname);
+    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details', '/profile', '/membership-history', '/donations-history', '/prashad-order-history', '/puja-bookings', '/checkout', '/puja-booking', '/puja-booking-review', '/puja-booking-confirmation'];
+    const hiddenPathPatterns = ['/donation']; // Patterns that match the beginning of paths
+
+    const hideHeaderFooter = hiddenPaths.includes(location.pathname) ||
+        hiddenPathPatterns.some(pattern => location.pathname.startsWith(pattern));
 
     return (
         <div className="bg-white flex flex-row justify-center w-full">

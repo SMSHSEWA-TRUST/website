@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { DialogTypesForDonation } from ".";
 import BhumiDaanPlotSection from "./components/LandDonationSelector";
+import { useI18n } from "@/lib/i18n";
 
 type DonationFormProps = {
   onSubmit: (data: any) => void;
@@ -38,6 +39,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   initialExpandedPlots = {},
   initialFormData,
 }) => {
+  const { t } = useI18n();
   const [selectedOption, setSelectedOption] = useState(data?.daanTypes?.[0] ?? null);
   const [selectedPlots, setSelectedPlots] = useState<any[]>(initialSelectedPlots);
   const [landContacts, setLandContacts] = useState<Record<string, any>>({});
@@ -262,7 +264,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   };
 
   const showNotEditableMessage = (key: string) => {
-    setNotEditableMsgs(prev => ({ ...prev, [key]: "This field is prefilled from your registered account and cannot be edited." }));
+    setNotEditableMsgs(prev => ({ ...prev, [key]: t("donationPage.form.notEditableMessage") }));
     // hide after 2 seconds
     setTimeout(() => {
       setNotEditableMsgs(prev => {
@@ -417,7 +419,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
         {(data?.title !== DialogTypesForDonation.BHUDAAN || selectedPlots.length > 0) && (
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-red-700 mb-4">Contact Details</h3>
+            <h3 className="text-lg font-semibold text-red-700 mb-4">{t("donationPage.form.contactDetails")}</h3>
           </div>
         )}
 
@@ -425,19 +427,19 @@ const DonationForm: React.FC<DonationFormProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.name")}</label>
               <Controller
                 name="name"
                 control={control}
                 rules={{
-                  required: "Name is required",
-                  pattern: { value: NAME_REGEX, message: 'Please enter a valid name (letters and spaces only, min 2 chars)' },
-                  minLength: { value: 2, message: 'Name must be at least 2 characters' }
+                  required: t("donationPage.form.nameRequired"),
+                  pattern: { value: NAME_REGEX, message: t("donationPage.form.nameInvalid") },
+                  minLength: { value: 2, message: t("donationPage.form.nameInvalid") }
                 }}
                 render={({ field }) => (
                   <input
                     {...field}
-                    placeholder="Please enter your name"
+                    placeholder={t("donationPage.form.namePlaceholder")}
                     className="w-full px-3 py-2.5 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
                   />
                 )}
@@ -447,19 +449,19 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
             {/* Father Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Father Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.fatherName")}</label>
               <Controller
                 name="fatherName"
                 control={control}
                 rules={{
-                  required: "Father name is required",
-                  pattern: { value: NAME_REGEX, message: 'Please enter a valid father name' },
-                  minLength: { value: 2, message: 'Father name must be at least 2 characters' }
+                  required: t("donationPage.form.fatherNameRequired"),
+                  pattern: { value: NAME_REGEX, message: t("donationPage.form.fatherNameInvalid") },
+                  minLength: { value: 2, message: t("donationPage.form.fatherNameInvalid") }
                 }}
                 render={({ field }) => (
                   <input
                     {...field}
-                    placeholder="Last Name e.g John, Mary"
+                    placeholder={t("donationPage.form.fatherNamePlaceholder")}
                     className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
                   />
                 )}
@@ -469,19 +471,19 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
             {/* Mother Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Mother Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.motherName")}</label>
               <Controller
                 name="motherName"
                 control={control}
                 rules={{
-                  required: "Mother name is required",
-                  pattern: { value: NAME_REGEX, message: 'Please enter a valid mother name' },
-                  minLength: { value: 2, message: 'Mother name must be at least 2 characters' }
+                  required: t("donationPage.form.motherNameRequired"),
+                  pattern: { value: NAME_REGEX, message: t("donationPage.form.motherNameInvalid") },
+                  minLength: { value: 2, message: t("donationPage.form.motherNameInvalid") }
                 }}
                 render={({ field }) => (
                   <input
                     {...field}
-                    placeholder="Last Name e.g John, Mary"
+                    placeholder={t("donationPage.form.motherNamePlaceholder")}
                     className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
                   />
                 )}
@@ -491,19 +493,19 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
             {/* Phone Number */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.phoneNumber")}</label>
               <Controller
                 name="phoneNumber"
                 control={control}
                 rules={{
-                  required: "Phone number is required",
-                  pattern: { value: PHONE_REGEX, message: 'Please enter a valid 10 digit Indian phone number' }
+                  required: t("donationPage.form.phoneNumberRequired"),
+                  pattern: { value: PHONE_REGEX, message: t("donationPage.form.phoneNumberInvalid") }
                 }}
                 render={({ field }) => (
                   <>
                     <input
                       {...field}
-                      placeholder="+91-(00000 00000) or 0XXXXXXXXXX"
+                      placeholder={t("donationPage.form.phoneNumberPlaceholder")}
                       readOnly={Boolean(registeredUser)}
                       onClick={() => { if (registeredUser) showNotEditableMessage('globalPhone'); }}
                       onFocus={() => { if (registeredUser) showNotEditableMessage('globalPhone'); }}
@@ -518,15 +520,15 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
             {/* Email Address */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.email")}</label>
               <Controller
                 name="email"
                 control={control}
                 rules={{
-                  required: "Email is required",
+                  required: t("donationPage.form.emailRequired"),
                   pattern: {
                     value: EMAIL_REGEX,
-                    message: "Please enter a valid email",
+                    message: t("donationPage.form.emailInvalid"),
                   },
                 }}
                 render={({ field }) => (
@@ -534,7 +536,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                     <input
                       {...field}
                       type="email"
-                      placeholder="Your email@gmail.com"
+                      placeholder={t("donationPage.form.emailPlaceholder")}
                       readOnly={Boolean(registeredUser)}
                       onClick={() => { if (registeredUser) showNotEditableMessage('globalEmail'); }}
                       onFocus={() => { if (registeredUser) showNotEditableMessage('globalEmail'); }}
@@ -549,15 +551,15 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
             {/* Address */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.address")}</label>
               <Controller
                 name="address"
                 control={control}
-                rules={{ required: "Address is required", minLength: { value: 5, message: 'Address must be at least 5 characters' } }}
+                rules={{ required: t("donationPage.form.addressRequired"), minLength: { value: 5, message: t("donationPage.form.addressInvalid") } }}
                 render={({ field }) => (
                   <input
                     {...field}
-                    placeholder="Park Avenue Street"
+                    placeholder={t("donationPage.form.addressPlaceholder")}
                     className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
                   />
                 )}
@@ -569,11 +571,11 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
         {selectedPlots.length > 0 && (
           <div className="mt-6 space-y-4">
-            <h3 className="text-lg font-semibold text-red-700 mb-2">Contact Information</h3>
+            <h3 className="text-lg font-semibold text-red-700 mb-2">{t("donationPage.form.contactInformation")}</h3>
             {selectedPlots.map((plot, idx) => (
               <div key={plot._id} className="p-4 bg-white rounded-lg shadow-sm">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="text-md font-bold">Land {plot.plotNumber} Details</h4>
+                  <h4 className="text-md font-bold">{t("donationPage.form.landDetailsTitle").replace("{{plotNumber}}", plot.plotNumber)}</h4>
                   <button
                     type="button"
                     onClick={() => toggleExpand(plot._id)}
@@ -595,7 +597,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                 {expandedPlots[plot._id] && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.name")}</label>
                       {(() => {
                         const err = plotFieldErrors[plot._id]?.name;
                         return (
@@ -611,7 +613,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                       })()}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Father Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.fatherName")}</label>
                       {(() => {
                         const err = plotFieldErrors[plot._id]?.fatherName;
                         return (
@@ -627,7 +629,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                       })()}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Mother Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.motherName")}</label>
                       {(() => {
                         const err = plotFieldErrors[plot._id]?.motherName;
                         return (
@@ -643,7 +645,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                       })()}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.phoneNumber")}</label>
                       {(() => {
                         const err = plotFieldErrors[plot._id]?.phoneNumber;
                         return (
@@ -663,7 +665,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                       })()}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.email")}</label>
                       {(() => {
                         const err = plotFieldErrors[plot._id]?.email;
                         return (
@@ -683,7 +685,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                       })()}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">{t("donationPage.form.address")}</label>
                       {(() => {
                         const err = plotFieldErrors[plot._id]?.address;
                         return (
@@ -710,7 +712,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
                         onChange={e => setSameDetailsForAll(e.target.checked)}
                         className="w-4 h-4"
                       />
-                      <span>Same Details for other Lands</span>
+                      <span>{t("donationPage.form.sameDetailsForAll")}</span>
                     </label>
                   </div>
                 )}

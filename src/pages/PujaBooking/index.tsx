@@ -228,7 +228,10 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
     // Fetch events on mount
     useEffect(() => {
         setLoadingEvents(true);
-        getEvents()
+        const today = new Date();
+        const todayDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+        getEvents(undefined, todayDate)
             .then((res) => {
                 setEvents(res.data || []);
                 setEventsError(null);

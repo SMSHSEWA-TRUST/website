@@ -125,6 +125,7 @@ const SubscriptionPlans: React.FC = () => {
                 currency: 'INR',
                 name: 'SM SHSEWA TRUST',
                 description: `Membership - ${planIdStr}`,
+                image: '/src/assets/images/SMSHFavicon.png', // SHMS icon
                 prefill: {
                     name: (localStorage.getItem('name') || '') as string,
                     email: (localStorage.getItem('email') || '') as string,
@@ -187,7 +188,7 @@ const SubscriptionPlans: React.FC = () => {
         const serverAny: any = serverOrderResp as any;
         const nested = serverAny && (serverAny.order || serverAny.data || serverAny.orderDetails || null);
 
-        
+
         if (nested && (nested.id || nested.order_id)) {
             options.order_id = nested.id || nested.order_id;
             if (typeof nested.amount === 'number') options.amount = nested.amount;
@@ -199,7 +200,7 @@ const SubscriptionPlans: React.FC = () => {
             if (serverAny && serverAny.currency) options.currency = serverAny.currency;
         }
 
-        
+
         if (serverAny && (serverAny.redirectUrl || serverAny.checkoutUrl)) {
             window.open(serverAny.redirectUrl || serverAny.checkoutUrl, '_blank');
             setProcessingIndex(null);

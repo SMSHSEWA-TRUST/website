@@ -612,6 +612,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                 currency: orderCurrency,
                 name: 'SM SHSEWA TRUST',
                 description: 'Prasad Order',
+                image: '/src/assets/images/SMSHFavicon.png', // SHMS icon
                 order_id: orderId,
                 prefill: {
                     name: (localStorage.getItem('name') || '') as string,

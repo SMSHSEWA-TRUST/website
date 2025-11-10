@@ -187,6 +187,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                 currency: (srv && srv.currency) || 'INR',
                 name: 'SM SHSEWA TRUST',
                 description: `Prasad - ${prasadName}`,
+                image: '/src/assets/images/SMSHFavicon.png', // SHMS icon
                 prefill: {
                     name: (localStorage.getItem('name') || '') as string,
                     email: (localStorage.getItem('email') || '') as string,

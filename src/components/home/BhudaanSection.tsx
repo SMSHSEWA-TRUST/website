@@ -1,10 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useI18n } from '@/lib/i18n';
+import { useGetAllDaan } from "@/api/DaanQueries";
+import { navigateToDonation } from '@/lib/donationUtils';
 import mandal from '@/assets/images/mand-7.png';
 import CarouselContent from './CarouselContent';
 
 const BhudaanSection: React.FC = () => {
     const navigate = useNavigate();
+    const { data: allDaanData, isFetching } = useGetAllDaan();
 
     const { t } = useI18n();
 
@@ -66,25 +69,51 @@ const BhudaanSection: React.FC = () => {
                     </p>
                     <button
                         onClick={() => {
+                            // Don't proceed if data is still loading
+                            if (isFetching) return;
+
+                            // Find the Bhumi Daan category from API data
+                            const categories = allDaanData?.data ?? [];
+                            const bhumiCategory = categories.find((c: any) => {
+                                const title = String(c?.title || '').toLowerCase();
+                                return title.includes('bhumi') || title.includes('bhud') || title.includes('bhum');
+                            });
+
                             // Require login before allowing access to donation flow
                             const token = localStorage.getItem("authToken");
                             if (!token) {
                                 // Save the intended destination before redirecting to login
-                                // Redirect directly to the donation page with a focus on bhumi
-                                localStorage.setItem('auth_redirect_destination', JSON.stringify({
-                                    path: '/donation',
-                                    state: { focus: 'bhumi', returnTo: 'bhudaan' }
-                                }));
+                                if (bhumiCategory) {
+                                    localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                                        path: '/donation',
+                                        state: { selectedCategory: bhumiCategory, returnTo: 'bhudaan' }
+                                    }));
+                                } else {
+                                    // Fallback to focus approach if category not found
+                                    localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                                        path: '/donation',
+                                        state: { focus: 'bhumi', returnTo: 'bhudaan' }
+                                    }));
+                                }
                                 navigate('/login');
                                 return;
                             }
 
-                            // Navigate directly to the donation page and request the BHUMI focus
-                            navigate('/donation', { state: { focus: 'bhumi', returnTo: 'bhudaan' } });
+                            // Navigate directly to the donation page
+                            if (bhumiCategory) {
+                                navigateToDonation(navigate, bhumiCategory, 'bhudaan');
+                            } else {
+                                // Fallback to focus approach if category not found
+                                navigate('/donation', { state: { focus: 'bhumi', returnTo: 'bhudaan' } });
+                            }
                         }}
-                        className="bg-white text-[#8B0000] textDescription font-bold py-2 px-6 rounded shadow hover:bg-[#FFE4C4] transition font-secondaryFont"
+                        className={`textDescription font-bold py-2 px-6 rounded shadow transition font-secondaryFont ${isFetching
+                            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                            : 'bg-white text-[#8B0000] hover:bg-[#FFE4C4]'
+                            }`}
+                        disabled={isFetching}
                     >
-                        {t('bhudaan.button')}
+                        {isFetching ? 'Loading...' : t('bhudaan.button')}
                     </button>
                 </div>
 

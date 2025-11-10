@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDaanDetailsByDocId, useGetAllDaan } from "@/api/DaanQueries";
 import GaudaanLayout from "@/components/commonDonationDialog/GaudaanLayout";
+import { useI18n } from "@/lib/i18n";
+import { createDonationSlug } from "@/lib/donationUtils";
 
 type LocationState = {
     selectedCategory?: {
@@ -15,8 +17,10 @@ type LocationState = {
 };
 
 export const DonationPage: React.FC = () => {
+    const { t } = useI18n();
     const location = useLocation();
     const navigate = useNavigate();
+    const { title: urlTitle } = useParams<{ title?: string }>();
     const state = location.state as LocationState;
     const selectedCategoryFromState = state?.selectedCategory;
     const focus = state?.focus;
@@ -26,14 +30,39 @@ export const DonationPage: React.FC = () => {
 
     const [selectedCategory, setSelectedCategory] = useState<any | null>(selectedCategoryFromState ?? null);
 
-    // If navigation requested a focus (e.g., 'bhumi'), resolve it to a category
-    useEffect(() => {
-        if (selectedCategoryFromState) return; // already have category
+    // Helper function to find category by URL slug
+    const findCategoryBySlug = (slug: string, categories: any[]) => {
+        return categories.find((category: any) => {
+            const categorySlug = createDonationSlug(category.title || '');
+            return categorySlug === slug;
+        });
+    };
 
-        if (focus && String(focus).toLowerCase() === 'bhumi') {
-            // Wait until daan list is loaded and then pick the Bhumi category
-            if (!isFetchingAll) {
-                const items = allDaanData?.data ?? [];
+    // Handle URL-based navigation and category selection
+    useEffect(() => {
+        if (selectedCategoryFromState) {
+            // If we have category from state but no URL title, update URL
+            if (!urlTitle) {
+                const slug = createDonationSlug(selectedCategoryFromState.title || '');
+                navigate(`/donation/${slug}`, { replace: true, state });
+            }
+            return;
+        }
+
+        if (!isFetchingAll && allDaanData?.data) {
+            const items = allDaanData.data ?? [];
+
+            if (urlTitle) {
+                // Try to find category by URL slug
+                const match = findCategoryBySlug(urlTitle, items);
+                if (match) {
+                    setSelectedCategory(match);
+                    return;
+                }
+            }
+
+            if (focus && String(focus).toLowerCase() === 'bhumi') {
+                // Wait until daan list is loaded and then pick the Bhumi category
                 const match = items.find((c: any) => {
                     const t = String(c?.title || '').toLowerCase();
                     return t.includes('bhumi') || t.includes('bhud') || t.includes('bhum');
@@ -41,16 +70,21 @@ export const DonationPage: React.FC = () => {
 
                 if (match) {
                     setSelectedCategory(match);
-                } else {
-                    // If we can't find the category, navigate home (graceful fallback)
-                    navigate('/', { replace: true });
+                    // Update URL with the category title
+                    const slug = createDonationSlug(match.title || '');
+                    navigate(`/donation/${slug}`, { replace: true, state });
+                    return;
                 }
             }
-        } else if (!selectedCategoryFromState && !focus) {
-            // No category and no focus -> go back
-            navigate('/', { replace: true });
+
+            // If no category found or invalid URL, navigate home
+            if (!selectedCategoryFromState && !focus && urlTitle) {
+                navigate('/', { replace: true });
+            } else if (!selectedCategoryFromState && !focus && !urlTitle) {
+                navigate('/', { replace: true });
+            }
         }
-    }, [selectedCategoryFromState, focus, allDaanData, isFetchingAll, navigate]);
+    }, [selectedCategoryFromState, focus, urlTitle, allDaanData, isFetchingAll, navigate, state]);
 
     const { data, isFetching } = useDaanDetailsByDocId(selectedCategory?._id || '');
 
@@ -65,7 +99,7 @@ export const DonationPage: React.FC = () => {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AD2F16] mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading...</p>
+                    <p className="mt-4 text-gray-600">{t("donationPage.loading")}</p>
                 </div>
             </div>
         );

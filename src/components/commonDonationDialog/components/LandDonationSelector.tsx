@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useI18n } from "@/lib/i18n";
 
 type plotTypes = {
   _id: string;
@@ -21,6 +22,7 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
   plots,
   initialSelectedPlots = [],
 }) => {
+  const { t } = useI18n();
   // Use the incoming plots prop directly; keep selectedPlots in state
   const plotsData = plots || [];
 
@@ -129,9 +131,9 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
   return (
     <div className="max-w-6xl bg-white">
       <h1 className="text-1xl font-bold text-gray-800 mb-2">
-        Select your Land Areas to Donate
+        {t("donationPage.landSelector.title")}
         {selectedPlots.length > 0 && (
-          <span className="text-orange-600 text-1xl ml-2">({selectedPlots.length} selected)</span>
+          <span className="text-orange-600 text-1xl ml-2">({t("donationPage.landSelector.selected").replace("{{count}}", selectedPlots.length.toString())})</span>
         )}
       </h1>
 
@@ -139,19 +141,19 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
       <div className="flex flex-wrap gap-6 mb-2 p-2 bg-gray-50 rounded-lg">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-gray-100 border border-gray-300 rounded"></div>
-          <span className="text-sm font-medium text-gray-700">Available (Click to select)</span>
+          <span className="text-sm font-medium text-gray-700">{t("donationPage.landSelector.available")}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-blue-300 border border-blue-400 rounded"></div>
-          <span className="text-sm font-medium text-gray-700">Pending</span>
+          <span className="text-sm font-medium text-gray-700">{t("donationPage.landSelector.pending")}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-green-400 border border-green-500 rounded"></div>
-          <span className="text-sm font-medium text-gray-700">EMI</span>
+          <span className="text-sm font-medium text-gray-700">{t("donationPage.landSelector.emi")}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-red-300 border border-red-400 rounded"></div>
-          <span className="text-sm font-medium text-gray-700">Purchased / Occupied</span>
+          <span className="text-sm font-medium text-gray-700">{t("donationPage.landSelector.purchased")}</span>
         </div>
       </div>
 
@@ -178,9 +180,9 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
           <button
             onClick={() => setShowAllPlots(true)}
             className="bg-[#AD2F16] hover:bg-[#8B1810] text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md flex items-center gap-2">
-            <span>View All Plots</span>
+            <span>{t("donationPage.landSelector.viewAllPlots")}</span>
             <span className="bg-white/20 px-2 py-0.5 rounded text-sm">
-              +{hiddenPlotsCount} more
+              {t("donationPage.landSelector.morePlots").replace("{{count}}", hiddenPlotsCount.toString())}
             </span>
           </button>
         </div>
@@ -192,7 +194,7 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
           <button
             onClick={() => setShowAllPlots(false)}
             className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md">
-            Show Less
+            {t("donationPage.landSelector.showLess")}
           </button>
         </div>
       )}
@@ -207,20 +209,19 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
               onPlotsChange?.([]);
             }}
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-            Clear All Selections
+            {t("donationPage.landSelector.clearAllSelections")}
           </button>
           <div className="text-right">
-            <p className="text-sm text-gray-600">Total Selected: {selectedPlots.length} plots</p>
+            <p className="text-sm text-gray-600">{t("donationPage.landSelector.totalSelected").replace("{{count}}", selectedPlots.length.toString())}</p>
             <p className="text-lg font-bold text-orange-600 ">
-              Total Amount: ₹
-              {selectedPlots.reduce((sum, plot) => sum + plot.price, 0).toLocaleString()}
+              {t("donationPage.landSelector.totalAmount").replace("{{amount}}", selectedPlots.reduce((sum, plot) => sum + plot.price, 0).toLocaleString())}
               {/* + ₹
               {selectedPlots
                 .reduce((sum, plot) => sum + plot.registrationCharge, 0)
                 .toLocaleString()}{" "} */}
             </p>
             <caption className="text-nowrap text-xs  font-light">
-              Plot Charge
+              {t("donationPage.landSelector.plotCharge")}
             </caption>
           </div>
         </div>

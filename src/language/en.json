@@ -517,17 +517,134 @@
             }
         ]
     },
-
-    "PoojaPage":{
-        "title":"Pooja's at Temple"
+    "PoojaPage": {
+        "title": "Pooja's at Temple"
     },
-    "parshadPage":{
-        "title":[
+    "parshadPage": {
+        "title": [
             {
-                "title1":"Shri Mahakaleshwar Prasad",
-                 "title2":"Shri Salasar Balaji Prasad",
-                 "title3":"Idols & Photo Frames"
+                "title1": "Shri Mahakaleshwar Prasad",
+                "title2": "Shri Salasar Balaji Prasad",
+                "title3": "Idols & Photo Frames"
             }
         ]
+    },
+    "donationPage": {
+        "loading": "Loading...",
+        "form": {
+            "selectDonationType": "Select the type of दान you want to donate to",
+            "donationAmount": "Donation Amount",
+            "amountPlaceholder": "Enter Donation Amount e.g 10000",
+            "contactDetails": "Contact Details",
+            "name": "Name",
+            "namePlaceholder": "Please enter your name",
+            "nameRequired": "Name is required",
+            "nameInvalid": "Please enter a valid name (letters and spaces only, min 2 chars)",
+            "fatherName": "Father Name",
+            "fatherNamePlaceholder": "Last Name e.g John, Mary",
+            "fatherNameRequired": "Father name is required",
+            "fatherNameInvalid": "Please enter a valid father name",
+            "motherName": "Mother Name",
+            "motherNamePlaceholder": "Last Name e.g John, Mary",
+            "motherNameRequired": "Mother name is required",
+            "motherNameInvalid": "Please enter a valid mother name",
+            "phoneNumber": "Phone Number",
+            "phoneNumberPlaceholder": "+91-(00000 00000) or 0XXXXXXXXXX",
+            "phoneNumberRequired": "Phone number is required",
+            "phoneNumberInvalid": "Please enter a valid 10 digit Indian phone number",
+            "email": "Email Address",
+            "emailPlaceholder": "Your email@gmail.com",
+            "emailRequired": "Email is required",
+            "emailInvalid": "Please enter a valid email",
+            "address": "Address",
+            "addressPlaceholder": "Park Avenue Street",
+            "addressRequired": "Address is required",
+            "addressInvalid": "Address must be at least 5 characters",
+            "contactInformation": "Contact Information",
+            "landDetailsTitle": "Land {{plotNumber}} Details",
+            "sameDetailsForAll": "Same Details for other Lands",
+            "notEditableMessage": "This field is prefilled from your registered account and cannot be edited."
+        },
+        "landSelector": {
+            "title": "Select your Land Areas to Donate",
+            "selected": "{{count}} selected",
+            "available": "Available (Click to select)",
+            "pending": "Pending",
+            "emi": "EMI",
+            "purchased": "Purchased / Occupied",
+            "viewAllPlots": "View All Plots",
+            "showLess": "Show Less",
+            "clearAllSelections": "Clear All Selections",
+            "totalSelected": "Total Selected: {{count}} plots",
+            "totalAmount": "Total Amount: ₹{{amount}}",
+            "plotCharge": "Plot Charge",
+            "plotTitle": "Plot {{plotNumber}} - {{status}} - ₹{{price}}",
+            "plotTitleSelected": "Plot {{plotNumber}} - {{status}} - ₹{{price}} (Selected)",
+            "morePlots": "+{{count}} more"
+        },
+        "payment": {
+            "paymentMode": "Payment Mode",
+            "paymentModeDescription": "Enter Name on whose behalf you want to donate and their Details",
+            "selectPaymentMethod": "Select Payment Method",
+            "cash": "Cash",
+            "cashSubtitle": "Visit Our Temple office to submit the cash",
+            "cheque": "Cheque",
+            "chequeSubtitle": "Write a cheque in favour of our trust",
+            "bankTransfer": "Direct Bank Transfer",
+            "bankTransferSubtitle": "Directly transfer the amount to our trust's bank",
+            "card": "Credit/Debit Card",
+            "cardSubtitle": "Directly transfer the amount to our trust's bank",
+            "upi": "UPI",
+            "upiSubtitle": "Pay via Google Pay, Phonepe, Paytm, Bhim",
+            "emi": "EMI (Easy Monthly Installments)",
+            "emiSubtitle": "Pay Small amounts in monthly instalments",
+            "submitRequest": "Submit Request",
+            "processing": "Processing...",
+            "choosePaymentMethod": "Chose Payment Method: {{amount}}"
+        },
+        "paymentDetails": {
+            "cashInstructions": "Kindly Visit our office and submit it",
+            "chequeInstructions": "Fill the cheque and kindly reach our office for further process",
+            "bankTransferInstructions": "Kindly transfer the amount to our Bank account",
+            "upiTitle": "Scan to Pay",
+            "emiTitle": "Thank you for your Interest",
+            "emiDescription": "Please sit tight, our team will contact you shortly to help you further",
+            "whatsappButton": "Send 'Hi' to our Whatsapp",
+            "bankDetails": "Our Bank Details",
+            "bankName": "Bank Name",
+            "accountNumber": "Account Number",
+            "accountName": "Account Name",
+            "ifscCode": "IFSC Code",
+            "branch": "Branch",
+            "organizationDetails": "Shri Mahakaleshwar Salasar Hanuman Seva Trust, Surat, Gujarat",
+            "emailId": "Email ID",
+            "contactNo": "Contact No.",
+            "addressLabel": "Address",
+            "noteToDevotees": "Note to Devotees",
+            "disclaimer": "Disclaimer:",
+            "disclaimerText": "We humbly request all devotees to kindly verify all details before making any donation. Donations made to Shri Mahakaleshwar Salasar Hanuman Seva Trust are used solely for temple activities, seva, and community welfare programs.",
+            "pleaseNote": "Please note that:",
+            "disclaimerPoint1": "Donations made in cash should be submitted directly at the temple office only.",
+            "disclaimerPoint2": "Official receipts will be provided for every donation.",
+            "disclaimerPoint3": "The Trust will not be responsible for transactions made through unauthorized persons or channels.",
+            "disclaimerPoint4": "Devotees are encouraged to retain the receipt for future reference and transparency.",
+            "disclaimerClosing": "🙏 Your support and blessings help us continue the seva and spiritual activities."
+        },
+        "layout": {
+            "organization": "Shri Mahakaleshwar Salasar Hanuman Seva Mandir",
+            "location": "Surat, Gujarat",
+            "aboutTitle": "About {{title}}",
+            "aboutDescription": "{{title}} is a sacred form of donation that helps support the temple's mission and serves the community. Your contribution will make a meaningful difference in maintaining and expanding our spiritual services.",
+            "howItHelps": "How it will help?",
+            "helpDescription": "Your {{title}} contribution will directly support temple maintenance, community services, and spiritual programs that benefit thousands of devotees."
+        },
+        "summary": {
+            "totalAmountToBePaid": "Total Amount to be Paid",
+            "totalAmount": "Total Amount",
+            "grandTotal": "Grand Total"
+        },
+        "bhumiDaan": {
+            "defaultDescription": "He who gives land donation, gives life to future generations"
+        }
     }
 }

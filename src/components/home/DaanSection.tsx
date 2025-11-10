@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetAllDaan } from "@/api/DaanQueries";
 import { useI18n } from '@/lib/i18n';
 import { scrollToId } from '@/lib/scrollUtils';
+import { navigateToDonation } from '@/lib/donationUtils';
 import mandal from '@/assets/images/mand-7.png';
 import gaudaan from "../../assets/images/gaudaan.png";
 import bhojandaan from "../../assets/images/bhojandaan.png";
@@ -29,7 +30,7 @@ const DonationSection = () => {
     }
 
     // Navigate to the donation page with the selected category
-    navigate('/donation', { state: { selectedCategory: category, returnTo: 'donations' } });
+    navigateToDonation(navigate, category, 'donations');
   };
 
 

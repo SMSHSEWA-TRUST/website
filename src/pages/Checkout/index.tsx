@@ -387,6 +387,7 @@ export const CheckoutPage: React.FC = () => {
                 currency: orderCurrency,
                 name: 'SM SHSEWA TRUST',
                 description: 'Prasad Order',
+                image: '/src/assets/images/SMSHFavicon.png', // SHMS icon
                 order_id: orderId,
                 prefill: {
                     name: (localStorage.getItem('name') || '') as string,
@@ -517,7 +518,7 @@ export const CheckoutPage: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* Mobile-only sequence: order -> totals -> payment -> note -> suggestions */}
+                            {/* Mobile-only sequence: order -> note -> suggestions -> payment summary -> payment button */}
                             <div className="block lg:hidden space-y-4">
                                 {/* Order list (mobile) */}
                                 <div className="bg-white rounded-2xl p-4 border border-gray-200">
@@ -548,38 +549,7 @@ export const CheckoutPage: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Totals (mobile) */}
-                                <div className="bg-white rounded-2xl p-4 border border-gray-200">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <span className="font-secondaryFont text-sm text-gray-600">Subtotal</span>
-                                        <span className="font-secondaryFont text-sm font-semibold text-gray-900">₹{subtotal.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="font-secondaryFont text-sm text-gray-600">Delivery</span>
-                                        <span className="font-secondaryFont text-sm font-semibold text-gray-900">₹{shipping.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="font-secondaryFont text-sm text-gray-600">Service Fee</span>
-                                        <span className="font-secondaryFont text-sm font-semibold text-gray-900">₹{serviceFee.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-3">
-                                        <span className="font-secondaryFont text-base font-bold text-gray-900">Total</span>
-                                        <span className="font-secondaryFont text-lg font-bold text-[#8b0000]">₹{total.toFixed(2)}</span>
-                                    </div>
-                                </div>
-
-                                {/* Mobile payment button */}
-                                <div>
-                                    <button
-                                        onClick={handleProceedToPayment}
-                                        disabled={isProcessingPayment || cartItems.length === 0 || hasStockIssue}
-                                        className="w-full bg-[#8b0000] hover:bg-[#660000] text-white font-secondaryFont font-semibold py-4 rounded-2xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                    >
-                                        {isProcessingPayment ? 'Processing...' : hasStockIssue ? 'Check stock' : `Proceed to Payment `}
-                                    </button>
-                                </div>
-
-                                {/* Mobile note (after payment) */}
+                                {/* Mobile note */}
                                 <div className="bg-white rounded-2xl p-4 border border-gray-200">
                                     <div className="flex items-center gap-2 mb-2">
                                         <Edit className="w-5 h-5 text-red-600" />
@@ -614,6 +584,56 @@ export const CheckoutPage: React.FC = () => {
                                             </div>
                                         ))}
                                     </div>
+                                </div>
+
+                                {/* Payment Summary (mobile) - Now at the bottom */}
+                                <div className="bg-white rounded-2xl p-4 border border-gray-200 border-2 border-[#8b0000]">
+                                    <h3 className="font-secondaryFont text-base font-semibold text-gray-900 mb-3">Payment Summary</h3>
+                                    <div className="space-y-2 mb-4">
+                                        <div className="flex items-center justify-between">
+                                            <span className="font-secondaryFont text-sm text-gray-600">Subtotal</span>
+                                            <span className="font-secondaryFont text-sm font-semibold text-gray-900">₹{subtotal.toFixed(2)}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <span className="font-secondaryFont text-sm text-gray-600">Delivery</span>
+                                            <span className="font-secondaryFont text-sm font-semibold text-gray-900">₹{shipping.toFixed(2)}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <span className="font-secondaryFont text-sm text-gray-600">Service Fee</span>
+                                            <span className="font-secondaryFont text-sm font-semibold text-gray-900">₹{serviceFee.toFixed(2)}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <span className="font-secondaryFont text-sm text-gray-600">Taxes</span>
+                                            <span className="font-secondaryFont text-sm font-semibold text-gray-900">₹{vatax.toFixed(2)}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between pt-3 border-t border-gray-200 mt-3">
+                                            <span className="font-secondaryFont text-base font-bold text-gray-900">Total Amount</span>
+                                            <span className="font-secondaryFont text-lg font-bold text-[#8b0000]">₹{total.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Mobile payment button - Now inside payment summary */}
+                                    <button
+                                        onClick={handleProceedToPayment}
+                                        disabled={isProcessingPayment || cartItems.length === 0 || hasStockIssue}
+                                        className="w-full bg-[#8b0000] hover:bg-[#660000] text-white font-secondaryFont font-semibold py-4 rounded-2xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    >
+                                        {isProcessingPayment ? (
+                                            <>
+                                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                                Processing...
+                                            </>
+                                        ) : hasStockIssue ? (
+                                            'Check Stock Issues'
+                                        ) : (
+                                            <>
+                                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" />
+                                                </svg>
+                                                Proceed to Payment 
+                                            </>
+                                        )}
+                                    </button>
                                 </div>
                             </div>
                         </div>

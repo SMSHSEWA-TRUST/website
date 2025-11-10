@@ -21,6 +21,7 @@ import ChequeExample from '@/assets/images/chequeExample.png';
 import PaymentQrImage from '@/assets/images/paymentQr.png';
 import EmiRequestIMage from '@/assets/images/EmiReuest.png';
 import WhatsAppIcon from '@/assets/images/whatsappIcon.png';
+import { useI18n } from "@/lib/i18n";
 
 type userProps = {
   name: string;
@@ -36,6 +37,7 @@ interface GaudaanLayoutProps {
 const shouldShowUserPaying = ["Bhumi Daan", "Bhojan Daan"];
 
 const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", onBack, data }) => {
+  const { t } = useI18n();
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? (JSON.parse(storedUser) as userProps) : null;
 
@@ -72,7 +74,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   const finalPayingAmount = Number(grandTotal) + (Number(userPickedAmount) || 0);
   const bhumiAmount = data?.daanTypes?.[0]?.amount ?? 125000;
   const bhumiLabel = data?.plotSizeLabel ?? "1 Sq. Ft Land";
-  const bhumiDescription = data?.shortDescription ?? "सने भूमि दान दी, उसने आने वाली पीढ़ियों को संजीवनी दी";
+  const bhumiDescription = data?.shortDescription ?? t("donationPage.bhumiDaan.defaultDescription");
 
   const handleAmountChange = (amount: number) => {
     setValue("amount", amount);
@@ -274,21 +276,21 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 <div className="p-4">
                   <div className="mb-3">
                     <h2 className="text-[#AD2F16] textHeading  mb-1">
-                      {data?.organization || "Shri Mahakaleshwar Salasar Hanuman Seva Mandir"}
+                      {data?.organization || t("donationPage.layout.organization")}
                     </h2>
                     <p className="text-[#1E1E1E80] textDescription flex items-center gap-1">
                       <span>📍</span>
-                      {data?.location || "Surat, Gujarat"}
+                      {data?.location || t("donationPage.layout.location")}
                     </p>
                   </div>
 
                   <div className="mb-4">
                     <h3 className="text-[#AD2F16] textHeading   mb-2">
-                      About {title}
+                      {t("donationPage.layout.aboutTitle").replace("{{title}}", title)}
                     </h3>
                     <p className="text-[#1E1E1E80] textDescription leading-relaxed">
                       {data?.aboutDescription || data?.description ||
-                        `${title} is a sacred form of donation that helps support the temple's mission and serves the community. Your contribution will make a meaningful difference in maintaining and expanding our spiritual services.`}
+                        t("donationPage.layout.aboutDescription").replace("{{title}}", title)}
                     </p>
                   </div>
                 </div>
@@ -306,10 +308,10 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 {/* How it will help Section */}
                 <div className="p-4">
                   <div>
-                    <h4 className="text-[#AD2F16] textHeading  mb-2">How it will help?</h4>
+                    <h4 className="text-[#AD2F16] textHeading  mb-2">{t("donationPage.layout.howItHelps")}</h4>
                     <p className="text-[#1E1E1E80] textDescription leading-relaxed">
                       {data?.helpDescription ||
-                        `Your ${title} contribution will directly support temple maintenance, community services, and spiritual programs that benefit thousands of devotees.`}
+                        t("donationPage.layout.helpDescription").replace("{{title}}", title)}
                     </p>
                   </div>
                 </div>
@@ -330,15 +332,15 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
               <div className="p-3">
                 <div className="mb-2">
                   <h2 className="text-[#AD2F16] textHeading font-semibold mb-1">
-                    {data?.organization || "Shri Mahakaleshwar Salasar Hanuman Seva Mandir"}
+                    {data?.organization || t("donationPage.layout.organization")}
                   </h2>
-                  <p className="text-[#1E1E1E80] textDescription">📍 {data?.location || "Surat, Gujarat"}</p>
+                  <p className="text-[#1E1E1E80] textDescription">📍 {data?.location || t("donationPage.layout.location")}</p>
                 </div>
                 <div>
-                  <h3 className="text-[#AD2F16] textHeading font-semibold mb-1">About {title}</h3>
+                  <h3 className="text-[#AD2F16] textHeading font-semibold mb-1">{t("donationPage.layout.aboutTitle").replace("{{title}}", title)}</h3>
                   <p className="text-[#1E1E1E80] textDescription  leading-relaxed line-clamp-3">
                     {data?.aboutDescription || data?.description ||
-                      `${title} is a sacred form of donation that helps support the temple's mission and serves the community.`}
+                      t("donationPage.layout.aboutDescription").replace("{{title}}", title)}
                   </p>
                 </div>
               </div>
@@ -362,13 +364,13 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
               <Card className="p-6">
                 {data?.daanTypes?.length > 0 && (
                   <div className="space-y-1 mb-6">
-                    <SectionTitle>Select the type of दान you want to donate to</SectionTitle>
+                    <SectionTitle>{t("donationPage.form.selectDonationType")}</SectionTitle>
                   </div>
                 )}
                 {!shouldShowUserPaying.includes(title) && (
                   <>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Donation Amount
+                      {t("donationPage.form.donationAmount")}
                     </label>
                     <Input
                       value={userPickedAmount}
@@ -376,7 +378,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                         setUserPickedAmount(amount?.target?.value);
                       }}
                       type="number"
-                      placeholder="Enter Donation Amount e.g 10000"
+                      placeholder={t("donationPage.form.amountPlaceholder")}
                       className="my-2"
                     />
                   </>
@@ -401,10 +403,10 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
             {flowStep === 'selectPayment' && (
               <Card className="p-6">
-                <p className="textHeading text-[#000000] font-secondaryFont">Payment Mode</p>
-                <p className=" description text-[#1E1E1E80] mb-4 font-secondaryFont">Enter Name on whose behalf you want to donate and their Details</p>
+                <p className="textHeading text-[#000000] font-secondaryFont">{t("donationPage.payment.paymentMode")}</p>
+                <p className=" description text-[#1E1E1E80] mb-4 font-secondaryFont">{t("donationPage.payment.paymentModeDescription")}</p>
 
-                <p className="textHeading font-secondaryFont mb-2 mt-2 text-[#1E1E1E80]">Select Payment Method</p>
+                <p className="textHeading font-secondaryFont mb-2 mt-2 text-[#1E1E1E80]">{t("donationPage.payment.selectPaymentMethod")}</p>
                 {/* Dropdown-like selector that opens a list with left icons and right radios */}
                 <div className="mt-2">
                   <div className="relative">
@@ -419,12 +421,12 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                             <img
                               src={(
                                 {
-                                  Cash: CashImage,
-                                  Cheque: ChequeImage,
-                                  'Direct Bank Transfer': Bank_transferImage,
-                                  'Credit/Debit Card': CardImage,
-                                  UPI: UpiImage,
-                                  'EMI (Easy Monthly Installments)': EmiImage,
+                                  [t("donationPage.payment.cash")]: CashImage,
+                                  [t("donationPage.payment.cheque")]: ChequeImage,
+                                  [t("donationPage.payment.bankTransfer")]: Bank_transferImage,
+                                  [t("donationPage.payment.card")]: CardImage,
+                                  [t("donationPage.payment.upi")]: UpiImage,
+                                  [t("donationPage.payment.emi")]: EmiImage,
                                 } as Record<string, any>
                               )[selectedPaymentMethod]}
                               alt={selectedPaymentMethod}
@@ -434,7 +436,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                           </div>
                         )}
                         <div className="text-left">
-                          <div className="font-secondaryFont textDescription  text-[#1E1E1E80]">{selectedPaymentMethod ?? 'Select Payment Method'}</div>
+                          <div className="font-secondaryFont textDescription  text-[#1E1E1E80]">{selectedPaymentMethod ?? t("donationPage.payment.selectPaymentMethod")}</div>
                         </div>
                       </div>
                       <svg className={`w-5 h-5 text-gray-500 transform ${paymentDropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor">
@@ -445,12 +447,12 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                     {paymentDropdownOpen && (
                       <div className="mt-2 bg-white border rounded-lg shadow-sm overflow-hidden">
                         {[
-                          { label: 'Cash', img: CashImage, subtitle: 'Visit Our Temple office to submit the cash' },
-                          { label: 'Cheque', img: ChequeImage, subtitle: 'Write a cheque in favour of our trust' },
-                          { label: 'Direct Bank Transfer', img: Bank_transferImage, subtitle: 'Directly transfer the amount to our trust\'s bank' },
-                          { label: 'Credit/Debit Card', img: CardImage, subtitle: 'Directly transfer the amount to our trust\'s bank' },
-                          { label: 'UPI', img: UpiImage, subtitle: 'Pay via Google Pay, Phonepe, Paytm, Bhim' },
-                          { label: 'EMI (Easy Monthly Installments)', img: EmiImage, subtitle: 'Pay Small amounts in monthly instalments' },
+                          { label: t("donationPage.payment.cash"), img: CashImage, subtitle: t("donationPage.payment.cashSubtitle") },
+                          { label: t("donationPage.payment.cheque"), img: ChequeImage, subtitle: t("donationPage.payment.chequeSubtitle") },
+                          { label: t("donationPage.payment.bankTransfer"), img: Bank_transferImage, subtitle: t("donationPage.payment.bankTransferSubtitle") },
+                          { label: t("donationPage.payment.card"), img: CardImage, subtitle: t("donationPage.payment.cardSubtitle") },
+                          { label: t("donationPage.payment.upi"), img: UpiImage, subtitle: t("donationPage.payment.upiSubtitle") },
+                          { label: t("donationPage.payment.emi"), img: EmiImage, subtitle: t("donationPage.payment.emiSubtitle") },
                         ].map((opt) => (
                           <label key={opt.label} className="flex items-center justify-between gap-3 p-3 hover:bg-gray-50 cursor-pointer">
                             <div className="flex items-center gap-3">
@@ -480,13 +482,13 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
                 {/* Method-specific UI shown below the radio list */}
                 <div className="mt-4">
-                  {selectedPaymentMethod === 'Cash' && (
+                  {selectedPaymentMethod === t("donationPage.payment.cash") && (
                     <div className="space-y-4">
-                      <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">Kindly Visit our office and submit it </div>
+                      <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">{t("donationPage.paymentDetails.cashInstructions")}</div>
 
                       {/* Organization red card */}
                       <div className="rounded-xl p-6 bg-[#AD2F16]  shadow-md">
-                        <h4 className="font-semibold textHeading font-secondaryFont text-[#FFFFFF] text-center">{data?.organization ?? 'Shri Mahakaleshwar Salasar Hanuman Seva Trust, Surat, Gujarat'}</h4>
+                        <h4 className="font-semibold textHeading font-secondaryFont text-[#FFFFFF] text-center">{data?.organization ?? t("donationPage.paymentDetails.organizationDetails")}</h4>
 
                         {/* decorative gold divider */}
                         <div className="mt-4 flex items-center justify-center ">
@@ -497,16 +499,16 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
                         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 ">
                           <div>
-                            <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">Email ID</div>
+                            <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">{t("donationPage.paymentDetails.emailId")}</div>
                             <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">smshstrust@gmail.com</div>
                           </div>
                           <div>
-                            <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">Contact No.</div>
+                            <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">{t("donationPage.paymentDetails.contactNo")}</div>
                             <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">+91 9352815982</div>
                           </div>
                         </div>
                         <div className="mt-2">
-                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">Address</div>
+                          <div className="text-[#FFFFFF] textDescription font-secondaryFont font-medium">{t("donationPage.paymentDetails.addressLabel")}</div>
 
                           <div className="text-[#FFFFFF80] textDescription font-secondaryFont font-semibold">203, Metro Tower, Ring Road
                             Surat, Gujarat 395002</div>
@@ -519,7 +521,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                       <div className="rounded-xl p-5 bg-white border shadow-sm">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex-1">
-                            <h5 className="text-center textHeading font-secondaryFont text-[#AD2F16] font-semibold">Note to Devotees</h5>
+                            <h5 className="text-center textHeading font-secondaryFont text-[#AD2F16] font-semibold">{t("donationPage.paymentDetails.noteToDevotees")}</h5>
                           </div>
 
                         </div>
@@ -531,20 +533,20 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                         </div>
 
                         <div className="mt-2">
-                          <div className="font-semibold textDescription font-secondaryFont text-[#000000]">Disclaimer:</div>
+                          <div className="font-semibold textDescription font-secondaryFont text-[#000000]">{t("donationPage.paymentDetails.disclaimer")}</div>
 
-                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-2">We humbly request all devotees to kindly verify all details before making any donation. Donations made to Shri Mahakaleshwar Salasar Hanuman Seva Trust are used solely for temple activities, seva, and community welfare programs.</p>
+                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-2">{t("donationPage.paymentDetails.disclaimerText")}</p>
 
-                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-2">Please note that:</p>
+                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-2">{t("donationPage.paymentDetails.pleaseNote")}</p>
 
                           <ul className="list-disc list-inside textDescription font-secondaryFont text-[#1E1E1E80] mt-1 space-y-1">
-                            <li>Donations made in cash should be submitted directly at the temple office only.</li>
-                            <li>Official receipts will be provided for every donation.</li>
-                            <li>The Trust will not be responsible for transactions made through unauthorized persons or channels.</li>
-                            <li>Devotees are encouraged to retain the receipt for future reference and transparency.</li>
+                            <li>{t("donationPage.paymentDetails.disclaimerPoint1")}</li>
+                            <li>{t("donationPage.paymentDetails.disclaimerPoint2")}</li>
+                            <li>{t("donationPage.paymentDetails.disclaimerPoint3")}</li>
+                            <li>{t("donationPage.paymentDetails.disclaimerPoint4")}</li>
                           </ul>
 
-                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-3">🙏 Your support and blessings help us continue the seva and spiritual activities.</p>
+                          <p className="textDescription font-secondaryFont text-[#1E1E1E80] mt-3">{t("donationPage.paymentDetails.disclaimerClosing")}</p>
                         </div>
                       </div>
 
@@ -554,15 +556,15 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                           onClick={() => submittedForm && handleMutate(submittedForm)}
                           disabled={!selectedPaymentMethod || isPending}
                           className={`w-full rounded-xl py-3 text-base font-semibold text-white ${(!selectedPaymentMethod || isPending) ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-[#AD2F16] hover:bg-[#AD2F16]/80'}`}>
-                          {isPending ? 'Processing...' : 'Submit Request'}
+                          {isPending ? t("donationPage.payment.processing") : t("donationPage.payment.submitRequest")}
                         </button>
                       </div>
                     </div>
                   )}
 
-                  {selectedPaymentMethod === 'Cheque' && (
+                  {selectedPaymentMethod === t("donationPage.payment.cheque") && (
                     <div className="space-y-4">
-                      <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">Fill the cheque and kindly reach our office for further process</div>
+                      <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">{t("donationPage.paymentDetails.chequeInstructions")}</div>
                       <div className="w-full overflow-hidden rounded-md bg-[#FCFCFC] p-3">
                         {/* cheque image or placeholder */}
                         <div className=" w-full bg-white rounded-md overflow-hidden flex items-center justify-center">
@@ -571,7 +573,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                       </div>
 
                       <div className="rounded-lg p-4 bg-white border">
-                        <h5 className=" textHeading font-primaryFont text-center text-[#AD2F16] font-semibold">Our Bank Details</h5>
+                        <h5 className=" textHeading font-primaryFont text-center text-[#AD2F16] font-semibold">{t("donationPage.paymentDetails.bankDetails")}</h5>
                         {/* decorative gold divider */}
                         <div className="mt-2 mb-2 flex items-center justify-center ">
                           <span className="w-2 h-2 bg-[#DAA520] rounded-full" />
@@ -579,15 +581,15 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                           <span className="w-2 h-2 bg-[#DAA520] rounded-full" />
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-sm">
-                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont">Bank Name</div>
+                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.bankName")}</div>
                           <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{'CANARA BANK'}</div>
-                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont">Account Number</div>
+                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.accountNumber")}</div>
                           <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{'120034699934'}</div>
-                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont">Account Name</div>
+                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.accountName")}</div>
                           <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{'SHREE MAHAKALESHWAR SALASAR HANUMAN SEV'}</div>
-                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont ">IFSC Code</div>
+                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont ">{t("donationPage.paymentDetails.ifscCode")}</div>
                           <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{"CNRB0001751"}</div>
-                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont">Branch</div>
+                          <div className="text-[#1E1E1E80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.branch")}</div>
                           <div className="text-[#AD2F16] textDescription font-secondaryFont font-semibold text-right">{"SURAT RING ROAD SURAT, GUJARAT-395003"}</div>
                         </div>
                       </div>
@@ -597,39 +599,39 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                           onClick={() => submittedForm && handleMutate(submittedForm)}
                           disabled={!selectedPaymentMethod || isPending}
                           className={`w-full rounded-xl py-3 text-base font-semibold text-white ${(!selectedPaymentMethod || isPending) ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-[#AD2F16] hover:bg-[#AD2F16]/80'}`}>
-                          {isPending ? 'Processing...' : 'Submit Request'}
+                          {isPending ? t("donationPage.payment.processing") : t("donationPage.payment.submitRequest")}
                         </button>
                       </div>
                     </div>
                   )}
 
-                  {(selectedPaymentMethod === 'Direct Bank Transfer' || selectedPaymentMethod === 'Credit/Debit Card') && (
+                  {(selectedPaymentMethod === t("donationPage.payment.bankTransfer") || selectedPaymentMethod === t("donationPage.payment.card")) && (
                     <div className="space-y-4">
-                      <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">Kindly transfer the amount to our Bank account</div>
+                      <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">{t("donationPage.paymentDetails.bankTransferInstructions")}</div>
 
                       <div className="rounded-lg p-4 bg-red-700 text-white">
-                        <h4 className="text-[#FFFFFF] textHeading font-secondaryFont text-center">{data?.organization ?? 'Shri Mahakaleshwar Salasar Hanuman Seva Trust, Surat, Gujarat'}</h4>
+                        <h4 className="text-[#FFFFFF] textHeading font-secondaryFont text-center">{data?.organization ?? t("donationPage.paymentDetails.organizationDetails")}</h4>
                         <div className="mt-2 mb-2 flex items-center justify-center ">
                           <span className="w-2 h-2 bg-[#DAA520] rounded-full" />
                           <div className="h-px bg-[#DAA520] w-full" />
                           <span className="w-2 h-2 bg-[#DAA520] rounded-full" />
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-sm">
-                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">Bank Name</div>
+                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.bankName")}</div>
                           <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'CANARA BANK'}</div>
-                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">Account Number</div>
+                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.accountNumber")}</div>
                           <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'120034699934'}</div>
-                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">Account Name</div>
+                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.accountName")}</div>
                           <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'SHREE MAHAKALESHWAR SALASAR HANUMAN SEV'}</div>
-                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">IFSC Code</div>
+                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.ifscCode")}</div>
                           <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'CNRB0001751'}</div>
-                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">Branch</div>
+                          <div className="text-[#FFFFFF80] textDescription font-secondaryFont">{t("donationPage.paymentDetails.branch")}</div>
                           <div className="text-[#FFFFFF] textDescription font-secondaryFont font-semibold text-right">{'SURAT RING ROAD SURAT, GUJARAT-395003'}</div>
                         </div>
                       </div>
 
                       <div className="rounded-xl p-6 bg-[#FFFFF] text-white shadow-md">
-                        <h4 className="font-semibold textHeading font-secondaryFont text-[#AD2F16] text-center">{data?.organization ?? 'Shri Mahakaleshwar Salasar Hanuman Seva Trust, Surat, Gujarat'}</h4>
+                        <h4 className="font-semibold textHeading font-secondaryFont text-[#AD2F16] text-center">{data?.organization ?? t("donationPage.paymentDetails.organizationDetails")}</h4>
 
                         {/* decorative gold divider */}
                         <div className="mt-4 flex items-center justify-center ">
@@ -640,16 +642,16 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
                         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                           <div>
-                            <div className="text-[#00000040] textDescription font-secondaryFont font-medium">Email ID</div>
+                            <div className="text-[#00000040] textDescription font-secondaryFont font-medium">{t("donationPage.paymentDetails.emailId")}</div>
                             <div className="text-[#333333] textDescription font-secondaryFont font-semibold">smshstrust@gmail.com</div>
                           </div>
                           <div>
-                            <div className="text-[#00000040] textDescription font-secondaryFont font-medium">Contact No.</div>
+                            <div className="text-[#00000040] textDescription font-secondaryFont font-medium">{t("donationPage.paymentDetails.contactNo")}</div>
                             <div className="text-[#333333] textDescription font-secondaryFont font-semibold">+91 9352815982</div>
                           </div>
                         </div>
                         <div className="mt-2">
-                          <div className="text-[#00000040] textDescription font-secondaryFont font-medium">Address</div>
+                          <div className="text-[#00000040] textDescription font-secondaryFont font-medium">{t("donationPage.paymentDetails.addressLabel")}</div>
 
                           <div className="text-[#333333] textDescription font-secondaryFont font-semibold">203, Metro Tower, Ring Road
                             Surat, Gujarat 395002</div>
@@ -662,15 +664,15 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                           onClick={() => submittedForm && handleMutate(submittedForm)}
                           disabled={!selectedPaymentMethod || isPending}
                           className={`w-full rounded-xl py-3 text-base font-semibold text-white ${(!selectedPaymentMethod || isPending) ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-[#AD2F16] hover:bg-[#AD2F16]/80'}`}>
-                          {isPending ? 'Processing...' : 'Submit Request'}
+                          {isPending ? t("donationPage.payment.processing") : t("donationPage.payment.submitRequest")}
                         </button>
                       </div>
                     </div>
                   )}
 
-                  {selectedPaymentMethod === 'UPI' && (
+                  {selectedPaymentMethod === t("donationPage.payment.upi") && (
                     <div className="space-y-4  border rounded-md overflow-hidden justify-center items-center ">
-                      <div className="text-center textHeading text-[#8B0000] mt-4">Scan to Pay</div>
+                      <div className="text-center textHeading text-[#8B0000] mt-4">{t("donationPage.paymentDetails.upiTitle")}</div>
                       <div className="mt-2 flex items-center justify-center mb-2 w-[80%] mx-auto">
                         <span className="w-2 h-2 bg-[#DAA520] rounded-full" />
                         <div className="h-px bg-[#DAA520] w-full" />
@@ -686,23 +688,23 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                           onClick={() => submittedForm && handleMutate(submittedForm)}
                           disabled={!selectedPaymentMethod || isPending}
                           className={`w-full rounded-xl py-3 text-base font-semibold text-white ${(!selectedPaymentMethod || isPending) ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-[#AD2F16] hover:bg-[#AD2F16]/80'}`}>
-                          {isPending ? 'Processing...' : 'Submit Request'}
+                          {isPending ? t("donationPage.payment.processing") : t("donationPage.payment.submitRequest")}
                         </button>
                       </div>
                     </div>
                   )}
 
-                  {selectedPaymentMethod === 'EMI (Easy Monthly Installments)' && (
+                  {selectedPaymentMethod === t("donationPage.payment.emi") && (
                     <div className="space-y-4 text-center">
                       <div className="py-6">
                         <img src={EmiRequestIMage} alt="EMI" className="mx-auto w-48 h-48 object-contain" />
                       </div>
-                      <h4 className="textHeading text-[#8B0000] font-secondaryFont">Thank you for your Interest</h4>
-                      <p className="textDescription text-[#1E1E1E80] font-secondaryFont">Please sit tight, our team will contact you shortly to help you further</p>
+                      <h4 className="textHeading text-[#8B0000] font-secondaryFont">{t("donationPage.paymentDetails.emiTitle")}</h4>
+                      <p className="textDescription text-[#1E1E1E80] font-secondaryFont">{t("donationPage.paymentDetails.emiDescription")}</p>
                       <div>
                         <button className="mt-3 inline-flex items-center gap-3 px-5 py-3 rounded-lg border-[2px] border-[#AD2F16] text-[#AD2F16] shadow-sm bg-white">
                           <img src={WhatsAppIcon} alt="WhatsApp" className="w-5 h-5 object-contain" />
-                          <span className="font-secondaryFont font-semibold">Send 'Hi' to our Whatsapp</span>
+                          <span className="font-secondaryFont font-semibold">{t("donationPage.paymentDetails.whatsappButton")}</span>
                         </button>
                       </div>
 
@@ -711,7 +713,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                           onClick={() => submittedForm && handleMutate(submittedForm)}
                           disabled={!selectedPaymentMethod || isPending}
                           className={`w-full mt-2 rounded-xl py-3 text-base font-semibold text-white ${(!selectedPaymentMethod || isPending) ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-[#AD2F16] hover:bg-[#AD2F16]/80'}`}>
-                          {isPending ? 'Processing...' : 'Submit Request'}
+                          {isPending ? t("donationPage.payment.processing") : t("donationPage.payment.submitRequest")}
                         </button>
                       </div>
                     </div>
@@ -742,8 +744,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                     className={`mt-6 w-full rounded-xl py-4 text-base font-semibold text-white transition-colors 
                   ${isPending ? "bg-orange-500 cursor-not-allowed" : "bg-orange-700 hover:bg-orange-800"}`}>
                     {isPending
-                      ? "Processing..."
-                      : `Chose Payment Method: ${finalPayingAmount !== 0 ? formatMoney(finalPayingAmount) : ""}`}
+                      ? t("donationPage.payment.processing")
+                      : t("donationPage.payment.choosePaymentMethod").replace("{{amount}}", finalPayingAmount !== 0 ? formatMoney(finalPayingAmount) : "")}
                   </button>
                 </>
               )}

@@ -157,7 +157,7 @@ export const AppRoutes = (): JSX.Element => {
             <CheckoutPage />
           </FamilyDetailsGuard>
         } />
-        <Route path="/donation" element={
+        <Route path="/donation/:title?" element={
           <FamilyDetailsGuard>
             <DonationPage />
           </FamilyDetailsGuard>
