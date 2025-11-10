@@ -11,15 +11,11 @@ export interface EventItem {
   [key: string]: any;
 }
 
-export const getEvents = (templeType?: string, todayDate?: string) => {
+export const getEvents = (templeType?: string) => {
   const params: Record<string, string> = {};
   
   if (templeType) {
     params.schedulePlace = templeType;
-  }
-  
-  if (todayDate) {
-    params.todayDate = todayDate;
   }
   
   return authTokenAxios.get(`/events`, { params });

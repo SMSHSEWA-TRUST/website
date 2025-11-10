@@ -9,5 +9,5 @@ export const QueryKeys = {
 export const useGetEvents = (templeType?: string, todayDate?: string) =>
     useQuery({
         queryKey: [...QueryKeys.getEvents, templeType, todayDate],
-        queryFn: () => getEvents(templeType, todayDate),
+        queryFn: () => getEvents(templeType),
     });
