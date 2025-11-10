@@ -341,6 +341,11 @@ export const CheckoutPage: React.FC = () => {
             return;
         }
 
+        if (!selectedAddress) {
+            toast.error('Please select a delivery address to proceed');
+            return;
+        }
+
         if (
             cartItems.some((item) => {
                 const stock = item.prasad?.stock ?? 0;
@@ -615,7 +620,7 @@ export const CheckoutPage: React.FC = () => {
                                     {/* Mobile payment button - Now inside payment summary */}
                                     <button
                                         onClick={handleProceedToPayment}
-                                        disabled={isProcessingPayment || cartItems.length === 0 || hasStockIssue}
+                                        disabled={isProcessingPayment || cartItems.length === 0 || hasStockIssue || !selectedAddress}
                                         className="w-full bg-[#8b0000] hover:bg-[#660000] text-white font-secondaryFont font-semibold py-4 rounded-2xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                     >
                                         {isProcessingPayment ? (
@@ -625,12 +630,14 @@ export const CheckoutPage: React.FC = () => {
                                             </>
                                         ) : hasStockIssue ? (
                                             'Check Stock Issues'
+                                        ) : !selectedAddress ? (
+                                            'Select Address to Proceed'
                                         ) : (
                                             <>
                                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" />
                                                 </svg>
-                                                Proceed to Payment 
+                                                Proceed to Payment
                                             </>
                                         )}
                                     </button>
@@ -643,10 +650,10 @@ export const CheckoutPage: React.FC = () => {
                         <div className="hidden lg:block mt-auto pt-6 pb-4 flex-shrink-0">
                             <button
                                 onClick={handleProceedToPayment}
-                                disabled={isProcessingPayment || cartItems.length === 0 || hasStockIssue}
+                                disabled={isProcessingPayment || cartItems.length === 0 || hasStockIssue || !selectedAddress}
                                 className="w-full bg-[#8b0000] hover:bg-[#660000] text-white font-secondaryFont font-semibold py-4 rounded-2xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {isProcessingPayment ? 'Processing...' : hasStockIssue ? 'Check stock' : `Proceed to Payment `}
+                                {isProcessingPayment ? 'Processing...' : hasStockIssue ? 'Check stock' : !selectedAddress ? 'Select Address to Proceed' : `Proceed to Payment `}
                             </button>
                         </div>
                     </div>

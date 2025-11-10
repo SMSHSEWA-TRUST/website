@@ -633,13 +633,13 @@ export default function PujaBookingMobile({ onClose, selectedPooja, initialBooki
                         {/* Show upcoming events when no specific date is selected */}
                         {!selectedDate && (
                             <div className="mt-4">
-                                <h3 className="text-lg font-bold text-gray-900 mb-3">Upcoming Events</h3>
+                                <h3 className="text-lg font-bold text-gray-900 mb-3">Select a Date to View Events</h3>
                                 {loadingEvents ? (
                                     <div className="text-gray-500">Loading events...</div>
                                 ) : eventsError ? (
                                     <div className="text-red-500">{eventsError}</div>
                                 ) : events.length === 0 ? (
-                                    <div className="text-gray-500">No events for this month.</div>
+                                            <div className="text-gray-500">Select a Date to View Events</div>
                                 ) : (
                                     <div className="space-y-3 max-h-60 overflow-y-auto">
                                         {events.slice(0, 5).map((event) => {

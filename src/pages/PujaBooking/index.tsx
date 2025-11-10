@@ -616,7 +616,7 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
                             <h3 className="text-xl font-bold text-gray-900 mb-4">
                                 {selectedDate
                                     ? `Events for ${selectedDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}`
-                                    : 'Upcoming Events'
+                                    : 'Select a Date to View Events'
                                 }
                             </h3>
                             <div className="space-y-4 max-h-[400px] overflow-y-auto">
@@ -628,7 +628,7 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
                                     <div className="text-gray-500">
                                         {selectedDate
                                             ? `No events for ${selectedDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}.`
-                                            : 'No events for this month.'
+                                            : ''
                                         }
                                     </div>
                                 ) : (
