@@ -42,14 +42,24 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Initialize callbacks with initial selected plots
+  // Initialize and restore state from initialSelectedPlots when it changes
   useEffect(() => {
+    // Only sync if initialSelectedPlots has meaningful data (from saved state)
     if (initialSelectedPlots.length > 0) {
-      const totalAmount = initialSelectedPlots.reduce((sum, p) => sum + p.price, 0);
-      onAmountChange?.(totalAmount);
-      onPlotsChange?.(initialSelectedPlots);
+      // Only update if the plots have actually changed (compare IDs)
+      const currentIds = selectedPlots.map(p => p._id).sort().join(',');
+      const initialIds = initialSelectedPlots.map(p => p._id).sort().join(',');
+
+      if (currentIds !== initialIds) {
+        setSelectedPlots(initialSelectedPlots);
+        const totalAmount = initialSelectedPlots.reduce((sum, p) => sum + p.price, 0);
+        onAmountChange?.(totalAmount);
+        onPlotsChange?.(initialSelectedPlots);
+      }
     }
-  }, []); // Empty dependency array since we only want this to run once on mount
+    // Note: We don't clear selections if initialSelectedPlots is empty, 
+    // as user might be actively selecting plots
+  }, [JSON.stringify(initialSelectedPlots.map(p => p._id))]); // Watch IDs only to prevent unnecessary re-renders
 
   // Function to handle plot selection (multi-select)
   const handlePlotClick = (plot: plotTypes) => {
@@ -220,9 +230,9 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
                 .reduce((sum, plot) => sum + plot.registrationCharge, 0)
                 .toLocaleString()}{" "} */}
             </p>
-            <caption className="text-nowrap text-xs  font-light">
+            <p className="text-nowrap text-xs font-light text-gray-500">
               {t("donationPage.landSelector.plotCharge")}
-            </caption>
+            </p>
           </div>
         </div>
       )}

@@ -59,8 +59,11 @@ export const useUpdateCartItem = () => {
 };
 
 export const useCreateOrder = () => {
-    return useMutation<any, Error, string>({
-        mutationFn: (cartId: string) => createOrder(cartId),
+    return useMutation<any, Error, string | { cartId: string; note?: string }>({
+        mutationFn: (arg: string | { cartId: string; note?: string }) => {
+            if (typeof arg === 'string') return createOrder(arg);
+            return createOrder(arg.cartId, arg.note);
+        },
     });
 };
 

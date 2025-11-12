@@ -22,6 +22,7 @@ import PaymentQrImage from '@/assets/images/paymentQr.png';
 import EmiRequestIMage from '@/assets/images/EmiReuest.png';
 import WhatsAppIcon from '@/assets/images/whatsappIcon.png';
 import { useI18n } from "@/lib/i18n";
+import { saveDonationFormState, getDonationFormState, clearDonationFormState } from "@/lib/donationFormStorage";
 
 type userProps = {
   name: string;
@@ -41,16 +42,19 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? (JSON.parse(storedUser) as userProps) : null;
 
+  // Try to restore saved form state from sessionStorage
+  const savedState = data?._id ? getDonationFormState(data._id) : null;
+
   const DefaultValues = {
-    donationDocId: data?.daanTypes?.[0]?._id ?? "",
-    daanType: data?.daanTypes?.[0]?._id ?? "", // Selected donation type ID
-    name: user?.name ?? "",
-    fatherName: "",
-    motherName: "",
-    phoneNumber: user?.phone ?? "",
-    email: user?.email ?? "",
-    address: "",
-    amount: data?.daanTypes?.[0]?.amount ?? 0,
+    donationDocId: savedState?.donationDocId ?? data?.daanTypes?.[0]?._id ?? "",
+    daanType: savedState?.daanType ?? data?.daanTypes?.[0]?._id ?? "", // Selected donation type ID
+    name: savedState?.name ?? user?.name ?? "",
+    fatherName: savedState?.fatherName ?? "",
+    motherName: savedState?.motherName ?? "",
+    phoneNumber: savedState?.phoneNumber ?? user?.phone ?? "",
+    email: savedState?.email ?? user?.email ?? "",
+    address: savedState?.address ?? "",
+    amount: savedState?.amount ?? data?.daanTypes?.[0]?.amount ?? 0,
   };
   const {
     control,
@@ -62,13 +66,20 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   } = useForm({
     defaultValues: DefaultValues,
   });
-  const [userPickedAmount, setUserPickedAmount] = useState<any>();
-  const [selectedDaanTypeId, setSelectedDaanTypeId] = useState<string | null>(DefaultValues.donationDocId || null);
+  // Keep userPickedAmount as a string while typing for stable controlled input behavior
+  const [userPickedAmount, setUserPickedAmount] = useState<string>(savedState?.userPickedAmount !== undefined && savedState?.userPickedAmount !== null ? String(savedState.userPickedAmount) : "");
+  const [selectedDaanTypeId, setSelectedDaanTypeId] = useState<string | null>(savedState?.selectedDaanTypeId ?? savedState?.donationDocId ?? (DefaultValues.donationDocId || null));
   const { mutate, isPending } = usePurchaseReqestSubmission();
   // New flow states: form -> selectPayment -> paymentDetails
-  const [flowStep, setFlowStep] = useState<'form' | 'selectPayment' | 'paymentDetails'>('form');
-  const [submittedForm, setSubmittedForm] = useState<any | null>(null);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
+  const [flowStep, setFlowStep] = useState<'form' | 'selectPayment' | 'paymentDetails'>(savedState?.flowStep ?? 'form');
+  const [submittedForm, setSubmittedForm] = useState<any | null>(savedState ? {
+    ...savedState,
+    selectedPlots: savedState.selectedPlots ?? [],
+    plotContacts: savedState.plotContacts ?? {},
+    sameDetailsForAll: savedState.sameDetailsForAll ?? false,
+    expandedPlots: savedState.expandedPlots ?? {},
+  } : null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(savedState?.selectedPaymentMethod ?? null);
   const [paymentDropdownOpen, setPaymentDropdownOpen] = useState<boolean>(true);
   const grandTotal = watch("amount");
   const finalPayingAmount = Number(grandTotal) + (Number(userPickedAmount) || 0);
@@ -142,7 +153,18 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                     setValue('donationDocId', it._id);
                     setValue('daanType', it._id); // Set daanType when Bhojan Daan item is selected
                     setValue('amount', it.amount ?? 0);
-                    setUserPickedAmount(null);
+                    setUserPickedAmount('');
+                    // Save state immediately when selection changes
+                    if (data?._id) {
+                      saveDonationFormState(data._id, {
+                        donationDocId: it._id,
+                        daanType: it._id,
+                        amount: it.amount ?? 0,
+                        selectedDaanTypeId: it._id,
+                        userPickedAmount: null,
+                        flowStep: 'form',
+                      });
+                    }
                   }}
                   className={`flex items-center justify-between gap-3 cursor-pointer rounded-md px-3 py-2 transition ${selectedDaanTypeId === it._id ? 'bg-white/10' : 'hover:bg-white/5'}`}>
                   <div className="flex items-center gap-3">
@@ -204,8 +226,12 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     };
     mutate(payload, {
       onSuccess: () => {
+        // Clear saved form state on successful submission
+        if (data?._id) {
+          clearDonationFormState(data._id);
+        }
         reset(DefaultValues);
-        setUserPickedAmount(null);
+        setUserPickedAmount('');
         setSubmittedForm(null);
         setSelectedPaymentMethod(null);
         setFlowStep('form');
@@ -220,6 +246,22 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       return toast.error("Amount (Daan) should not be 0");
     setSubmittedForm(form);
     setFlowStep('selectPayment');
+
+    // Save form state to sessionStorage for persistence including all plot data
+    if (data?._id) {
+      saveDonationFormState(data._id, {
+        ...form,
+        userPickedAmount,
+        selectedDaanTypeId,
+        flowStep: 'selectPayment',
+        selectedPaymentMethod: null,
+        // Ensure plot-related data is saved
+        selectedPlots: form.selectedPlots ?? [],
+        plotContacts: form.plotContacts ?? {},
+        sameDetailsForAll: form.sameDetailsForAll ?? false,
+        expandedPlots: form.expandedPlots ?? {},
+      });
+    }
   };
 
 
@@ -232,7 +274,27 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       // keep submittedForm so form values (including plotContacts) persist
       // keep payment dropdown state default
       setPaymentDropdownOpen(true);
+
+      // Update saved state when going back to form, preserving all data
+      if (data?._id && submittedForm) {
+        saveDonationFormState(data._id, {
+          ...submittedForm,
+          userPickedAmount,
+          selectedDaanTypeId,
+          flowStep: 'form',
+          selectedPaymentMethod: null,
+          // Ensure all plot-related data is preserved
+          selectedPlots: submittedForm.selectedPlots ?? [],
+          plotContacts: submittedForm.plotContacts ?? {},
+          sameDetailsForAll: submittedForm.sameDetailsForAll ?? false,
+          expandedPlots: submittedForm.expandedPlots ?? {},
+        });
+      }
     } else {
+      // Clear saved state when fully exiting
+      if (data?._id) {
+        clearDonationFormState(data._id);
+      }
       onBack?.();
     }
   };
@@ -373,11 +435,26 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                       {t("donationPage.form.donationAmount")}
                     </label>
                     <Input
+                      // Use text + inputMode to avoid browser number-input quirks while still showing numeric keyboard
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       value={userPickedAmount}
-                      onChange={amount => {
-                        setUserPickedAmount(amount?.target?.value);
+                      onChange={ev => {
+                        const raw = ev?.target?.value ?? "";
+                        // Allow only digits while typing (you can expand to allow decimals if needed)
+                        const sanitized = raw.replace(/[^0-9]/g, "");
+                        setUserPickedAmount(sanitized);
+
+                        // Save numeric value to session storage (as number) to keep rest of code working
+                        if (data?._id) {
+                          const currentState = getDonationFormState(data._id) || {};
+                          saveDonationFormState(data._id, {
+                            ...currentState,
+                            userPickedAmount: sanitized ? Number(sanitized) : null,
+                          });
+                        }
                       }}
-                      type="number"
                       placeholder={t("donationPage.form.amountPlaceholder")}
                       className="my-2"
                     />
@@ -470,7 +547,19 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                               name="paymentMethod"
                               value={opt.label}
                               checked={selectedPaymentMethod === opt.label}
-                              onChange={() => { setSelectedPaymentMethod(opt.label); setPaymentDropdownOpen(false); }}
+                              onChange={() => {
+                                setSelectedPaymentMethod(opt.label);
+                                setPaymentDropdownOpen(false);
+                                // Save payment method selection
+                                if (data?._id && submittedForm) {
+                                  saveDonationFormState(data._id, {
+                                    ...submittedForm,
+                                    userPickedAmount,
+                                    flowStep: 'selectPayment',
+                                    selectedPaymentMethod: opt.label,
+                                  });
+                                }
+                              }}
                               className="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500"
                             />
                           </label>

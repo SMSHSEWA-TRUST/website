@@ -42,7 +42,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   const { t } = useI18n();
   const [selectedOption, setSelectedOption] = useState(data?.daanTypes?.[0] ?? null);
   const [selectedPlots, setSelectedPlots] = useState<any[]>(initialSelectedPlots);
-  const [landContacts, setLandContacts] = useState<Record<string, any>>({});
+  const [landContacts, setLandContacts] = useState<Record<string, any>>(initialPlotContacts ?? {});
   const [sameDetailsForAll, setSameDetailsForAll] = useState(initialSameDetailsForAll);
   const [expandedPlots, setExpandedPlots] = useState<Record<string, boolean>>(initialExpandedPlots);
   const [plotFieldErrors, setPlotFieldErrors] = useState<Record<string, Record<string, string>>>({});
@@ -53,6 +53,10 @@ const DonationForm: React.FC<DonationFormProps> = ({
   const storedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
   const registeredUser = storedUser ? JSON.parse(storedUser) : null;
 
+  // Note: selectedPlots, sameDetailsForAll, and expandedPlots are all initialized 
+  // with their initial values via useState, so no sync effects needed.
+  // The LandDonationSelector will handle its own plot initialization.
+
   // If user is registered and there are selected plots, prefill the first plot's contact
   useEffect(() => {
     if (!registeredUser) return;
@@ -62,8 +66,15 @@ const DonationForm: React.FC<DonationFormProps> = ({
     setLandContacts(prev => {
       // Check if we already have contact data for the first plot to avoid unnecessary updates
       const existingContact = prev[firstId];
-      if (existingContact && existingContact.name && existingContact.phoneNumber && existingContact.email) {
-        return prev; // Don't update if we already have data
+      // Only prefill if the contact is completely empty
+      const hasExistingData = existingContact && (
+        existingContact.name ||
+        existingContact.phoneNumber ||
+        existingContact.email
+      );
+
+      if (hasExistingData) {
+        return prev; // Don't overwrite existing data
       }
 
       const next = { ...prev };
@@ -73,22 +84,21 @@ const DonationForm: React.FC<DonationFormProps> = ({
       const motherFromFamily = familyMembers.find((m: any) => String(m.relation || '').toLowerCase() === 'mother')?.name;
 
       next[firstId] = {
-        ...(existingContact || {}),
-        // prefer existing values, fall back to registered user values (including nested family members)
-        name: existingContact?.name || registeredUser.name || "",
-        fatherName: existingContact?.fatherName || fatherFromFamily || registeredUser.fatherName || "",
-        motherName: existingContact?.motherName || motherFromFamily || registeredUser.motherName || "",
-        phoneNumber: existingContact?.phoneNumber || registeredUser.phone || "",
-        email: existingContact?.email || registeredUser.email || "",
-        address: existingContact?.address || registeredUser.address || "",
+        name: registeredUser.name || "",
+        fatherName: fatherFromFamily || registeredUser.fatherName || "",
+        motherName: motherFromFamily || registeredUser.motherName || "",
+        phoneNumber: registeredUser.phone || "",
+        email: registeredUser.email || "",
+        address: registeredUser.address || "",
       };
       return next;
     });
-  }, [registeredUser?.name, registeredUser?.phone, registeredUser?.email, registeredUser?.address, registeredUser?.fatherName, registeredUser?.motherName, selectedPlots?.[0]?._id]);
+  }, [registeredUser, selectedPlots?.[0]?._id]);
 
   // If user is registered, prefill top-level form fields so Controllers show stored values
+  // Only run once on mount to avoid overwriting user edits
   useEffect(() => {
-    if (!registeredUser) return;
+    if (!registeredUser || initialFormData) return; // Skip if we have initialFormData from saved state
     try {
       // set common form values if available on registeredUser
       const fields = ['name', 'phoneNumber', 'email', 'address'];
@@ -100,39 +110,46 @@ const DonationForm: React.FC<DonationFormProps> = ({
       // set simple fields
       fields.forEach(f => {
         const val = registeredUser[f] ?? (f === 'phoneNumber' ? registeredUser.phone : undefined) ?? '';
-        setValue(f as string, val);
+        setValue(f as string, val, { shouldValidate: false });
       });
 
       // set father/mother using familyDetails members as primary source, fallback to top-level keys
       const fatherVal = fatherFromFamily ?? registeredUser.fatherName ?? '';
       const motherVal = motherFromFamily ?? registeredUser.motherName ?? '';
-      setValue('fatherName', fatherVal);
-      setValue('motherName', motherVal);
+      setValue('fatherName', fatherVal, { shouldValidate: false });
+      setValue('motherName', motherVal, { shouldValidate: false });
     } catch (e) {
       // ignore if setValue not available or fails
       // console.warn('Failed to prefill form values from registered user', e);
     }
-  }, [registeredUser, setValue]);
+  }, []); // Empty deps - run only once on mount
 
   // Initialize form data from initialFormData for retention on back navigation
   useEffect(() => {
-    if (!initialFormData || !data?.daanTypes) return;
+    if (!initialFormData) return;
+
     // Set selected donation option
-    if (initialFormData.donationDocId) {
+    if (initialFormData.donationDocId && data?.daanTypes) {
       const option = data.daanTypes.find((o: any) => o._id === initialFormData.donationDocId);
       if (option) {
         setSelectedOption(option);
         onAmountChange?.(option.amount);
       }
     }
-    // Set form field values
+
+    // Set form field values - use shouldValidate: false to avoid validation on mount
     const fields = ['name', 'fatherName', 'motherName', 'phoneNumber', 'email', 'address'];
     fields.forEach(field => {
-      if (initialFormData[field] !== undefined) {
-        setValue(field, initialFormData[field]);
+      if (initialFormData[field] !== undefined && initialFormData[field] !== null) {
+        setValue(field, initialFormData[field], { shouldValidate: false, shouldDirty: false });
       }
     });
-  }, [initialFormData, data?.daanTypes, setValue, onAmountChange]);
+
+    // Set amount if available
+    if (initialFormData.amount !== undefined) {
+      setValue('amount', initialFormData.amount, { shouldValidate: false, shouldDirty: false });
+    }
+  }, []); // Run only once on mount to restore initial data
 
   const handleDonationSelect = (option: { _id: string; name: string; amount: number }) => {
     setSelectedOption(option);
@@ -204,12 +221,19 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
   // Initialize landContacts from parent-provided initial contacts when available
   useEffect(() => {
-    if (!initialPlotContacts) return;
-    // only initialize if we don't already have contacts (avoid overwriting in-progress edits)
+    if (!initialPlotContacts || Object.keys(initialPlotContacts).length === 0) return;
+
+    // Restore contacts from saved state (this happens when coming back from payment page)
     setLandContacts(prev => {
-      if (Object.keys(prev).length === 0) {
+      // Only restore if we don't already have the same contacts
+      const prevKeys = Object.keys(prev).sort().join(',');
+      const initialKeys = Object.keys(initialPlotContacts).sort().join(',');
+
+      // If the keys are different or prev is empty, restore from initial
+      if (prevKeys !== initialKeys || Object.keys(prev).length === 0) {
         return initialPlotContacts;
       }
+
       return prev;
     });
   }, [initialPlotContacts]);
@@ -335,14 +359,17 @@ const DonationForm: React.FC<DonationFormProps> = ({
       }
       return next;
     });
+
     // clear the field-level error for this plot when user edits
     setPlotFieldErrors(prev => {
+      if (!prev[plotId] || !prev[plotId][field]) return prev;
       const next = { ...prev };
-      if (next[plotId] && next[plotId][field]) {
-        const remaining = { ...next[plotId] };
-        delete remaining[field];
-        if (Object.keys(remaining).length === 0) delete next[plotId];
-        else next[plotId] = remaining;
+      const remaining = { ...next[plotId] };
+      delete remaining[field];
+      if (Object.keys(remaining).length === 0) {
+        delete next[plotId];
+      } else {
+        next[plotId] = remaining;
       }
       return next;
     });
@@ -412,7 +439,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
             setPlotSelectionError(t("donationPage.form.plotSelectionRequired") || "Please select at least one land plot to proceed.");
             return;
           }
-          
+
           // Clear plot selection error if we have plots selected
           if (data?.title === DialogTypesForDonation.BHUDAAN && selectedPlots.length > 0) {
             setPlotSelectionError("");
@@ -539,11 +566,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
                   pattern: { value: NAME_REGEX, message: t("donationPage.form.nameInvalid") },
                   minLength: { value: 2, message: t("donationPage.form.nameInvalid") }
                 }}
-                render={({ field }) => (
+                render={({ field: { onChange, onBlur, value, ref } }) => (
                   <input
-                    {...field}
+                    ref={ref}
+                    value={value ?? ''}
+                    onChange={onChange}
+                    onBlur={onBlur}
                     placeholder={t("donationPage.form.namePlaceholder")}
-                    className="w-full px-3 py-2.5 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none ${errors?.name ? 'border-red-500' : 'border-orange-300'}`}
                   />
                 )}
               />
@@ -561,11 +591,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
                   pattern: { value: NAME_REGEX, message: t("donationPage.form.fatherNameInvalid") },
                   minLength: { value: 2, message: t("donationPage.form.fatherNameInvalid") }
                 }}
-                render={({ field }) => (
+                render={({ field: { onChange, onBlur, value, ref } }) => (
                   <input
-                    {...field}
+                    ref={ref}
+                    value={value ?? ''}
+                    onChange={onChange}
+                    onBlur={onBlur}
                     placeholder={t("donationPage.form.fatherNamePlaceholder")}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none ${errors?.fatherName ? 'border-red-500' : 'border-gray-300'}`}
                   />
                 )}
               />
@@ -583,11 +616,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
                   pattern: { value: NAME_REGEX, message: t("donationPage.form.motherNameInvalid") },
                   minLength: { value: 2, message: t("donationPage.form.motherNameInvalid") }
                 }}
-                render={({ field }) => (
+                render={({ field: { onChange, onBlur, value, ref } }) => (
                   <input
-                    {...field}
+                    ref={ref}
+                    value={value ?? ''}
+                    onChange={onChange}
+                    onBlur={onBlur}
                     placeholder={t("donationPage.form.motherNamePlaceholder")}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none ${errors?.motherName ? 'border-red-500' : 'border-gray-300'}`}
                   />
                 )}
               />
@@ -604,15 +640,18 @@ const DonationForm: React.FC<DonationFormProps> = ({
                   required: t("donationPage.form.phoneNumberRequired"),
                   pattern: { value: PHONE_REGEX, message: t("donationPage.form.phoneNumberInvalid") }
                 }}
-                render={({ field }) => (
+                render={({ field: { onChange, onBlur, value, ref } }) => (
                   <>
                     <input
-                      {...field}
+                      ref={ref}
+                      value={value ?? ''}
+                      onChange={onChange}
+                      onBlur={onBlur}
                       placeholder={t("donationPage.form.phoneNumberPlaceholder")}
                       readOnly={Boolean(registeredUser)}
                       onClick={() => { if (registeredUser) showNotEditableMessage('globalPhone'); }}
                       onFocus={() => { if (registeredUser) showNotEditableMessage('globalPhone'); }}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white"
+                      className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white ${errors?.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
                     />
                     {notEditableMsgs['globalPhone'] && <p className="text-gray-500 text-xs mt-1">{notEditableMsgs['globalPhone']}</p>}
                   </>
@@ -634,16 +673,19 @@ const DonationForm: React.FC<DonationFormProps> = ({
                     message: t("donationPage.form.emailInvalid"),
                   },
                 }}
-                render={({ field }) => (
+                render={({ field: { onChange, onBlur, value, ref } }) => (
                   <>
                     <input
-                      {...field}
+                      ref={ref}
+                      value={value ?? ''}
+                      onChange={onChange}
+                      onBlur={onBlur}
                       type="email"
                       placeholder={t("donationPage.form.emailPlaceholder")}
                       readOnly={Boolean(registeredUser)}
                       onClick={() => { if (registeredUser) showNotEditableMessage('globalEmail'); }}
                       onFocus={() => { if (registeredUser) showNotEditableMessage('globalEmail'); }}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white"
+                      className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white ${errors?.email ? 'border-red-500' : 'border-gray-300'}`}
                     />
                     {notEditableMsgs['globalEmail'] && <p className="text-gray-500 text-xs mt-1">{notEditableMsgs['globalEmail']}</p>}
                   </>
@@ -659,11 +701,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
                 name="address"
                 control={control}
                 rules={{ required: t("donationPage.form.addressRequired"), minLength: { value: 5, message: t("donationPage.form.addressInvalid") } }}
-                render={({ field }) => (
+                render={({ field: { onChange, onBlur, value, ref } }) => (
                   <input
-                    {...field}
+                    ref={ref}
+                    value={value ?? ''}
+                    onChange={onChange}
+                    onBlur={onBlur}
                     placeholder={t("donationPage.form.addressPlaceholder")}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none ${errors?.address ? 'border-red-500' : 'border-gray-300'}`}
                   />
                 )}
               />

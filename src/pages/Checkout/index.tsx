@@ -130,6 +130,7 @@ export const CheckoutPage: React.FC = () => {
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState<AddressModel | null>(null);
+    const [note, setNote] = useState<string>('');
     const [isAddEditAddressOpen, setIsAddEditAddressOpen] = useState(false);
     const [editingAddress, setEditingAddress] = useState<AddressModel | null>(null);
 
@@ -359,7 +360,7 @@ export const CheckoutPage: React.FC = () => {
         setIsProcessingPayment(true);
 
         try {
-            const orderResponse = await createOrderMutation.mutateAsync(cartId);
+            const orderResponse = await createOrderMutation.mutateAsync({ cartId, note });
 
             const loadRazorpayScript = () =>
                 new Promise<boolean>((resolve) => {
@@ -494,7 +495,13 @@ export const CheckoutPage: React.FC = () => {
                                         Got a special request? <span className="text-red-600 font-semibold">Write a note</span>
                                     </span>
                                 </div>
-                                <input type="text" placeholder="Write Note (Optional)" className="w-full font-secondaryFont text-sm text-gray-400 border-0 outline-none bg-transparent" />
+                                <input
+                                    type="text"
+                                    placeholder="Write Note (Optional)"
+                                    value={note}
+                                    onChange={(e) => setNote(e.target.value)}
+                                    className="w-full font-secondaryFont text-sm text-gray-400 border-0 outline-none bg-transparent"
+                                />
                             </div>
 
                             {/* Desktop-only suggestions (hidden on mobile) */}
@@ -562,7 +569,13 @@ export const CheckoutPage: React.FC = () => {
                                             Got a special request? <span className="text-red-600 font-semibold">Write a note</span>
                                         </span>
                                     </div>
-                                    <input type="text" placeholder="Write Note (Optional)" className="w-full font-secondaryFont text-sm text-gray-400 border-0 outline-none bg-transparent" />
+                                    <input
+                                        type="text"
+                                        placeholder="Write Note (Optional)"
+                                        value={note}
+                                        onChange={(e) => setNote(e.target.value)}
+                                        className="w-full font-secondaryFont text-sm text-gray-400 border-0 outline-none bg-transparent"
+                                    />
                                 </div>
 
                                 {/* Mobile suggestions */}
