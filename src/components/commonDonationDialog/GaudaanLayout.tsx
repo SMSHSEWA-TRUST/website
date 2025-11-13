@@ -223,6 +223,12 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
         // Send as an array (not a JSON string) so backend receives proper ObjectId array
         plotIds: formdata.plotIds,
       }),
+      ...(formdata.plotsDetails?.length > 0 && {
+        // Include compact plot details (only plotId, plotNumber and contact) so
+        // backend gets the necessary information without extra fields from the
+        // full selectedPlots objects.
+        plotsDetails: formdata.plotsDetails,
+      }),
     };
     mutate(payload, {
       onSuccess: () => {

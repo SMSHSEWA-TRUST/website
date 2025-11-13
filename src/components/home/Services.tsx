@@ -39,15 +39,15 @@ const Services = (): JSX.Element => {
             case 0:
                 return 'order-1 ';
             case 1:
-                return 'order-2 ';
+                return 'order-2 lg:order-4 '; 
             case 2:
-                return 'order-3 ';
+                return ' order-5 lg:order-3 ';
             case 3:
-                return 'order-6 xl:order-4 ';
+                return 'order-4 lg:order-2';
             case 4:
-                return 'order-5 ';
+                return 'order-3 lg:order-5 ';
             case 5:
-                return 'order-4 xl:order-6 ';
+                return 'order-6 ';
             default:
                 return `order-${idx + 1}`;
         }

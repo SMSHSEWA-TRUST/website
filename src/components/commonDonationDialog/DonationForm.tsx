@@ -511,6 +511,16 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
               // For BhumiDaan flow send only an array of plot IDs
               formData.plotIds = selectedPlots.map(p => p._id);
+              // Also include a compact `plotsDetails` array which contains only the
+              // fields we want to send to the backend: plotId, plotNumber and contact.
+              // This prevents sending the full selectedPlots object which may contain
+              // extra data unrelated to the contact information.
+              formData.plotsDetails = selectedPlots.map(p => ({
+                plotId: p._id,
+                plotNumber: p.plotNumber,
+                contact: landContacts[p._id] || {},
+              }));
+
               // also include the plot contacts so parent can persist and repopulate them
               formData.plotContacts = landContacts;
               // include the full selected plots info for re-selection on back navigation

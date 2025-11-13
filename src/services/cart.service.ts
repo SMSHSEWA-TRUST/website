@@ -78,8 +78,8 @@ export const getCart = (): Promise<{ success: boolean; data: CartData }> =>
 export const getCartPreview = (cartId: string): Promise<{ success: boolean; data: CartPreviewData }> =>
   authTokenAxios.get(`/my-cart/preview/${cartId}`);
 
-export const createOrder = (cartId: string, note?: string): Promise<any> =>
-  authTokenAxios.post(`/my-cart/create-order?cartId=${cartId}`, { note });
+export const createOrder = (cartId: string, note?: string, addressId?: string): Promise<any> =>
+  authTokenAxios.post(`/my-cart/create-order?cartId=${cartId}`, { note, addressId });
 
 export interface VerifyPaymentRequest {
   razorpay_order_id: string;

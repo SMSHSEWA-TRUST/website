@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Minus, Plus } from 'lucide-react';
 import { useGetPrasadById } from '@/api/PrasadQueries';
-import { useAddToCart } from '@/api/CartQueries';
+import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import { isAuthenticated, saveRedirectDestination } from '@/lib/authRedirect';
 import { useNavigate } from 'react-router-dom';
 import BuyNowCheckoutModal from './BuyNowCheckoutModal';
@@ -34,9 +34,23 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     const prasadId = plan?._id || String(plan?.id || '');
     const { data: prasadDetails, isLoading, isError } = useGetPrasadById(prasadId, isOpen && !!prasadId);
 
+    // Fetch cart data to check if product is already in cart
+    const { data: cartData } = useGetCart();
+
     // Add to cart mutation
     const addToCartMutation = useAddToCart();
+    const updateCartMutation = useUpdateCartItem();
     const [isBuyNowCheckoutOpen, setIsBuyNowCheckoutOpen] = useState(false);
+
+    // Find if current prasad is already in cart
+    const cartDataResponse = cartData?.data as any;
+    const cartItems = cartDataResponse?.cart?.items || cartDataResponse?.items || [];
+    const cartItem = cartItems.find(
+        (item: any) => item.prasad._id === prasadId
+    );
+    const isInCart = !!cartItem;
+    const cartItemId = cartItem?._id;
+    const cartQuantity = cartItem?.quantity || 0;
 
     // Use API data if available, otherwise fall back to plan prop
     const displayData = prasadDetails?.data;
@@ -62,9 +76,10 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     useEffect(() => {
         if (isOpen) {
             setSelectedImage(0);
-            setQuantity(1);
+            // If product is in cart, set quantity to cart quantity, otherwise 1
+            setQuantity(cartQuantity > 0 ? cartQuantity : 1);
         }
-    }, [isOpen, prasadId]);
+    }, [isOpen, prasadId, cartQuantity]);
 
     // Robust body scroll lock: fix body position to prevent background scrolling and avoid layout shift.
     useEffect(() => {
@@ -118,9 +133,38 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
         const newQuantity = quantity + change;
         if (newQuantity >= 1 && newQuantity <= currentStock) {
             setQuantity(newQuantity);
+
+            // If product is already in cart, update it via API
+            if (isInCart && cartItemId) {
+                // Determine action based on change direction
+                const action = change > 0 ? 'add' : 'remove';
+                const quantityChange = Math.abs(change);
+
+                updateCartMutation.mutate(
+                    {
+                        itemId: cartItemId,
+                        data: {
+                            action: action,
+                            quantity: quantityChange,
+                        }
+                    },
+                    {
+                        onError: (error) => {
+                            console.error('Error updating cart:', error);
+                            // Revert quantity on error
+                            setQuantity(quantity);
+                            alert('Failed to update cart. Please try again.');
+                        }
+                    }
+                );
+            }
         } else if (newQuantity > currentStock) {
             // Optional: Show alert when trying to exceed stock
             alert(`Only ${currentStock} items available in stock`);
+        } else if (newQuantity < 1 && isInCart) {
+            // If trying to go below 1 and item is in cart, user might want to remove it
+            // For now, we keep minimum at 1
+            alert('Minimum quantity is 1. To remove from cart, use the cart page.');
         }
     };
 
@@ -133,40 +177,48 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
             window.location.href = '/login';
             return;
         }
-        // Calculate total amount
-        const amount = currentPrice * quantity;
 
-        // Call API to add to cart
-        addToCartMutation.mutate(
-            {
-                prasad: prasadId,
-                quantity: quantity,
-                amount: amount,
-            },
-            {
-                onSuccess: (data) => {
-                    console.log('Added to cart successfully:', data);
-                    // Navigate to full-page checkout
-                    navigate('/checkout');
-                    // Optionally close detail modal
-                    onClose();
+        if (isInCart && cartItemId) {
+            // Product is already in cart - navigate to checkout directly
+            navigate('/checkout');
+            onClose();
+        } else {
+            // Product not in cart - add it
+            // Calculate total amount
+            const amount = currentPrice * quantity;
+
+            // Call API to add to cart
+            addToCartMutation.mutate(
+                {
+                    prasad: prasadId,
+                    quantity: quantity,
+                    amount: amount,
                 },
-                onError: (error) => {
-                    console.error('Error adding to cart:', error);
-                    const status = (error as any)?.response?.status;
-                    if (status === 401) {
-                        // Save rich redirect intent so after login we can re-open the prasad modal
-                        localStorage.setItem('auth_redirect_destination', JSON.stringify({
-                            path: window.location.pathname,
-                            state: { openPrasadDetail: true, prasadId }
-                        }));
-                        window.location.href = '/login';
-                        return;
-                    }
-                    alert('Failed to add item to cart. Please try again.');
-                },
-            }
-        );
+                {
+                    onSuccess: (data) => {
+                        console.log('Added to cart successfully:', data);
+                        // Navigate to full-page checkout
+                        navigate('/checkout');
+                        // Optionally close detail modal
+                        onClose();
+                    },
+                    onError: (error) => {
+                        console.error('Error adding to cart:', error);
+                        const status = (error as any)?.response?.status;
+                        if (status === 401) {
+                            // Save rich redirect intent so after login we can re-open the prasad modal
+                            localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                                path: window.location.pathname,
+                                state: { openPrasadDetail: true, prasadId }
+                            }));
+                            window.location.href = '/login';
+                            return;
+                        }
+                        alert('Failed to add item to cart. Please try again.');
+                    },
+                }
+            );
+        }
     };
 
 
@@ -393,6 +445,8 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                                         </>
                                     ) : displayData?.stock === 0 ? (
                                         'Out of Stock'
+                                    ) : isInCart ? (
+                                        'Go to Checkout'
                                     ) : (
                                         'Add to cart'
                                     )}

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { Minus, Plus } from 'lucide-react';
 import lineImage from "@/assets/images/line.png";
 import PrashadDetailModal from './PrashadDetailModal';
 import { useGetPrasad } from '@/api/PrasadQueries';
-import { useAddToCart } from '@/api/CartQueries';
+import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import { saveRedirectDestination, isAuthenticated } from '@/lib/authRedirect';
 
 export interface PrashadPlan {
@@ -44,6 +45,9 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
     // Fetch data from API
     const { data: apiData, isLoading, isError } = useGetPrasad();
 
+    // Fetch cart data
+    const { data: cartData } = useGetCart();
+
     // Determine which plans to use (memoized to avoid identity changes each render)
     const plans: PrashadPlan[] = useMemo(() => {
         let computed: PrashadPlan[] = useApiData && apiData?.data
@@ -76,8 +80,60 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
         // Dependencies: recompute only when data or filters change
     }, [useApiData, apiData?.data, propPlans, categoryFilter]);
 
-    // Cart mutation hook
+    // Cart mutation hooks
     const addToCartMutation = useAddToCart();
+    const updateCartMutation = useUpdateCartItem();
+
+    // Helper function to get cart item for a prasad
+    const getCartItemForPrasad = (prasadId: string) => {
+        const cartDataResponse = cartData?.data as any;
+        const cartItems = cartDataResponse?.cart?.items || cartDataResponse?.items || [];
+        return cartItems.find((item: any) => item.prasad._id === prasadId);
+    };
+
+    // Handler for quantity change in cart items
+    const handleQuantityChangeInCard = (plan: PrashadPlan, change: number) => {
+        const prasadId = plan._id || String(plan.id || '');
+        const cartItem = getCartItemForPrasad(prasadId);
+
+        if (!cartItem) return;
+
+        const currentQuantity = cartItem.quantity;
+        const newQuantity = currentQuantity + change;
+
+        // Prevent going below 1
+        if (newQuantity < 1) {
+            alert('Minimum quantity is 1. To remove from cart, use the cart page.');
+            return;
+        }
+
+        // Check stock limits if available
+        const stock = (apiData?.data?.find((item: any) => item._id === prasadId) as any)?.stock || 999;
+        if (newQuantity > stock) {
+            alert(`Only ${stock} items available in stock`);
+            return;
+        }
+
+        // Update cart via API
+        const action = change > 0 ? 'add' : 'remove';
+        const quantityChange = Math.abs(change);
+
+        updateCartMutation.mutate(
+            {
+                itemId: cartItem._id,
+                data: {
+                    action: action,
+                    quantity: quantityChange,
+                }
+            },
+            {
+                onError: (error) => {
+                    console.error('Error updating cart:', error);
+                    alert('Failed to update cart. Please try again.');
+                }
+            }
+        );
+    };
 
     // Handler for the small "Add to Cart" button inside the card (does not open modal)
     const handleAddToCartButton = (plan: PrashadPlan) => {
@@ -226,51 +282,88 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
 
                 {/* Prashad Plans Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                    {plans.map((plan) => (
-                        <div
-                            key={plan.id}
-                            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105 cursor-pointer"
-                            onClick={() => handleOpenModal(plan)}
-                        >
-                            <div className="aspect-square bg-gray-200 relative">
-                                {plan.image ? (
-                                    <LazyLoadImage
-                                        src={plan.image}
-                                        alt={plan.name}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
-                                    />
-                                ) : (
-                                    <div className="absolute inset-0 flex items-center justify-center text-gray-300">
-                                        <svg className="w-16 h-16 sm:w-20 sm:h-20" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-                                        </svg>
+                    {plans.map((plan) => {
+                        const prasadId = plan._id || String(plan.id || '');
+                        const cartItem = getCartItemForPrasad(prasadId);
+                        const isInCart = !!cartItem;
+                        const cartQuantity = cartItem?.quantity || 0;
+
+                        return (
+                            <div
+                                key={plan.id}
+                                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105 cursor-pointer"
+                                onClick={() => handleOpenModal(plan)}
+                            >
+                                <div className="aspect-square bg-gray-200 relative">
+                                    {plan.image ? (
+                                        <LazyLoadImage
+                                            src={plan.image}
+                                            alt={plan.name}
+                                            className="w-full h-full object-cover"
+                                            loading="lazy"
+                                        />
+                                    ) : (
+                                        <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                                            <svg className="w-16 h-16 sm:w-20 sm:h-20" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="p-4">
+                                    <h3 className="font-secondaryFont text-base sm:text-lg text-gray-700 mb-1">
+                                        {plan.name}
+                                    </h3>
+                                    <p className="font-secondaryFont text-xl sm:text-2xl  text-[#8b0000] font-semibold">
+                                        ₹{plan.price}
+                                    </p>
+                                    <div className="mt-3">
+                                        {isInCart ? (
+                                            // Show quantity controls when item is in cart
+                                            <div className="space-y-2">
+                                                <div className="flex items-center justify-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden">
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, -1); }}
+                                                        disabled={cartQuantity <= 1}
+                                                        className={`p-2 transition-colors border-r-2 border-[#8b0000] ${cartQuantity <= 1
+                                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                            : 'hover:bg-[#8b0000] hover:text-white'
+                                                            }`}
+                                                        aria-label="Decrease quantity"
+                                                    >
+                                                        <Minus className="w-4 h-4" />
+                                                    </button>
+                                                    <span className="font-secondaryFont text-base font-bold min-w-[40px] text-center text-gray-900 px-3">
+                                                        {cartQuantity}
+                                                    </span>
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, 1); }}
+                                                        className="p-2 transition-colors border-l-2 border-[#8b0000] hover:bg-[#8b0000] hover:text-white"
+                                                        aria-label="Increase quantity"
+                                                    >
+                                                        <Plus className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            // Show Add to Cart button when item is not in cart
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); handleAddToCartButton(plan); }}
+                                                className="w-full flex items-center justify-center gap-2 border border-[#8b0000] text-[#8b0000] py-2 px-3 rounded-lg mt-2 hover:bg-[#8b0000] hover:text-white transition-colors"
+                                            >
+                                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M6 6h15l-1.5 9h-11z" />
+                                                    <circle cx="9" cy="20" r="1" />
+                                                    <circle cx="19" cy="20" r="1" />
+                                                </svg>
+                                                <span className="font-medium">Add to Cart</span>
+                                            </button>
+                                        )}
                                     </div>
-                                )}
-                            </div>
-                            <div className="p-4">
-                                <h3 className="font-secondaryFont text-base sm:text-lg text-gray-700 mb-1">
-                                    {plan.name}
-                                </h3>
-                                <p className="font-secondaryFont text-xl sm:text-2xl  text-[#8b0000] font-semibold">
-                                    ₹{plan.price}
-                                </p>
-                                <div className="mt-3">
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); handleAddToCartButton(plan); }}
-                                        className="w-full flex items-center justify-center gap-2 border border-[#8b0000] text-[#8b0000] py-2 px-3 rounded-lg mt-2 hover:bg-[#8b0000] hover:text-white transition-colors"
-                                    >
-                                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M6 6h15l-1.5 9h-11z" />
-                                            <circle cx="9" cy="20" r="1" />
-                                            <circle cx="19" cy="20" r="1" />
-                                        </svg>
-                                        <span className="font-medium">Add to Cart</span>
-                                    </button>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
 

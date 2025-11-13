@@ -113,6 +113,23 @@ const ProfilePage = () => {
     const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false);
     const [editingAddress, setEditingAddress] = useState<AddressModel | null>(null);
 
+    // Inline messages for specific fields when clicked in edit mode
+    const [fieldMessage, setFieldMessage] = useState<{ [key: string]: string }>({});
+
+    const showFieldMessage = (field: string, message?: string) => {
+        const defaultMsg = "To add or update these fields, please go to the Add Member section.";
+        const msg = message || defaultMsg;
+        setFieldMessage(prev => ({ ...prev, [field]: msg }));
+        // clear after 5 seconds
+        setTimeout(() => {
+            setFieldMessage(prev => {
+                const copy = { ...prev };
+                delete copy[field];
+                return copy;
+            });
+        }, 5000);
+    };
+
     // Open modal for adding new address
     const handleOpenAddAddressModal = () => {
         setEditingAddress(null);
@@ -459,9 +476,9 @@ const ProfilePage = () => {
                                             }}
                                         />
                                     </div>
-                                    {profileData?.data?.user?.recentSubscription ? (
+                                    {profileData?.data?.recentSubscription?.subscription?.title ? (
                                         <div className="absolute -bottom-1 -right-1 px-2.5 py-0.5 rounded-md flex items-center justify-center text-white shadow-md" style={{ background: 'linear-gradient(90.44deg, #8B0000 0.41%, #AD2F16 99.66%)' }}>
-                                            <span className="text-xs font-semibold">Pro</span>
+                                            <span className="text-xs font-semibold">{profileData?.data?.recentSubscription?.subscription?.title}</span>
                                         </div>
                                     ) : null}
                                 </div>
@@ -534,10 +551,15 @@ const ProfilePage = () => {
                                     type="tel"
                                     value={isEditMode ? editableUser.mobile : user.mobile}
                                     onChange={(e) => handleInputChange('mobile', e.target.value)}
+                                    onClick={() => { if (isEditMode) showFieldMessage('mobile', 'Number cannot be changed.'); }}
                                     className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
                                         }`}
-                                    disabled={true}
+                                    disabled={!isEditMode}
+                                    readOnly={isEditMode}
                                 />
+                                {fieldMessage.mobile && (
+                                    <p className="text-sm text-red-600 mt-1">{fieldMessage.mobile}</p>
+                                )}
                             </div>
 
                             {/* Email ID */}
@@ -569,7 +591,12 @@ const ProfilePage = () => {
                                     className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
                                         }`}
                                     disabled={!isEditMode}
+                                    readOnly={isEditMode}
+                                    onClick={() => { if (isEditMode) showFieldMessage('fatherName'); }}
                                 />
+                                {fieldMessage.fatherName && (
+                                    <p className="text-sm text-red-600 mt-1">{fieldMessage.fatherName}</p>
+                                )}
                             </div>
 
                             {/* Mobile No. - Desktop only */}
@@ -583,8 +610,13 @@ const ProfilePage = () => {
                                     onChange={(e) => handleInputChange('mobile', e.target.value)}
                                     className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
                                         }`}
-                                    disabled={true}
+                                    disabled={!isEditMode}
+                                    readOnly={isEditMode}
+                                    onClick={() => { if (isEditMode) showFieldMessage('mobile', 'Number cannot be changed.'); }}
                                 />
+                                {fieldMessage.mobile && (
+                                    <p className="text-sm text-red-600 mt-1">{fieldMessage.mobile}</p>
+                                )}
                             </div>
 
                             {/* Mother's Name (full width) */}
@@ -600,7 +632,12 @@ const ProfilePage = () => {
                                     className={`px-3 md:px-4 py-2 md:py-2.5 border border-gray-200 rounded text-gray-700 text-sm focus:outline-none focus:border-gray-300 ${isEditMode ? 'bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200' : 'bg-gray-50'
                                         }`}
                                     disabled={!isEditMode}
+                                    readOnly={isEditMode}
+                                    onClick={() => { if (isEditMode) showFieldMessage('motherName'); }}
                                 />
+                                {fieldMessage.motherName && (
+                                    <p className="text-sm text-red-600 mt-1">{fieldMessage.motherName}</p>
+                                )}
                             </div>
                         </div>
 

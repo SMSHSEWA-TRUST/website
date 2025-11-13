@@ -360,7 +360,8 @@ export const CheckoutPage: React.FC = () => {
         setIsProcessingPayment(true);
 
         try {
-            const orderResponse = await createOrderMutation.mutateAsync({ cartId, note });
+            // include selected address id in create order payload so backend knows delivery address
+            const orderResponse = await createOrderMutation.mutateAsync({ cartId, note, addressId: selectedAddress?._id });
 
             const loadRazorpayScript = () =>
                 new Promise<boolean>((resolve) => {

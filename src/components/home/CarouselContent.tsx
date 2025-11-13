@@ -28,7 +28,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                         <img
                             src={data.img}
                             alt={data.title}
-                            className="w-full h-full md:h-[400px]  object-cover rounded-md"
+                            className="w-[300px] h-[250px]   object-cover rounded-md"
                             loading="lazy"
                         />
                     </div>
