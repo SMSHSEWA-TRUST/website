@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 import { getPoojaHistory, cancelPooja } from "../../services/pooja.service";
 
 interface BookingCard {
@@ -82,10 +83,10 @@ const PujaBookingsHistory = () => {
         try {
             await cancelPooja(id);
             setBookings(prev => prev.map(b => b._id === id ? { ...b, paymentStatus: 'Booking Cancelled' } : b));
-            alert('Booking cancelled successfully.');
+            toast.success('Booking cancelled successfully.', { position: 'top-center' });
         } catch (error) {
             console.error('Failed to cancel booking:', error);
-            alert('Failed to cancel booking. Please try again.');
+            toast.error('Failed to cancel booking. Please try again.', { position: 'top-center' });
         }
         if (selectedBooking && selectedBooking._id === id) closeModal();
     };

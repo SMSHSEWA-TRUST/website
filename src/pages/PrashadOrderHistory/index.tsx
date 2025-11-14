@@ -1,6 +1,7 @@
 
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 import { useQuery } from "@tanstack/react-query";
 import { getPrasadOrderHistory } from "@/services/prasad.service";
 
@@ -47,7 +48,7 @@ const PrashadOrderHistory = () => {
 
     // TODO: Wire cancel API if available
     const handleCancelOrder = (_orderId: string) => {
-        alert('Cancel order API not implemented.');
+        toast('Cancel order API not implemented.', { position: 'top-center' });
     };
 
     const getStatusBadgeClass = (status?: string) => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Minus, Plus } from 'lucide-react';
+import toast from 'react-hot-toast';
 import lineImage from "@/assets/images/line.png";
 import PrashadDetailModal from './PrashadDetailModal';
 import { useGetPrasad } from '@/api/PrasadQueries';
@@ -103,14 +104,14 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
 
         // Prevent going below 1
         if (newQuantity < 1) {
-            alert('Minimum quantity is 1. To remove from cart, use the cart page.');
+            toast.error('Minimum quantity is 1. To remove from cart, use the cart page.');
             return;
         }
 
         // Check stock limits if available
         const stock = (apiData?.data?.find((item: any) => item._id === prasadId) as any)?.stock || 999;
         if (newQuantity > stock) {
-            alert(`Only ${stock} items available in stock`);
+            toast.error(`Only ${stock} items available in stock`);
             return;
         }
 
@@ -129,7 +130,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
             {
                 onError: (error) => {
                     console.error('Error updating cart:', error);
-                    alert('Failed to update cart. Please try again.');
+                    toast.error('Failed to update cart. Please try again.');
                 }
             }
         );
@@ -139,7 +140,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
     const handleAddToCartButton = (plan: PrashadPlan) => {
         const prasadId = plan._id || String(plan.id || '');
         if (!prasadId) {
-            alert('Unable to add item to cart');
+            toast.error('Unable to add item to cart');
             return;
         }
 
@@ -153,11 +154,11 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
         }
 
         addToCartMutation.mutate(
-            { prasad: prasadId, quantity: 1, amount: Number(plan.price || 0) },
+            { prasad: prasadId, quantity: 1, amount: Number(plan.price || 0), skipToast: true } as any,
             {
                 onSuccess: () => {
                     try { window?.dispatchEvent(new CustomEvent('cart:added', { detail: { prasadId } })); } catch (e) { }
-                    alert(`${plan.name} added to cart`);
+                    toast.success(`${plan.name} added to cart`, { position: 'top-center' });
                 },
                 onError: (err: any) => {
                     const status = err?.response?.status;
@@ -167,7 +168,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                         navigate('/login');
                         return;
                     }
-                    alert('Failed to add to cart. Please try again.');
+                    toast.error('Failed to add to cart. Please try again.');
                 }
             }
         );

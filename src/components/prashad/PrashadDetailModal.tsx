@@ -3,6 +3,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Minus, Plus } from 'lucide-react';
 import { useGetPrasadById } from '@/api/PrasadQueries';
 import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
+import toast from 'react-hot-toast';
 import { isAuthenticated, saveRedirectDestination } from '@/lib/authRedirect';
 import { useNavigate } from 'react-router-dom';
 import BuyNowCheckoutModal from './BuyNowCheckoutModal';
@@ -153,18 +154,18 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                             console.error('Error updating cart:', error);
                             // Revert quantity on error
                             setQuantity(quantity);
-                            alert('Failed to update cart. Please try again.');
+                            toast.error('Failed to update cart. Please try again.', { position: 'top-center' });
                         }
                     }
                 );
             }
         } else if (newQuantity > currentStock) {
             // Optional: Show alert when trying to exceed stock
-            alert(`Only ${currentStock} items available in stock`);
+            toast.error(`Only ${currentStock} items available in stock`, { position: 'top-center' });
         } else if (newQuantity < 1 && isInCart) {
             // If trying to go below 1 and item is in cart, user might want to remove it
             // For now, we keep minimum at 1
-            alert('Minimum quantity is 1. To remove from cart, use the cart page.');
+            toast.error('Minimum quantity is 1. To remove from cart, use the cart page.', { position: 'top-center' });
         }
     };
 
@@ -214,7 +215,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                             window.location.href = '/login';
                             return;
                         }
-                        alert('Failed to add item to cart. Please try again.');
+                        toast.error('Failed to add item to cart. Please try again.', { position: 'top-center' });
                     },
                 }
             );

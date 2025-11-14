@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { buyNow, verifyPayment } from '@/services/subscription.service';
 import { useGetAllSubscriptions } from '@/api/SubscriptionQueries';
+import { useGetUserProfile } from '@/api/ProfileQueries';
 
 
 const SubscriptionPlans: React.FC = () => {
@@ -46,6 +47,10 @@ const SubscriptionPlans: React.FC = () => {
             navigate(location.pathname, { replace: true, state: {} });
         }
     }, [displayPlans, location.state, location.pathname, navigate]);
+
+    // Fetch user profile to determine currently active subscription (if any)
+    const { data: profileData } = useGetUserProfile();
+    const activeSubscriptionId = profileData?.data?.recentSubscription?.subscription?._id || profileData?.data?.recentSubscription?.subscription?.id || null;
 
     // No static map — use amount from API when available (amount is in rupees)
 
@@ -207,25 +212,104 @@ const SubscriptionPlans: React.FC = () => {
             return;
         }
 
+        // Helpers: lock and restore page scroll while modal is open
+        const lockBodyScroll = () => {
+            try {
+                const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+                // Save scroll position on body dataset so we can restore later
+                (document.body as any).dataset.razorpayScrollY = String(scrollY);
+
+                // Fix body to prevent background scroll
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.left = '0';
+                document.body.style.right = '0';
+                document.body.style.width = '100%';
+
+                // Also hide overflow on root element
+                document.documentElement.style.overflow = 'hidden';
+            } catch (e) {
+                // noop
+            }
+        };
+
+        const unlockBodyScroll = () => {
+            try {
+                const scrollY = Number((document.body as any).dataset.razorpayScrollY || '0');
+
+                // Remove styles applied by lock
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.left = '';
+                document.body.style.right = '';
+                document.body.style.width = '';
+
+                document.documentElement.style.overflow = '';
+
+                // Restore scroll position
+                if (!Number.isNaN(scrollY)) {
+                    window.scrollTo(0, scrollY);
+                }
+
+                delete (document.body as any).dataset.razorpayScrollY;
+            } catch (e) {
+                // noop
+            } finally {
+                setProcessingIndex(null);
+            }
+        };
+
         // success handler
         options.handler = async (razorResp: any) => {
             console.log('Razorpay success response', razorResp);
             const serverOrderObj = buildServerOrder(serverAny);
             await handleVerification(razorResp, serverOrderObj, planId);
+            unlockBodyScroll();
         };
 
-        options.modal = { ondismiss: () => console.log('Checkout closed by user') };
+        // Enhanced modal dismissal handler
+        options.modal = {
+            ondismiss: () => {
+                console.log('Checkout closed by user');
+                unlockBodyScroll();
+            },
+            // Prevent escape key issues
+            escape: true,
+            // Handle backdrop clicks
+            backdropclose: true
+        };
 
         try {
             const loaded = await loadRazorpayScript();
             if (!loaded) throw new Error('Razorpay script failed to load');
             const rzp = new (window as any).Razorpay(options);
+
+            rzp.on('payment.failed', (response: any) => {
+                console.error('Payment failed', response);
+                toast.error('Payment failed. Please try again.');
+                unlockBodyScroll();
+            });
+
+            // Lock background scroll before opening modal so page doesn't jump
+            lockBodyScroll();
+
             rzp.open();
+
+            // Backup: ensure scroll is restored after a short delay if modal is closed unexpectedly
+            const backupTimer = setTimeout(() => {
+                const isLocked = !!(document.body as any).dataset.razorpayScrollY || document.body.style.position === 'fixed' || document.documentElement.style.overflow === 'hidden';
+                if (isLocked) {
+                    unlockBodyScroll();
+                }
+            }, 300);
+
+            // Clear backup timer when payment completes or modal closes properly
+            rzp.on('payment.success', () => clearTimeout(backupTimer));
+
         } catch (err) {
             console.error('Razorpay open failed', err);
-            toast.error('Failed to open payment window');
-        } finally {
-            setProcessingIndex(null);
+            toast.error('Oops! Something went wrong. Error in opening checkout', { position: 'top-center' });
+            unlockBodyScroll();
         }
     };
 
@@ -303,6 +387,7 @@ const SubscriptionPlans: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch bg-[#F8F5F0] rounded-md  ">
                     {displayPlans.map((plan: any, idx: number) => {
                         const selected = idx === selectedIndex;
+                        const isActive = !!activeSubscriptionId && (String(plan._id) === String(activeSubscriptionId) || String(plan.id) === String(activeSubscriptionId));
 
                         return (
                             <div
@@ -317,6 +402,12 @@ const SubscriptionPlans: React.FC = () => {
                                     : 'bg-white border border-gray-200 hover:shadow-lg hover:-translate-y-1'
                                     }`}
                             >
+                                {isActive && (
+                                    <div className={`absolute top-3 right-3 px-2 py-0.5 rounded-md text-xs font-semibold shadow-md ${selected ? 'bg-white text-red-800' : ''}`} style={{ background: selected ? undefined : 'linear-gradient(90.44deg, #8B0000 0.41%, #AD2F16 99.66%)', color: selected ? '#8B0000' : '#ffffff' }}>
+                                        Active
+                                    </div>
+                                )}
+
                                 <div className="flex-1">
                                     {/* Header */}
                                     <div className="mb-4">

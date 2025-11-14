@@ -1,7 +1,14 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 import { logout } from "./auth";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+// Vite env vars are inlined at build time. Provide a safe fallback so
+// production builds don't silently fail when `VITE_BASE_URL` is missing.
+const BASE_URL = import.meta.env.VITE_BASE_URL || (typeof window !== 'undefined' ? window.location.origin : '');
+// Helpful debug output for production troubleshooting — can be removed later.
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-console
+  console.info('[axios] Using BASE_URL =', BASE_URL);
+}
 // helper to read selected language (fallback to 'en')
 const getSelectedLang = () => {
   try {

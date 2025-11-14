@@ -108,7 +108,7 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
         : `${baseStyle} bg-gray-100 border-gray-300 text-gray-700 hover:bg-gray-200 hover:border-gray-400`;
     }
 
-    if (status === 'purchases' || status === 'purchased' || status === 'occupied') {
+    if (status === 'booked' || status === 'purchased' || status === 'occupied') {
       return `${baseStyle} bg-red-300 border-red-400 text-red-800 cursor-not-allowed`;
     }
 

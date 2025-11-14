@@ -66,8 +66,11 @@ export interface AddToCartResponse {
   data?: CartItem;
 }
 
-export const addToCart = (data: AddToCartRequest): Promise<AddToCartResponse> =>
-  authTokenAxios.post(`/my-cart`, data);
+export const addToCart = (data: AddToCartRequest & { skipToast?: boolean }): Promise<AddToCartResponse> =>
+  authTokenAxios.post(`/my-cart`, 
+    { prasad: data.prasad, quantity: data.quantity, amount: data.amount }, 
+    { skipToast: data.skipToast } as any
+  );
 
 export const updateCartItem = (itemId: string, data: UpdateCartRequest): Promise<AddToCartResponse> =>
   authTokenAxios.put(`/my-cart/${itemId}`, data);
@@ -78,8 +81,8 @@ export const getCart = (): Promise<{ success: boolean; data: CartData }> =>
 export const getCartPreview = (cartId: string): Promise<{ success: boolean; data: CartPreviewData }> =>
   authTokenAxios.get(`/my-cart/preview/${cartId}`);
 
-export const createOrder = (cartId: string, note?: string, addressId?: string): Promise<any> =>
-  authTokenAxios.post(`/my-cart/create-order?cartId=${cartId}`, { note, addressId });
+export const createOrder = (cartId: string, note?: string, address?: string): Promise<any> =>
+  authTokenAxios.post(`/my-cart/create-order?cartId=${cartId}`, { note, address });
 
 export interface VerifyPaymentRequest {
   razorpay_order_id: string;

@@ -211,6 +211,23 @@ export const CheckoutPage: React.FC = () => {
         }
     };
 
+    // Format address object into a readable string for the backend
+    const formatAddress = (addr: AddressModel | null): string => {
+        if (!addr) return '';
+        const a = addr as any;
+        const parts: string[] = [];
+        if (a.name) parts.push(a.name);
+        if (a.type) parts.push(a.type);
+        if (a.address) parts.push(a.address);
+        if (a.street) parts.push(a.street);
+        if (a.locality) parts.push(a.locality);
+        if (a.city) parts.push(a.city);
+        if (a.state) parts.push(a.state);
+        if (a.pincode) parts.push(a.pincode);
+        if (a.phoneNumber) parts.push(`+${a.phoneNumber}`);
+        return parts.filter(Boolean).join(', ');
+    };
+
     const suggestedProducts = [
         { id: 1, name: 'Prasad Plan 1', price: 400 },
         { id: 2, name: 'Prasad Plan 2', price: 999 },
@@ -360,8 +377,9 @@ export const CheckoutPage: React.FC = () => {
         setIsProcessingPayment(true);
 
         try {
-            // include selected address id in create order payload so backend knows delivery address
-            const orderResponse = await createOrderMutation.mutateAsync({ cartId, note, addressId: selectedAddress?._id });
+            // include selected address (formatted as string) in create order payload so backend knows delivery address
+            const addressString = formatAddress(selectedAddress);
+            const orderResponse = await createOrderMutation.mutateAsync({ cartId, note, address: addressString });
 
             const loadRazorpayScript = () =>
                 new Promise<boolean>((resolve) => {

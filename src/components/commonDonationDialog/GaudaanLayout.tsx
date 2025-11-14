@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import DonationCard from "./components/DonationCard";
 import { Input } from "../ui/input";
 import DonationForm from "./DonationForm";
 import Card from "./components/Card";
-import BackIcon from "./components/BackIcon";
 import { formatMoney, SectionTitle, getDaanImages, getDaanImage, getDaanImageAlt } from "./components/Utils";
 import { usePlotsData } from '@/api/DaanQueries';
 import toast from "react-hot-toast";
@@ -304,6 +303,15 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       onBack?.();
     }
   };
+  // Listen for browser back (popstate) and trigger the same back handler
+  useEffect(() => {
+    if (!onBack) return;
+    const onPopState = () => {
+      handleBackClick();
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [onBack, /* handleBackClick reads flowStep and other locals */ flowStep, submittedForm, userPickedAmount, selectedDaanTypeId]);
   return (
     <div className="min-h-screen bg-[#FDFBFC] px-4 md:px-16   py-9 lg:py-10">
       <div className=" mx-auto relative">
@@ -313,14 +321,6 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          {onBack && (
-            <button
-              onClick={handleBackClick}
-              aria-label="Back"
-              className="inline-flex items-center text-gray-700 hover:text-gray-900 transition">
-              <BackIcon />
-            </button>
-          )}
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">{title}</h1>
         </div>
 

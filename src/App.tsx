@@ -5,6 +5,7 @@ import AppRoutes from "./routes";
 import { AppLoader } from "./components/ui/LoadingComponents";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import toast from 'react-hot-toast';
 import { I18nProvider } from "./lib/i18n";
 import { scheduleAutoLogout, clearScheduledLogout } from "./services/auth";
 
@@ -59,6 +60,45 @@ export const App = (): JSX.Element => {
           // @ts-ignore
           window.history.scrollRestoration = 'auto';
         }
+      } catch (e) {
+        // ignore
+      }
+    };
+  }, []);
+  // Override native alert to route through toast so any leftover alert() calls
+  // (from third-party libs or stale code) show non-blocking toasts instead.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const win: any = window;
+    const originalAlert = win.alert;
+    const originalConfirm = win.confirm;
+
+    try {
+      win.alert = (msg: any) => {
+        try {
+          toast(String(msg || ''), { position: 'top-center' });
+        } catch (e) {
+          originalAlert(msg);
+        }
+      };
+
+      // Keep confirm behavior but log fallback to original if needed
+      win.confirm = (msg: any) => {
+        try {
+          // fallback to browser confirm for now
+          return originalConfirm(msg);
+        } catch (e) {
+          return true;
+        }
+      };
+    } catch (e) {
+      // ignore
+    }
+
+    return () => {
+      try {
+        win.alert = originalAlert;
+        win.confirm = originalConfirm;
       } catch (e) {
         // ignore
       }
