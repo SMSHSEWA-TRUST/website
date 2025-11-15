@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGetPrasadCharge } from '@/api/ChargeQueries';
 import { useGetPrasadById } from '@/api/PrasadQueries';
 import { useBuyNow } from '@/api/BuyNowQueries';
@@ -53,6 +53,26 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     const { data: prasadDetails } = useGetPrasadById(prasadId, isOpen && !!prasadId);
 
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+    // Prevent background scrolling when modal is open
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const previousOverflow = document.body.style.overflow;
+        const previousPaddingRight = document.body.style.paddingRight;
+
+        // Compensate for scrollbar to avoid layout shift
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        if (scrollbarWidth > 0) {
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
+        }
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = previousOverflow || '';
+            document.body.style.paddingRight = previousPaddingRight || '';
+        };
+    }, [isOpen]);
 
     // Calculate charges
     const chargeItem = (chargesApiResp && chargesApiResp.data && Array.isArray(chargesApiResp.data) && chargesApiResp.data[0]) || null;

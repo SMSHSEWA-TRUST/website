@@ -26,6 +26,8 @@ const PrashadOrderHistory = lazy(() => import('../pages/PrashadOrderHistory'));
 const TermsPage = lazy(() => import('../pages/TermsAndConditions').then(module => ({ default: module.TermsPage })));
 const PrivacyPage = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPage })));
 const PrashadPage = lazy(() => import('../pages/Prashad').then(module => ({ default: module.PrashadPage })));
+// Detail page for a specific prashad (dynamic id param)
+const PrashadDetailPage = lazy(() => import('../pages/Prashad/Parshad[id]').then(module => ({ default: module.default })));
 const PujaBookingsPage = lazy(() => import('../pages/PujaBookingsHistory').then(module => ({ default: module.default })));
 const CheckoutPage = lazy(() => import('../pages/Checkout').then(module => ({ default: module.CheckoutPage })));
 const DonationPage = lazy(() => import('../pages/Donation').then(module => ({ default: module.DonationPage })));
@@ -150,6 +152,11 @@ export const AppRoutes = (): JSX.Element => {
         <Route path="/prashad" element={
           <FamilyDetailsGuard>
             <PrashadPage />
+          </FamilyDetailsGuard>
+        } />
+        <Route path="/prashad/:id" element={
+          <FamilyDetailsGuard>
+            <PrashadDetailPage />
           </FamilyDetailsGuard>
         } />
         <Route path="/checkout" element={

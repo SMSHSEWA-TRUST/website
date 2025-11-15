@@ -39,22 +39,22 @@
         "membership": {
             "title": "Become a Member – Be a Part of Mahadham 2029",
             "semiTitle": "",
-            "description": "Joining the Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is not just a membership — it is becoming part of a spiritual movement. "
+            "description": "Joining the Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is not just a membership – it is becoming part of a spiritual movement. "
         },
         "gallery": {
             "title": "Gallery",
             "semiTitle": "",
-            "description": "Gallery of Faith & Devotion — step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
+            "description": "Gallery of Faith & Devotion  – step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
         },
         "puja": {
             "title": "Gallery of Faith & Devotion",
             "semiTitle": "",
-            "description": "Gallery of Faith & Devotion — step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
+            "description": "Gallery of Faith & Devotion  – step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
         },
         "prashad": {
             "title": "Prashad's",
             "semiTitle": "",
-            "description": "God’s Prasad is a sacred blessing. Experience divine grace through our *Prasad* offerings."
+            "description": "God’s Prasad is a sacred blessing. Experience divine grace through our Prasad offerings."
         }
     },
     "auth": {
@@ -113,7 +113,7 @@
             }
         ],
         "joinButton": "Join us",
-        "paragraph": "By 2029, Surat will not just host a temple, but a living symbol of Sanatan Dharma — where every visitor experiences devotion, service, and collective strength."
+        "paragraph": "By 2029, Surat will not just host a temple, but a living symbol of Sanatan Dharma  – where every visitor experiences devotion, service, and collective strength."
     },
     "divine": {
         "heading": "Feel the Surreal Divine Power",
@@ -125,7 +125,7 @@
         "phone": "+91 9352815982",
         "donate": {
             "title": "Donate for a Cause",
-            "desc": "Your contribution is not just a donation —\nit is a sacred offering towards the construction of Mahadham and the service of society.\nTogether, let us build faith, service, and culture for generations to come.\nDonate Today, Build Mahadham."
+            "desc": "Your contribution is not just a donation  –\nit is a sacred offering towards the construction of Mahadham and the service of society.\nTogether, let us build faith, service, and culture for generations to come.\nDonate Today, Build Mahadham."
         },
         "office": {
             "title": "Office Timings",
@@ -154,7 +154,7 @@
             },
             {
                 "title": "Jai Shree Mahadham",
-                "description": "The Mahadham in Surat, envisioned by SMSH Trust, will be more than a temple — a sanctuary of faith, seva, and Sanatan culture by 2029."
+                "description": "The Mahadham in Surat, envisioned by SMSH Trust, will be more than a temple  – a sanctuary of faith, seva, and Sanatan culture by 2029."
             },
             {
                 "title": "Service Five",
@@ -168,7 +168,7 @@
     },
     "donations": {
         "heading": "Donations",
-        "lead": "Support the causes and projects that matter—your donation makes a lasting impact.",
+        "lead": "Support the causes and projects that matter – your donation makes a lasting impact.",
         "button": "Donate Now",
         "items": [
             {
@@ -398,7 +398,7 @@
     "aboutTeam": {
         "smallTitle": "Our companions who serve every moment in the temple are the true strength of our society.",
         "heading": "Team at the Temple",
-        "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, our true strength lies in the dedication of our spiritual leaders, trustees, and volunteers. Together, they ensure that every ritual, every service, and every initiative is carried out with devotion, discipline, and dignity. Our team is not just an organization — it is a family of devotees united by faith and committed to the divine vision of Mahadham 2029.",
+        "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, our true strength lies in the dedication of our spiritual leaders, trustees, and volunteers. Together, they ensure that every ritual, every service, and every initiative is carried out with devotion, discipline, and dignity. Our team is not just an organization  – it is a family of devotees united by faith and committed to the divine vision of Mahadham 2029.",
         "arrows": {
             "prev": "Previous",
             "next": "Next"
@@ -450,7 +450,7 @@
     },
     "BlogPage": {
         "title": "Read, Reflect, and Reconnect with Divinity.",
-        "description": "Our blog is a sacred space where devotion meets knowledge. From the glory of Mahakal and Salasar Balaji to stories of seva, festivals, and Sanatan Dharma — every article nurtures your soul and strengthens your faith.",
+        "description": "Our blog is a sacred space where devotion meets knowledge. From the glory of Mahakal and Salasar Balaji to stories of seva, festivals, and Sanatan Dharma  – every article nurtures your soul and strengthens your faith.",
         "buttonText": "Read Blog",
         "Blogs": [
             {

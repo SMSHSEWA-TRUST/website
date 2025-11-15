@@ -4,7 +4,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Minus, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import lineImage from "@/assets/images/line.png";
-import PrashadDetailModal from './PrashadDetailModal';
+import PrashadDetailModal from './PrashadDetailCard';
 import { useGetPrasad } from '@/api/PrasadQueries';
 import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import { saveRedirectDestination, isAuthenticated } from '@/lib/authRedirect';
@@ -198,11 +198,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
         // only run once on mount or when plans change
     }, [location.state, plans, navigate, location.pathname, location.search]);
 
-    // Open modal for a plan (image click) — does NOT add to cart
-    const handleOpenModal = (plan: PrashadPlan) => {
-        setSelectedPlan(plan);
-        setIsModalOpen(true);
-    };
+    // NOTE: modal open is now triggered only via navigation state; card clicks navigate to detail page.
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
@@ -293,7 +289,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                             <div
                                 key={plan.id}
                                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105 cursor-pointer"
-                                onClick={() => handleOpenModal(plan)}
+                                onClick={() => navigate(`/prashad/${prasadId}`)}
                             >
                                 <div className="aspect-square bg-gray-200 relative">
                                     {plan.image ? (

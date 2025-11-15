@@ -6,6 +6,8 @@ import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import toast from 'react-hot-toast';
 import { isAuthenticated, saveRedirectDestination } from '@/lib/authRedirect';
 import { useNavigate } from 'react-router-dom';
+import Bestseller from './Bestseller';
+import ImportantParshad from './ImportantParshad';
 import BuyNowCheckoutModal from './BuyNowCheckoutModal';
 
 interface PrashadPlan {
@@ -21,19 +23,22 @@ interface PrashadPlan {
 
 interface PrashadDetailModalProps {
     plan: PrashadPlan | null;
-    isOpen: boolean;
-    onClose: () => void;
+    // `isOpen` is optional so this component can be used both as a modal and a page
+    isOpen?: boolean;
+    // `onClose` is optional; when not provided the component will navigate back
+    onClose?: () => void;
 }
 
-const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, onClose }) => {
+const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, onClose }) => {
     const [quantity, setQuantity] = useState(1);
+    const [isBuyNowOpen, setIsBuyNowOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(0);
     // Full page checkout; no modal state needed
     const navigate = useNavigate();
 
-    // Fetch detailed prasad data when modal opens
+    // Fetch detailed prasad data when modal opens or page mounts
     const prasadId = plan?._id || String(plan?.id || '');
-    const { data: prasadDetails, isLoading, isError } = useGetPrasadById(prasadId, isOpen && !!prasadId);
+    const { data: prasadDetails } = useGetPrasadById(prasadId, !!prasadId);
 
     // Fetch cart data to check if product is already in cart
     const { data: cartData } = useGetCart();
@@ -41,7 +46,6 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     // Add to cart mutation
     const addToCartMutation = useAddToCart();
     const updateCartMutation = useUpdateCartItem();
-    const [isBuyNowCheckoutOpen, setIsBuyNowCheckoutOpen] = useState(false);
 
     // Find if current prasad is already in cart
     const cartDataResponse = cartData?.data as any;
@@ -73,62 +77,19 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
         ? displayData.itemsIncluded.join(', ')
         : displayData?.whatsInBox || plan?.whatsInBox || '';
 
-    // Reset selected image when modal opens or data changes
+    // Reset selected image when modal opens (modal usage) or when page/prasad changes
     useEffect(() => {
-        if (isOpen) {
+        // Treat undefined `isOpen` (page usage) as open
+        if (isOpen === undefined || isOpen) {
             setSelectedImage(0);
             // If product is in cart, set quantity to cart quantity, otherwise 1
             setQuantity(cartQuantity > 0 ? cartQuantity : 1);
         }
     }, [isOpen, prasadId, cartQuantity]);
 
-    // Robust body scroll lock: fix body position to prevent background scrolling and avoid layout shift.
-    useEffect(() => {
-        if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    // This component is now page-style (not a modal). No body-lock or backdrop behavior.
 
-        const body = document.body;
-        const docEl = document.documentElement;
-
-        // Save originals to restore later
-        const originalBodyOverflow = body.style.overflow;
-        const originalBodyPosition = body.style.position;
-        const originalBodyTop = body.style.top;
-        const originalBodyPaddingRight = body.style.paddingRight;
-
-        let savedScrollY = 0;
-
-        if (isOpen) {
-            // Save current scroll
-            savedScrollY = window.scrollY || window.pageYOffset;
-
-            // Calculate scrollbar width and set padding-right to avoid layout shift
-            const scrollBarWidth = window.innerWidth - docEl.clientWidth;
-            if (scrollBarWidth > 0) body.style.paddingRight = `${scrollBarWidth}px`;
-
-            // Lock body in place
-            body.style.position = 'fixed';
-            body.style.top = `-${savedScrollY}px`;
-            body.style.left = '0';
-            body.style.right = '0';
-            body.style.overflow = 'hidden';
-        }
-
-        return () => {
-            // Restore body styles
-            body.style.overflow = originalBodyOverflow;
-            body.style.position = originalBodyPosition;
-            body.style.top = originalBodyTop;
-            body.style.paddingRight = originalBodyPaddingRight;
-
-            // Restore scroll position
-            if (isOpen) {
-                const scrollY = Math.abs(Number(body.style.top || '0')) || savedScrollY;
-                window.scrollTo(0, scrollY);
-            }
-        };
-    }, [isOpen]);
-
-    if (!isOpen || !plan) return null;
+    if (!plan) return null;
 
     const handleQuantityChange = (change: number) => {
         const newQuantity = quantity + change;
@@ -169,6 +130,19 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
         }
     };
 
+    const handleBuyNow = () => {
+        // If not authenticated, save redirect intent and go to login immediately
+        if (!isAuthenticated()) {
+            try {
+                saveRedirectDestination(window.location.pathname, { openPrasadDetail: true, prasadId, intent: 'buy_now' });
+            } catch (e) { }
+            window.location.href = '/login';
+            return;
+        }
+
+        // Open the Buy Now checkout modal
+        setIsBuyNowOpen(true);
+    };
     const handleAddToCart = () => {
         // If not authenticated, save redirect intent and go to login immediately
         if (!isAuthenticated()) {
@@ -179,10 +153,10 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
             return;
         }
 
-        if (isInCart && cartItemId) {
-            // Product is already in cart - navigate to checkout directly
+        if (isInCart) {
+            // Product is already in cart - navigate to checkout page
             navigate('/checkout');
-            onClose();
+            if (onClose) onClose();
         } else {
             // Product not in cart - add it
             // Calculate total amount
@@ -201,7 +175,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                         // Navigate to full-page checkout
                         navigate('/checkout');
                         // Optionally close detail modal
-                        onClose();
+                        if (onClose) onClose();
                     },
                     onError: (error) => {
                         console.error('Error adding to cart:', error);
@@ -223,68 +197,19 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
     };
 
 
-    // Open a dedicated checkout modal which fetches charges and then proceeds to payment
-    const handleBuyNow = () => {
-        // If not authenticated, save redirect intent and go to login immediately
-        if (!isAuthenticated()) {
-            try {
-                saveRedirectDestination(window.location.pathname, { openPrasadDetail: true, prasadId });
-            } catch (e) { }
-            window.location.href = '/login';
-            return;
-        }
-        setIsBuyNowCheckoutOpen(true);
-    };
-
-    // Close Buy Now checkout and optionally close main modal
-    const handleCloseBuyNow = () => {
-        setIsBuyNowCheckoutOpen(false);
-    };
-
-    // removed checkout modal handlers
+    // Note: Buy Now flow removed to match provided UI (Add to cart + Go to Cart only)
 
     // Generate gallery images or use placeholder
     // Note: galleryImages is now defined above, so we don't redefine it here
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-4 overflow-y-auto">
-            {/* Backdrop */}
-            <div
-                className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-                onClick={onClose}
-            />
-
-            {/* Modal Content */}
-            <div className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 rounded-3xl shadow-2xl w-full max-w-4xl sm:my-8 my-4 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
-                {/* Loading State */}
-                {isLoading && (
-                    <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-3xl flex items-center justify-center z-10">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8b0000]"></div>
-                    </div>
-                )}
-
-                {/* Error State */}
-                {isError && (
-                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-100 text-red-700 px-4 py-2 rounded-lg z-10">
-                        Failed to load details. Showing cached data.
-                    </div>
-                )}
-
-                {/* Scrollable Content */}
-                <div className="overflow-hidden rounded-3xl">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 md:min-h-[600px]">
+        <>
+            <div className="w-full">
+                <div className="max-w-[1400px] mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 md:min-h-[550px]">
                         {/* Left Side - Images */}
-                        <div className="bg-white/80 backdrop-blur-sm p-8 lg:p-10 flex flex-col">
-                            {/* Back Button */}
-                            <button
-                                onClick={onClose}
-                                className="flex items-center gap-2 text-gray-700 mb-6 hover:text-[#8b0000] transition-colors group"
-                            >
-                                <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                </svg>
-                                <span className="font-secondaryFont text-base font-medium">Plan Details</span>
-                            </button>
+                        <div className="p-6 lg:p-8 flex flex-col">
+
 
                             {/* Main Image */}
                             <div className="bg-gray-200 rounded-2xl overflow-hidden mb-5 shadow-md flex-1 flex items-center justify-center">
@@ -292,7 +217,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                                     <LazyLoadImage
                                         src={galleryImages[selectedImage]}
                                         alt={currentName}
-                                        className="w-full h-full object-cover max-h-[350px]"
+                                        className="w-full h-full object-cover max-h-[520px]"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-gray-300 bg-gradient-to-br from-gray-100 to-gray-200">
@@ -305,7 +230,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
 
                             {/* Gallery Thumbnails - horizontal, scrollable like e-commerce */}
                             <div className="mt-4 w-full">
-                                <div className="flex gap-2 overflow-x-auto py-2 scrollbar-hide pl-2 pr-2">
+                                <div className="flex gap-3 overflow-x-auto py-2 scrollbar-hide pl-2 pr-2 items-center">
                                     {galleryImages.map((img, index) => (
                                         <button
                                             key={index}
@@ -318,7 +243,7 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                                                 <LazyLoadImage
                                                     src={img}
                                                     alt={`${currentName} ${index + 1}`}
-                                                    className="w-20 h-20 object-cover sm:w-24 sm:h-24 md:w-28 md:h-28 "
+                                                    className="w-20 h-20 object-cover sm:w-24 sm:h-24 md:w-28 md:h-28"
                                                 />
                                             ) : (
                                                 <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center text-gray-300 bg-gradient-to-br from-gray-100 to-gray-200">
@@ -422,15 +347,8 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                                 )}
                             </div>
 
-                            {/* Action Buttons */}
-                            <div className="grid grid-cols-2 gap-4 mt-auto">
-                                <button
-                                    onClick={handleBuyNow}
-                                    className="font-secondaryFont py-4 px-6 rounded-xl border-2 border-[#8b0000] text-[#8b0000] text-base font-semibold hover:bg-[#8b0000] hover:text-white transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2"
-                                    disabled={displayData?.stock === 0 || displayData?.isAvailable === false}
-                                >
-                                    Buy Now
-                                </button>
+                            {/* Action Buttons (match provided image): primary full-width Add to cart, outlined Go to Cart below */}
+                            <div className="flex flex-col gap-3 mt-auto">
                                 <button
                                     onClick={handleAddToCart}
                                     disabled={displayData?.stock === 0 || displayData?.isAvailable === false || addToCartMutation.isPending}
@@ -452,27 +370,33 @@ const PrashadDetailModal: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, o
                                         'Add to cart'
                                     )}
                                 </button>
+
+                                <button
+                                    onClick={handleBuyNow}
+                                    disabled={displayData?.stock === 0 || displayData?.isAvailable === false}
+                                    className="w-full font-secondaryFont py-3 rounded-xl text-base font-semibold border-2 border-[#8b0000] text-[#8b0000] bg-white hover:bg-[#fff5f5] transition-colors"
+                                >
+                                    Buy now
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Buy Now Checkout Modal (opened when user clicks Buy Now) */}
+
+            </div>
             <BuyNowCheckoutModal
-                isOpen={isBuyNowCheckoutOpen}
-                onClose={handleCloseBuyNow}
+                isOpen={isBuyNowOpen}
+                onClose={() => setIsBuyNowOpen(false)}
                 prasadId={prasadId}
                 prasadName={currentName}
                 prasadPrice={currentPrice}
                 quantity={quantity}
-                prasadImage={galleryImages[0]}
-                onQuantityChange={setQuantity}
+                prasadImage={galleryImages[selectedImage]}
+                onQuantityChange={(newQty: number) => setQuantity(newQty)}
             />
-
-            {/* Cart checkout modal removed - using /checkout route */}
-        </div>
+        </>
     );
 };
 
-export default PrashadDetailModal;
+export default PrashadDetailCard;

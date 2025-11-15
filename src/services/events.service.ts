@@ -39,7 +39,10 @@ export const getEvents = (templeType?: string, selectedDate?: string | Date, inc
 
 // Convenience function for live section - only sends schedulePlace
 export const getLiveEvents = (templeType?: string) => {
-  return getEvents(templeType, undefined, false);
+  const params: Record<string, string> = {};
+  if (templeType) params.schedulePlace = templeType;
+  // Use the upcoming-events endpoint for live/upcoming events
+  return authTokenAxios.get(`/events/upcoming-events`, { params });
 };
 
 // Convenience function for puja booking - sends both schedulePlace and todayDate
