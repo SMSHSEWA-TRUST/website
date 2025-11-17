@@ -1,5 +1,5 @@
 
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { useQuery } from "@tanstack/react-query";
@@ -45,6 +45,29 @@ const PrashadOrderHistory = () => {
         setIsModalOpen(false);
         setSelectedOrder(null);
     };
+
+    // Lock body scroll when modal is open
+    useEffect(() => {
+        if (isModalOpen) {
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.width = '100%';
+            document.documentElement.style.overflow = 'hidden';
+
+            return () => {
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.left = '';
+                document.body.style.right = '';
+                document.body.style.width = '';
+                document.documentElement.style.overflow = '';
+                window.scrollTo(0, scrollY);
+            };
+        }
+    }, [isModalOpen]);
 
     // TODO: Wire cancel API if available
     const handleCancelOrder = (_orderId: string) => {

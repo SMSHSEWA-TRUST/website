@@ -8,6 +8,7 @@ import PrashadDetailModal from './PrashadDetailCard';
 import { useGetPrasad } from '@/api/PrasadQueries';
 import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import { saveRedirectDestination, isAuthenticated } from '@/lib/authRedirect';
+import { useI18n } from '@/lib/i18n';
 
 export interface PrashadPlan {
     id: number;
@@ -38,6 +39,8 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
     useApiData = true, // Default to using API data
     categoryFilter // Category filter
 }) => {
+
+    const { t } = useI18n();
 
     const [selectedPlan, setSelectedPlan] = useState<PrashadPlan | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,14 +107,14 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
 
         // Prevent going below 1
         if (newQuantity < 1) {
-            toast.error('Minimum quantity is 1. To remove from cart, use the cart page.');
+            toast.error(t('prashad.section.minQuantity'));
             return;
         }
 
         // Check stock limits if available
         const stock = (apiData?.data?.find((item: any) => item._id === prasadId) as any)?.stock || 999;
         if (newQuantity > stock) {
-            toast.error(`Only ${stock} items available in stock`);
+            toast.error(t('prashad.section.onlyAvailable').replace('{{count}}', String(stock)));
             return;
         }
 
@@ -140,7 +143,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
     const handleAddToCartButton = (plan: PrashadPlan) => {
         const prasadId = plan._id || String(plan.id || '');
         if (!prasadId) {
-            toast.error('Unable to add item to cart');
+            toast.error(t('prashad.section.unableAdd'));
             return;
         }
 
@@ -158,7 +161,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
             {
                 onSuccess: () => {
                     try { window?.dispatchEvent(new CustomEvent('cart:added', { detail: { prasadId } })); } catch (e) { }
-                    toast.success(`${plan.name} added to cart`, { position: 'top-center' });
+                    toast.success(`${plan.name} ${t('prashad.section.addedToCartSuffix')}`, { position: 'top-center' });
                 },
                 onError: (err: any) => {
                     const status = err?.response?.status;
@@ -168,7 +171,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                         navigate('/login');
                         return;
                     }
-                    toast.error('Failed to add to cart. Please try again.');
+                    toast.error(t('prashad.section.failedAdd'));
                 }
             }
         );
@@ -234,7 +237,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                         </h2>
                     </div>
                     <div className="text-center py-12">
-                        <p className="text-gray-600 font-secondaryFont">Failed to load prasad items. Please try again later.</p>
+                        <p className="text-gray-600 font-secondaryFont">{t('prashad.section.failedLoad')}</p>
                     </div>
                 </div>
             </section>
@@ -322,21 +325,29 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, -1); }}
                                                         disabled={cartQuantity <= 1}
-                                                        className={`p-2 transition-colors border-r-2 border-[#8b0000] ${cartQuantity <= 1
+                                                        title="Decrease quantity"
+                                                        aria-label="Decrease quantity"
+                                                        className={`p-2 transition-colors ${cartQuantity <= 1
                                                             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                                             : 'hover:bg-[#8b0000] hover:text-white'
                                                             }`}
-                                                        aria-label="Decrease quantity"
                                                     >
                                                         <Minus className="w-4 h-4" />
                                                     </button>
+
+                                                    <div className="w-px bg-[#8b0000] h-6" />
+
                                                     <span className="font-secondaryFont text-base font-bold min-w-[40px] text-center text-gray-900 px-3">
                                                         {cartQuantity}
                                                     </span>
+
+                                                    <div className="w-px bg-[#8b0000] h-6" />
+
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, 1); }}
-                                                        className="p-2 transition-colors border-l-2 border-[#8b0000] hover:bg-[#8b0000] hover:text-white"
+                                                        title="Increase quantity"
                                                         aria-label="Increase quantity"
+                                                        className={`p-2 transition-colors ${cartQuantity >= ((apiData?.data?.find((item: any) => item._id === (plan._id || String(plan.id))) as any)?.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                                     >
                                                         <Plus className="w-4 h-4" />
                                                     </button>
@@ -353,7 +364,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                                     <circle cx="9" cy="20" r="1" />
                                                     <circle cx="19" cy="20" r="1" />
                                                 </svg>
-                                                <span className="font-medium">Add to Cart</span>
+                                                <span className="font-medium">{t('prashad.section.addToCart')}</span>
                                             </button>
                                         )}
                                     </div>

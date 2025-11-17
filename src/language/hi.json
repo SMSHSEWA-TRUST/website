@@ -54,7 +54,8 @@
 		"prashad": {
 			"title": "प्रसाद",
 			"semiTitle": "",
-			"description": "भगवान का प्रसाद एक पवित्र आशीर्वाद है। हमारे प्रसाद योजनाओं के साथ दिव्य कृपा का अनुभव करें।"
+			"description": "भगवान का प्रसाद एक पवित्र आशीर्वाद है। हमारे प्रसाद योजनाओं के साथ दिव्य कृपा का अनुभव करें।",
+			"failedLoad": "Failed to load prasad items. Please try again later."
 		}
 	},
 	"aboutWorship": {
@@ -615,5 +616,93 @@
 		"bhumiDaan": {
 			"defaultDescription": "जिसने भूमि दान दी, उसने आने वाली पीढ़ियों को संजीवनी दी"
 		}
+	},
+	"prashad": {
+		"section": {
+			"addToCart": "Add to Cart",
+			"adding": "Adding...",
+			"addedToCartSuffix": "added to cart",
+			"failedLoad": "Failed to load prasad items. Please try again later.",
+			"unableAdd": "Unable to add item to cart",
+			"failedAdd": "Failed to add to cart. Please try again.",
+			"failedUpdate": "Failed to update cart. Please try again.",
+			"minQuantity": "Minimum quantity is 1. To remove from cart, use the cart page.",
+			"onlyAvailable": "Only {{count}} items available in stock",
+			"outOfStock": "Out of Stock",
+			"goToCheckout": "Go to Checkout"
+		},
+		"itemInBox": {
+			"title": "About the items in the box",
+			"subtitle": "A Detailed List of Everything Included in Your Shipment. See Exactly What Comes in the Box.",
+			"defaultItemName": "Item Name",
+			"defaultItemDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+		},
+		"detail": {
+			"descriptionTitle": "Description",
+			"whatsInBoxTitle": "What's in the box",
+			"noItemsInfo": "No items information available",
+			"addToCart": "Add to cart",
+			"buyNow": "Buy now",
+			"adding": "Adding...",
+			"inStock": "In Stock",
+			"goToCheckout": "Go to Checkout",
+			"outOfStock": "Out of Stock"
+		},
+		"bestseller": {
+			"heading": "Our other Bestsellers"
+		},
+		"youMightLike": {
+			"heading": "You might also like"
+		},
+		"important": {
+			"heading": "Importance of Prashad",
+			"lead": "Prashad is a sacred and deeply significant offering in Hinduism, representing the grace and blessings of the Divine.",
+			"point1": "The act of receiving and consuming prashad is much more than simply eating; it is an act of communion, purification, and spiritual nourishment.",
+			"point2": "By partaking in this sanctified food, devotees believe they are absorbing the residual spiritual energy and favor of the God, thus purifying their body and mind."
+		},
+		"faq": {
+			"heading": "Prashad Related FAQ's",
+			"items": [
+				{
+					"question": "What exactly is prashad?",
+					"answer": "Prashad (or Prasad) is a sacred vegetarian food offering that has been blessed by a deity during a special puja or ceremony. When you receive it, you are partaking in the blessings and spiritual energy of the Divine."
+				},
+				{
+					"question": "Is the prashad safe to eat?",
+					"answer": "Yes. Prashad is prepared following traditional practices and basic food-safety standards. If you have specific health concerns, please check ingredient details or contact us before ordering."
+				},
+				{
+					"question": "What ingredients are used in the prashad?",
+					"answer": "Ingredients vary by item. We aim to use simple, vegetarian ingredients; specific ingredient lists are available on each product page. If you have allergies, please review the product information carefully."
+				},
+				{
+					"question": "How long will it take for my prashad order to arrive?",
+					"answer": "Delivery times depend on your location and the selected shipping method. Estimated delivery windows are shown during checkout and in your order confirmation email."
+				},
+				{
+					"question": "How should I store the prashad once it arrives?",
+					"answer": "Storage instructions depend on the product. Many prashad items are best kept in a cool, dry place and consumed within the recommended timeframe. Check the product details for specific storage guidance."
+				}
+			]
+		}
+	},
+	"prashad_checkout": {
+		"checkoutTitle": "Checkout",
+		"shippingAddress": "Shipping Address",
+		"addDeliveryAddress": "Add Delivery Address",
+		"yourOrder": "Your Order",
+		"removeConfirm": "Remove this item from your order?",
+		"itemRemoved": "Item removed from order",
+		"loadingCharges": "Loading charges...",
+		"subtotal": "Subtotal",
+		"shipping": "Shipping",
+		"vatTax": "Vat,tax",
+		"total": "Total",
+		"processing": "Processing...",
+		"proceedToPayment": "Proceed to Payment",
+		"itemOutOfStock": "Item is out of stock",
+		"onlyAvailable": "Only {{count}} available",
+		"addDeliveryAddressButton": "Add Delivery Address",
+		"selectDeliveryAddress": "Please select a delivery address"
 	}
 }

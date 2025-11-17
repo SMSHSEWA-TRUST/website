@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import worshipImg from '@/assets/images/Aboutworship.png';
 
 type Props = {
@@ -23,6 +23,29 @@ const Vedio: React.FC<Props> = ({ videoSrc = '/videos/puja.mp4', poster = worshi
         videoRef.current && (videoRef.current.currentTime = 0);
         setOpen(false);
     };
+
+    // Lock body scroll when modal is open
+    useEffect(() => {
+        if (open) {
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.width = '100%';
+            document.documentElement.style.overflow = 'hidden';
+
+            return () => {
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.left = '';
+                document.body.style.right = '';
+                document.body.style.width = '';
+                document.documentElement.style.overflow = '';
+                window.scrollTo(0, scrollY);
+            };
+        }
+    }, [open]);
 
     return (
         <section className="relative w-screen left-1/2 right-1/2 -translate-x-1/2 transform">

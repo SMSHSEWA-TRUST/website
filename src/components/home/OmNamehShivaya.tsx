@@ -119,7 +119,7 @@ const OmNamehShivaya = (): JSX.Element => {
                 <button
                     aria-label="Close video"
                     onClick={closeOverlay}
-                    className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg"
+                    className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg"
                 >
                     <svg className="w-5 h-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

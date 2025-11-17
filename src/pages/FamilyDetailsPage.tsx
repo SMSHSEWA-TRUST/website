@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoImage from "../assets/images/Logo.png";
 import FamilyBgImage from "../assets/images/loginBg.png";
@@ -24,6 +24,15 @@ export default function FamilyDetailsPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
+
+    // Prevent body scrolling while this page is active so internal containers handle scrolling
+    useEffect(() => {
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = originalOverflow;
+        };
+    }, []);
 
     // Sample dropdown options
     const relationOptions = [

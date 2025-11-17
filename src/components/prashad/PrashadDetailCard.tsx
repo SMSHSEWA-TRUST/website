@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Bestseller from './Bestseller';
 import ImportantParshad from './ImportantParshad';
 import BuyNowCheckoutModal from './BuyNowCheckoutModal';
+import { useI18n } from '@/lib/i18n';
 
 interface PrashadPlan {
     id: number;
@@ -30,6 +31,7 @@ interface PrashadDetailModalProps {
 }
 
 const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, onClose }) => {
+    const { t } = useI18n();
     const [quantity, setQuantity] = useState(1);
     const [isBuyNowOpen, setIsBuyNowOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(0);
@@ -72,9 +74,9 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
     const currentStock = displayData?.stock || 999; // Default to high number if stock not available
 
-    // Handle itemsIncluded properly - check if it exists and has items
+    // Handle itemsIncluded properly - check if it exists and has items (API may return array of objects)
     const currentWhatsInBox = displayData?.itemsIncluded && displayData.itemsIncluded.length > 0
-        ? displayData.itemsIncluded.join(', ')
+        ? displayData.itemsIncluded.map((it: any) => (typeof it === 'string' ? it : it.itemName ?? it.itemDescription)).join(', ')
         : displayData?.whatsInBox || plan?.whatsInBox || '';
 
     // Reset selected image when modal opens (modal usage) or when page/prasad changes
@@ -115,18 +117,18 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                             console.error('Error updating cart:', error);
                             // Revert quantity on error
                             setQuantity(quantity);
-                            toast.error('Failed to update cart. Please try again.', { position: 'top-center' });
+                            toast.error(t('prashad.section.failedUpdate'), { position: 'top-center' });
                         }
                     }
                 );
             }
         } else if (newQuantity > currentStock) {
             // Optional: Show alert when trying to exceed stock
-            toast.error(`Only ${currentStock} items available in stock`, { position: 'top-center' });
+            toast.error(t('prashad.section.onlyAvailable').replace('{{count}}', String(currentStock)), { position: 'top-center' });
         } else if (newQuantity < 1 && isInCart) {
             // If trying to go below 1 and item is in cart, user might want to remove it
             // For now, we keep minimum at 1
-            toast.error('Minimum quantity is 1. To remove from cart, use the cart page.', { position: 'top-center' });
+            toast.error(t('prashad.section.minQuantity'), { position: 'top-center' });
         }
     };
 
@@ -189,7 +191,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                             window.location.href = '/login';
                             return;
                         }
-                        toast.error('Failed to add item to cart. Please try again.', { position: 'top-center' });
+                        toast.error(t('prashad.section.failedAdd'), { position: 'top-center' });
                     },
                 }
             );
@@ -271,11 +273,11 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     <p className="font-secondaryFont text-sm text-gray-600">
                                         {displayData.stock > 0 ? (
                                             <>
-                                                <span className="text-green-600 font-semibold">In Stock</span>
+                                                <span className="text-green-600 font-semibold">{t('prashad.detail.inStock')}</span>
                                                 <span className="ml-2">({displayData.stock} available)</span>
                                             </>
                                         ) : (
-                                            <span className="text-red-600 font-semibold">Out of Stock</span>
+                                            <span className="text-red-600 font-semibold">{t('prashad.detail.outOfStock')}</span>
                                         )}
                                     </p>
                                 </div>
@@ -290,25 +292,33 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     <button
                                         onClick={() => handleQuantityChange(-1)}
                                         disabled={quantity <= 1}
-                                        className={`p-3 transition-colors border-r-2 border-[#8b0000] ${quantity <= 1
+                                        title="Decrease quantity"
+                                        aria-label="Decrease quantity"
+                                        className={`p-3 transition-colors ${quantity <= 1
                                             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                             : 'hover:bg-[#8b0000] hover:text-white'
                                             }`}
-                                        aria-label="Decrease quantity"
                                     >
                                         <Minus className="w-5 h-5" />
                                     </button>
+
+                                    <div className="w-px bg-[#8b0000] h-8" />
+
                                     <span className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4">
                                         {quantity}
                                     </span>
+
+                                    <div className="w-px bg-[#8b0000] h-8" />
+
                                     <button
                                         onClick={() => handleQuantityChange(1)}
                                         disabled={quantity >= currentStock}
-                                        className={`p-3 transition-colors border-l-2 border-[#8b0000] ${quantity >= currentStock
+                                        title="Increase quantity"
+                                        aria-label="Increase quantity"
+                                        className={`p-3 transition-colors ${quantity >= currentStock
                                             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                             : 'hover:bg-[#8b0000] hover:text-white'
                                             }`}
-                                        aria-label="Increase quantity"
                                     >
                                         <Plus className="w-5 h-5" />
                                     </button>
@@ -318,7 +328,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                             {/* Description */}
                             <div className="mb-6">
                                 <h3 className="font-secondaryFont text-xl font-bold text-gray-900 mb-3">
-                                    Description
+                                    {t('prashad.detail.descriptionTitle')}
                                 </h3>
                                 <p className="font-secondaryFont text-sm text-gray-500 leading-relaxed">
                                     {currentDescription || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}
@@ -328,12 +338,12 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                             {/* What's in the box */}
                             <div className="mb-8 flex-grow">
                                 <h3 className="font-secondaryFont text-xl font-bold text-gray-900 mb-3">
-                                    What's in the box
+                                    {t('prashad.detail.whatsInBoxTitle')}
                                 </h3>
                                 {displayData?.itemsIncluded && displayData.itemsIncluded.length > 0 ? (
                                     <ul className="font-secondaryFont text-sm text-gray-500 leading-relaxed list-disc list-inside space-y-1">
-                                        {displayData.itemsIncluded.map((item: string, index: number) => (
-                                            <li key={index}>{item}</li>
+                                        {displayData.itemsIncluded.map((item: any, index: number) => (
+                                            <li key={item._id ?? index}>{typeof item === 'string' ? item : (item.itemName ?? item.itemDescription ?? '')}</li>
                                         ))}
                                     </ul>
                                 ) : currentWhatsInBox ? (
@@ -342,7 +352,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     </p>
                                 ) : (
                                     <p className="font-secondaryFont text-sm text-gray-400 leading-relaxed italic">
-                                        No items information available
+                                        {t('prashad.detail.noItemsInfo')}
                                     </p>
                                 )}
                             </div>
@@ -360,14 +370,14 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     {addToCartMutation.isPending ? (
                                         <>
                                             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                            Adding...
+                                            {t('prashad.detail.adding')}
                                         </>
                                     ) : displayData?.stock === 0 ? (
-                                        'Out of Stock'
+                                        t('prashad.detail.outOfStock')
                                     ) : isInCart ? (
-                                        'Go to Checkout'
+                                        t('prashad.section.goToCheckout')
                                     ) : (
-                                        'Add to cart'
+                                        t('prashad.detail.addToCart')
                                     )}
                                 </button>
 
@@ -376,7 +386,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     disabled={displayData?.stock === 0 || displayData?.isAvailable === false}
                                     className="w-full font-secondaryFont py-3 rounded-xl text-base font-semibold border-2 border-[#8b0000] text-[#8b0000] bg-white hover:bg-[#fff5f5] transition-colors"
                                 >
-                                    Buy now
+                                    {t('prashad.detail.buyNow')}
                                 </button>
                             </div>
                         </div>

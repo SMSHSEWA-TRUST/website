@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPrasad, getPrasadById, PrasadResponse, SinglePrasadResponse } from "@/services/prasad.service";
+import { getPrasadByTag } from "@/services/prasad.service";
 
 export const QueryKeys = {
     prasad: "prasad",
     getPrasad: ["prasad", "getPrasad"],
     getPrasadById: (id: string) => ["prasad", "getPrasadById", id],
+    getPrasadByTag: (tag: string) => ["prasad", "getPrasadByTag", tag],
 };
 
 export const useGetPrasad = () =>
@@ -18,4 +20,11 @@ export const useGetPrasadById = (prasadId: string, enabled: boolean = true) =>
         queryKey: QueryKeys.getPrasadById(prasadId),
         queryFn: () => getPrasadById(prasadId),
         enabled: enabled && !!prasadId, // Only fetch when enabled and prasadId exists
+    });
+
+export const useGetPrasadByTag = (tag: string, enabled: boolean = true) =>
+    useQuery<PrasadResponse>({
+        queryKey: QueryKeys.getPrasadByTag(tag),
+        queryFn: () => getPrasadByTag(tag),
+        enabled: enabled && !!tag,
     });

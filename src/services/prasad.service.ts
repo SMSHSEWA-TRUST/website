@@ -18,7 +18,12 @@ export interface PrasadItem {
   images?: string[]; // API returns images as array
   description?: string;
   whatsInBox?: string;
-  itemsIncluded?: string[]; // API returns itemsIncluded as array
+  itemsIncluded?: Array<{
+    itemName: string;
+    itemImage?: string;
+    itemDescription?: string;
+    _id?: string;
+  }>; // API returns itemsIncluded as array of objects
   gallery?: string[];
   category?: string;
   stock?: number;
@@ -48,3 +53,7 @@ export const getPrasad = (): Promise<PrasadResponse> => authTokenAxios.get(`/pra
 
 export const getPrasadById = (prasadId: string): Promise<SinglePrasadResponse> => 
   authTokenAxios.get(`/prasad/${prasadId}`);
+
+// Fetch prasad items by tag (e.g. "best sellers").
+export const getPrasadByTag = (tag: string): Promise<PrasadResponse> =>
+  authTokenAxios.get(`/prasad/get-by-tag?tag=${encodeURIComponent(tag)}`);

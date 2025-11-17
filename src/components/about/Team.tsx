@@ -407,13 +407,13 @@ export default function Team() {
                             {/* Right side - Image (appears above text on small screens) */}
                             <div className="w-full lg:w-1/2 flex items-center justify-center bg-gray-50 overflow-hidden flex-shrink-0">
                                 {/* Responsive image container that fits modal width and keeps aspect ratios */}
-                                <div className="w-full h-full flex items-center justify-center">
+                                <div className="w-full h-full flex items-center justify-center ">
                                     {selectedMember.image ? (
                                         <img
                                             src={selectedMember.image}
                                             alt={selectedMember.name}
-                                            className="w-full object-cover object-center max-h-[300px] sm:max-h-[360px] md:max-h-[420px] lg:max-h-[508px] rounded-b-none lg:rounded-r-lg"
-                                            style={{ maxWidth: '100%', display: 'block' }}
+                                            className="max-w-full max-h-[60vh] w-auto h-auto object-contain rounded-b-none lg:rounded-r-lg"
+                                            style={{ display: 'block' }}
                                         />
                                     ) : (
                                         <div className="flex flex-col items-center justify-center text-gray-400 bg-gray-100 rounded-b-none lg:rounded-r-lg w-full h-full">

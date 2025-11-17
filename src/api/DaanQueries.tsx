@@ -25,8 +25,9 @@ export const useGetAllDaan = () =>
 
 export const useDaanDetailsByDocId = (daanDocId: string) =>
   useQuery({
-    queryKey: QueryKeys.getDaanDetails,
+    queryKey: [...QueryKeys.getDaanDetails, daanDocId],
     queryFn: () => getDaanDetailsById(daanDocId),
+    enabled: !!daanDocId,
   });
 
 export const usePlotsData = (enabled: boolean) =>

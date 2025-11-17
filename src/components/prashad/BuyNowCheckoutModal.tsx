@@ -11,6 +11,7 @@ import {
     useUpdateUserAddress,
     useDeleteUserAddress
 } from '@/api/ProfileQueries';
+import { useI18n } from '@/lib/i18n';
 
 interface BuyNowCheckoutModalProps {
     isOpen: boolean;
@@ -33,6 +34,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     prasadImage,
     onQuantityChange
 }) => {
+    const { t } = useI18n();
     // Address management state
     const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
     const [isAddressSelectionOpen, setIsAddressSelectionOpen] = useState(false);
@@ -103,7 +105,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
             }
         } else if (newQuantity > currentStock) {
             // optional: inform user when trying to exceed stock
-            toast.error(`Only ${currentStock} item${currentStock === 1 ? '' : 's'} available`);
+            toast.error(t('prashad_checkout.onlyAvailable').replace('{{count}}', String(currentStock)));
         }
     };
 
@@ -134,10 +136,10 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
         try {
             if (addressId) {
                 await updateAddressMutation.mutateAsync({ addressId, payload });
-                toast.success("Address updated successfully!");
+                toast.success(t('prashad_checkout.itemRemoved'));
             } else {
                 await addAddressMutation.mutateAsync(payload);
-                toast.success("Address added successfully!");
+                toast.success(t('prashad_checkout.itemRemoved'));
             }
             await refetchAddresses();
             handleCloseAddEdit();
@@ -149,24 +151,24 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     };
 
     const handleDeleteAddress = async (addressId: string) => {
-        if (!window.confirm("Are you sure you want to delete this address?")) return;
+        if (!window.confirm(t('prashad_checkout.removeConfirm'))) return;
 
         try {
             await deleteAddressMutation.mutateAsync(addressId);
-            toast.success("Address deleted successfully!");
+            toast.success(t('prashad_checkout.itemRemoved'));
             if (selectedAddressId === addressId) {
                 setSelectedAddressId(null);
             }
             await refetchAddresses();
         } catch (error: any) {
             console.error("Error deleting address:", error);
-            toast.error(error?.response?.data?.message || "Failed to delete address");
+            toast.error(error?.response?.data?.message || t('prashad.section.failedAdd'));
         }
     };
 
     const proceedToPayment = async () => {
         if (!selectedAddressId) {
-            toast.error("Please select a delivery address");
+            toast.error(t('prashad_checkout.selectDeliveryAddress'));
             return;
         }
 
@@ -283,14 +285,14 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
-                        <h2 className="text-2xl font-semibold text-gray-900">Checkout</h2>
+                        <h2 className="text-2xl font-semibold text-gray-900">{t('prashad_checkout.checkoutTitle')}</h2>
                     </div>
 
                     {/* Content */}
                     <div className="px-6 py-6 max-h-[calc(100vh-200px)] overflow-y-auto">
                         {/* Shipping Address Section */}
                         <div className="mb-6">
-                            <h3 className="text-lg font-medium text-gray-600 mb-3">Shipping Address</h3>
+                            <h3 className="text-lg font-medium text-gray-600 mb-3">{t('prashad_checkout.shippingAddress')}</h3>
 
                             {isLoadingAddresses ? (
                                 <div className="flex items-center justify-center py-8">
@@ -360,14 +362,14 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                     </svg>
-                                    <span className="font-medium">Add Delivery Address</span>
+                                    <span className="font-medium">{t('prashad_checkout.addDeliveryAddressButton')}</span>
                                 </button>
                             )}
                         </div>
 
                         {/* Your Order Section */}
                         <div className="mb-6">
-                            <h3 className="text-lg font-medium text-gray-600 mb-3">Your Order</h3>
+                            <h3 className="text-lg font-medium text-gray-600 mb-3">{t('prashad_checkout.yourOrder')}</h3>
 
                             <div className="bg-white rounded-xl">
                                 {/* Product Header */}
@@ -459,25 +461,25 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                             {isLoadingCharges ? (
                                 <div className="text-center py-4">
                                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#AD2F16] mx-auto"></div>
-                                    <p className="text-sm text-gray-500 mt-2">Loading charges...</p>
+                                    <p className="text-sm text-gray-500 mt-2">{t('prashad_checkout.loadingCharges')}</p>
                                 </div>
                             ) : (
                                 <>
                                     <div className="flex justify-between text-base text-gray-700">
-                                        <span>Subtotal</span>
+                                        <span>{t('prashad_checkout.subtotal')}</span>
                                         <span className="font-medium">₹{subtotal.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between text-base text-gray-700">
-                                        <span>Shipping</span>
+                                        <span>{t('prashad_checkout.shipping')}</span>
                                         <span className="font-medium">₹{shipping.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between text-base text-gray-700">
-                                        <span>Vat,tax</span>
+                                        <span>{t('prashad_checkout.vatTax')}</span>
                                         <span className="font-medium">₹{vatTax.toFixed(2)}</span>
                                     </div>
                                     <div className="pt-2 mt-2">
                                         <div className="flex justify-between text-xl font-bold text-gray-900">
-                                            <span>Total</span>
+                                            <span>{t('prashad_checkout.total')}</span>
                                             <span>₹{totalAmount.toFixed(2)}</span>
                                         </div>
                                     </div>
@@ -496,14 +498,14 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                             {isProcessingPayment ? (
                                 <>
                                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                    <span>Processing...</span>
+                                    <span>{t('prashad_checkout.processing')}</span>
                                 </>
                             ) : (
-                                'Proceed to Payment'
+                                t('prashad_checkout.proceedToPayment')
                             )}
                         </button>
                         {hasStockIssue && (
-                            <p className="mt-2 text-sm text-red-600">{currentStock <= 0 ? 'Item is out of stock' : `Only ${currentStock} item${currentStock === 1 ? '' : 's'} available`}</p>
+                            <p className="mt-2 text-sm text-red-600">{currentStock <= 0 ? t('prashad_checkout.itemOutOfStock') : t('prashad_checkout.onlyAvailable').replace('{{count}}', String(currentStock))}</p>
                         )}
                     </div>
                 </div>

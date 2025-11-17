@@ -59,6 +59,9 @@ export const DonationPage: React.FC = () => {
                     setSelectedCategory(match);
                     return;
                 }
+                // If no match found for the URL title, redirect to home
+                navigate('/', { replace: true });
+                return;
             }
 
             if (focus && String(focus).toLowerCase() === 'bhumi') {
@@ -77,10 +80,8 @@ export const DonationPage: React.FC = () => {
                 }
             }
 
-            // If no category found or invalid URL, navigate home
-            if (!selectedCategoryFromState && !focus && urlTitle) {
-                navigate('/', { replace: true });
-            } else if (!selectedCategoryFromState && !focus && !urlTitle) {
+            // Only redirect if we have no state and no URL params
+            if (!selectedCategoryFromState && !focus && !urlTitle) {
                 navigate('/', { replace: true });
             }
         }

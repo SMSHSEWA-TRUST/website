@@ -1,10 +1,13 @@
 import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useI18n } from '@/lib/i18n';
 import PaeshadImage from "../../assets/images/PrasadImage.png";
 import Image1 from ".././../assets/images/BowlFoodDuotone.png"
 import Image2 from ".././../assets/images/Food.png"
 
 const ImportantParshad: React.FC = () => {
+    const { t } = useI18n();
+
     return (
         <div className="w-full py-16 px-4 bg-white">
             <div className="max-w-7xl mx-auto">
@@ -12,14 +15,15 @@ const ImportantParshad: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
                     {/* Left Side - Text Content */}
                     <div className="space-y-6">
+
                         {/* Title */}
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-primaryFont text-[#8b0000] border-b-[4px] border-[#D05E2D] pb-3 inline-block">
-                            Importance of Prashad
+                            {t('prashad.important.heading')}
                         </h2>
 
                         {/* Description */}
                         <p className="text-[#AAAAAA] font-secondaryFont text-sm md:text-base leading-relaxed">
-                            Prashad is a sacred and deeply significant offering in Hinduism, representing the grace and blessings of the Divine. It is food, often vegetarian and prepared with great reverence, that has first been offered to a deity during a ritual or ceremony to the congregation.
+                            {t('prashad.important.lead')}
                         </p>
 
                         {/* Bullet Points with Icons */}
@@ -33,7 +37,7 @@ const ImportantParshad: React.FC = () => {
                                 </div>
                                 <div className="flex-1">
                                     <p className="text-[#AAAAAA] font-secondaryFont text-sm md:text-base leading-relaxed">
-                                        The act of receiving and consuming prashad is much more than simply eating; it is an act of communion, purification, and spiritual nourishment.
+                                        {t('prashad.important.point1')}
                                     </p>
                                 </div>
                             </div>
@@ -47,7 +51,7 @@ const ImportantParshad: React.FC = () => {
                                 </div>
                                 <div className="flex-1">
                                     <p className="text-[#AAAAAA] font-secondaryFont text-sm md:text-base leading-relaxed">
-                                        By partaking in this sanctified food, devotees believe they are absorbing the residual spiritual energy and favor of the God, thus purifying their body and mind, strengthening their faith, and dissolving negative karma.
+                                        {t('prashad.important.point2')}
                                     </p>
                                 </div>
                             </div>

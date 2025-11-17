@@ -1,45 +1,69 @@
 import React from 'react';
+import { useI18n } from '@/lib/i18n';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface ItemInBoxProps {
-    items?: Array<{
-        id: number;
-        image: string;
-        name: string;
-        description?: string;
-    }>;
+    // Accept either the internal shape or the API `itemsIncluded` shape.
+    items?: Array<
+        | {
+            id: number | string;
+            image?: string;
+            name?: string;
+            description?: string;
+        }
+        | {
+            _id?: string;
+            itemImage?: string;
+            itemName?: string;
+            itemDescription?: string;
+        }
+    >;
 }
 
 const ItemInBox: React.FC<ItemInBoxProps> = ({ items }) => {
+    const { t } = useI18n();
+
     // Default items if none provided
     const defaultItems = [
         {
-            id: 1,
+            id: '1',
             image: '',
-            name: 'Item Name',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.'
+            name: t('prashad.itemInBox.defaultItemName'),
+            description: t('prashad.itemInBox.defaultItemDescription')
         },
         {
-            id: 2,
-            image: '',
-            name: 'Item Name',
-            description: ''
-        },
-        {
-            id: 3,
+            id: '2',
             image: '',
             name: 'Item Name',
             description: ''
         },
         {
-            id: 4,
+            id: '3',
+            image: '',
+            name: 'Item Name',
+            description: ''
+        },
+        {
+            id: '4',
             image: '',
             name: 'Item Name',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco commodo consequat.'
         }
     ];
 
-    const displayItems = items || defaultItems;
+    // Normalize incoming items so component can render either internal shape or API `itemsIncluded` shape
+    const displayItems = (items && items.length > 0
+        ? items.map((it) => {
+            // If API shape
+            const itemAny = it as any;
+            return {
+                id: itemAny._id ?? itemAny.id ?? itemAny.itemId ?? itemAny.id,
+                image: itemAny.itemImage ?? itemAny.image ?? '',
+                name: itemAny.itemName ?? itemAny.name ?? 'Item Name',
+                description: itemAny.itemDescription ?? itemAny.description ?? '',
+            };
+        })
+        : defaultItems);
 
     return (
         <div className="w-full py-16 px-4 bg-white">
@@ -47,13 +71,13 @@ const ItemInBox: React.FC<ItemInBoxProps> = ({ items }) => {
                 {/* Title */}
                 <div className="text-center mb-4">
                     <h2 className="text-3xl md:text-4xl font-primaryFont text-[#8b0000] inline-block border-b-[4px] border-[#D05E2D] pb-2">
-                        About the items in the box
+                        {t('prashad.itemInBox.title')}
                     </h2>
                 </div>
 
                 {/* Subtitle */}
                 <p className="text-center text-gray-500 font-secondaryFont text-sm md:text-base mb-12 max-w-4xl mx-auto">
-                    A Detailed List of Everything Included in Your Shipment. See Exactly What Comes in the Box. Your Complete Inventory The Full Set of Components
+                    {t('prashad.itemInBox.subtitle')}
                 </p>
 
                 {/* Items Grid */}

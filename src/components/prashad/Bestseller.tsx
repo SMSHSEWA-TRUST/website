@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { ShoppingCart, Minus, Plus } from 'lucide-react';
-import { useGetPrasad } from '@/api/PrasadQueries';
+import { useGetPrasadByTag } from '@/api/PrasadQueries';
 import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useI18n } from '@/lib/i18n';
 import { isAuthenticated } from '@/lib/authRedirect';
 
 const Bestseller: React.FC = () => {
     const navigate = useNavigate();
-    const { data: prasadData, isLoading } = useGetPrasad();
+    const { t } = useI18n();
+    const { data: prasadData, isLoading } = useGetPrasadByTag('Bestsellers');
     const addToCartMutation = useAddToCart();
     const { data: cartData } = useGetCart();
     const updateCartMutation = useUpdateCartItem();
@@ -62,7 +64,7 @@ const Bestseller: React.FC = () => {
             },
             {
                 onSuccess: () => {
-                    toast.success('Added to cart successfully!', { position: 'top-center' });
+                    toast.success(`${prasad.name} ${t('prashad.section.addedToCartSuffix')}`, { position: 'top-center' });
                 },
                 onError: (error) => {
                     console.error('Error adding to cart:', error);
@@ -71,7 +73,7 @@ const Bestseller: React.FC = () => {
                         window.location.href = '/login';
                         return;
                     }
-                    toast.error('Failed to add item to cart. Please try again.', { position: 'top-center' });
+                    toast.error(t('prashad.section.failedAdd'), { position: 'top-center' });
                 },
                 onSettled: () => {
                     setAddingId(null);
@@ -105,7 +107,7 @@ const Bestseller: React.FC = () => {
                 {/* Title */}
                 <div className="text-center mb-4">
                     <h2 className="text-3xl md:text-4xl font-primaryFont text-[#8b0000] inline-block border-b-[4px] border-[#D05E2D] pb-2">
-                        Our other Bestsellers
+                        {t('prashad.bestseller.heading')}
                     </h2>
                 </div>
 
@@ -164,19 +166,30 @@ const Bestseller: React.FC = () => {
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(prasad, -1); }}
                                                         disabled={cartQuantity <= 1}
-                                                        className={`p-2 transition-colors border-r-2 border-[#8b0000] ${cartQuantity <= 1
+                                                        title="Decrease quantity"
+                                                        aria-label="Decrease quantity"
+                                                        className={`p-2 transition-colors ${cartQuantity <= 1
                                                             ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
                                                             : 'hover:bg-[#8b0000] hover:text-white'
                                                             }`}
                                                     >
                                                         <Minus className="w-4 h-4" />
                                                     </button>
+
+                                                    {/* Visual divider to show clickable area */}
+                                                    <div className="w-px bg-[#8b0000] h-6" />
+
                                                     <span className="font-secondaryFont text-base font-bold min-w-[40px] text-center text-gray-900 px-3">
                                                         {cartQuantity}
                                                     </span>
+
+                                                    <div className="w-px bg-[#8b0000] h-6" />
+
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(prasad, 1); }}
-                                                        className="p-2 transition-colors border-l-2 border-[#8b0000] hover:bg-[#8b0000] hover:text-white"
+                                                        title="Increase quantity"
+                                                        aria-label="Increase quantity"
+                                                        className={`p-2 transition-colors ${cartQuantity >= (prasad.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                                     >
                                                         <Plus className="w-4 h-4" />
                                                     </button>
@@ -195,7 +208,7 @@ const Bestseller: React.FC = () => {
                                                 }`}
                                         >
                                             <ShoppingCart className="w-4 h-4" />
-                                            {prasad.stock === 0 || prasad.isAvailable === false ? 'Out of Stock' : addingId === prasad._id ? 'Adding...' : 'Add to Cart'}
+                                            {prasad.stock === 0 || prasad.isAvailable === false ? t('prashad.section.outOfStock') : addingId === prasad._id ? t('prashad.section.adding') : t('prashad.section.addToCart')}
                                         </button>
                                     );
                                 })()}
