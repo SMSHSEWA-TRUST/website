@@ -26,7 +26,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
     // Do not show header/footer on the signup, login, otp, profile pages and some booking/history pages
     // Note: donation pages should show the common header/footer, so '/donation' was removed from hidden patterns.
-    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details', '/profile', '/membership-history', '/donations-history', '/prashad-order-history', '/puja-bookings', '/checkout', '/puja-booking', '/puja-booking-review', '/puja-booking-confirmation'];
+    const hiddenPaths = ['/signup', '/login', '/otp', '/family-details', '/personal-details', '/profile', '/membership-history', '/donations-history', '/prashad-order-history', '/puja-bookings', '/puja-booking', '/puja-booking-review', '/puja-booking-confirmation'];
     const hiddenPathPatterns: string[] = []; // no prefix patterns to hide
 
     const hideHeaderFooter = hiddenPaths.includes(location.pathname) ||

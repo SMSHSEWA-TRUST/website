@@ -27,6 +27,24 @@ export const navigateToDonation = (
   category: { title: string; [key: string]: any }, 
   returnTo?: string
 ) => {
+  // Update current history entry to include focus state for return
+  if (returnTo) {
+    try {
+      const currentState = window.history.state;
+      // React Router v6 stores user state in 'usr' property of history state
+      if (currentState && typeof currentState === 'object') {
+        const usr = currentState.usr || {};
+        const newState = {
+          ...currentState,
+          usr: { ...usr, focus: returnTo }
+        };
+        window.history.replaceState(newState, '');
+      }
+    } catch (e) {
+      console.error('Failed to update history state', e);
+    }
+  }
+
   const url = createDonationUrl(category);
   navigate(url, { 
     state: { 

@@ -113,6 +113,19 @@ const ProfilePage = () => {
     const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false);
     const [editingAddress, setEditingAddress] = useState<AddressModel | null>(null);
 
+    // Prevent body scroll when modals are open
+    const isAnyModalOpen = isModalOpen || isAddMemberModalOpen || isAddAddressModalOpen;
+    useEffect(() => {
+        if (isAnyModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isAnyModalOpen]);
+
     // Format subscription title to remove words like 'plan' or 'plane'
     const formatSubscriptionTitle = (title?: string | null) => {
         if (!title) return "";

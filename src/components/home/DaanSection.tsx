@@ -1,8 +1,6 @@
-import { useEffect } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGetAllDaan } from "@/api/DaanQueries";
 import { useI18n } from '@/lib/i18n';
-import { scrollToId } from '@/lib/scrollUtils';
 import { navigateToDonation } from '@/lib/donationUtils';
 import mandal from '@/assets/images/mand-7.png';
 import gaudaan from "../../assets/images/gaudaan.png";
@@ -12,8 +10,7 @@ import rashidaan from "../../assets/images/rashidaan.png";
 import bhumiddan from "../../assets/images/bhumiddan.png";
 
 const DonationSection = () => {
-  const { data, isFetching } = useGetAllDaan();
-  const location = useLocation();
+  const { data } = useGetAllDaan();
   const navigate = useNavigate();
   // Handler for donate button: navigates to donation page
   const handleDonate = (category: any) => {
@@ -64,44 +61,8 @@ const DonationSection = () => {
   const localizedItems = (t('donations.items') as any[]) || [];
 
   // If navigated here with state.focus, scroll to donations section
-  useEffect(() => {
-    if (isFetching) return;
-    try {
-      const focus = (location.state as any)?.focus;
 
-      if (focus && String(focus).toLowerCase() === 'donations') {
-        // Just scroll to donations section
-        let scrollAttempts = 0;
-        const maxScrollAttempts = 10;
 
-        const attemptScroll = () => {
-          const element = document.getElementById('donations');
-          if (element) {
-            setTimeout(() => {
-              scrollToId('donations', 80);
-            }, 200);
-          } else if (scrollAttempts < maxScrollAttempts) {
-            scrollAttempts++;
-            setTimeout(attemptScroll, 100);
-          }
-        };
-
-        attemptScroll();
-
-        // clear the navigation state so this doesn't trigger on further renders
-        setTimeout(() => {
-          try {
-            navigate(location.pathname + (location.hash || ''), { replace: true, state: {} });
-          } catch (e) {
-            // ignore
-          }
-        }, 800);
-      }
-    } catch (e) {
-      // ignore
-    }
-  }, [data, isFetching, location, navigate]);
-  if (isFetching) return null;
   return (
     <section
       id="donations"

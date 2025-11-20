@@ -55,8 +55,8 @@ export const HomePage = (): JSX.Element => {
           attempts += 1;
           const el = document.getElementById(targetId);
           if (el) {
-            // use helper which accounts for fixed header height
-            scrollToId(targetId);
+            // use helper with smart header detection and instant scroll for restoration
+            scrollToId(targetId, 0, null, 'auto');
             clearInterval(interval);
             try {
               // clear any navigation state/hash so this doesn't re-trigger

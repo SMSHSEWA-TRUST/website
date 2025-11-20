@@ -219,7 +219,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     <LazyLoadImage
                                         src={galleryImages[selectedImage]}
                                         alt={currentName}
-                                        className="w-full h-full object-cover max-h-[520px]"
+                                        className="w-full h-full object-cover "
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-gray-300 bg-gradient-to-br from-gray-100 to-gray-200">
