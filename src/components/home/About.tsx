@@ -21,6 +21,43 @@ function useIsLargeScreen() {
     return isLarge;
 }
 
+const VinePatterns = () => (
+    <svg width="0" height="0" className="absolute pointer-events-none" aria-hidden="true">
+        <defs>
+            <pattern id="vine-straight-pattern" x="0" y="0" width="40" height="50" patternUnits="userSpaceOnUse">
+                <path d="M0 25 Q 10 15 20 25 T 40 25" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                <path d="M 12 22 Q 18 12 24 22 Q 18 26 12 22" fill="currentColor" />
+                <path d="M 28 28 Q 34 38 40 28 Q 34 24 28 28" fill="currentColor" />
+            </pattern>
+            <pattern id="vine-vertical-pattern" x="0" y="0" width="50" height="40" patternUnits="userSpaceOnUse">
+                <path d="M25 0 Q 15 10 25 20 T 25 40" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                <path d="M 22 12 Q 12 18 22 24 Q 26 18 22 12" fill="currentColor" />
+                <path d="M 28 28 Q 38 34 28 40 Q 24 34 28 28" fill="currentColor" />
+            </pattern>
+        </defs>
+    </svg>
+);
+
+const VineCorner = ({ className }: { className?: string }) => (
+    <svg viewBox="0 0 50 50" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+        <path d="M 25 50 Q 25 25 50 25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M 25 42 Q 15 38 20 28 Q 28 32 25 42" fill="currentColor" />
+        <path d="M 42 25 Q 38 15 28 20 Q 32 28 42 25" fill="currentColor" />
+    </svg>
+);
+
+const VineStraight = ({ className }: { className?: string }) => (
+    <svg className={className} width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="url(#vine-straight-pattern)" />
+    </svg>
+);
+
+const VineVertical = ({ className }: { className?: string }) => (
+    <svg className={className} width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="url(#vine-vertical-pattern)" />
+    </svg>
+);
+
 const About = (): JSX.Element => {
     const isLargeScreen = useIsLargeScreen();
     const { t } = useI18n();
@@ -183,10 +220,39 @@ const About = (): JSX.Element => {
                         </button>
                     </div> */}
                 </div>
-                
+
             </div>
-            <div>
-                <p className="mt-8 text-[rgba(30, 30, 30, 0.5)] font-secondaryFont textDescription font-normal leading-relaxed text-center">
+            <div className="relative mt-16 max-w-4xl mx-auto px-8 py-10 sm:px-12 sm:py-14 text-secondaryColor">
+                <VinePatterns />
+
+                {/* Top Left */}
+                <VineCorner className="absolute top-0 left-0 w-[50px] h-[50px]" />
+                {/* Top Right */}
+                <VineCorner className="absolute top-0 right-0 w-[50px] h-[50px] transform scale-x-[-1]" />
+                {/* Bottom Left */}
+                <VineCorner className="absolute bottom-0 left-0 w-[50px] h-[50px] transform scale-y-[-1]" />
+                {/* Bottom Right */}
+                <VineCorner className="absolute bottom-0 right-0 w-[50px] h-[50px] transform scale-[-1]" />
+
+                {/* Top Border */}
+                <div className="absolute top-0 left-[50px] right-[50px] h-[50px]">
+                    <VineStraight className="w-full h-full" />
+                </div>
+                {/* Bottom Border */}
+                <div className="absolute bottom-0 left-[50px] right-[50px] h-[50px]">
+                    <VineStraight className="w-full h-full transform scale-y-[-1]" />
+                </div>
+
+                {/* Left Border */}
+                <div className="absolute top-[50px] bottom-[50px] left-0 w-[50px]">
+                    <VineVertical className="w-full h-full" />
+                </div>
+                {/* Right Border */}
+                <div className="absolute top-[50px] bottom-[50px] right-0 w-[50px]">
+                    <VineVertical className="w-full h-full transform scale-x-[-1]" />
+                </div>
+
+                <p className="text-[#8B0000] font-secondaryFont textDescription font-medium leading-relaxed text-center">
                     {t('about.paragraph')}
                 </p>
             </div>

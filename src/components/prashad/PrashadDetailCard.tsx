@@ -125,10 +125,33 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
         } else if (newQuantity > currentStock) {
             // Optional: Show alert when trying to exceed stock
             toast.error(t('prashad.section.onlyAvailable').replace('{{count}}', String(currentStock)), { position: 'top-center' });
-        } else if (newQuantity < 1 && isInCart) {
-            // If trying to go below 1 and item is in cart, user might want to remove it
-            // For now, we keep minimum at 1
-            toast.error(t('prashad.section.minQuantity'), { position: 'top-center' });
+        } else if (newQuantity < 1) {
+            // If trying to go below 1, and the product is in cart, treat this as a remove action
+            if (isInCart && cartItemId) {
+                updateCartMutation.mutate(
+                    {
+                        itemId: cartItemId,
+                        data: {
+                            action: 'remove',
+                            quantity: cartQuantity || 1,
+                        }
+                    },
+                    {
+                        onSuccess: () => {
+                            // After removing from cart, reset local quantity to 1 (default)
+                            setQuantity(1);
+                            toast.success(t('prashad.section.removedFromCart') || 'Removed from cart', { position: 'top-center' });
+                        },
+                        onError: (error) => {
+                            console.error('Error removing from cart:', error);
+                            toast.error(t('prashad.section.failedUpdate'), { position: 'top-center' });
+                        }
+                    }
+                );
+            } else {
+                // Not in cart and trying to go below 1: keep minimum at 1
+                toast.error(t('prashad.section.minQuantity'), { position: 'top-center' });
+            }
         }
     };
 
@@ -206,7 +229,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
     return (
         <>
-            <div className="w-full">
+            <div className="w-full pt-28 lg:pt-0">
                 <div className="max-w-[1400px] mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 md:min-h-[550px]">
                         {/* Left Side - Images */}
@@ -214,15 +237,16 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
 
                             {/* Main Image */}
-                            <div className="bg-gray-200 rounded-2xl overflow-hidden mb-5 shadow-md flex-1 flex items-center justify-center">
+                            <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden mb-5 shadow-sm w-full aspect-square flex items-center justify-center relative p-4">
                                 {galleryImages[selectedImage] ? (
                                     <LazyLoadImage
                                         src={galleryImages[selectedImage]}
                                         alt={currentName}
-                                        className="w-full h-full object-cover "
+                                        className="w-full h-full object-contain"
+                                        wrapperClassName="w-full h-full flex items-center justify-center"
                                     />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-gray-300 bg-gradient-to-br from-gray-100 to-gray-200">
+                                    <div className="w-full h-full flex items-center justify-center text-gray-300 bg-gray-50">
                                         <svg className="w-32 h-32" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
                                         </svg>
@@ -291,10 +315,11 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                 <div className="flex items-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden">
                                     <button
                                         onClick={() => handleQuantityChange(-1)}
-                                        disabled={quantity <= 1}
-                                        title="Decrease quantity"
-                                        aria-label="Decrease quantity"
-                                        className={`p-3 transition-colors ${quantity <= 1
+                                        // When quantity is 1, allow decrement only if item is already in cart (to remove it)
+                                        disabled={quantity <= 1 && !isInCart}
+                                        title={quantity <= 1 && isInCart ? 'Remove from cart' : 'Decrease quantity'}
+                                        aria-label={quantity <= 1 && isInCart ? 'Remove from cart' : 'Decrease quantity'}
+                                        className={`p-3 transition-colors ${quantity <= 1 && !isInCart
                                             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                             : 'hover:bg-[#8b0000] hover:text-white'
                                             }`}

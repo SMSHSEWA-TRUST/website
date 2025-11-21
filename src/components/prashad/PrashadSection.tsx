@@ -105,9 +105,26 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
         const currentQuantity = cartItem.quantity;
         const newQuantity = currentQuantity + change;
 
-        // Prevent going below 1
+        // If trying to go below 1, treat as remove action (remove entire item)
         if (newQuantity < 1) {
-            toast.error(t('prashad.section.minQuantity'));
+            updateCartMutation.mutate(
+                {
+                    itemId: cartItem._id,
+                    data: {
+                        action: 'remove',
+                        quantity: currentQuantity,
+                    }
+                },
+                {
+                    onSuccess: () => {
+                        toast.success(t('prashad.section.removedFromCart') || 'Removed from cart');
+                    },
+                    onError: (error) => {
+                        console.error('Error removing cart item:', error);
+                        toast.error(t('prashad.section.failedUpdate'));
+                    }
+                }
+            );
             return;
         }
 
@@ -321,35 +338,36 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                         {isInCart ? (
                                             // Show quantity controls when item is in cart
                                             <div className="space-y-2">
-                                                <div className="flex items-center justify-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden">
+                                                <div className="flex items-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden justify-center">
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, -1); }}
-                                                        disabled={cartQuantity <= 1}
-                                                        title="Decrease quantity"
-                                                        aria-label="Decrease quantity"
-                                                        className={`p-2 transition-colors ${cartQuantity <= 1
-                                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                        // Allow decrement at 1 so user can remove the item from cart
+                                                        disabled={false}
+                                                        title={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
+                                                        aria-label={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
+                                                        className={`p-3 transition-colors ${cartQuantity <= 1
+                                                            ? 'hover:bg-red-600 hover:text-white'
                                                             : 'hover:bg-[#8b0000] hover:text-white'
                                                             }`}
                                                     >
-                                                        <Minus className="w-4 h-4" />
+                                                        <Minus className="w-5 h-5" />
                                                     </button>
 
-                                                    <div className="w-px bg-[#8b0000] h-6" />
+                                                    <div className="w-px bg-[#8b0000] h-8" />
 
-                                                    <span className="font-secondaryFont text-base font-bold min-w-[40px] text-center text-gray-900 px-3">
+                                                    <span className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4">
                                                         {cartQuantity}
                                                     </span>
 
-                                                    <div className="w-px bg-[#8b0000] h-6" />
+                                                    <div className="w-px bg-[#8b0000] h-8" />
 
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, 1); }}
                                                         title="Increase quantity"
                                                         aria-label="Increase quantity"
-                                                        className={`p-2 transition-colors ${cartQuantity >= ((apiData?.data?.find((item: any) => item._id === (plan._id || String(plan.id))) as any)?.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
+                                                        className={`p-3 transition-colors ${cartQuantity >= ((apiData?.data?.find((item: any) => item._id === (plan._id || String(plan.id))) as any)?.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                                     >
-                                                        <Plus className="w-4 h-4" />
+                                                        <Plus className="w-5 h-5" />
                                                     </button>
                                                 </div>
                                             </div>

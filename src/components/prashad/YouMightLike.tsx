@@ -30,6 +30,16 @@ const YouMightLike: React.FC = () => {
         const currentQuantity = cartItem.quantity;
         const newQuantity = currentQuantity + change;
         if (newQuantity < 1) {
+            // Remove entire item from cart
+            updateCartMutation.mutate({ itemId: cartItem._id, data: { action: 'remove', quantity: currentQuantity } }, {
+                onSuccess: () => {
+                    toast.success(`${prasad.name} removed from cart`);
+                },
+                onError: (err) => {
+                    console.error('Error removing cart item:', err);
+                    toast.error('Failed to update cart. Please try again.');
+                }
+            });
             return;
         }
 
@@ -161,35 +171,36 @@ const YouMightLike: React.FC = () => {
                                     if (isInCart) {
                                         return (
                                             <div className="mt-auto">
-                                                <div className="flex items-center justify-center gap-0 border-2 border-[#8b0000] rounded-md overflow-hidden">
+                                                <div className="flex items-center justify-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden">
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(prasad, -1); }}
-                                                        disabled={cartQuantity <= 1}
-                                                        title="Decrease quantity"
-                                                        aria-label="Decrease quantity"
-                                                        className={`p-2 transition-colors ${cartQuantity <= 1
-                                                            ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
+                                                        // Allow decrement at 1 so user can remove item from cart
+                                                        disabled={false}
+                                                        title={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
+                                                        aria-label={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
+                                                        className={`p-3 transition-colors ${cartQuantity <= 1
+                                                            ? 'hover:bg-red-600 hover:text-white'
                                                             : 'hover:bg-[#8b0000] hover:text-white'
                                                             }`}
                                                     >
-                                                        <Minus className="w-4 h-4" />
+                                                        <Minus className="w-5 h-5" />
                                                     </button>
 
-                                                    <div className="w-px bg-[#8b0000] h-6" />
+                                                    <div className="w-px bg-[#8b0000] h-8" />
 
-                                                    <span className="font-secondaryFont text-base font-bold min-w-[40px] text-center text-gray-900 px-3">
+                                                    <span className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4">
                                                         {cartQuantity}
                                                     </span>
 
-                                                    <div className="w-px bg-[#8b0000] h-6" />
+                                                    <div className="w-px bg-[#8b0000] h-8" />
 
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(prasad, 1); }}
                                                         title="Increase quantity"
                                                         aria-label="Increase quantity"
-                                                        className={`p-2 transition-colors ${cartQuantity >= (prasad.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
+                                                        className={`p-3 transition-colors ${cartQuantity >= (prasad.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                                     >
-                                                        <Plus className="w-4 h-4" />
+                                                        <Plus className="w-5 h-5" />
                                                     </button>
                                                 </div>
                                             </div>

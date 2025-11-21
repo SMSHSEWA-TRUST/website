@@ -110,9 +110,9 @@ const SevaSection = ({
   }
 
   return (
-    <div className={isDesktop ? "flex-shrink-0 h-full" : ""}>
-      <Card className={`bg-white shadow-lg ${isDesktop ? "h-full flex flex-col" : ""}`}>
-        <CardHeader className="pb-4">
+    <div className={isDesktop ? "flex-shrink-0 h-full" : "w-full"}>
+      <Card className={`bg-white shadow-lg flex flex-col ${isDesktop ? "h-full" : "h-[500px] sm:h-[600px]"}`}>
+        <CardHeader className="pb-4 flex-shrink-0">
           <div className="flex items-center gap-2">
             <LazyLoadImage
               className="w-10 h-10 object-contain text-red-800"
@@ -135,8 +135,7 @@ const SevaSection = ({
         </CardHeader>
 
         {/* hide scrollbar for WebKit and set scrollbar styles for other browsers */}
-        <CardContent
-          className={`${isDesktop ? "flex-1 overflow-y-auto seva-scroll relative" : "relative overflow-hidden"}`}>
+        <CardContent className="flex-1 min-h-0 relative p-0 overflow-hidden">
           {/* Background image layer with low opacity */}
           <div
             className="absolute inset-0 bg-no-repeat pointer-events-none"
@@ -150,7 +149,7 @@ const SevaSection = ({
           />
 
           {/* Foreground content - allow scrolling on smaller screens when content overflows */}
-          <div className={`relative z-10 space-y-4 ${isDesktop ? '' : 'max-h-[40vh] sm:max-h-[50vh] overflow-y-auto'}`}>
+          <div className="h-full overflow-y-auto p-6 pt-0 space-y-4 seva-scroll relative z-10 overscroll-contain">
             {upcomingSevas.map((seva, index) => (
               <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
                 <h4 className="font-primaryFont font-normal text-[rgba(76, 41, 30, 1)] textHeading mb-2">
@@ -657,7 +656,7 @@ const LiveDarshan = (): JSX.Element => {
       {/* Image Modal */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-6 overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           aria-modal="true"
           role="dialog">
           {/* Backdrop */}
@@ -666,10 +665,10 @@ const LiveDarshan = (): JSX.Element => {
             onClick={handleCloseModal}
           />
 
-          {/* Modal panel - cap height and allow internal scrolling on small/tablet */}
-          <div className="relative z-10 w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl  p-2 lg:p-6 flex flex-col gap-2 ">
+          {/* Modal panel */}
+          <div className="relative z-10 w-full max-w-2xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
             {/* Header */}
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between p-4 lg:p-6 pb-2 flex-shrink-0">
               <h3 className="text-2xl font-primaryFont font-semibold text-[#111]">{modalTitle || t('liveDarshan.modal.upcomingEvent')}</h3>
               <button
                 aria-label="Close"
@@ -681,47 +680,43 @@ const LiveDarshan = (): JSX.Element => {
               </button>
             </div>
 
-            {/* Image - larger */}
-            <div className="w-full">
-              <LazyLoadImage
-                src={modalImage || pujaImageWebp}
-                alt={modalTitle || 'event'}
-                className="w-full h-44 md:h-56 lg:h-64 object-cover bg-cover rounded-2xl"
-              />
-            </div>
-
-            {/* Puja heading */}
-            <div>
-              <h4 className="text-[rgba(139,0,0,1)] text-2xl font-primaryFont mb-2">{modalTitle || t('liveDarshan.modal.eventFallback')}</h4>
-            </div>
-
-            {/* Date/Time Row */}
-            <div className="flex items-center gap-1 text-[#666]">
-              <div className="flex items-center gap-1">
-                <svg className="w-4 h-4 text-[#a0a0a0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                <span className="text-sm">{modalDate || ''}</span>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-4 lg:p-6 py-2 overscroll-contain">
+              {/* Image */}
+              <div className="w-full mb-4">
+                <LazyLoadImage
+                  src={modalImage || pujaImageWebp}
+                  alt={modalTitle || 'event'}
+                  className="w-full h-44 md:h-56 lg:h-64 object-cover bg-cover rounded-2xl"
+                />
               </div>
-              {/* <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-[#a0a0a0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span className="text-sm">{modalTime || ''}</span>
-              </div> */}
+
+              {/* Puja heading */}
+              <div>
+                <h4 className="text-[rgba(139,0,0,1)] text-2xl font-primaryFont mb-2">{modalTitle || t('liveDarshan.modal.eventFallback')}</h4>
+              </div>
+
+              {/* Date/Time Row */}
+              <div className="flex items-center gap-1 text-[#666]">
+                <div className="flex items-center gap-1">
+                  <svg className="w-4 h-4 text-[#a0a0a0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  <span className="text-sm">{modalDate || ''}</span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="w-full h-[1px] bg-[#a9331f] my-2" aria-hidden />
+
+              {/* Description */}
+              <div className="text-sm text-[#444] leading-relaxed">
+                <p className="mb-3">{modalDescription || t('liveDarshan.modal.noDescription')}</p>
+              </div>
             </div>
-            {/* horizontal divider directly after time (matches design) */}
-            <div className="w-full h-[1px] bg-[#a9331f] my-2" aria-hidden />
 
-            {/* Description */}
-            <div className="text-sm text-[#444] leading-relaxed max-h-[300px] overflow-y-auto">
-              <p className="mb-3">{modalDescription || t('liveDarshan.modal.noDescription')}</p>
-
-
-            </div>
-
-            {/* CTA */}
-            <div className="mt-2">
+            {/* Footer */}
+            <div className="p-4 lg:p-6 pt-2 flex-shrink-0">
               <button className="w-full bg-[#a9331f] text-white py-3 rounded-md" onClick={handleCloseModal}>{t('liveDarshan.modal.cta') || 'Close'}</button>
             </div>
           </div>
