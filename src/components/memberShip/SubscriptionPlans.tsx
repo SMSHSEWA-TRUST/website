@@ -24,9 +24,25 @@ const SubscriptionPlans: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Auto-select plan if redirected here after login with a specific planId
+    // Fetch user profile to determine currently active subscription (if any)
+    const { data: profileData } = useGetUserProfile();
+    const recentSubscription = profileData?.data?.recentSubscription;
+    const activeSubscriptionId = recentSubscription?.subscriptionId;
+    const activeStartDate = recentSubscription?.startDate;
+    const activeEndDate = recentSubscription?.endDate;
+
+    // Auto-select plan if redirected here after login with a specific planId OR if there is an active subscription
     useEffect(() => {
         const planId = (location.state as any)?.planId;
+
+        if (activeSubscriptionId && displayPlans.length > 0) {
+            const activeIndex = displayPlans.findIndex((plan: any) => plan.id === activeSubscriptionId || plan._id === activeSubscriptionId);
+            if (activeIndex !== -1) {
+                setSelectedIndex(activeIndex);
+                return; // Prioritize active subscription
+            }
+        }
+
         if (planId && displayPlans.length > 0) {
             const planIndex = displayPlans.findIndex((plan: any) => plan.id === planId || plan._id === planId);
             if (planIndex !== -1) {
@@ -46,11 +62,8 @@ const SubscriptionPlans: React.FC = () => {
             // Clear the navigation state
             navigate(location.pathname, { replace: true, state: {} });
         }
-    }, [displayPlans, location.state, location.pathname, navigate]);
+    }, [displayPlans, location.state, location.pathname, navigate, activeSubscriptionId]);
 
-    // Fetch user profile to determine currently active subscription (if any)
-    const { data: profileData } = useGetUserProfile();
-    const activeSubscriptionId = profileData?.data?.recentSubscription?.subscription?._id || profileData?.data?.recentSubscription?.subscription?.id || null;
 
     // No static map — use amount from API when available (amount is in rupees)
 
@@ -353,34 +366,6 @@ const SubscriptionPlans: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Billing Toggle */}
-                {/* <div className="flex justify-center mb-12">
-                    <div className="inline-flex rounded-lg bg-white shadow-sm border border-gray-200" role="group" aria-label="Billing toggle">
-                        <button
-                            onClick={() => setBillingAnnual(false)}
-                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setBillingAnnual(false); }}
-                            aria-pressed={!billingAnnual}
-                            className={`px-6 py-2.5 font-SecondaryFont textDescription  rounded-md transition-colors ${!billingAnnual
-                                ? 'bg-[#8B0000] text-[#FFFFFF]'
-                                : 'bg-white text-[#000000]'
-                                }`}
-                        >
-                            Billed Monthly
-                        </button>
-                        <button
-                            onClick={() => setBillingAnnual(true)}
-                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setBillingAnnual(true); }}
-                            aria-pressed={billingAnnual}
-                            className={`px-6 py-2.5 font-SecondaryFont textDescription  rounded-md transition-colors ${billingAnnual
-                                ? 'bg-[#8B0000] text-[#FFFFFF]'
-                                : 'bg-white text-[#000000]'
-                                }`}
-                        >
-                            Billed Annually
-                        </button>
-                    </div>
-                </div> */}
-
                 {/* Cards Grid */}
                 {isLoading && <p className="text-center mb-4">Loading plans...</p>}
                 {isError && <p className="text-center mb-4 text-red-600">Failed to load plans.</p>}
@@ -389,14 +374,30 @@ const SubscriptionPlans: React.FC = () => {
                         const selected = idx === selectedIndex;
                         const isActive = !!activeSubscriptionId && (String(plan._id) === String(activeSubscriptionId) || String(plan.id) === String(activeSubscriptionId));
 
+                        const handleCardClick = () => {
+                            setSelectedIndex(idx);
+                        };
+
+                        const handleButtonClick = (e: React.MouseEvent) => {
+                            e.stopPropagation();
+                            if (activeSubscriptionId && !isActive) {
+                                toast.error(`Active subscription must end before purchasing a new one. Valid till: ${activeEndDate}. You can buy new subscription after ${activeEndDate}.`, {
+                                    duration: 5000,
+                                    position: 'top-center'
+                                });
+                                return;
+                            }
+                            openRazorpayCheckout(plan._id || plan.id, plan.amount);
+                        };
+
                         return (
                             <div
                                 id={`plan-${plan._id || plan.id || idx}`}
                                 key={plan._id || plan.id || idx}
-                                onClick={() => setSelectedIndex(idx)}
+                                onClick={handleCardClick}
                                 role="button"
                                 tabIndex={0}
-                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedIndex(idx); }}
+                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleCardClick(); }}
                                 className={`relative rounded-xl p-6 cursor-pointer transition-all duration-200 flex flex-col h-full ${selected
                                     ? 'bg-[#8B0000] text-white shadow-2xl transform -translate-y-2'
                                     : 'bg-white border border-gray-200 hover:shadow-lg hover:-translate-y-1'
@@ -404,7 +405,7 @@ const SubscriptionPlans: React.FC = () => {
                             >
                                 {isActive && (
                                     <div className={`absolute top-3 right-3 px-2 py-0.5 rounded-md text-xs font-semibold shadow-md ${selected ? 'bg-white text-red-800' : ''}`} style={{ background: selected ? undefined : 'linear-gradient(90.44deg, #8B0000 0.41%, #AD2F16 99.66%)', color: selected ? '#8B0000' : '#ffffff' }}>
-                                        Active
+                                        Active Plan
                                     </div>
                                 )}
 
@@ -434,8 +435,8 @@ const SubscriptionPlans: React.FC = () => {
                                     {/* Subtitle */}
                                     <p className={`text-sm mb-6 ${selected ? 'text-white/90' : '#000000'}`}>
                                         {plan.duration < 12
-                                            ? `Billed every ${plan.duration} month${plan.duration > 1 ? "s" : ""}`
-                                            : `Billed every ${plan.duration / 12} year${plan.duration / 12 > 1 ? "s" : ""}`
+                                            ? `billed every ${plan.duration} month${plan.duration > 1 ? "s" : ""}`
+                                            : `billed every ${plan.duration / 12} year${plan.duration / 12 > 1 ? "s" : ""}`
                                         }
                                     </p>
 
@@ -473,19 +474,39 @@ const SubscriptionPlans: React.FC = () => {
                                     </ul>
                                 </div>
 
-                                {/* Button */}
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); openRazorpayCheckout(plan._id || plan.id, plan.amount); }}
-                                    disabled={processingIndex === idx}
-                                    className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors ${selected
-                                        ? 'bg-white text-red-800 hover:bg-gray-50'
-                                        : plan.id === 'enterprise'
-                                            ? 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
-                                            : 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
-                                        } ${processingIndex === idx ? 'opacity-60 cursor-not-allowed' : ''}`}
-                                >
-                                    {processingIndex === idx ? (plan.processingText || 'Processing...') : (plan.buttonText || 'Get Started')}
-                                </button>
+                                {/* Membership Validity Section for Active Plan */}
+                                {isActive && (
+                                    <div className={`mt-4 mb-4 p-3 rounded-md ${selected ? 'bg-white/10' : 'bg-gray-50'}`}>
+                                        <h4 className={`text-sm font-semibold mb-2 ${selected ? 'text-red-200' : 'text-red-800'}`}>
+                                            Membership Validity
+                                        </h4>
+                                        <div className={`w-full h-[1px] mb-2 ${selected ? 'bg-red-200/30' : 'bg-gray-200'}`}></div>
+                                        <div className="flex justify-between text-sm mb-1">
+                                            <span className={`${selected ? 'text-white/80' : 'text-gray-500'}`}>Valid From</span>
+                                            <span className={`font-medium ${selected ? 'text-white' : 'text-gray-900'}`}>{activeStartDate}</span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className={`${selected ? 'text-white/80' : 'text-gray-500'}`}>Valid Till</span>
+                                            <span className={`font-medium ${selected ? 'text-white' : 'text-gray-900'}`}>{activeEndDate}</span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Button - Hidden for Active Plan */}
+                                {!isActive && (
+                                    <button
+                                        onClick={handleButtonClick}
+                                        disabled={processingIndex === idx}
+                                        className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors ${selected
+                                            ? 'bg-white text-red-800 hover:bg-gray-50'
+                                            : plan.id === 'enterprise'
+                                                ? 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
+                                                : 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
+                                            } ${processingIndex === idx ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                    >
+                                        {processingIndex === idx ? (plan.processingText || 'Processing...') : (plan.buttonText || 'Get Started')}
+                                    </button>
+                                )}
                             </div>
                         );
                     })}

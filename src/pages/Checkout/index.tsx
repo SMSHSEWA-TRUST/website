@@ -185,7 +185,7 @@ export const CheckoutPage = () => {
             setProcessingPayment(true);
 
             // 1. Create Order
-            const orderRes = await createOrder(cart._id, "", selectedAddress._id);
+            const orderRes = await createOrder(cart._id, "", selectedAddress.address);
 
             // Handle different response structures
             const orderData = orderRes.data || orderRes;
