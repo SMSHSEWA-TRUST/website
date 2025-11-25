@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import { SectionLoader } from '@/components/ui/LoadingComponents';
+import { useGetPrasadById } from '@/api/PrasadQueries';
 const PrashadDetailCard = React.lazy(() => import('@/components/prashad/PrashadDetailCard'));
 import ImportantParshad from '@/components/prashad/ImportantParshad';
 import Bestseller from '@/components/prashad/Bestseller';
@@ -31,6 +32,11 @@ const ParshadDetailPage: React.FC = () => {
 
 
 
+    // Fetch detailed prasad data
+    const prasadId = id || '';
+    const { data: prasadDetails } = useGetPrasadById(prasadId, !!prasadId);
+    const itemsIncluded = prasadDetails?.data?.itemsIncluded;
+
     return (
         <div className='w-full'>
             <Suspense fallback={<SectionLoader />}>
@@ -53,7 +59,7 @@ const ParshadDetailPage: React.FC = () => {
 
             {/* Item In Box Section */}
             <Suspense fallback={<SectionLoader />}>
-                <ItemInBox />
+                <ItemInBox items={itemsIncluded} />
             </Suspense>
 
 

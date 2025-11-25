@@ -67,7 +67,12 @@ export default function OtpVerification() {
     const pasteData = e.clipboardData.getData("text/plain").trim();
     if (pasteData.length === 6 && /^\d+$/.test(pasteData)) {
       setOtp(pasteData.split(""));
-      const lastInput = document.getElementById(`otp-input-5`);
+
+      const targetId = (e.target as HTMLInputElement).id;
+      const isDesktop = targetId.includes('desktop');
+      const lastInputId = isDesktop ? `otp-input-desktop-5` : `otp-input-5`;
+
+      const lastInput = document.getElementById(lastInputId);
       if (lastInput) lastInput.focus();
     }
   };
@@ -113,14 +118,14 @@ export default function OtpVerification() {
       }
 
       setTimeout(() => {
-       
+
         if (isSignupFlow && shouldShowFamilyDetails(userData)) {
-          
+
           navigate("/family-details", { replace: true });
         } else {
           // Clear the signup flag if not going to family details
           localStorage.removeItem("isNewSignup");
-          
+
           const redirectDestination = localStorage.getItem('auth_redirect_destination');
 
           if (redirectDestination) {
@@ -196,14 +201,14 @@ export default function OtpVerification() {
             Shree Mahakaleshwar Salasar <br />
             Hanuman Sewa Trust
           </h1>
-          <p className="text-gray-200 textDescription leading-relaxed max-w-xs opacity-90 text-center">
+          <p className="text-gray-200 textDescription leading-relaxed max-w-xs md:max-w-2xl opacity-90 text-center">
             With the blessings of Mahakal Baba and Salasar Balaji, our goal is to build a grand Mahadham in Surat by 2029.
             Our journey – to unite faith, expand service, and leave behind a spiritual legacy for the coming generations.
           </p>
         </div>
 
         {/* Mobile Form */}
-        <div className="bg-white/95 backdrop-blur-md rounded-t-3xl px-6 py-8 mx-4 mb-4 shadow-2xl max-h-[60vh] overflow-y-auto min-h-0" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div className="bg-white/95 backdrop-blur-md rounded-t-3xl px-6 py-8 md:px-10 md:py-12 mx-4 mb-4 shadow-2xl max-h-[60vh] md:max-h-[80vh] overflow-y-auto min-h-0" style={{ WebkitOverflowScrolling: 'touch' }}>
           <div className="mb-6">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">OTP Verification</h2>
             <p className="text-sm sm:text-base text-gray-500 mt-2">
@@ -218,7 +223,9 @@ export default function OtpVerification() {
                 <input
                   key={index}
                   id={`otp-input-${index}`}
-                  type="text"
+                  type="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   name="otp"
                   maxLength={1}
                   className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg sm:text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all mt-1"
@@ -318,8 +325,10 @@ export default function OtpVerification() {
                   {otp.map((data, index) => (
                     <input
                       key={index}
-                      id={`otp-input-${index}`}
-                      type="text"
+                      id={`otp-input-desktop-${index}`}
+                      type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       name="otp"
                       maxLength={1}
                       className="w-14 h-14 xl:w-16 xl:h-16 text-center text-xl xl:text-2xl font-bold border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all mt-2"

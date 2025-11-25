@@ -84,7 +84,7 @@ const ImageSection: React.FC = () => {
                         return (
                             <div
                                 key={idx}
-                                className={`flex flex-col items-center justify-start overflow-hidden p-6 md:p-8 md:h-[598px] rounded-md`}
+                                className={`flex flex-col items-center justify-start overflow-hidden p-6 md:p-8 lg:h-[598px] rounded-md`}
                                 style={{ background: "rgba(139,0,0,1)" }}
                             >
                                 <div className="w-full flex justify-center">
@@ -103,7 +103,7 @@ const ImageSection: React.FC = () => {
                                 <div>
 
                                     <h2 className="font-primaryFont text-[#D05E2D] textHeading font-semibold text-center mb-1">
-                                       {t('aboutImagesectioncontent.cards.0.heading') || "Our Mission"}
+                                        {t('aboutImagesectioncontent.cards.0.heading') || "Our Mission"}
                                     </h2>
 
                                     <div>
@@ -126,7 +126,7 @@ const ImageSection: React.FC = () => {
                         return (
                             <div
                                 key={idx}
-                                className="flex items-center justify-center w-full md:h-[598px] "
+                                className="flex items-center justify-center w-full lg:h-[598px] "
                                 style={{ background: "transparent" }}
                             >
 
@@ -146,7 +146,7 @@ const ImageSection: React.FC = () => {
                     return (
                         <div
                             key={idx}
-                            className={`flex flex-col items-center justify-start rounded-xl  overflow-hidden ${card.bg} p-6 md:p-8 md:h-[598px] rounded-md`}
+                            className={`flex flex-col items-center justify-start rounded-xl  overflow-hidden ${card.bg} p-6 md:p-8 lg:h-[598px] rounded-md`}
                             style={{ background: "rgba(139,0,0,1)" }}
                         >
                             <div className="w-full flex justify-center">
@@ -165,7 +165,7 @@ const ImageSection: React.FC = () => {
                             <div>
 
                                 <h2 className="font-primaryFont text-[#D05E2D] textHeading font-semibold text-center mb-1">
-                                      {t('aboutImagesectioncontent.cards.2.heading') || "Our Vision"}
+                                    {t('aboutImagesectioncontent.cards.2.heading') || "Our Vision"}
                                 </h2>
 
                                 <div>

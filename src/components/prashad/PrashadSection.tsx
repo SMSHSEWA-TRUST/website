@@ -298,7 +298,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                 </div>
 
                 {/* Prashad Plans Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     {plans.map((plan) => {
                         const prasadId = plan._id || String(plan.id || '');
                         const cartItem = getCartItemForPrasad(prasadId);
@@ -308,15 +308,16 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                         return (
                             <div
                                 key={plan.id}
-                                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105 cursor-pointer"
+                                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105 cursor-pointer flex flex-col h-full"
                                 onClick={() => navigate(`/prashad/${prasadId}`)}
                             >
-                                <div className="aspect-square bg-gray-200 relative">
+                                <div className="aspect-square bg-gray-200 relative overflow-hidden">
                                     {plan.image ? (
                                         <LazyLoadImage
                                             src={plan.image}
                                             alt={plan.name}
                                             className="w-full h-full object-cover"
+                                            wrapperClassName="absolute inset-0 w-full h-full"
                                             loading="lazy"
                                         />
                                     ) : (
@@ -327,25 +328,25 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                         </div>
                                     )}
                                 </div>
-                                <div className="p-4">
-                                    <h3 className="font-secondaryFont text-base sm:text-lg text-gray-700 mb-1">
+                                <div className="p-4 flex flex-col flex-grow">
+                                    <h3 className="font-secondaryFont text-base sm:text-lg text-gray-700 mb-1 line-clamp-1 h-[28px]">
                                         {plan.name}
                                     </h3>
-                                    <p className="font-secondaryFont text-xl sm:text-2xl  text-[#8b0000] font-semibold">
+                                    <p className="font-secondaryFont text-xl sm:text-2xl text-[#8b0000] font-semibold mt-1">
                                         ₹{plan.price}
                                     </p>
-                                    <div className="mt-3">
+                                    <div className="mt-auto pt-3">
                                         {isInCart ? (
                                             // Show quantity controls when item is in cart
                                             <div className="space-y-2">
-                                                <div className="flex items-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden justify-center">
+                                                <div className="flex w-full items-stretch border-2 border-[#8b0000] rounded-lg overflow-hidden h-[42px]">
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, -1); }}
                                                         // Allow decrement at 1 so user can remove the item from cart
                                                         disabled={false}
                                                         title={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
                                                         aria-label={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
-                                                        className={`p-3 transition-colors ${cartQuantity <= 1
+                                                        className={`w-12 flex items-center justify-center transition-colors ${cartQuantity <= 1
                                                             ? 'hover:bg-red-600 hover:text-white'
                                                             : 'hover:bg-[#8b0000] hover:text-white'
                                                             }`}
@@ -353,19 +354,19 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                                         <Minus className="w-5 h-5" />
                                                     </button>
 
-                                                    <div className="w-px bg-[#8b0000] h-8" />
+                                                    <div className="w-px bg-[#8b0000]" />
 
-                                                    <span className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4">
+                                                    <span className="flex-1 flex items-center justify-center font-secondaryFont text-xl font-bold text-gray-900">
                                                         {cartQuantity}
                                                     </span>
 
-                                                    <div className="w-px bg-[#8b0000] h-8" />
+                                                    <div className="w-px bg-[#8b0000]" />
 
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, 1); }}
                                                         title="Increase quantity"
                                                         aria-label="Increase quantity"
-                                                        className={`p-3 transition-colors ${cartQuantity >= ((apiData?.data?.find((item: any) => item._id === (plan._id || String(plan.id))) as any)?.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
+                                                        className={`w-12 flex items-center justify-center transition-colors ${cartQuantity >= ((apiData?.data?.find((item: any) => item._id === (plan._id || String(plan.id))) as any)?.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                                     >
                                                         <Plus className="w-5 h-5" />
                                                     </button>

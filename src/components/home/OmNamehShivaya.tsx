@@ -210,7 +210,7 @@ const OmNamehShivaya = (): JSX.Element => {
                     </div>
 
                     {/* Center video - elevated and overlapping top & bottom images */}
-                    <div className="w-full  -mt-16 sm:-mt-20 z-20 mx-auto">
+                    <div className="w-full  -mt-16 sm:-mt-20 md:-mt-10 z-20 mx-auto">
                         <div className={`relative transform transition-all duration-300 ${isPlaying ? 'scale-105 shadow-2xl' : 'shadow-xl'} rounded-2xl overflow-hidden`}>
                             {multipurposeItem && (
                                 <div className="relative group cursor-pointer" onClick={handleVideoClick}>
@@ -257,7 +257,7 @@ const OmNamehShivaya = (): JSX.Element => {
                     </div>
 
                     {/* Bottom image - moved up so center video overlaps it */}
-                    <div className="w-full -mt-12 z-10">
+                    <div className="w-full -mt-12 md:-mt-6 z-10">
                         <div className="relative h-40 sm:h-48 overflow-hidden rounded-lg shadow-lg">
                             <img src={templeImage2} alt="Temple Bottom" className="w-full h-full object-cover" />
                         </div>

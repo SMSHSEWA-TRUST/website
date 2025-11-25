@@ -46,14 +46,14 @@ const GridLayout = (): JSX.Element => {
                 <div className="grid grid-cols-2 flex-1  gap-2 order-2 lg:col-start-1 lg:row-start-2 px-2 lg:px-0  lg:pb-2">
                     <div className="relative overflow-hidden rounded-lg lg:rounded-2xl group">
                         <img
-                            className="w-full h-32 sm:h-40 lg:h-full object-cover "
+                            className="w-full h-32 sm:h-40 md:h-64 lg:h-full object-cover "
                             alt="Portrait Image 2"
                             src={galleryImages[0]?.fileUrl}
                         />
                     </div>
                     <div className="relative overflow-hidden rounded-lg lg:rounded-2xl group">
                         <img
-                            className="w-full h-32 sm:h-40 lg:h-full object-cover "
+                            className="w-full h-32 sm:h-40 md:h-64 lg:h-full object-cover "
                             alt="Temple Image 2"
                             src={galleryImages[1]?.fileUrl}
                         />
@@ -63,7 +63,7 @@ const GridLayout = (): JSX.Element => {
                 {/* Large Image (mobile: third) */}
                 <div className="relative overflow-hidden  flex-1 group order-3 lg:col-start-2 lg:row-start-2 px-2 lg:px-0 lg:pb-2">
                     <img
-                        className="w-full h-40 sm:h-48 lg:h-full object-cover rounded-lg "
+                        className="w-full h-40 sm:h-48 md:h-80 lg:h-full object-cover rounded-lg "
                         alt="Large Temple Image"
                         src={galleryImages[2]?.fileUrl}
                     />
@@ -73,14 +73,14 @@ const GridLayout = (): JSX.Element => {
                 <div className="grid grid-cols-2 flex-1  gap-2 order-4 lg:col-start-2 lg:row-start-1  px-2 lg:px-0 pb-2 lg:pb-0">
                     <div className="relative overflow-hidden rounded-lg lg:rounded-2xl group">
                         <img
-                            className="w-full h-32 sm:h-40 lg:h-full object-cover "
+                            className="w-full h-32 sm:h-40 md:h-64 lg:h-full object-cover "
                             alt="Portrait Image 2"
                             src={galleryImages[3]?.fileUrl}
                         />
                     </div>
                     <div className="relative overflow-hidden rounded-lg lg:rounded-2xl group ">
                         <img
-                            className="w-full h-32 sm:h-40 lg:h-full object-cover "
+                            className="w-full h-32 sm:h-40 md:h-64 lg:h-full object-cover "
                             alt="Temple Image 2"
                             src={galleryImages[4]?.fileUrl}
                         />

@@ -23,47 +23,22 @@ interface ItemInBoxProps {
 const ItemInBox: React.FC<ItemInBoxProps> = ({ items }) => {
     const { t } = useI18n();
 
-    // Default items if none provided
-    const defaultItems = [
-        {
-            id: '1',
-            image: '',
-            name: t('prashad.itemInBox.defaultItemName'),
-            description: t('prashad.itemInBox.defaultItemDescription')
-        },
-        {
-            id: '2',
-            image: '',
-            name: 'Item Name',
-            description: ''
-        },
-        {
-            id: '3',
-            image: '',
-            name: 'Item Name',
-            description: ''
-        },
-        {
-            id: '4',
-            image: '',
-            name: 'Item Name',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco commodo consequat.'
-        }
-    ];
+    // If no items provided, render nothing
+    if (!items || items.length === 0) {
+        return null;
+    }
 
-    // Normalize incoming items so component can render either internal shape or API `itemsIncluded` shape
-    const displayItems = (items && items.length > 0
-        ? items.map((it) => {
-            // If API shape
-            const itemAny = it as any;
-            return {
-                id: itemAny._id ?? itemAny.id ?? itemAny.itemId ?? itemAny.id,
-                image: itemAny.itemImage ?? itemAny.image ?? '',
-                name: itemAny.itemName ?? itemAny.name ?? 'Item Name',
-                description: itemAny.itemDescription ?? itemAny.description ?? '',
-            };
-        })
-        : defaultItems);
+    // Normalize incoming items
+    const displayItems = items.map((it) => {
+        // If API shape
+        const itemAny = it as any;
+        return {
+            id: itemAny._id ?? itemAny.id ?? itemAny.itemId ?? itemAny.id,
+            image: itemAny.itemImage ?? itemAny.image ?? '',
+            name: itemAny.itemName ?? itemAny.name ?? 'Item Name',
+            description: itemAny.itemDescription ?? itemAny.description ?? '',
+        };
+    });
 
     return (
         <div className="w-full py-16 px-4 bg-white">
@@ -85,43 +60,46 @@ const ItemInBox: React.FC<ItemInBoxProps> = ({ items }) => {
                     {displayItems.map((item) => (
                         <div
                             key={item.id}
-                            className="relative rounded-2xl overflow-hidden shadow-lg group h-[280px]"
+                            className="relative rounded-3xl overflow-hidden group h-[320px] w-full shadow-lg hover:shadow-[10px_10px_20px_0px_#0000001A] transition-shadow duration-300"
                         >
-                            {/* Background Image */}
-                            <div className="absolute inset-0">
+                            {/* Normal State: Image + Name at bottom */}
+                            <div className="absolute inset-0 w-full h-full">
                                 {item.image ? (
                                     <LazyLoadImage
                                         src={item.image}
                                         alt={item.name}
-                                        className="w-full h-full object-cover"
-                                        effect="blur"
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
                                 ) : (
-                                    <div className="w-full h-full bg-gradient-to-br from-orange-200 to-red-300"></div>
+                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <span className="text-gray-400">No Image</span>
+                                    </div>
                                 )}
-                            </div>
+                                {/* Gradient overlay for text readability in normal state */}
+                                <div
+                                    className="absolute inset-0 group-hover:opacity-0 transition-opacity duration-300"
+                                    style={{ background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(173, 47, 22, 0.75) 100%)' }}
+                                />
 
-                            {/* Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-
-                            {/* Content */}
-                            <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                                <h3 className="text-xl font-primaryFont font-semibold mb-2">
-                                    {item.name}
-                                </h3>
-                                {item.description && (
-                                    <p className="text-sm font-secondaryFont leading-relaxed opacity-90">
-                                        {item.description}
-                                    </p>
-                                )}
-                            </div>
-
-                            {/* Decorative Corner (for items with description) */}
-                            {item.description && (
-                                <div className="absolute top-0 right-0 w-16 h-16">
-                                    <div className="absolute top-0 right-0 w-0 h-0 border-t-[60px] border-t-[#8b0000]/80 border-l-[60px] border-l-transparent"></div>
+                                {/* Name in Normal State */}
+                                <div className="absolute bottom-6 left-6 right-6 transition-all duration-300 transform translate-y-0 opacity-100 group-hover:translate-y-4 group-hover:opacity-0">
+                                    <h3 className="text-2xl font-primaryFont text-white font-medium tracking-wide">
+                                        {item.name}
+                                    </h3>
                                 </div>
-                            )}
+                            </div>
+
+                            {/* Hover State: Red Overlay + Name at Top + Description */}
+                            <div className="absolute inset-0 bg-[#8B0000BF] opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out flex flex-col p-8">
+                                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
+                                    <h3 className="text-2xl font-primaryFont text-white font-medium mb-4 border-b border-orange-400/50 pb-2 inline-block">
+                                        {item.name}
+                                    </h3>
+                                    <div className="text-white/90 font-secondaryFont text-sm leading-relaxed overflow-y-auto max-h-[200px] pr-2 custom-scrollbar">
+                                        {item.description || "No description available."}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
