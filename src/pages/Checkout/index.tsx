@@ -296,7 +296,7 @@ export const CheckoutPage = () => {
                 />
             </div>
 
-            <div className="w-full  px-4 md:px-16 lg:px-24 lg:absolute lg:top-[250px]">
+            <div className="w-full px-4 md:px-16 lg:px-24 relative z-10 mt-[-100px] md:-mt-[120px] lg:-mt-[250px]">
                 {/* Header */}
                 <div className="flex items-center mb-6">
                     <button
@@ -396,7 +396,7 @@ export const CheckoutPage = () => {
 
                     {/* Right Column - Order Summary */}
                     <div className="lg:w-[400px] flex-shrink-0">
-                        <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm sticky top-24">
+                        <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm sticky top-32 z-20">
                             <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
 
                             <div className="space-y-4 mb-8">

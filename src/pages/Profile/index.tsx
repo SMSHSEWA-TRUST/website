@@ -498,9 +498,9 @@ const ProfilePage = () => {
                                             }}
                                         />
                                     </div>
-                                    {profileData?.data?.recentSubscription?.subscription?.title ? (
+                                    {profileData?.data?.recentSubscription?.subscriptionName ? (
                                         <div className="absolute -bottom-1 -right-1 px-2.5 py-0.5 rounded-md flex items-center justify-center text-white shadow-md" style={{ background: 'linear-gradient(90.44deg, #8B0000 0.41%, #AD2F16 99.66%)' }}>
-                                            <span className="text-xs font-semibold">{formatSubscriptionTitle(profileData?.data?.recentSubscription?.subscription?.title)}</span>
+                                            <span className="text-xs font-semibold">{formatSubscriptionTitle(profileData?.data?.recentSubscription?.subscriptionName)}</span>
                                         </div>
                                     ) : null}
                                 </div>

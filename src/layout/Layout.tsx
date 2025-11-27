@@ -35,7 +35,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     return (
         <div className="bg-white flex flex-row justify-center w-full">
             {/* make inner wrapper full width so pages can span edge-to-edge */}
-            <div className={`bg-white overflow-hidden w-full ${className}`}>
+            <div className={`bg-white ${location.pathname === '/checkout' ? '' : 'overflow-hidden'} w-full ${className}`}>
                 {/* Header Section */}
                 {!hideHeaderFooter && <Header />}
 

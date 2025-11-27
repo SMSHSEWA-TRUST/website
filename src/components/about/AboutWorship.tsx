@@ -89,7 +89,7 @@ const AboutWorship: React.FC<AboutWorshipProps> = ({
                         )}
                     </div>
                     {/* Right Image Section */}
-                    <div className="flex-shrink-0 mb-4 lg:mb-0">
+                    <div className="flex-shrink-0 mb-4 lg:mb-0 lg:self-center xl:self-auto">
                         <div className="relative" ref={imageRef}>
                             {/* Natural Format Image */}
                             <div className="relative overflow-hidden rounded-lg p-3 md:p-8 min-h-[300px] sm:min-h-[415px] lg:min-h-[500px] flex items-center justify-center">

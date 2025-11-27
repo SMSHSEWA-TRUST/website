@@ -59,7 +59,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         <footer className={`bg-[#8b0000] text-white ${className}`}>
             <div className="w-full max-w-none font-secondaryFont">
                 {/* Large Screen Layout (Desktop) */}
-                <div className="hidden md:block">
+                <div className="hidden min-[800px]:block">
                     <div className="w-full px-20  py-6">
                         {/* Main Grid: 3 Equal Columns */}
                         <div className="grid grid-cols-[1fr_1.5fr_1.2fr] gap-8 mb-6">
@@ -237,8 +237,8 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                                                 {
                                                     (index > 0 && (<div className="flex items-center justify-center">
-                                                    <div className="w-2.5 h-2.5 bg-secondaryColor rounded-full flex-shrink-0" />
-                                                </div>))
+                                                        <div className="w-2.5 h-2.5 bg-secondaryColor rounded-full flex-shrink-0" />
+                                                    </div>))
                                                 }
 
                                                 <div className="flex items-center">
@@ -352,7 +352,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                 </div>
 
                 {/* Small Screen Layout (Mobile/Tablet) */}
-                <div className="block md:hidden">
+                <div className="block min-[800px]:hidden">
                     <div className="w-full px-4 py-4">
                         {/* Compact Center Layout */}
                         <div className="flex flex-col items-center text-center space-y-4">

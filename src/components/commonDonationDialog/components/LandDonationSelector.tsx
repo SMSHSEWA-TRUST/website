@@ -7,6 +7,12 @@ type plotTypes = {
   registrationCharge: number;
   plotNumber: number;
   price: number;
+  donor?: {
+    name: string;
+    phone: string;
+    email: string;
+    address: string;
+  };
 };
 
 type LandDonationSelectorProps = {
@@ -170,7 +176,13 @@ const LandDonationSelector: React.FC<LandDonationSelectorProps> = ({
       {/* Plot Grid */}
       <div className="flex flex-wrap  gap-2 mb-4 p-4 bg-gray-50 rounded-lg">
         {displayedPlots.map((plot: plotTypes) => {
-          const titleText = `Plot ${plot.plotNumber} - ${String(plot.status || '').replace(/_/g, ' ').toUpperCase()} - ₹${Number(plot.price || 0).toLocaleString()}${selectedPlots.some(p => p._id === plot._id) ? ' (Selected)' : ''}`;
+          let titleText = `Plot ${plot.plotNumber} - ${String(plot.status || '').replace(/_/g, ' ').toUpperCase()} - ₹${Number(plot.price || 0).toLocaleString()}${selectedPlots.some(p => p._id === plot._id) ? ' (Selected)' : ''}`;
+
+          // Add donor name if available for booked/pending plots
+          if ((plot.status === 'booked' || plot.status === 'pending' || plot.status === 'purchased') && plot.donor?.name) {
+            titleText += `\nDonor: ${plot.donor.name}`;
+          }
+
           return (
             <div
               key={plot._id}
