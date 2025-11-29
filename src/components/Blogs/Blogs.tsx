@@ -1,13 +1,9 @@
-
 import React from 'react';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getBlogPosts } from '@/services/blog.service';
 // removed static demo images; using WP data instead
-import { Card, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
 import { useI18n } from '@/lib/i18n';
+import BlogCard from './BlogCard';
 
 interface BlogPost {
     id: number | string;
@@ -244,33 +240,7 @@ const Blogs: React.FC = () => {
                     </div>
                 )}
                 {!loading && !error && posts.map((post) => (
-                    <Card key={post.id} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-0">
-
-                        <LazyLoadImage
-                            src={post.image || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&auto=format'}
-                            alt={post.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                            loading="lazy"
-                        />
-
-                        <div
-                            className="absolute inset-0"
-                            style={{
-                                background: 'linear-gradient(180deg, #8B000000 0%, #8B0000 )',
-                            }}
-                        />
-
-                        <CardContent className="relative z-10 flex flex-col justify-end h-64 sm:h-72 lg:h-80 p-6">
-                            <div className="text-white/80 textDescription font-secondaryFont mb-2">{post.date ? new Date(post.date).toLocaleDateString() : ''}</div>
-                            <h3 className="text-white textDescription mb-4 font-primaryFont leading-tight" dangerouslySetInnerHTML={{ __html: post.title }} />
-                            {/* {post.excerpt && (
-                                <p className="text-white/70 textDescription mb-4 line-clamp-2 font-secondaryFont" dangerouslySetInnerHTML={{ __html: post.excerpt || '' }} />
-                            )} */}
-                            <Link to={post.link || '/blog-details'}>
-                                <Button className="w-fit bg-[#8b0000] hover:bg-[#a32d13] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-secondaryFont font-normal textDescription border border-white">{t('BlogPage.buttonText')}</Button>
-                            </Link>
-                        </CardContent>
-                    </Card>
+                    <BlogCard post={post} />
                 ))}
             </div>
 

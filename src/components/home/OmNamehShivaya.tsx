@@ -148,9 +148,9 @@ const OmNamehShivaya = (): JSX.Element => {
                     </div>
 
                     {/* Center Video Section - 50% width, Elevated and Overlapping */}
-                    <div className="w-[50%] flex-shrink-0 relative -mx-12 z-20">
+                    <div className="w-[50%] flex-shrink-0 relative -mx-12 z-20" style={{ boxShadow: "0 0 80px 40px rgba(0,0,0,0.8)" }}>
                         <div className="relative">
-                            <div className={`relative transform transition-all duration-500 origin-center ${isPlaying ? 'scale-105' : 'scale-100'} rounded-2xl overflow-hidden shadow-2xl`}>
+                            <div className={`relative transform transition-all duration-500 origin-center ${isPlaying ? 'scale-105' : 'scale-100'} rounded overflow-hidden shadow-[0_0_100px_50px_rgba(0,0,0,0.9)]`}>
                                 {multipurposeItem && (
                                     <div className="relative group cursor-pointer" onClick={handleVideoClick}>
                                         {/* Inline (placeholder) video - hidden when overlay open to avoid double playback */}
@@ -167,18 +167,26 @@ const OmNamehShivaya = (): JSX.Element => {
                                         {/* Play/Pause Button Overlay */}
                                         {!isPlaying && (
                                             <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-all">
-                                                <div className="w-24 h-24 rounded-full bg-white/95 flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform">
-                                                    <svg
-                                                        className="w-12 h-12 text-orange-600 ml-1"
-                                                        fill="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path d="M8 5v14l11-7z" />
-                                                    </svg>
+
+                                                <div className="relative flex items-center justify-center">
+                                                    <div
+                                                        className="absolute w-24 h-24 bg-white rounded-full opacity-75 animate-ping"
+                                                        style={{ animationDuration: '4s' }}
+                                                    ></div>
+                                                    <div className="relative w-24 h-24 rounded-full bg-white/95 flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform duration-500">
+                                                        <svg
+                                                            className="w-12 h-12 text-orange-600 ml-1"
+                                                            fill="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path d="M8 5v14l11-7z" />
+                                                        </svg>
+                                                    </div>
+
                                                 </div>
+
                                             </div>
                                         )}
-
 
                                     </div>
                                 )}

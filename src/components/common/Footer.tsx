@@ -9,6 +9,7 @@ import youtubeIcon from '@/assets/images/YouTube.png';
 import tempLogo from '@/assets/images/temp-logo.png';
 import indiaFlag from '@/assets/images/india.png';
 import { useI18n } from '@/lib/i18n';
+import ScrollReveal from './ScrollReveal';
 
 interface SocialLink {
     name: string;
@@ -64,219 +65,226 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                         {/* Main Grid: 3 Equal Columns */}
                         <div className="grid grid-cols-[1fr_1.5fr_1.2fr] gap-8 mb-6">
                             {/* Left Column: Special Links */}
-                            <div className="flex flex-col py-10">
-                                <div className="flex items-center mb-4">
-                                    <h3 className="font-primaryFont textHeading text-white">
-                                        {t('footer.headings.specialLinks')}
-                                    </h3>
-                                </div>
-                                <nav className="flex flex-col space-y-3">
-                                    {specialLinks.map((link, index) => (
-                                        <div key={index} className="flex items-center">
-                                            { /* Special handling for donate and mission links: intercept click */}
-                                            {link.url === '/donate' || link.url === '/mission' ? (
-                                                <a
-                                                    href={link.url}
-                                                    onClick={async (e) => {
-                                                        try {
-                                                            e.preventDefault();
-                                                            const targetId = link.url === '/donate' ? 'donations' : 'mission';
-                                                            // If already on home page, try to scroll to target
-                                                            if (location.pathname === '/' || location.pathname === '') {
-                                                                try {
-                                                                    // try using scroll helper which considers header height
-                                                                    const mod = await import('@/lib/scrollUtils');
-                                                                    const scrolled = mod.scrollToId(targetId);
-                                                                    if (scrolled) return;
-                                                                } catch (e) {
-                                                                    // fallback
-                                                                    const el = document.getElementById(targetId);
-                                                                    if (el) {
-                                                                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                                                        return;
+                            <ScrollReveal direction="up" delay="delay-100">
+                                <div className="flex flex-col py-10">
+                                    <div className="flex items-center mb-4">
+                                        <h3 className="font-primaryFont textHeading text-white">
+                                            {t('footer.headings.specialLinks')}
+                                        </h3>
+                                    </div>
+                                    <nav className="flex flex-col space-y-3">
+                                        {specialLinks.map((link, index) => (
+                                            <div key={index} className="flex items-center">
+                                                { /* Special handling for donate and mission links: intercept click */}
+                                                {link.url === '/donate' || link.url === '/mission' ? (
+                                                    <a
+                                                        href={link.url}
+                                                        onClick={async (e) => {
+                                                            try {
+                                                                e.preventDefault();
+                                                                const targetId = link.url === '/donate' ? 'donations' : 'mission';
+                                                                // If already on home page, try to scroll to target
+                                                                if (location.pathname === '/' || location.pathname === '') {
+                                                                    try {
+                                                                        // try using scroll helper which considers header height
+                                                                        const mod = await import('@/lib/scrollUtils');
+                                                                        const scrolled = mod.scrollToId(targetId);
+                                                                        if (scrolled) return;
+                                                                    } catch (e) {
+                                                                        // fallback
+                                                                        const el = document.getElementById(targetId);
+                                                                        if (el) {
+                                                                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                                            return;
+                                                                        }
                                                                     }
                                                                 }
+
+                                                                // Otherwise navigate to home and set state asking for focus
+                                                                navigate('/', { state: { focus: targetId } });
+                                                            } catch (err) {
+                                                                // fallback to normal navigation if anything goes wrong
+                                                                window.location.href = link.url;
                                                             }
-
-                                                            // Otherwise navigate to home and set state asking for focus
-                                                            navigate('/', { state: { focus: targetId } });
-                                                        } catch (err) {
-                                                            // fallback to normal navigation if anything goes wrong
-                                                            window.location.href = link.url;
-                                                        }
-                                                    }}
-                                                    className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
-                                                    aria-label={`Navigate to ${link.name}`}
-                                                >
-                                                    {link.name}
-                                                </a>
-                                            ) : (
-                                                <a
-                                                    href={link.url}
-                                                    className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
-                                                    aria-label={`Navigate to ${link.name}`}
-                                                >
-                                                    {link.name}
-                                                </a>
-                                            )}
-                                        </div>
-                                    ))}
-                                </nav>
-                            </div>
-
-                            {/* Center Column: Logo & Main Content */}
-                            <div className="flex flex-col items-center text-center w-full max-w-3xl mx-auto">
-                                {/* Logo */}
-                                <div className="flex justify-center items-center mb-3">
-                                    <Link to="/" aria-label="Home" className="relative w-20 h-20">
-                                        <div className="absolute inset-1 bg-white rounded-full" />
-                                        <LazyLoadImage
-                                            src={tempLogo}
-                                            alt="Shree Mahakaleshwar Salasar Hanuman Sewa Trust Logo"
-                                            className="relative w-full h-full object-cover rounded-full"
-                                            loading="lazy"
-                                        />
-                                    </Link>
-                                </div>
-
-                                {/* Organization Title */}
-                                <div className="flex flex-col items-center mb-3 ">
-                                    <h1
-                                        className="font-primaryFont textHeadingLg  text-center font-semibold"
-                                        style={{
-                                            color: "#fff",
-
-                                            textShadow: "0px 4px 4px #d05e2d40",
-                                            WebkitTextStroke: "1px #9a0000",
-
-                                        }}
-                                    >
-                                        {t('header.title')}
-                                    </h1>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <h2 className="font-primaryFont textDescription text-white ">
-                                        {t('footer.helpText')}
-                                    </h2>
-                                </div>
-
-                                {/* Decorative Line */}
-                                <div className="flex items-center justify-center py-2 w-full">
-                                    <div className="flex items-center w-full max-w-md">
-                                        {/* Left arrow/diamond with connecting line */}
-                                        <div className="flex items-center flex-1">
-                                            <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                        </div>
-
-                                        {/* Center dots with continuous line: small-small-big-small-small */}
-                                        <div className="flex items-center">
-                                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-3 h-3 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                        </div>
-
-                                        {/* Right arrow/diamond with connecting line */}
-                                        <div className="flex items-center flex-1">
-                                            <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                            <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                {/* Description */}
-                                <div className="flex justify-center mb-1">
-                                    <p className="font-secondaryFont textDescription leading-relaxed text-gray-100 text-center">
-                                        {t('footer.description.lead')}
-
-                                    </p>
-
-                                </div>
-                                <div className="flex justify-center mb-4">
-                                    <p className="font-secondaryFont textDescription leading-relaxed text-gray-100 text-center">
-                                        {t('footer.description.sub')}
-
-                                    </p>
-
-                                </div>
-
-                                {/* Social Media Icons */}
-                                <div className="flex justify-center items-center mb-4">
-                                    <div className="flex items-center justify-center space-x-3">
-                                        {socialLinks.map((social, index) => (
-                                            <div key={index} className="flex items-center justify-center">
-                                                <a
-                                                    href={social.url}
-                                                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-[#8b0000] hover:bg-gray-100 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-                                                    aria-label={t('footer.aria.visitSocial',) + ` ${social.name}`}
-                                                >
-                                                    <LazyLoadImage
-                                                        src={social.icon}
-                                                        alt={social.name}
-                                                        className="w-4 h-4 object-contain"
-                                                        loading="lazy"
-                                                    />
-                                                </a>
+                                                        }}
+                                                        className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
+                                                        aria-label={`Navigate to ${link.name}`}
+                                                    >
+                                                        {link.name}
+                                                    </a>
+                                                ) : (
+                                                    <a
+                                                        href={link.url}
+                                                        className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded py-1"
+                                                        aria-label={`Navigate to ${link.name}`}
+                                                    >
+                                                        {link.name}
+                                                    </a>
+                                                )}
                                             </div>
                                         ))}
-                                    </div>
+                                    </nav>
                                 </div>
+                            </ScrollReveal>
 
-                                {/* Bottom Links - Horizontal Row */}
-                                <div className="flex flex-row items-center justify-center">
-                                    <div className="flex items-center space-x-4">
-                                        {bottomLinks.map((link, index) => (
-                                            <React.Fragment key={index}>
 
-                                                {
-                                                    (index > 0 && (<div className="flex items-center justify-center">
-                                                        <div className="w-2.5 h-2.5 bg-secondaryColor rounded-full flex-shrink-0" />
-                                                    </div>))
-                                                }
+                            {/* Center Column: Logo & Main Content */}
+                            <ScrollReveal direction="up" delay="delay-300">
+                                <div className="flex flex-col items-center text-center w-full max-w-3xl mx-auto">
+                                    {/* Logo */}
+                                    <div className="flex justify-center items-center mb-3">
+                                        <Link to="/" aria-label="Home" className="relative w-20 h-20">
+                                            <div className="absolute inset-1 bg-white rounded-full" />
+                                            <LazyLoadImage
+                                                src={tempLogo}
+                                                alt="Shree Mahakaleshwar Salasar Hanuman Sewa Trust Logo"
+                                                className="relative w-full h-full object-cover rounded-full"
+                                                loading="lazy"
+                                            />
+                                        </Link>
+                                    </div>
 
-                                                <div className="flex items-center">
-                                                    {link.url && link.url.startsWith('/') ? (
-                                                        <Link
-                                                            to={link.url}
-                                                            className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
-                                                        >
-                                                            {link.name}
-                                                        </Link>
-                                                    ) : (
-                                                        <a
-                                                            href={link.url}
-                                                            className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
-                                                        >
-                                                            {link.name}
-                                                        </a>
-                                                    )}
+                                    {/* Organization Title */}
+                                    <div className="flex flex-col items-center mb-3 ">
+                                        <h1
+                                            className="font-primaryFont textHeadingLg  text-center font-semibold"
+                                            style={{
+                                                color: "#fff",
+
+                                                textShadow: "0px 4px 4px #d05e2d40",
+                                                WebkitTextStroke: "1px #9a0000",
+
+                                            }}
+                                        >
+                                            {t('header.title')}
+                                        </h1>
+                                    </div>
+                                    <div className="flex flex-col items-center">
+                                        <h2 className="font-primaryFont textDescription text-white ">
+                                            {t('footer.helpText')}
+                                        </h2>
+                                    </div>
+
+                                    {/* Decorative Line */}
+                                    <div className="flex items-center justify-center py-2 w-full">
+                                        <div className="flex items-center w-full max-w-md">
+                                            {/* Left arrow/diamond with connecting line */}
+                                            <div className="flex items-center flex-1">
+                                                <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            </div>
+
+                                            {/* Center dots with continuous line: small-small-big-small-small */}
+                                            <div className="flex items-center">
+                                                <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-3 h-3 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-1.5 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-1.5 h-1.5 rounded-full border-2" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)', borderColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            </div>
+
+                                            {/* Right arrow/diamond with connecting line */}
+                                            <div className="flex items-center flex-1">
+                                                <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                                <div className="w-2 h-2 transform rotate-45" style={{ backgroundColor: 'rgba(217, 67, 3, 0.75)' }}></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    {/* Description */}
+                                    <div className="flex justify-center mb-1">
+                                        <p className="font-secondaryFont textDescription leading-relaxed text-gray-100 text-center">
+                                            {t('footer.description.lead')}
+
+                                        </p>
+
+                                    </div>
+                                    <div className="flex justify-center mb-4">
+                                        <p className="font-secondaryFont textDescription leading-relaxed text-gray-100 text-center">
+                                            {t('footer.description.sub')}
+
+                                        </p>
+
+                                    </div>
+
+                                    {/* Social Media Icons */}
+                                    <div className="flex justify-center items-center mb-4">
+                                        <div className="flex items-center justify-center space-x-3">
+                                            {socialLinks.map((social, index) => (
+                                                <div key={index} className="flex items-center justify-center">
+                                                    <a
+                                                        href={social.url}
+                                                        className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-[#8b0000] hover:bg-gray-100 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+                                                        aria-label={t('footer.aria.visitSocial',) + ` ${social.name}`}
+                                                    >
+                                                        <LazyLoadImage
+                                                            src={social.icon}
+                                                            alt={social.name}
+                                                            className="w-4 h-4 object-contain"
+                                                            loading="lazy"
+                                                        />
+                                                    </a>
                                                 </div>
-                                            </React.Fragment>
-                                        ))}
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Bottom Links - Horizontal Row */}
+                                    <div className="flex flex-row items-center justify-center">
+                                        <div className="flex items-center space-x-4">
+                                            {bottomLinks.map((link, index) => (
+                                                <React.Fragment key={index}>
+
+                                                    {
+                                                        (index > 0 && (<div className="flex items-center justify-center">
+                                                            <div className="w-2.5 h-2.5 bg-secondaryColor rounded-full flex-shrink-0" />
+                                                        </div>))
+                                                    }
+
+                                                    <div className="flex items-center">
+                                                        {link.url && link.url.startsWith('/') ? (
+                                                            <Link
+                                                                to={link.url}
+                                                                className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
+                                                            >
+                                                                {link.name}
+                                                            </Link>
+                                                        ) : (
+                                                            <a
+                                                                href={link.url}
+                                                                className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 whitespace-nowrap"
+                                                            >
+                                                                {link.name}
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </ScrollReveal>
+
 
                             {/* Right Column: Info */}
-                            <div className="flex flex-col items-end text-right py-10">
-                                <div className="flex items-center justify-end mb-4">
-                                    <h3 className="font-primaryFont textHeadingLg text-white">
-                                        {t('footer.headings.info')}
-                                    </h3>
-                                </div>
-                                <div className="flex flex-col space-y-3 font-secondaryFont textDescription">
-                                    <div className="flex flex-col items-end space-y-1">
-                                        <div className="flex items-center">
-                                            <span className="font-secondaryFont text-gray-100">{t('footer.labels.email')}:{t('header.supportEmail')}</span>
-                                        </div>
-                                        {/* <div className="flex items-center">
+                            <ScrollReveal direction="up" delay="delay-500">
+                                <div className="flex flex-col items-end text-right py-10">
+                                    <div className="flex items-center justify-end mb-4">
+                                        <h3 className="font-primaryFont textHeading text-white">
+                                            {t('footer.headings.info')}
+                                        </h3>
+                                    </div>
+                                    <div className="flex flex-col space-y-3 font-secondaryFont textDescription">
+                                        <div className="flex flex-col items-end space-y-1">
+                                            <div className="flex items-center">
+                                                <span className="font-secondaryFont text-gray-100">{t('footer.labels.email')}:{t('header.supportEmail')}</span>
+                                            </div>
+                                            {/* <div className="flex items-center">
                                             <a
                                                 href="mailto:info@support.com"
                                                 className="font-secondaryFont text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
@@ -284,12 +292,12 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                                 info@support.com
                                             </a>
                                         </div> */}
-                                    </div>
-                                    <div className="flex flex-col items-end space-y-1">
-                                        <div className="flex items-center">
-                                            <span className="font-secondaryFont textDescription  text-gray-100">{t('footer.labels.phone')}: {t('header.phone')}</span>
                                         </div>
-                                        {/* <div className="flex items-center">
+                                        <div className="flex flex-col items-end space-y-1">
+                                            <div className="flex items-center">
+                                                <span className="font-secondaryFont textDescription  text-gray-100">{t('footer.labels.phone')}: {t('header.phone')}</span>
+                                            </div>
+                                            {/* <div className="flex items-center">
                                             <a
                                                 href="tel:+919352815982"
                                                 className="font-secondaryFont text-white hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
@@ -297,20 +305,21 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                                 9352815982
                                             </a>
                                         </div> */}
-                                    </div>
-                                    <div className="flex flex-col items-end space-y-2">
-                                        <div className="flex items-center">
-                                            <span className="font-secondaryFont textDescription  text-gray-100">{t('footer.labels.addressPrefix')} {t('footer.contact.address1')}</span>
                                         </div>
+                                        <div className="flex flex-col items-end space-y-2">
+                                            <div className="flex items-center">
+                                                <span className="font-secondaryFont textDescription  text-gray-100">{t('footer.labels.addressPrefix')} {t('footer.contact.address1')}</span>
+                                            </div>
 
-                                        <div className="flex items-end">
-                                            <address className="font-secondaryFont textDescription  not-italic leading-relaxed text-white text-right">
-                                                {t('footer.contact.address2')}
-                                            </address>
+                                            <div className="flex items-end">
+                                                <address className="font-secondaryFont textDescription  not-italic leading-relaxed text-white text-right">
+                                                    {t('footer.contact.address2')}
+                                                </address>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </ScrollReveal>
                         </div>
 
                         {/* Bottom Section */}
@@ -459,89 +468,95 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             {/* Two Column Grid for Links and Info */}
                             <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
                                 {/* Left: Info */}
-                                <div className="flex flex-col text-left">
-                                    <div className="flex items-center mb-2">
-                                        <h3 className="font-primaryFont textHeading">
-                                            {t('footer.headings.info')}
-                                        </h3>
-                                    </div>
-                                    <div className="flex flex-col space-y-1">
-                                        <div className="flex items-center gap-1">
-                                            <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.email')}:</span>
-                                            <a href={`mailto:${t('header.supportEmail')}`} className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
-                                                {t('header.supportEmail')}
-                                            </a>
-
+                                <ScrollReveal direction="up" delay="delay-100">
+                                    <div className="flex flex-col text-left">
+                                        <div className="flex items-center mb-2">
+                                            <h3 className="font-primaryFont textHeading">
+                                                {t('footer.headings.info')}
+                                            </h3>
                                         </div>
+                                        <div className="flex flex-col space-y-1">
+                                            <div className="flex items-center gap-1">
+                                                <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.email')}:</span>
+                                                <a href={`mailto:${t('header.supportEmail')}`} className="font-secondaryFont text-white hover:text-gray-200 transition-colors">
+                                                    {t('header.supportEmail')}
+                                                </a>
 
-                                        <div className="flex items-center gap-1">
-                                            <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.phone')}:</span>
-                                            <a href={`tel:${t('header.phone')}`} className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"> {t('header.phone')}</a>
-
-                                        </div>
-                                        <div className="flex  gap-1">
-                                            <span className="font-secondaryFont textDescription text-gray-100">Address:</span>
-                                            <div className="font-secondaryFont not-italic text-white textDescription leading-relaxed">
-                                                {t('footer.contact.address1')}
-                                                <br />
-                                                {t('footer.contact.address2')}
                                             </div>
 
+                                            <div className="flex items-center gap-1">
+                                                <span className="font-secondaryFont textDescription text-gray-100">{t('footer.labels.phone')}:</span>
+                                                <a href={`tel:${t('header.phone')}`} className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"> {t('header.phone')}</a>
+
+                                            </div>
+                                            <div className="flex  gap-1">
+                                                <span className="font-secondaryFont textDescription text-gray-100">Address:</span>
+                                                <div className="font-secondaryFont not-italic text-white textDescription leading-relaxed">
+                                                    {t('footer.contact.address1')}
+                                                    <br />
+                                                    {t('footer.contact.address2')}
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </ScrollReveal>
+
 
                                 {/* Right: Special Links */}
-                                <div className="flex flex-col text-right">
-                                    <div className="flex items-center justify-end mb-2">
-                                        <h3 className="font-primaryFont textHeading">
-                                            {t('footer.headings.specialLinks')}
-                                        </h3>
-                                    </div>
-                                    <nav className="flex flex-col space-y-2">
-                                        {specialLinks.map((link, index) => (
-                                            <div key={index} className="flex justify-end">
-                                                {(link.url === '/donate' || link.url === '/mission') ? (
-                                                    <a
-                                                        href={link.url}
-                                                        onClick={async (e) => {
-                                                            try {
-                                                                e.preventDefault();
-                                                                const targetId = link.url === '/donate' ? 'donations' : 'mission';
-                                                                if (location.pathname === '/' || location.pathname === '') {
-                                                                    try {
-                                                                        const mod = await import('@/lib/scrollUtils');
-                                                                        const scrolled = mod.scrollToId(targetId);
-                                                                        if (scrolled) return;
-                                                                    } catch (err) {
-                                                                        const el = document.getElementById(targetId);
-                                                                        if (el) {
-                                                                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                                                            return;
+                                <ScrollReveal direction="up" delay="delay-100">
+                                    <div className="flex flex-col text-right">
+                                        <div className="flex items-center justify-end mb-2">
+                                            <h3 className="font-primaryFont textHeading">
+                                                {t('footer.headings.specialLinks')}
+                                            </h3>
+                                        </div>
+                                        <nav className="flex flex-col space-y-2">
+                                            {specialLinks.map((link, index) => (
+                                                <div key={index} className="flex justify-end">
+                                                    {(link.url === '/donate' || link.url === '/mission') ? (
+                                                        <a
+                                                            href={link.url}
+                                                            onClick={async (e) => {
+                                                                try {
+                                                                    e.preventDefault();
+                                                                    const targetId = link.url === '/donate' ? 'donations' : 'mission';
+                                                                    if (location.pathname === '/' || location.pathname === '') {
+                                                                        try {
+                                                                            const mod = await import('@/lib/scrollUtils');
+                                                                            const scrolled = mod.scrollToId(targetId);
+                                                                            if (scrolled) return;
+                                                                        } catch (err) {
+                                                                            const el = document.getElementById(targetId);
+                                                                            if (el) {
+                                                                                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                                                return;
+                                                                            }
                                                                         }
                                                                     }
+                                                                    navigate('/', { state: { focus: targetId } });
+                                                                } catch (err) {
+                                                                    window.location.href = link.url;
                                                                 }
-                                                                navigate('/', { state: { focus: targetId } });
-                                                            } catch (err) {
-                                                                window.location.href = link.url;
-                                                            }
-                                                        }}
-                                                        className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"
-                                                    >
-                                                        {link.name}
-                                                    </a>
-                                                ) : (
-                                                    <a
-                                                        href={link.url}
-                                                        className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"
-                                                    >
-                                                        {link.name}
-                                                    </a>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </nav>
-                                </div>
+                                                            }}
+                                                            className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"
+                                                        >
+                                                            {link.name}
+                                                        </a>
+                                                    ) : (
+                                                        <a
+                                                            href={link.url}
+                                                            className="font-secondaryFont textDescription text-white hover:text-gray-200 transition-colors"
+                                                        >
+                                                            {link.name}
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </nav>
+                                    </div>
+                                </ScrollReveal>
+
                             </div>
 
 
