@@ -41,7 +41,7 @@ const Hero = (): JSX.Element => {
           <div className="absolute w-[25%] h-full top-0 right-0 bg-[#8b0000]"></div>{" "}
           {/* Temple image - responsive with slight overlap to prevent gap */}
           <img
-            className="absolute w-[75%] h-full top-0 left-0 object-cover object-center"
+            className="absolute w-[100%] h-full top-0 left-0 object-cover object-center"
             alt="Temple Image"
             src={tempImageWebp}
             style={{ objectPosition: "center top" }}
@@ -67,11 +67,17 @@ const Hero = (): JSX.Element => {
               <div className="absolute w-full  lg:top-[-50px] left-0 font-tenor-sans textDescription  text-white tracking-[0] leading-[normal]">
                 <span className="font-secondaryFont">{t("hero.subheading")}</span>
                 <div className="relative w-full h-full">
-                  <div
-                    className="absolute w-[110.6%] top-[26px] left-0 [-webkit-text-stroke:2px_#daa520] font-primaryFont font-semibold text-white text-[64px] tracking-[0] leading-[normal] animate-slideUpText"
-                    key={texts[textIndex]}>
-                    {texts[textIndex]}
-                  </div>
+                  {texts.map((text, index) => (
+                    <div
+                      key={index}
+                      className={`absolute top-[26px] left-0 w-[110.6%] [-webkit-text-stroke:2px_#daa520] font-primaryFont font-semibold text-white text-[64px] tracking-[0] leading-[normal] transition-all duration-1000 ease-in-out transform origin-left ${index === textIndex
+                        ? "opacity-100 scale-100"   // Active: Visible & Full Size
+                        : "opacity-0 scale-50"      // Inactive: Invisible & Small (Zoom Effect)
+                        }`}
+                    >
+                      {text}
+                    </div>
+                  ))}
                 </div>
               </div>
 

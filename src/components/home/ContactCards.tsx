@@ -1,7 +1,7 @@
 
 import { Card, CardContent } from "../ui/card";
 import connectIcon from '@/assets/images/connect.png';
-import callIcon from '@/assets/images/call.png';
+import callIcon from '@/assets/images/call.gif';
 import donateIcon from '@/assets/images/donate.png';
 import timeIcon from '@/assets/images/time.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -23,7 +23,8 @@ const ContactCards = (): JSX.Element => {
                         </p>
                     </div>
                     <div className="flex items-center mt-auto">
-                        <LazyLoadImage className="w-7 h-7 mr-3" alt="Phone" src={callIcon} loading="lazy" />
+                        <LazyLoadImage className=" h-7 mr-3 " alt="Phone" src={callIcon} loading="lazy" />
+
                         <span className="text-white font-normal font-secondaryFont textDescription ">{t('header.phone')}</span>
                     </div>
                 </CardContent>
