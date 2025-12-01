@@ -1,7 +1,7 @@
 
-import tempImage7Webp from '@/assets/images/temp-image-7.webp';
-import tempImage6Webp from '@/assets/images/temp-image-6.webp';
-import tempImage5Webp from '@/assets/images/temp-image-5.webp';
+import MahaKaleshwarImage from '@/assets/images/temp-image-7-small.webp';
+import BalaJiImage from '@/assets/images/temp-image-6-small.webp';
+import TempleImage from '@/assets/images/temp-image-5.webp';
 import bgcardImagePng from '@/assets/images/bgcardImage.png';
 import omPng from '@/assets/images/om.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -9,11 +9,11 @@ import { useI18n } from '@/lib/i18n';
 
 // Images are kept in code; titles/descriptions are localized via i18n
 const images = [
-    tempImage7Webp,
+    MahaKaleshwarImage,
     null,
-    tempImage6Webp,
+    BalaJiImage,
     null,
-    tempImage5Webp,
+    TempleImage,
     null,
 ];
 
@@ -39,7 +39,7 @@ const Services = (): JSX.Element => {
             case 0:
                 return 'order-1 ';
             case 1:
-                return 'order-2 lg:order-4 '; 
+                return 'order-2 lg:order-4 ';
             case 2:
                 return ' order-5 lg:order-3 ';
             case 3:
@@ -125,29 +125,39 @@ const Services = (): JSX.Element => {
                         const img = images[idx];
                         const orderClass = getOrderClass(idx);
                         return img ? (
-                            <div key={idx} className={`${orderClass} w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10`} style={{ background: '#fff' }}>
+                            <div
+                                key={idx}
+                                className={`${orderClass} group w-full h-80 bg-white rounded-lg shadow-md overflow-hidden relative z-10`}
+                                style={{ background: '#fff' }}
+                            >
                                 <LazyLoadImage
                                     src={img}
                                     alt={item.title}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-110"
                                     style={{ opacity: 1 }}
                                     loading="lazy"
                                 />
                             </div>
                         ) : (
-                            <div key={idx} className={`${orderClass} w-full h-80 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center relative z-10`}>
-                                <LazyLoadImage
-                                    src={omPng}
-                                    alt="Om symbol"
-                                    className="w-12 h-12 mb-4 text-[#8b0000]"
-                                    loading="lazy"
-                                />
-                                <h3 className="font-primaryFont textHeading text-[#4c291e] text-center mb-3 font-medium">
-                                    {item.title}
-                                </h3>
-                                <p className="font-secondaryFont textDescription text-[#1E1E1E80] text-center leading-relaxed">
-                                    {item.description}
-                                </p>
+
+                            <div key={idx} className={`${orderClass} group relative w-full h-80`}>
+                                <div
+                                    className="absolute -inset-2 rounded-lg bg-gradient-to-r from-yellow-600 via-orange-600 to-red-600 opacity-0 blur-lg transition duration-500 group-hover:opacity-75"
+                                ></div>
+                                <div className="relative flex h-full w-full flex-col items-center justify-center rounded-lg bg-white p-6 shadow-md z-10 transition duration-500 group-hover:scale-105">
+                                    <LazyLoadImage
+                                        src={omPng}
+                                        alt="Om symbol"
+                                        className="w-12 h-12 mb-4 text-[#8b0000]"
+                                        loading="lazy"
+                                    />
+                                    <h3 className="font-primaryFont textHeading text-[#4c291e] text-center mb-3 font-medium">
+                                        {item.title}
+                                    </h3>
+                                    <p className="font-secondaryFont textDescription text-[#1E1E1E80] text-center leading-relaxed">
+                                        {item.description}
+                                    </p>
+                                </div>
                             </div>
                         );
                     })}
