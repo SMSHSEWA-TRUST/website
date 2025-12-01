@@ -399,8 +399,8 @@ const SubscriptionPlans: React.FC = () => {
                                 tabIndex={0}
                                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleCardClick(); }}
                                 className={`relative rounded-xl p-6 cursor-pointer transition-all duration-200 flex flex-col h-full ${selected
-                                    ? 'bg-[#8B0000] text-white shadow-2xl transform -translate-y-2'
-                                    : 'bg-white border border-gray-200 hover:shadow-lg hover:-translate-y-1'
+                                    ? 'bg-[#8B0000] text-white shadow-2xl transform -translate-y-2 hover:scale-105'
+                                    : 'bg-white border border-gray-200 hover:shadow-lg hover:-translate-y-1 hover:scale-105'
                                     }`}
                             >
                                 {isActive && (

@@ -138,11 +138,11 @@ const OmNamehShivaya = (): JSX.Element => {
                 <div className="relative hidden lg:flex items-center justify-center w-full mb-2">
                     {/* Left Side Image - 30% width */}
                     <div className="w-[30%] flex-shrink-0">
-                        <div className="relative h-[300px] overflow-hidden rounded-lg shadow-xl">
+                        <div className="group h-[300px] overflow-hidden rounded-lg shadow-xl ">
                             <img
                                 src={templeImage1}
                                 alt="Temple View 1"
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-110"
                             />
                         </div>
                     </div>
@@ -198,11 +198,11 @@ const OmNamehShivaya = (): JSX.Element => {
 
                     {/* Right Side Image - 30% width */}
                     <div className="w-[30%] flex-shrink-0">
-                        <div className="relative h-[300px] overflow-hidden rounded-lg shadow-xl">
+                        <div className="group relative h-[300px] overflow-hidden rounded-lg shadow-xl">
                             <img
                                 src={templeImage2}
                                 alt="Temple View 2"
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-110"
                             />
                         </div>
                     </div>

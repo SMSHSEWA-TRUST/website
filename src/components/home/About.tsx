@@ -1,7 +1,7 @@
 import React from 'react';
 import tempImage4 from '@/assets/images/temp-image-4.webp';
 import tempImage3 from '@/assets/images/temp-image-3.webp';
-import tempImage2 from '@/assets/images/temp-image-2.png';
+import tempImage2 from '@/assets/images/temp-image-2-small.png';
 import image2 from '@/assets/images/image 2.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useI18n } from '@/lib/i18n';
@@ -78,23 +78,24 @@ const About = (): JSX.Element => {
                 <div className="order-2 lg:order-1">
                     <div className="grid grid-cols-2 gap-3 sm:gap-4  ">
                         {/* Main large image - spans 2 rows */}
-                        <div className="row-span-2">
+                        <div className="row-span-2 group w-full bg-white rounded-lg shadow-md overflow-hidden relative z-10" style={{ background: '#fff' }}>
                             <LazyLoadImage
                                 className={
                                     isLargeScreen
-                                        ? "w-full h-[100%]  object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                                        : "w-full h-full mt-0 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                        ? "w-full h-[100%] object-cover rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-out group-hover:scale-110"
+                                        : "w-full h-full mt-0 object-cover rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-out group-hover:scale-110"
                                 }
                                 alt="Main temple view showcasing traditional architecture"
                                 src={tempImage4}
                                 loading="lazy"
                             />
+
                         </div>
 
                         {/* Top right image */}
-                        <div className="row-span-1">
+                        <div className="row-span-1 group w-full bg-white rounded-lg shadow-md overflow-hidden relative z-10">
                             <LazyLoadImage
-                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-out group-hover:scale-110"
                                 alt="Temple detail view"
                                 src={tempImage3}
                                 loading="lazy"
@@ -102,9 +103,9 @@ const About = (): JSX.Element => {
                         </div>
 
                         {/* Bottom right image */}
-                        <div className="row-span-1">
+                        <div className="row-span-1 group w-ful rounded-lg overflow-hidden relative z-10">
                             <LazyLoadImage
-                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                                className="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl"
                                 alt="Temple courtyard view"
                                 src={tempImage2}
                                 loading="lazy"

@@ -82,7 +82,6 @@ export const HomePage = (): JSX.Element => {
       <Suspense fallback={<ComponentLoader height="h-screen" />}>
         <Hero />
       </Suspense>
-
       {/* Bhudaan Section */}
       <Suspense fallback={<SectionLoader />}>
         <BhudaanSection />

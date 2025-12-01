@@ -211,6 +211,41 @@ const Header = (): JSX.Element => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+  const NavItems = [
+    {
+      name: "home",
+      link: "/",
+    },
+    {
+      name: "about",
+      link: "/about",
+    },
+    {
+      name: "puja",
+      link: "/puja",
+    },
+    {
+      name: "gallery",
+      link: "/gallery",
+    },
+    {
+      name: "prashad",
+      link: "/prashad",
+    },
+    {
+      name: "membership",
+      link: "/membership",
+    },
+    {
+      name: "blogs",
+      link: "/blogs",
+    },
+    {
+      name: "contact",
+      link: "/contact",
+    },
+  ]
   return (
     <header
       className={`w-full top-0 fixed left-0 right-0 z-50 font-secondaryFont transform transition-transform duration-300 ${isHidden ? "-translate-y-full" : "translate-y-0"
@@ -512,110 +547,23 @@ const Header = (): JSX.Element => {
             {/* Center Navigation Menu */}
             <NavigationMenu className="flex-1">
               <NavigationMenuList className="flex items-center gap-4 xl:gap-6 2xl:gap-8 w-full justify-center text-[22px]">
-                <NavigationMenuItem>
-                  <Link to="/">
-                    <Button
-                      variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/"
-                        ? "text-white underline"
-                        : "text-white/90 hover:text-white"
-                        }`}
-                    >
-                      {t("nav.home")}
-                    </Button>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/about">
-                    <Button
-                      variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/about"
-                        ? "text-white underline"
-                        : "text-white/90 hover:text-white"
-                        }`}
-                    >
-                      {t("nav.about")}
-                    </Button>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/puja">
-                    <Button
-                      variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/puja"
-                        ? "text-white underline"
-                        : "text-white/90 hover:text-white"
-                        }`}
-                    >
-                      {t("nav.puja")}
-                    </Button>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/gallery">
-                    <Button
-                      variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/gallery"
-                        ? "text-white underline"
-                        : "text-white/90 hover:text-white"
-                        }`}
-                    >
-                      {t("nav.gallery")}
-                    </Button>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/prashad">
-                    <Button
-                      variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/prashad"
-                        ? "text-white underline"
-                        : "text-white/90 hover:text-white"
-                        }`}
-                    >
-                      {t("nav.prashad")}
-                    </Button>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/membership">
-                    <Button
-                      variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/membership"
-                        ? "text-white underline"
-                        : "text-white/90 hover:text-white"
-                        }`}
-                    >
-                      {t("nav.membership")}
-                    </Button>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/blogs">
-                    <Button
-                      variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/blogs"
-                        ? "text-white underline"
-                        : "text-white/90 hover:text-white"
-                        }`}
-                    >
-                      {t("nav.blogs")}
-                    </Button>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/contact">
-                    <Button
-                      variant="link"
-                      className={`font-secondaryFont font-normal transition-colors ${currentPath === "/contact"
-                        ? "text-white underline"
-                        : "text-white/90 hover:text-white"
-                        }`}
-                    >
-                      {t("nav.contact")}
-                    </Button>
-                  </Link>
-                </NavigationMenuItem>
+                {NavItems.map((item) => (
+                  <NavigationMenuItem key={item.link}>
+                    <Link to={item.link}>
+                      <Button
+                        variant="link"
+                        className={`rounded-none pl-0 font-secondaryFont font-normal no-underline hover:no-underline  bg-gradient-to-r from-white to-white bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-in-out
+  ${currentPath === item.link
+                            ? "text-white bg-[length:90%_2px]"
+                            : "text-white/90 hover:text-white bg-[length:0%_2px] hover:bg-[length:90%_2px]"
+                          }`}
+                      >
+                        {t(`nav.${item.name}`)}
+                      </Button>
+                    </Link>
+                  </NavigationMenuItem>
+                ))}
+
               </NavigationMenuList>
             </NavigationMenu>
 
@@ -722,94 +670,35 @@ const Header = (): JSX.Element => {
             aria-hidden={!isMobileMenuOpen}
           >
             <nav className="py-4 space-y-2">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/"
-                    ? "text-[#8b0000] underline"
-                    : "text-[#333333] hover:text-[#8b0000] no-underline"
-                    }`}
-                >
-                  {t("nav.home")}
-                </Button>
-              </Link>
-              <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/about"
-                    ? "text-[#8b0000] underline"
-                    : "text-[#333333] hover:text-[#8b0000] no-underline"
-                    }`}
-                >
-                  {t("nav.about")}
-                </Button>
-              </Link>
-              <Link to="/puja" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/puja"
-                    ? "text-[#8b0000] underline"
-                    : "text-[#333333] hover:text-[#8b0000] no-underline"
-                    }`}
-                >
-                  {t("nav.puja")}
-                </Button>
-              </Link>
-              <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/gallery"
-                    ? "text-[#8b0000] underline"
-                    : "text-[#333333] hover:text-[#8b0000] no-underline"
-                    }`}
-                >
-                  {t("nav.gallery")}
-                </Button>
-              </Link>
-              <Link to="/prashad" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/prashad"
-                    ? "text-[#8b0000] underline"
-                    : "text-[#333333] hover:text-[#8b0000] no-underline"
-                    }`}
-                >
-                  {t("nav.prashad")}
-                </Button>
-              </Link>
-              <Link to="/membership" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/membership"
-                    ? "text-[#8b0000] underline"
-                    : "text-[#333333] hover:text-[#8b0000] no-underline"
-                    }`}
-                >
-                  {t("nav.membership")}
-                </Button>
-              </Link>
-              <Link to="/blogs" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/blogs"
-                    ? "text-[#8b0000] underline"
-                    : "text-[#333333] hover:text-[#8b0000] no-underline"
-                    }`}
-                >
-                  {t("nav.blogs")}
-                </Button>
-              </Link>
-              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="link"
-                  className={`font-secondaryFont w-full text-center font-normal py-2 px-4 transition-colors ${currentPath === "/contact"
-                    ? "text-[#8b0000] underline"
-                    : "text-[#333333] hover:text-[#8b0000] no-underline"
-                    }`}
-                >
-                  {t("nav.contact")}
-                </Button>
-              </Link>
+              {NavItems.map((item) => (
+                <Link key={item.link} to={item.link} onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button
+                    variant="link"
+                    // Added 'group' here so the child element knows when the parent is hovered
+                    className={`group w-full text-center font-secondaryFont font-normal py-2 px-4 transition-colors no-underline hover:no-underline 
+      ${currentPath === item.link
+                        ? "text-[#8b0000]"
+                        : "text-[#333333] hover:text-[#8b0000]"
+                      }`}
+                  >
+                    <div className="flex justify-center">
+                      <span
+                        className={`relative inline-block pb-1
+          bg-gradient-to-r from-[#8b0000] to-[#8b0000] 
+          bg-left-bottom bg-no-repeat 
+          transition-[background-size] duration-300 ease-in-out
+          ${currentPath === item.link
+                            ? "bg-[length:100%_2px]" // Active state
+                            : "bg-[length:0%_2px] group-hover:bg-[length:100%_2px]" // Hover state (triggered by group-hover)
+                          }
+        `}
+                      >
+                        {t(`nav.${item.name}`)}
+                      </span>
+                    </div>
+                  </Button>
+                </Link>
+              ))}
 
               {/* User Profile Options (only shown when logged in) */}
               {isLoggedIn && (
