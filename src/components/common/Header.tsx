@@ -446,9 +446,14 @@ const Header = (): JSX.Element => {
                   </button>
 
                   {/* Dropdown */}
-                  {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl py-3 z-50 border border-gray-100" role="menu">
+                  <div
+                    className={`absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl z-50 border-gray-100 overflow-hidden grid transition-all duration-300 ease-out ${isUserMenuOpen ? "grid-rows-[1fr] py-3 opacity-100 border" : "grid-rows-[0fr] py-0 opacity-0 border-none"}`}
+                    role="menu"
+                  >
+                    {/* Inner wrapper required for grid animation */}
+                    <div className="min-h-0">
                       <div className="px-3 space-y-1">
+
                         <Link to="/profile" onClick={() => setIsUserMenuOpen(false)} role="menuitem" className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-50">
                           <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -503,20 +508,68 @@ const Header = (): JSX.Element => {
                             <span className="text-white font-medium">{t("auth.logout")}</span>
                           </button>
                         </div>
+
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
 
                 {/* Cart Icon */}
                 <button
                   onClick={() => navigate('/checkout')}
-                  className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  // Added 'group' here to trigger the child animation on hover
+                  className="group relative p-2 hover:bg-gray-100 rounded-full transition-colors"
                   aria-label="View cart"
                 >
-                  <svg className="w-6 h-6 text-[#8b0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  {/* Inline style for the custom draw animation (No config needed) */}
+                  <style>{`
+                      @keyframes draw {
+                        0% { stroke-dashoffset: 100; }
+                        100% { stroke-dashoffset: 0; }
+                      }`}
+                  </style>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    // Matches your original sizing and color
+                    className="w-6 h-6 text-[#8b0000]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      // stroke-current uses the text-[#8b0000] from parent
+                      // [animation:...] calls the keyframes defined in the style tag above
+                      className="stroke-current stroke-[1.5] [stroke-dasharray:100] [stroke-dashoffset:0] transition-all duration-300 group-hover:stroke-[2] group-hover:[animation:draw_0.5s_ease-in_forwards]"
+                      d="M2.75012 3.24989L4.83012 3.60989L5.79312 15.0829C5.87012 16.0199 6.65312 16.7389 7.59312 16.7359H18.5021C19.3991 16.7379 20.1601 16.0779 20.2871 15.1899L21.2361 8.63189C21.3421 7.89889 20.8331 7.21889 20.1011 7.11289C20.0371 7.10389 5.16412 7.09889 5.16412 7.09889"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      className="stroke-current stroke-[1.5] [stroke-dasharray:100] [stroke-dashoffset:0] transition-all duration-300 group-hover:stroke-[2] group-hover:[animation:draw_0.5s_ease-in_forwards]"
+                      d="M14.1251 10.7948H16.8981"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      className="stroke-current stroke-[1.5] [stroke-dasharray:100] [stroke-dashoffset:0] transition-all duration-300 group-hover:stroke-[2] group-hover:[animation:draw_0.5s_ease-in_forwards]"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M7.15441 20.2025C7.45541 20.2025 7.69841 20.4465 7.69841 20.7465C7.69841 21.0475 7.45541 21.2915 7.15441 21.2915C6.85341 21.2915 6.61041 21.0475 6.61041 20.7465C6.61041 20.4465 6.85341 20.2025 7.15441 20.2025Z"
+                      // Fill is set to current color to match the stroke
+                      fill="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      className="stroke-current stroke-[1.5] [stroke-dasharray:100] [stroke-dashoffset:0] transition-all duration-300 group-hover:stroke-[2] group-hover:[animation:draw_0.5s_ease-in_forwards]"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M18.4347 20.2025C18.7357 20.2025 18.9797 20.4465 18.9797 20.7465C18.9797 21.0475 18.7357 21.2915 18.4347 21.2915C18.1337 21.2915 17.8907 21.0475 17.8907 20.7465C17.8907 20.4465 18.1337 20.2025 18.4347 20.2025Z"
+                      fill="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
+
                   {cartItemCount > 0 && (
                     <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                       {cartItemCount}
@@ -603,14 +656,61 @@ const Header = (): JSX.Element => {
               {isLoggedIn && (
                 <button
                   onClick={() => navigate('/checkout')}
-                  className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  // Added 'group' here to trigger the child animation on hover
+                  className="group relative p-2 hover:bg-gray-100 rounded-full transition-colors"
                   aria-label="View cart"
                 >
-                  <svg className="w-5 h-5 text-[#8b0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  {/* Inline style for the custom draw animation (No config needed) */}
+                  <style>{`
+                      @keyframes draw {
+                        0% { stroke-dashoffset: 100; }
+                        100% { stroke-dashoffset: 0; }
+                      }`}
+                  </style>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    // Matches your original sizing and color
+                    className="w-6 h-6 text-[#8b0000]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      // stroke-current uses the text-[#8b0000] from parent
+                      // [animation:...] calls the keyframes defined in the style tag above
+                      className="stroke-current stroke-[1.5] [stroke-dasharray:100] [stroke-dashoffset:0] transition-all duration-300 group-hover:stroke-[2] group-hover:[animation:draw_0.5s_ease-in_forwards]"
+                      d="M2.75012 3.24989L4.83012 3.60989L5.79312 15.0829C5.87012 16.0199 6.65312 16.7389 7.59312 16.7359H18.5021C19.3991 16.7379 20.1601 16.0779 20.2871 15.1899L21.2361 8.63189C21.3421 7.89889 20.8331 7.21889 20.1011 7.11289C20.0371 7.10389 5.16412 7.09889 5.16412 7.09889"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      className="stroke-current stroke-[1.5] [stroke-dasharray:100] [stroke-dashoffset:0] transition-all duration-300 group-hover:stroke-[2] group-hover:[animation:draw_0.5s_ease-in_forwards]"
+                      d="M14.1251 10.7948H16.8981"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      className="stroke-current stroke-[1.5] [stroke-dasharray:100] [stroke-dashoffset:0] transition-all duration-300 group-hover:stroke-[2] group-hover:[animation:draw_0.5s_ease-in_forwards]"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M7.15441 20.2025C7.45541 20.2025 7.69841 20.4465 7.69841 20.7465C7.69841 21.0475 7.45541 21.2915 7.15441 21.2915C6.85341 21.2915 6.61041 21.0475 6.61041 20.7465C6.61041 20.4465 6.85341 20.2025 7.15441 20.2025Z"
+                      // Fill is set to current color to match the stroke
+                      fill="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      className="stroke-current stroke-[1.5] [stroke-dasharray:100] [stroke-dashoffset:0] transition-all duration-300 group-hover:stroke-[2] group-hover:[animation:draw_0.5s_ease-in_forwards]"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M18.4347 20.2025C18.7357 20.2025 18.9797 20.4465 18.9797 20.7465C18.9797 21.0475 18.7357 21.2915 18.4347 21.2915C18.1337 21.2915 17.8907 21.0475 17.8907 20.7465C17.8907 20.4465 18.1337 20.2025 18.4347 20.2025Z"
+                      fill="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
+
                   {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                       {cartItemCount}
                     </span>
                   )}
