@@ -535,13 +535,13 @@ const LiveDarshan = (): JSX.Element => {
 
         {/* Mobile decorations: subtle, smaller, and positioned for small screens only (visible < lg) */}
         <LazyLoadImage
-          className="block lg:hidden absolute left-[-10%] top-[12%] w-[220px] object-cover opacity-10"
+          className="block lg:hidden absolute left-0 top-[5%] w-[220px] object-cover opacity-2"
           alt="Mobile Left Decoration"
           src={mand7Png}
           loading="lazy"
         />
         <LazyLoadImage
-          className="block lg:hidden absolute right-[-10%] bottom-[6%] w-[200px] object-cover opacity-12"
+          className="block lg:hidden absolute right-0 top-[6%] w-[200px] object-cover opacity-2"
           alt="Mobile Right Decoration"
           src={mand7Png}
           loading="lazy"
