@@ -252,6 +252,13 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     setSubmittedForm(form);
     setFlowStep('selectPayment');
 
+    // Scroll to top instantly
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+      // Push history state so back button works
+      window.history.pushState({ flowStep: 'selectPayment' }, '');
+    }
+
     // Save form state to sessionStorage for persistence including all plot data
     if (data?._id) {
       saveDonationFormState(data._id, {
@@ -304,14 +311,42 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     }
   };
   // Listen for browser back (popstate) and trigger the same back handler
+  // Listen for browser back (popstate) and trigger the same back handler
   useEffect(() => {
-    if (!onBack) return;
-    const onPopState = () => {
-      handleBackClick();
+    const onPopState = (event: PopStateEvent) => {
+      const state = event.state;
+      if (state?.flowStep === 'selectPayment') {
+        setFlowStep('selectPayment');
+      } else {
+        // If we are in payment and go back, switch to form
+        if (flowStep === 'selectPayment') {
+          setFlowStep('form');
+          setSelectedPaymentMethod(null);
+          setPaymentDropdownOpen(true);
+
+          // Update saved state when going back to form
+          if (data?._id && submittedForm) {
+            saveDonationFormState(data._id, {
+              ...submittedForm,
+              userPickedAmount,
+              selectedDaanTypeId,
+              flowStep: 'form',
+              selectedPaymentMethod: null,
+              selectedPlots: submittedForm.selectedPlots ?? [],
+              plotContacts: submittedForm.plotContacts ?? {},
+              sameDetailsForAll: submittedForm.sameDetailsForAll ?? false,
+              expandedPlots: submittedForm.expandedPlots ?? {},
+            });
+          }
+        } else {
+          // If we are in form and go back, the browser handles the navigation (e.g. to previous page)
+          // We don't need to call onBack() here as it might trigger a double navigation
+        }
+      }
     };
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
-  }, [onBack, /* handleBackClick reads flowStep and other locals */ flowStep, submittedForm, userPickedAmount, selectedDaanTypeId]);
+  }, [flowStep, submittedForm, userPickedAmount, selectedDaanTypeId, data?._id]);
   return (
     <div className="min-h-screen bg-[#FDFBFC] px-4 md:px-16   py-9 lg:py-10">
       <div className=" mx-auto relative">
