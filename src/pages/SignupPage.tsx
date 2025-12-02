@@ -11,6 +11,19 @@ export default function SignupPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Redirect to home if already logged in
+  const isAuthenticated = typeof window !== 'undefined' && !!localStorage.getItem("authToken");
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (isAuthenticated) {
+    return null;
+  }
+
   // User Details State
   const [userDetails, setUserDetails] = useState({
     name: "",

@@ -14,6 +14,19 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const loginMutation = useLogin();
 
+  // Redirect to home if already logged in
+  const isAuthenticated = typeof window !== 'undefined' && !!localStorage.getItem("authToken");
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (isAuthenticated) {
+    return null;
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Allow only digits, limit to 10 digits, and disallow starting with '0'
     const raw = e.target.value || "";
