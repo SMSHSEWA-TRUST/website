@@ -619,69 +619,85 @@
 	},
 	"prashad": {
 		"section": {
-			"addToCart": "Add to Cart",
-			"adding": "Adding...",
-			"addedToCartSuffix": "added to cart",
-			"failedLoad": "Failed to load prasad items. Please try again later.",
-			"unableAdd": "Unable to add item to cart",
-			"failedAdd": "Failed to add to cart. Please try again.",
-			"failedUpdate": "Failed to update cart. Please try again.",
-			"minQuantity": "Minimum quantity is 1. To remove from cart, use the cart page.",
-			"onlyAvailable": "Only {{count}} items available in stock",
-			"outOfStock": "Out of Stock",
-			"goToCheckout": "Go to Checkout"
+			"addToCart": "कार्ट में जोड़ें",
+			"adding": "जोड़ रहा है...",
+			"addedToCartSuffix": "कार्ट में जोड़ा गया",
+			"failedLoad": "प्रसाद आइटम लोड करने में विफल। कृपया बाद में पुनः प्रयास करें।",
+			"unableAdd": "आइटम को कार्ट में जोड़ना संभव नहीं है",
+			"failedAdd": "कार्ट में जोड़ने में विफल। कृपया पुनः प्रयास करें।",
+			"failedUpdate": "कार्ट अपडेट करने में विफल। कृपया पुनः प्रयास करें।",
+			"minQuantity": "न्यूनतम मात्रा 1 है। हटाने के लिए कार्ट पेज का उपयोग करें।",
+			"onlyAvailable": "स्टॉक में केवल {{count}} आइटम उपलब्ध हैं",
+			"outOfStock": "स्टॉक समाप्त",
+			"goToCheckout": "चेकआउट पर जाएँ"
 		},
 		"itemInBox": {
-			"title": "About the items in the box",
-			"subtitle": "A Detailed List of Everything Included in Your Shipment. See Exactly What Comes in the Box.",
-			"defaultItemName": "Item Name",
+			"title": "बॉक्स में मौजूद वस्तुओं के बारे में",
+			"subtitle": "आपकी शिपमेंट में शामिल सभी वस्तुओं की विस्तृत सूची। देखें कि बॉक्स में क्या-क्या आता है।",
+			"defaultItemName": "वस्तु का नाम",
 			"defaultItemDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 		},
 		"detail": {
-			"descriptionTitle": "Description",
-			"whatsInBoxTitle": "What's in the box",
-			"noItemsInfo": "No items information available",
-			"addToCart": "Add to cart",
-			"buyNow": "Buy now",
-			"adding": "Adding...",
-			"inStock": "In Stock",
-			"goToCheckout": "Go to Checkout",
-			"outOfStock": "Out of Stock"
+			"descriptionTitle": "विवरण",
+			"whatsInBoxTitle": "बॉक्स में क्या है",
+			"noItemsInfo": "वस्तुओं की जानकारी उपलब्ध नहीं है",
+			"addToCart": "कार्ट में जोड़ें",
+			"buyNow": "अभी खरीदें",
+			"adding": "जोड़ रहा है...",
+			"inStock": "स्टॉक में उपलब्ध",
+			"goToCheckout": "चेकआउट पर जाएँ",
+			"outOfStock": "स्टॉक समाप्त"
 		},
 		"bestseller": {
-			"heading": "Our other Bestsellers"
+			"heading": "हमारे अन्य बेस्टसेलर"
 		},
 		"youMightLike": {
-			"heading": "You might also like"
+			"heading": "आपको ये भी पसंद आ सकते हैं"
 		},
 		"important": {
-			"heading": "Importance of Prashad",
-			"lead": "Prashad is a sacred and deeply significant offering in Hinduism, representing the grace and blessings of the Divine.",
-			"point1": "The act of receiving and consuming prashad is much more than simply eating; it is an act of communion, purification, and spiritual nourishment.",
-			"point2": "By partaking in this sanctified food, devotees believe they are absorbing the residual spiritual energy and favor of the God, thus purifying their body and mind."
+			"heading": "प्रसाद का महत्व",
+			"lead": "प्रसाद हिंदू धर्म में एक अत्यंत पवित्र और महत्वपूर्ण अर्पण है, जो दिव्य कृपा और आशीर्वाद का प्रतीक माना जाता है। यह भोजन, जो पूर्णतया शाकाहारी होता है, अत्यधिक श्रद्धा से तैयार किया जाता है और पूजा या आराधना के दौरान सबसे पहले देवता को अर्पित किया जाता है। इसलिए, प्रसाद दिव्य प्रेम और स्वीकार्यता का मूर्त रूप है, जो सकारात्मक ऊर्जा और एकता को संपूर्ण भक्त समुदाय तक पहुँचाता है।",
+			"point1": "प्रसाद ग्रहण करना केवल भोजन करना नहीं है; यह आध्यात्मिक जुड़ाव, शुद्धिकरण और आत्मिक पोषण का पवित्र कार्य माना जाता है।",
+			"point2": "इस पवित्र प्रसाद को ग्रहण करके भक्त मानते हैं कि वे देवता की कृपा और आध्यात्मिक ऊर्जा को आत्मसात कर रहे हैं, जिससे शरीर और मन शुद्ध होते हैं, श्रद्धा बढ़ती है और नकारात्मक कर्म धीरे-धीरे समाप्त होते हैं।"
 		},
 		"faq": {
-			"heading": "Prashad Related FAQ's",
+			"heading": "प्रसाद से जुड़े सामान्य प्रश्न",
 			"items": [
 				{
-					"question": "What exactly is prashad?",
-					"answer": "Prashad (or Prasad) is a sacred vegetarian food offering that has been blessed by a deity during a special puja or ceremony. When you receive it, you are partaking in the blessings and spiritual energy of the Divine."
+					"question": "प्रसाद क्या होता है?",
+					"answer": "प्रसाद एक पवित्र शाकाहारी भोग होता है जिसे विशेष पूजा या अनुष्ठान के दौरान किसी देवता को समर्पित किया जाता है। जब आप इसे प्राप्त करते हैं, तो आप दिव्यता के आशीर्वाद और सकारात्मक आध्यात्मिक ऊर्जा को ग्रहण करते हैं।"
 				},
 				{
-					"question": "Is the prashad safe to eat?",
-					"answer": "Yes. Prashad is prepared following traditional practices and basic food-safety standards. If you have specific health concerns, please check ingredient details or contact us before ordering."
+					"question": "क्या प्रसाद खाना सुरक्षित है?",
+					"answer": "हाँ, बिल्कुल सुरक्षित है। प्रसाद को अत्यंत स्वच्छता, शुद्धता और श्रद्धा के साथ तैयार किया जाता है। हम केवल उच्च गुणवत्ता वाले, ताज़ा और पूर्णत: शाकाहारी सामग्री का उपयोग करते हैं और इसे सुरक्षित रूप से पैक किया जाता है।"
 				},
 				{
-					"question": "What ingredients are used in the prashad?",
-					"answer": "Ingredients vary by item. We aim to use simple, vegetarian ingredients; specific ingredient lists are available on each product page. If you have allergies, please review the product information carefully."
+					"question": "प्रसाद में कौन-कौन सी सामग्री उपयोग की जाती है?",
+					"answer": "प्रसाद की सामग्री देवता और प्रसाद के प्रकार (जैसे लड्डू, हलवा, पंचामृत) पर निर्भर करती है। हमारे सभी प्रसाद पूरी तरह शाकाहारी होते हैं और इनमें प्याज-लहसुन का प्रयोग नहीं किया जाता। सामान्य सामग्री में घी, दूध, चीनी/गुड़, आटा, मेवे और प्राकृतिक मसाले शामिल होते हैं। संभावित एलर्जेन की पूरी सूची उत्पाद पेज पर उपलब्ध है।"
 				},
 				{
-					"question": "How long will it take for my prashad order to arrive?",
-					"answer": "Delivery times depend on your location and the selected shipping method. Estimated delivery windows are shown during checkout and in your order confirmation email."
+					"question": "मेरा प्रसाद ऑर्डर कितने समय में पहुँचेगा?",
+					"answer": "क्योंकि प्रसाद अक्सर पूजा के बाद ताज़ा तैयार किया जाता है, इसलिए डिलीवरी समय पूजा की तारीख और आपके स्थान पर आधारित होता है।\nतैयारी: निर्धारित पूजा के [X] दिनों बाद।\nशिपिंग: सामान्य शिपिंग में लगभग [Y]–[Z] कार्यदिवस लगते हैं।\nऑर्डर शिप होने पर आपको ट्रैकिंग नंबर भेज दिया जाएगा।"
 				},
 				{
-					"question": "How should I store the prashad once it arrives?",
-					"answer": "Storage instructions depend on the product. Many prashad items are best kept in a cool, dry place and consumed within the recommended timeframe. Check the product details for specific storage guidance."
+					"question": "प्रसाद आने के बाद इसे कैसे स्टोर करें?",
+					"answer": "सबसे अच्छा अनुभव पाने के लिए प्रसाद को प्राप्ति के [X] दिनों के भीतर ही ग्रहण करना चाहिए।\nसूखा प्रसाद (जैसे लड्डू, मेवे): इसे ठंडी और सूखी जगह पर एयरटाइट कंटेनर में रखें।\nनमी वाला प्रसाद (जैसे हलवा, खीर): इसे फ्रिज में रखें और जल्द ही उपयोग करें।"
+				},
+				{
+					"question": "क्या मैं प्रसाद किसी और को उपहार के रूप में भेज सकता/सकती हूँ?",
+					"answer": "हाँ, बिल्कुल। किसी प्रियजन को प्रसाद भेजना आशीर्वाद साझा करने का सुंदर तरीका है। बस चेकआउट के दौरान उनका शिपिंग पता दर्ज करें। पैकेज में कीमत की कोई जानकारी शामिल नहीं होगी।"
+				},
+				{
+					"question": "अगर मुझे एलर्जी है तो मैं कैसे सुनिश्चित करूँ कि प्रसाद सुरक्षित है?",
+					"answer": "हम एलर्जी को गंभीरता से लेते हैं। हालांकि हम स्वच्छ रसोई बनाए रखने का प्रयास करते हैं, प्रसाद ऐसे स्थान पर भी तैयार हो सकता है जहाँ दूध, मेवे, गेहूँ या सोया जैसे एलर्जेन उपयोग होते हों। अगर आपको गंभीर एलर्जी है, तो कृपया उत्पाद पेज पर दी गई सामग्री सूची ध्यान से पढ़ें या ऑर्डर करने से पहले हमारी सपोर्ट टीम से संपर्क करें। हम 100% एलर्जेन-फ्री वातावरण की गारंटी नहीं दे सकते।"
+				},
+				{
+					"question": "क्या मैं किसी विशेष प्रकार का प्रसाद या कस्टम ऑर्डर माँग सकता/सकती हूँ?",
+					"answer": "वर्तमान में हम केवल वही प्रसाद पैकेज प्रदान करते हैं जो विशेष पूजा के अनुसार निर्धारित होते हैं। इससे परंपरा और शुद्धता बनी रहती है। फिलहाल हम व्यक्तिगत कस्टमाइज़ेशन या सामग्री में बदलाव स्वीकार नहीं कर सकते। हमारी वेबसाइट पर नए मौसमी प्रसाद नियमित रूप से जोड़े जाते हैं।"
+				},
+				{
+					"question": "रद्दीकरण, वापसी और रिफंड की आपकी नीति क्या है?",
+					"answer": "प्रसाद पवित्र और नाशवान होता है, इसलिए सभी बिक्री सामान्यतः अंतिम होती हैं।\nरद्दीकरण: आप ऑर्डर देने के [X] घंटों के भीतर ही रद्द कर सकते हैं, बशर्ते पूजा की तैयारी शुरू न हुई हो।\nवापसी/रिफंड: हम वापसी स्वीकार नहीं करते। अगर आपका प्रसाद क्षतिग्रस्त पहुँचे या ऑर्डर में कोई गलती हो, तो कृपया डिलीवरी के 24 घंटों के भीतर फोटो सहित हमसे संपर्क करें। हम जल्द से जल्द रिप्लेसमेंट या आंशिक रिफंड की प्रक्रिया करेंगे।"
 				}
 			]
 		}
@@ -704,5 +720,34 @@
 		"onlyAvailable": "Only {{count}} available",
 		"addDeliveryAddressButton": "Add Delivery Address",
 		"selectDeliveryAddress": "Please select a delivery address"
+	},
+	"membershipFaq": {
+		"heading": "अक्सर पूछे जाने वाले प्रश्न",
+		"items": [
+			{
+				"question": "मेरे लिए कौन-सा प्राइसिंग प्लान सही है?",
+				"answer": "हम समझते हैं कि हर संगठन अलग होता है और उसे अपनी आवश्यकताओं के अनुसार विशेष फीचर्स की जरूरत होती है। ऊपर दिए गए विभिन्न प्लान्स में शामिल फीचर्स देखकर आप अपनी ज़रूरत के अनुसार प्लान चुन सकते हैं। यदि आपको सही प्लान चुनने में सहायता चाहिए, तो हमारी सेल्स टीम से संपर्क करें।"
+			},
+			{
+				"question": "हमारी प्राइसिंग कैसे काम करती है?",
+				"answer": "हमारी प्राइसिंग लचीली है और आपके संगठन के बढ़ने के साथ स्केल करने के लिए डिज़ाइन की गई है। हम मासिक और वार्षिक दोनों तरह के प्लान प्रदान करते हैं, और वार्षिक सब्सक्रिप्शन पर डिस्काउंट भी देते हैं। यदि आपकी विशेष आवश्यकताएँ हों, तो हम आपके लिए एक कस्टम कोट भी तैयार कर सकते हैं।"
+			},
+			{
+				"question": "अगर मैं अपना निर्णय बदल दूँ तो?",
+				"answer": "आप कभी भी अपना प्लान रद्द कर सकते हैं। वार्षिक प्लान के लिए, हमारी वेबसाइट पर दी गई शर्तों के अनुसार हम प्रोराटा रिफंड पॉलिसी प्रदान करते हैं।"
+			},
+			{
+				"question": "क्या आप कोई डिस्काउंटेड प्लान प्रदान करते हैं?",
+				"answer": "हम गैर-लाभकारी संगठनों, शैक्षणिक संस्थानों और लंबी अवधि के कमिटमेंट के लिए विशेष डिस्काउंट प्रदान करते हैं। यह जानने के लिए कि आप योग्य हैं या नहीं, हमारी सेल्स टीम से संपर्क करें।"
+			},
+			{
+				"question": "आप कौन-कौन से भुगतान विकल्प स्वीकार करते हैं?",
+				"answer": "हम प्रमुख क्रेडिट कार्ड, डेबिट कार्ड और बैंक ट्रांसफर स्वीकार करते हैं। बड़े संगठनों के लिए हम इनवॉइसिंग और परचेज ऑर्डर भी सपोर्ट करते हैं।"
+			},
+			{
+				"question": "क्या Venture गैर-लाभकारी संस्थाओं (NGOs) के लिए प्लान प्रदान करता है?",
+				"answer": "हाँ, हम गैर-लाभकारी संगठनों और NGOs के लिए विशेष प्राइसिंग और सहायता प्रोग्राम प्रदान करते हैं। अधिक जानकारी के लिए हमारी पार्टनरशिप टीम से संपर्क करें।"
+			}
+		]
 	}
 }

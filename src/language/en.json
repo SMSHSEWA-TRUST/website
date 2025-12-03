@@ -568,9 +568,9 @@
         },
         "important": {
             "heading": "Importance of Prashad",
-            "lead": "Prashad is a sacred and deeply significant offering in Hinduism, representing the grace and blessings of the Divine.",
-            "point1": "The act of receiving and consuming prashad is much more than simply eating; it is an act of communion, purification, and spiritual nourishment.",
-            "point2": "By partaking in this sanctified food, devotees believe they are absorbing the residual spiritual energy and favor of the God, thus purifying their body and mind."
+            "lead": "Prashad is a sacred and deeply significant offering in Hinduism, representing the grace and blessings of the Divine. It is food, often vegetarian and prepared with great reverence, that has first been offered to a deity during a ritual or prayer. Therefore, prashad serves as a tangible symbol of divine love and acceptance, distributing the positive energy and unity of the sacred ceremony to the entire congregation.",
+            "point1": "The act of receiving and consuming prashad is much more than simply eating; it is an act of communion, purification, and spiritual nourishment. ",
+            "point2": "By partaking in this sanctified food, devotees believe they are absorbing the residual spiritual energy and favor of the God, thus purifying their body and mind, strengthening their faith, and dissolving negative karma."
         },
         "faq": {
             "heading": "Prashad Related FAQ's",
@@ -581,19 +581,35 @@
                 },
                 {
                     "question": "Is the prashad safe to eat?",
-                    "answer": "Yes. Prashad is prepared following traditional practices and basic food-safety standards. If you have specific health concerns, please check ingredient details or contact us before ordering."
+                    "answer": "Yes, absolutely. The prashad is prepared under strict hygiene guidelines with the utmost purity and reverence. We use only high-quality, fresh, vegetarian ingredients and ensure it is packaged securely for safe consumption."
                 },
                 {
                     "question": "What ingredients are used in the prashad?",
-                    "answer": "Ingredients vary by item. We aim to use simple, vegetarian ingredients; specific ingredient lists are available on each product page. If you have allergies, please review the product information carefully."
+                    "answer": "The specific ingredients vary depending on the deity and the type of prashad ordered (e.g., Ladoo, Halwa, Panchamrit). All our offerings are strictly vegetarian and are prepared without onion and garlic. Ingredients typically include ghee, milk, sugar/jaggery, flour, nuts, and natural spices. A full list of potential allergens is available on the product page."
                 },
                 {
                     "question": "How long will it take for my prashad order to arrive?",
-                    "answer": "Delivery times depend on your location and the selected shipping method. Estimated delivery windows are shown during checkout and in your order confirmation email."
+                    "answer": "Since prashad is often prepared fresh after the puja, the delivery time is calculated based on the specific puja date and your location.\nPreparation: [X] days after the scheduled puja.\nShipping: Standard shipping takes approximately [Y]–[Z] business days.\nYou will receive a tracking number once your order is shipped."
                 },
                 {
                     "question": "How should I store the prashad once it arrives?",
-                    "answer": "Storage instructions depend on the product. Many prashad items are best kept in a cool, dry place and consumed within the recommended timeframe. Check the product details for specific storage guidance."
+                    "answer": "Generally, prashad should be consumed within [X] days of receipt for the best experience.\nDry Prashad (e.g., Ladoo, Dry Fruits): Store in a cool, dry place in an airtight container.\nMoist Prashad (e.g., Halwa, Kheer): Refrigeration is highly recommended, and it should be consumed promptly."
+                },
+                {
+                    "question": "Can I order prashad for someone else as a gift?",
+                    "answer": "Yes. Ordering prashad for a loved one is a beautiful way to share blessings. Simply enter their shipping address at checkout. We do not include pricing details in the shipment."
+                },
+                {
+                    "question": "What if I have allergies? How can I be sure the prashad is safe for me?",
+                    "answer": "We take allergies seriously. While we strive to maintain a clean kitchen, our prashad may be prepared in a facility that also handles common allergens like milk, nuts (tree nuts and peanuts), wheat, and soy. If you have severe allergies, please review the specific ingredient list on the product page carefully or contact our customer support before ordering. We cannot guarantee a 100% allergen-free environment."
+                },
+                {
+                    "question": "Can I request a specific type of prashad or customize my order?",
+                    "answer": "Currently, we offer pre-set prashad packages that correspond to the specific pujas being performed. This ensures the offering remains traditional and standardized. We cannot accommodate specific customization or ingredient changes for individual orders at this time. Please check our site regularly for new seasonal offerings!"
+                },
+                {
+                    "question": "What is your policy on cancellations, returns, and refunds?",
+                    "answer": "Due to the sacred and perishable nature of prashad, all sales are generally final.\nCancellations: Orders can only be canceled within [X] hours of placement, provided the puja preparation has not yet begun.\nReturns/Refunds: We cannot accept returns. If your prashad arrives damaged or if there is an error in your order, please contact us within 24 hours of delivery with photographic proof, and we will work to issue a replacement or a partial refund."
                 }
             ]
         }
@@ -735,5 +751,36 @@
         "bhumiDaan": {
             "defaultDescription": "He who gives land donation, gives life to future generations"
         }
+      
+    }
+,
+    "membershipFaq": {
+        "heading": "Frequently Asked Questions",
+        "items": [
+            {
+                "question": "Which pricing plan is right for me?",
+                "answer": "Every organization has unique needs, and the right plan depends on the features required to support your team and workflow. You can review the comparison above to see what each plan includes. If you need help selecting the best option, our sales team is happy to guide you."
+            },
+            {
+                "question": "How does your pricing work?",
+                "answer": "Our pricing is designed to be flexible and scale with your organization. We offer both monthly and annual billing, with additional discounts for yearly commitments. If you have specific needs, we can also provide a customized quote."
+            },
+            {
+                "question": "What if I change my mind?",
+                "answer": "You can cancel your subscription at any time. Annual plans are eligible for a prorated refund based on the terms outlined on our pricing page."
+            },
+            {
+                "question": "Do you offer discounted plans?",
+                "answer": "Yes. We offer special discounts for nonprofits, educational institutions, and customers making long-term commitments. Contact our sales team to check your eligibility."
+            },
+            {
+                "question": "What payment methods do you accept?",
+                "answer": "We accept all major credit cards, debit cards, and bank transfers. For larger organizations, we also support invoicing and purchase orders."
+            },
+            {
+                "question": "Do you offer plans for nonprofits and NGOs?",
+                "answer": "Yes. We provide dedicated pricing and support programs for nonprofits and NGOs. Please reach out to our partnerships team for more details."
+            }
+        ]
     }
 }

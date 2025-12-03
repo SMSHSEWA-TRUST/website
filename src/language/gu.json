@@ -499,65 +499,85 @@
 	},
 	"prashad": {
 		"section": {
-			"addToCart": "Add to Cart",
-			"adding": "Adding...",
-			"addedToCartSuffix": "added to cart",
-			"unableAdd": "Unable to add item to cart",
-			"failedAdd": "Failed to add to cart. Please try again.",
-			"failedUpdate": "Failed to update cart. Please try again.",
-			"minQuantity": "Minimum quantity is 1. To remove from cart, use the cart page.",
-			"onlyAvailable": "Only {{count}} items available in stock",
-			"outOfStock": "Out of Stock",
-			"goToCheckout": "Go to Checkout"
+			"addToCart": "કાર્ટમાં ઉમેરો",
+			"adding": "ઉમેરી રહ્યા છીએ...",
+			"addedToCartSuffix": "કાર્ટમાં ઉમેરાયું",
+			"failedLoad": "પ્રસાદ આઇટમ્સ લોડ કરવામાં નિષ્ફળ. કૃપા કરીને થોડા સમય પછી ફરી પ્રયત્ન કરો.",
+			"unableAdd": "આઇટમ કાર્ટમાં ઉમેરવામાં અસમર્થ",
+			"failedAdd": "કાર્ટમાં ઉમેરવામાં નિષ્ફળ. કૃપા કરી ફરી પ્રયત્ન કરો.",
+			"failedUpdate": "કાર્ટ અપડેટ કરવામાં નિષ્ફળ. કૃપા કરી ફરી પ્રયત્ન કરો.",
+			"minQuantity": "ન્યૂનતમ માત્રા 1 છે. કાઢવા માટે કાર્ટ પેજનો ઉપયોગ કરો.",
+			"onlyAvailable": "સ્ટોકમાં માત્ર {{count}} આઇટમ્સ ઉપલબ્ધ છે",
+			"outOfStock": "સ્ટોક ખૂટ્યો છે",
+			"goToCheckout": "ચેકઆઉટ પર જાઓ"
 		},
 		"itemInBox": {
-			"title": "About the items in the box",
-			"subtitle": "A Detailed List of Everything Included in Your Shipment. See Exactly What Comes in the Box.",
-			"defaultItemName": "Item Name",
+			"title": "બોક્સમાં રહેલી વસ્તુઓ વિશે",
+			"subtitle": "તમારી શિપમેન્ટમાં સમાવેશ થયેલી તમામ વસ્તુઓની વિગતવાર યાદી. જુઓ બોક્સમાં શું છે.",
+			"defaultItemName": "વસ્તુનું નામ",
 			"defaultItemDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 		},
 		"detail": {
-			"descriptionTitle": "Description",
-			"whatsInBoxTitle": "What's in the box",
-			"noItemsInfo": "No items information available",
-			"addToCart": "Add to cart",
-			"buyNow": "Buy now",
-			"adding": "Adding...",
-			"goToCheckout": "Go to Checkout",
-			"outOfStock": "Out of Stock"
+			"descriptionTitle": "વર્ણન",
+			"whatsInBoxTitle": "બોક્સમાં શું છે",
+			"noItemsInfo": "વસ્તુઓની માહિતી ઉપલબ્ધ નથી",
+			"addToCart": "કાર્ટમાં ઉમેરો",
+			"buyNow": "હવે ખરીદો",
+			"adding": "ઉમેરી રહ્યા છીએ...",
+			"inStock": "સ્ટોકમાં ઉપલબ્ધ",
+			"goToCheckout": "ચેકઆઉટ પર જાઓ",
+			"outOfStock": "સ્ટોક ખૂટ્યો છે"
 		},
 		"bestseller": {
-			"heading": "Our other Bestsellers"
+			"heading": "અમારા અન્ય બેસ્ટસેલર"
 		},
 		"youMightLike": {
-			"heading": "You might also like"
+			"heading": "તમને આ પણ પસંદ આવી શકે છે"
 		},
 		"important": {
-			"heading": "Importance of Prashad",
-			"lead": "Prashad is a sacred and deeply significant offering in Hinduism, representing the grace and blessings of the Divine."
+			"heading": "પ્રસાદનું મહત્વ",
+			"lead": "પ્રસાદ હિંદુ ધર્મમાં અત્યંત પવિત્ર અને મહત્ત્વપૂર્ણ અર્પણ છે, જે દૈવી કૃપા અને આશીર્વાદનું પ્રતિક માનવામાં આવે છે। આ શુદ્ધ શાકાહારી ભોજન શ્રદ્ધા અને ભક્તિથી તૈયાર થાય છે અને પૂજા કે આરાધના દરમિયાન સૌપ્રથમ દેવતાને અર્પણ કરવામાં આવે છે। તેથી પ્રસાદ દૈવી પ્રેમ અને સ્વીકારનું મૂર્ત સ્વરૂપ છે, જે પવિત્ર વિધિની સકારાત્મક ઊર્જા અને એકતા સમગ્ર ભક્ત સમાજ સુધી પહોંચાડે છે।",
+			"point1": "પ્રસાદ ગ્રહણ કરવું માત્ર ખાવું નથી; તે આધ્યાત્મિક જોડાણ, શુદ્ધિકરણ અને આત્મિક પોષણનું પવિત્ર કાર્ય માનવામાં આવે છે.",
+			"point2": "આ પવિત્ર પ્રસાદ ગ્રહણ કરીને ભક્તો માને છે કે તેઓ દેવતાની કૃપા અને આધ્યાત્મિક ઊર્જાને સ્વીકારી રહ્યા છે, જેના કારણે શરીર અને મન શુદ્ધ થાય છે, શ્રદ્ધા મજબૂત બને છે અને નકારાત્મક કર્મોનું ક્ષય થાય છે."
 		},
 		"faq": {
-			"heading": "Prashad Related FAQ's",
+			"heading": "પ્રસાદ સંબંધિત પ્રશ્નો",
 			"items": [
 				{
-					"question": "What exactly is prashad?",
-					"answer": "Prashad (or Prasad) is a sacred vegetarian food offering that has been blessed by a deity during a special puja or ceremony. When you receive it, you are partaking in the blessings and spiritual energy of the Divine."
+					"question": "પ્રસાદ શું હોય છે?",
+					"answer": "પ્રસાદ એક પવિત્ર શુદ્ધ શાકાહારી ભોગ છે, જે ખાસ પૂજા અથવા વિધિ દરમિયાન દેવતાને અર્પણ કરવામાં આવે છે. જ્યારે તમે પ્રસાદ મેળવો છો, ત્યારે તમે દૈવી આશીર્વાદ અને સકારાત્મક આધ્યાત્મિક ઊર્જાનો લાભ મેળવો છો."
 				},
 				{
-					"question": "Is the prashad safe to eat?",
-					"answer": "Yes. Prashad is prepared following traditional practices and basic food-safety standards. If you have specific health concerns, please check ingredient details or contact us before ordering."
+					"question": "પ્રસાદ ખાવું સુરક્ષિત છે?",
+					"answer": "હાં, બિલકુલ સુરક્ષિત છે. પ્રસાદ ખૂબ જ સ્વચ્છતા, શુદ્ધતા અને શ્રદ્ધાથી તૈયાર કરવામાં આવે છે. અમે માત્ર તાજી, ઉચ્ચ ગુણવત્તાની અને પૂર્ણ શાકાહારી સામગ્રીનો ઉપયોગ કરીએ છીએ અને તેને સુરક્ષિત રીતે પેક કરવામાં આવે છે."
 				},
 				{
-					"question": "What ingredients are used in the prashad?",
-					"answer": "Ingredients vary by item. We aim to use simple, vegetarian ingredients; specific ingredient lists are available on each product page. If you have allergies, please review the product information carefully."
+					"question": "પ્રસાદમાં કયા ઘટકોનો ઉપયોગ થાય છે?",
+					"answer": "પ્રસાદના ઘટકો દેવતા અને પ્રસાદના પ્રકાર (જેવું કે લાડુ, હલવો, પંચામૃત) પર આધારિત હોય છે. અમારા તમામ પ્રસાદ પૂર્ણતઃ શાકાહારી હોય છે અને તેમાં ડુંગળી-લસણનો ઉપયોગ કરાતો નથી. સામાન્ય સામગ્રીમાં ઘી, દૂધ, ખાંડ/ગોળ, લોટ, સૂકા મેવાં અને કુદરતી મસાલાં હોય છે. શક્ય એલર્જીની સંપૂર્ણ યાદી પ્રોડક્ટ પેજ પર ઉપલબ્ધ છે."
 				},
 				{
-					"question": "How long will it take for my prashad order to arrive?",
-					"answer": "Delivery times depend on your location and the selected shipping method. Estimated delivery windows are shown during checkout and in your order confirmation email."
+					"question": "મારો પ્રસાદ ઓર્ડર કેટલા સમયમાં પહોંચશે?",
+					"answer": "કારણ કે પ્રસાદ પૂજા પછી તાજો બનાવવામાં આવે છે, તેથી ડિલિવરી સમય પૂજાની તારીખ અને તમારા સ્થાન પર આધારિત હોય છે.\nતૈયારી: નિર્ધારિત પૂજા પછી [X] દિવસ.\nશિપિંગ: સામાન્ય શિપિંગમાં લગભગ [Y]–[Z] કાર્યદિવસ લાગે છે.\nઓર્ડર શિપ કર્યા પછી તમને ટ્રેકિંગ નંબર મોકલવામાં આવશે."
 				},
 				{
-					"question": "How should I store the prashad once it arrives?",
-					"answer": "Storage instructions depend on the product. Many prashad items are best kept in a cool, dry place and consumed within the recommended timeframe. Check the product details for specific storage guidance."
+					"question": "પ્રસાદ આવે પછી તેને કેવી રીતે સ્ટોર કરવો?",
+					"answer": "સૌથી સારું અનુભવ મેળવવા માટે પ્રસાદને મેળવ્યા પછી [X] દિવસની અંદર સેવન કરવું જોઈએ.\nસૂકો પ્રસાદ (જેમ કે લાડુ, સૂકા મેવાં): તેને ઠંડારી અને સૂકી જગ્યાએ એરટાઇટ કન્ટેનરમાં રાખો.\nનમણો પ્રસાદ (જેમ કે હલવો, ખીર): તેને ફ્રિજમાં રાખો અને વહેલેથી વહેલું સેવન કરો."
+				},
+				{
+					"question": "શું હું પ્રસાદ કોઈને ભેટ રૂપે મોકલી શકું?",
+					"answer": "હાં, ચોક્કસ. કોઈ પ્રિયજનને પ્રસાદ મોકલવું આશીર્વાદ વહેંચવાનો ખૂબ સુંદર રસ્તો છે. ચેકઆઉટ દરમિયાન તેમનો શિપિંગ સરનામું દાખલ કરો. પેકેજમાં કિંમતી માહિતી સામેલ કરવામાં આવતી નથી."
+				},
+				{
+					"question": "મને એલર્જી છે, તો પ્રસાદ મારા માટે સુરક્ષિત છે કે નહીં?",
+					"answer": "અમે એલર્જીને ગંભીરતાથી લઈએ છીએ. જોકે અમે સ્વચ્છ રસોડું જાળવવાનો પ્રયાસ કરીએ છીએ, પ્રસાદ એવા સ્થળે તૈયાર થઈ શકે છે જ્યાં દૂધ, સૂકા મેવાં, ઘઉં અથવા સોયા જેવા એલર્જનનો ઉપયોગ થતો હોય. જો તમને ગંભીર એલર્જી હોય, તો કૃપા કરીને પ્રોડક્ટ પેજ પરની સામગ્રી યાદી ધ્યાનથી વાંચો અથવા ઓર્ડર કરતા પહેલા અમારો સંપર્ક કરો. અમે 100% એલર્જન-ફ્રી વાતાવરણની ખાતરી આપી શકતા નથી."
+				},
+				{
+					"question": "શું હું ખાસ પ્રકારનો પ્રસાદ અથવા કસ્ટમ ઓર્ડર માંગણું કરી શકું?",
+					"answer": "હાલમાં, અમે માત્ર એવી પ્રસાદ પેકેજ ઓફર કરીએ છીએ જે ખાસ પૂજાઓ મુજબ નિર્ધારિત હોય છે. આથી પરંપરા અને શુદ્ધતા જાળવાય છે. હાલમાં અમે વ્યક્તિગત કસ્ટમાઈઝેશન અથવા સામગ્રીમાં ફેરફાર સ્વીકારી શકતા નથી. અમારી વેબસાઈટ પર સિઝનલ પ્રસાદ નિયમિતપણે ઉમેરવામાં આવે છે."
+				},
+				{
+					"question": "રદ્દ કરવા, રિટર્ન અને રિફંડ વિશે તમારી નીતિ શું છે?",
+					"answer": "પ્રસાદ પવિત્ર અને નાશવંત હોવાથી, તમામ વેચાણ સામાન્ય રીતે અંતિમ હોય છે.\nરદ્દ કરવું: તમે ઓર્ડર કર્યા પછી [X] કલાકની અંદર રદ્દ કરી શકો છો, જો પૂજાની તૈયારી શરૂ ન થઈ હોય.\nરિટર્ન/રિફંડ: અમે રિટર્ન સ્વીકારતા નથી. જો તમારો પ્રસાદ નુકસાનગ્રસ્ત પહોંચે અથવા ઓર્ડરમાં ભૂલ હોય, તો કૃપા કરીને ડિલિવરીના 24 કલાકની અંદર ફોટો સાથે અમારો સંપર્ક કરો. અમે ઝડપથી રિપ્લેસમેન્ટ અથવા આંશિક રિફંડની પ્રક્રિયા કરીશું."
 				}
 			]
 		}
@@ -680,5 +700,35 @@
 		"bhumiDaan": {
 			"defaultDescription": "જેણે ભૂમિ દાન આપ્યું, તેણે આવનારી પેઢીઓને સંજીવની આપી"
 		}
+	},
+	
+	"membershipFaq": {
+		"heading": "વારંવાર પૂછાતા પ્રશ્નો",
+		"items": [
+			{
+				"question": "મારા માટે કયો પ્રાઇસિંગ પ્લાન યોગ્ય છે?",
+				"answer": "દરેક સંસ્થા અનોખી હોય છે અને તેને તેના કાર્યપ્રવાહ અને પ્રોજેક્ટને આધાર આપવા માટે ખાસ સુવિધાઓની જરૂર પડે છે. ઉપર દર્શાવેલ વિવિધ પ્લાનમાં આપવામાં આવેલી સુવિધાઓ જોઈને તમે તમારી જરૂરિયાત મુજબ શ્રેષ્ઠ પ્લાન પસંદ કરી શકો છો. જો તમને પસંદગીમાં મદદ જોઈએ, તો અમારી સેલ્સ ટીમનો સંપર્ક કરો."
+			},
+			{
+				"question": "અમારી પ્રાઇસિંગ કેવી રીતે કાર્ય કરે છે?",
+				"answer": "અમારી પ્રાઇસિંગ લવચીક છે અને તમારી સંસ્થા વધે તે પ્રમાણે સ્કેલ કરવા માટે ડિઝાઇન કરવામાં આવી છે. અમે માસિક અને વાર્ષિક બંને પ્રકારનાં પ્લાન ઓફર કરીએ છીએ અને વાર્ષિક સબ્સ્ક્રિપ્શન પર ડિસ્કાઉન્ટ પણ આપીએ છીએ. તમારી પાસે ખાસ જરૂરિયાતો હોય, તો અમે કસ્ટમ ક્વોટ તૈયાર કરી શકીએ છીએ."
+			},
+			{
+				"question": "જો હું મારો નિર્ણય બદલું તો શું?",
+				"answer": "તમે ક્યારેય પણ તમારો પ્લાન રદ કરી શકો છો. વાર્ષિક પ્લાન માટે, અમારી વેબસાઇટ પર દર્શાવેલ શરતો મુજબ અમે પ્રોરેટા રિફંડ પોલિસી ઓફર કરીએ છીએ."
+			},
+			{
+				"question": "શું તમે કોઈ ડિસ્કાઉન્ટેડ પ્લાન ઓફર કરો છો?",
+				"answer": "અમે નોનપ્રોફિટ સંસ્થાઓ, શૈક્ષણિક સંસ્થાઓ અને લાંબા ગાળાના કમિટમેન્ટ માટે ખાસ ડિસ્કાઉન્ટ ઓફર કરીએ છીએ. તમે પાત્ર છો કે નહીં તે જાણવા માટે અમારી સેલ્સ ટીમનો સંપર્ક કરો."
+			},
+			{
+				"question": "તમે કયા પેમેન્ટ વિકલ્પો સ્વીકારો છો?",
+				"answer": "અમે મુખ્ય ક્રેડિટ કાર્ડ, ડેબિટ કાર્ડ અને બેંક ટ્રાન્સફર સ્વીકારીએ છીએ. મોટી સંસ્થાઓ માટે અમે ઇન્વોઇસિંગ અને પરચેઝ ઓર્ડર પણ સપોર્ટ કરીએ છીએ."
+			},
+			{
+				"question": "શું Venture નોનપ્રોફિટ અને NGO માટે પ્લાન આપે છે?",
+				"answer": "હા, અમે નોનપ્રોફિટ સંસ્થાઓ અને NGOs માટે ખાસ પ્રાઇસિંગ અને સહાય કાર્યક્રમો ઓફર કરીએ છીએ. વધુ વિગતો માટે અમારી પાર્ટનરશિપ ટીમનો સંપર્ક કરો."
+			}
+		]
 	}
 }
