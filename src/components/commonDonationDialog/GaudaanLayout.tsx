@@ -311,7 +311,6 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     }
   };
   // Listen for browser back (popstate) and trigger the same back handler
-  // Listen for browser back (popstate) and trigger the same back handler
   useEffect(() => {
     const onPopState = (event: PopStateEvent) => {
       const state = event.state;
@@ -347,8 +346,26 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
   }, [flowStep, submittedForm, userPickedAmount, selectedDaanTypeId, data?._id]);
+
+  // Fix history stack when restoring 'selectPayment' step (e.g. after login)
+  useEffect(() => {
+    if (flowStep === 'selectPayment') {
+      // Check if current history state matches our flow step
+      const currentState = window.history.state;
+      if (currentState?.flowStep !== 'selectPayment') {
+        // We likely just loaded this page with restored state.
+        // Inject the 'form' step into history so 'Back' works correctly.
+
+        // 1. Replace current entry with 'form' step
+        window.history.replaceState({ flowStep: 'form' }, '');
+
+        // 2. Push new entry for 'selectPayment' step
+        window.history.pushState({ flowStep: 'selectPayment' }, '');
+      }
+    }
+  }, []); // Run once on mount
   return (
-    <div className="min-h-screen bg-[#FDFBFC] px-4 md:px-16   py-9 lg:py-10">
+    <div className="min-h-screen bg-[#FDFBFC] px-4 md:px-16 py-24  md:py-16 lg:py-10">
       <div className=" mx-auto relative">
 
         {/* Close button removed - using back button instead */}

@@ -1,10 +1,42 @@
 import React, { useState } from 'react';
-import { useI18n } from '@/lib/i18n';
 
 type FaqItem = {
     question: string;
     answer: string;
 };
+
+const FAQ_ITEMS: FaqItem[] = [
+    {
+        question: 'Which pricing plan is right for me?',
+        answer:
+            'We understand that each organization is unique, requiring specific features to support its workflows and projects. Above you can see the features included in the different plans to support your needs. If you need help in choosing the right plan for you, reach out to our sales team.',
+    },
+    {
+        question: 'How does our pricing work?',
+        answer:
+            'Our pricing is flexible and designed to scale with your organization. We provide monthly and annual plans, and discounts for yearly commitments. If you have special requirements we can create a custom quote.',
+    },
+    {
+        question: 'What if I change my mind?',
+        answer:
+            'You can cancel at any time. For annual plans we offer a prorated refund policy subject to the terms listed on the pricing page.',
+    },
+    {
+        question: 'Do you offer any discounted plans?',
+        answer:
+            'We offer discounts to nonprofits, educational institutions, and long-term commitments. Contact our sales team to see if you qualify.',
+    },
+    {
+        question: 'What payment methods do you accept?',
+        answer:
+            'We accept major credit cards, debit cards, and bank transfers. For larger organizations we can invoice and support purchase orders.',
+    },
+    {
+        question: 'Does Venture offer plans to nonprofits and NGOs?',
+        answer:
+            'Yes. We have special pricing and support programs for nonprofits and NGOs. Please reach out to our partnerships team for details.',
+    },
+];
 
 const Chevron: React.FC<{ open: boolean; colorClass?: string }> = ({ open, colorClass }) => (
     <svg
@@ -20,11 +52,7 @@ const Chevron: React.FC<{ open: boolean; colorClass?: string }> = ({ open, color
 );
 
 const Faq: React.FC = () => {
-    const { t } = useI18n();
     const [openIndex, setOpenIndex] = useState<number | null>(null); // No item open by default
-
-    const heading = t('membershipFaq.heading');
-    const items: FaqItem[] = t('membershipFaq.items') || [];
 
     const toggle = (idx: number) => {
         setOpenIndex(prev => (prev === idx ? null : idx));
@@ -34,11 +62,11 @@ const Faq: React.FC = () => {
         <section className="lg:py-12 px-4 md:px-8 lg:px-0 ">
             <div className="max-w-[1080px] mx-auto">
                 <h2 className="text-center font-primaryFont textHeadingLg text-[#8B0000] tracking-wide mb-10">
-                    {heading}
+                    Frequently Asked Questions
                 </h2>
 
                 <div className="space-y-4">
-                    {items.map((item, idx) => {
+                    {FAQ_ITEMS.map((item, idx) => {
                         const isOpen = idx === openIndex;
                         return (
                             <div

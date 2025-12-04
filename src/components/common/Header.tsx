@@ -499,8 +499,27 @@ const Header = (): JSX.Element => {
                         <div className="pt-2">
                           <button
                             onClick={() => {
-                              localStorage.clear();
-                              window.location.reload();
+                              // Check if we are on the donation page
+                              if (location.pathname.includes('/donation')) {
+                                // Save redirect destination to return to donation page after login
+                                localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                                  path: location.pathname,
+                                  state: {
+                                    ...location.state as any,
+                                    returnTo: 'donations'
+                                  }
+                                }));
+                                // Clear auth but keep the redirect destination
+                                const redirectDest = localStorage.getItem('auth_redirect_destination');
+                                localStorage.clear();
+                                if (redirectDest) {
+                                  localStorage.setItem('auth_redirect_destination', redirectDest);
+                                }
+                                navigate('/login');
+                              } else {
+                                localStorage.clear();
+                                window.location.reload();
+                              }
                             }}
                             className="w-full bg-[#8b0000] text-white py-2 rounded-md flex items-center justify-center gap-2"
                           >

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetAllDaan } from "@/api/DaanQueries";
 import { useI18n } from '@/lib/i18n';
 import { navigateToDonation } from '@/lib/donationUtils';
+import { clearDonationFormState } from '@/lib/donationFormStorage';
 import mandal from '@/assets/images/mand-7.png';
 import gaudaan from "../../assets/images/gaudaan.png";
 import bhojandaan from "../../assets/images/bhojandaan.png";
@@ -14,6 +15,11 @@ const DonationSection = () => {
   const navigate = useNavigate();
   // Handler for donate button: navigates to donation page
   const handleDonate = (category: any) => {
+    // Ensure fresh start by clearing any previous saved state for this category
+    if (category?._id) {
+      clearDonationFormState(category._id);
+    }
+
     // If user is not authenticated, save the intended action and redirect to login
     const token = localStorage.getItem("authToken");
     if (!token) {
