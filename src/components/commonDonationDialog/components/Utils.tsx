@@ -8,7 +8,7 @@ export const formatMoney = (n: number | string) => `${"₹"} ${n.toLocaleString(
 
 // Import donation-related images
 import bhoomiddan1 from "../../../assets/images/bhoomidaan1.png";
-import bhoomiddan2 from "../../../assets/images/image-6.webp";
+import bhoomiddan2 from "../../../assets/images/bhumi2.png";
 import bhojandaan1 from "../../../assets/images/bhojandaan1.png";
 import bhojanddan2 from "../../../assets/images/bhojanddan2.png";
 import gaudaan1 from "../../../assets/images/gaudaan1.png";
@@ -35,7 +35,7 @@ export const getDaanImages = (title: string): string[] => {
       return [bhojandaan1, bhojanddan2];
     case 'raashidaan':
     case 'raashi daan':
-      // Using anndan as fallback for raashi
+    // Using anndan as fallback for raashi
     default:
       return [bhoomiddan1, bhoomiddan2]; // Default to bhoomiddan images
   }

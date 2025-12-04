@@ -103,6 +103,13 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   const apiPlots: any[] = plotsResp?.data?.data ?? [];
   const dataWithPlots = isBhumi ? { ...(data ?? {}), plots: data?.plots?.length ? data.plots : apiPlots } : data;
 
+
+
+  // Whatsapp :
+  const message = `Hi, I want to apply for emi for my donation for Gau Daan. Amount: ₹${bhumiAmount ?? "0"}. My contact number is: ${DefaultValues?.phoneNumber || "+91 1234567890"}`;
+
+  const whatsAppURI = `https://api.whatsapp.com/send?phone=919027997165&text=${encodeURIComponent(message)}`;
+
   // Default fallback lists
   const defaultBhojanList: Array<{ _id: string; title: string; amount: number }> = [
     { _id: 'd1', title: '1 Time Bhojandaan', amount: 10000 },
@@ -416,7 +423,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 </div>
 
                 {/* Second Image */}
-                <div className="aspect-[4/2] w-full overflow-hidden">
+                <div className={`w-full overflow-hidden ${!isBhumi ? "aspect-[4/2]" : ""}`}>
                   <LazyLoadImage
                     className="w-full h-full object-cover"
                     alt={`${getDaanImageAlt(title)} 2`}
@@ -849,10 +856,10 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                       <h4 className="textHeading text-[#8B0000] font-secondaryFont">{t("donationPage.paymentDetails.emiTitle")}</h4>
                       <p className="textDescription text-[#1E1E1E80] font-secondaryFont">{t("donationPage.paymentDetails.emiDescription")}</p>
                       <div>
-                        <button className="mt-3 inline-flex items-center gap-3 px-5 py-3 rounded-lg border-[2px] border-[#AD2F16] text-[#AD2F16] shadow-sm bg-white">
+                        <a href={whatsAppURI} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-3 px-5 py-3 rounded-lg border-[2px] border-[#AD2F16] text-[#AD2F16] shadow-sm bg-white">
                           <img src={WhatsAppIcon} alt="WhatsApp" className="w-5 h-5 object-contain" />
                           <span className="font-secondaryFont font-semibold">{t("donationPage.paymentDetails.whatsappButton")}</span>
-                        </button>
+                        </a>
                       </div>
 
                       <div>
