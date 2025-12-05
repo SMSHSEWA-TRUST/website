@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Minus, Plus } from 'lucide-react';
+import { Minus, Plus, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import lineImage from "@/assets/images/line.png";
 import PrashadDetailModal from './PrashadDetailCard';
@@ -9,6 +9,7 @@ import { useGetPrasad } from '@/api/PrasadQueries';
 import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import { saveRedirectDestination, isAuthenticated } from '@/lib/authRedirect';
 import { useI18n } from '@/lib/i18n';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export interface PrashadPlan {
     id: number;
@@ -45,6 +46,8 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
     const [selectedPlan, setSelectedPlan] = useState<PrashadPlan | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+    const [updatingId, setUpdatingId] = useState<string | null>(null);
+    const [addingId, setAddingId] = useState<string | null>(null);
 
     // Fetch data from API
     const { data: apiData, isLoading, isError } = useGetPrasad();
@@ -102,6 +105,8 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
 
         if (!cartItem) return;
 
+        setUpdatingId(prasadId);
+
         const currentQuantity = cartItem.quantity;
         const newQuantity = currentQuantity + change;
 
@@ -118,10 +123,12 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                 {
                     onSuccess: () => {
                         toast.success(t('prashad.section.removedFromCart') || 'Removed from cart');
+                        setUpdatingId(null);
                     },
                     onError: (error) => {
                         console.error('Error removing cart item:', error);
                         toast.error(t('prashad.section.failedUpdate'));
+                        setUpdatingId(null);
                     }
                 }
             );
@@ -132,6 +139,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
         const stock = (apiData?.data?.find((item: any) => item._id === prasadId) as any)?.stock || 999;
         if (newQuantity > stock) {
             toast.error(t('prashad.section.onlyAvailable').replace('{{count}}', String(stock)));
+            setUpdatingId(null);
             return;
         }
 
@@ -148,9 +156,13 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                 }
             },
             {
+                onSuccess: () => {
+                    setUpdatingId(null);
+                },
                 onError: (error) => {
                     console.error('Error updating cart:', error);
                     toast.error('Failed to update cart. Please try again.');
+                    setUpdatingId(null);
                 }
             }
         );
@@ -173,12 +185,15 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
             return;
         }
 
+        setAddingId(prasadId);
+
         addToCartMutation.mutate(
             { prasad: prasadId, quantity: 1, amount: Number(plan.price || 0), skipToast: true } as any,
             {
                 onSuccess: () => {
                     try { window?.dispatchEvent(new CustomEvent('cart:added', { detail: { prasadId } })); } catch (e) { }
                     toast.success(`${plan.name} ${t('prashad.section.addedToCartSuffix')}`, { position: 'top-center' });
+                    setAddingId(null);
                 },
                 onError: (err: any) => {
                     const status = err?.response?.status;
@@ -189,6 +204,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                         return;
                     }
                     toast.error(t('prashad.section.failedAdd'));
+                    setAddingId(null);
                 }
             }
         );
@@ -308,9 +324,23 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                         return (
                             <div
                                 key={plan.id}
-                                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105 cursor-pointer flex flex-col h-full"
+                                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 hover:scale-105 cursor-pointer flex flex-col h-full relative"
                                 onClick={() => navigate(`/prashad/${prasadId}`)}
                             >
+                                {/* Loading Overlay */}
+                                <AnimatePresence>
+                                    {(updatingId === prasadId || addingId === prasadId) && (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            className="absolute inset-0 bg-white/60 z-50 flex items-center justify-center backdrop-blur-[1px]"
+                                        >
+                                            <Loader2 className="w-8 h-8 text-[#8b0000] animate-spin" />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
                                 <div className="aspect-square bg-gray-200 relative overflow-hidden">
                                     {plan.image ? (
                                         <LazyLoadImage
@@ -339,11 +369,11 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                         {isInCart ? (
                                             // Show quantity controls when item is in cart
                                             <div className="space-y-2">
-                                                <div className="flex w-full items-stretch border-2 border-[#8b0000] rounded-lg overflow-hidden h-[42px]">
+                                                <div className="flex w-full items-stretch border-2 border-[#8b0000] rounded-lg overflow-hidden h-[42px] relative">
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, -1); }}
                                                         // Allow decrement at 1 so user can remove the item from cart
-                                                        disabled={false}
+                                                        disabled={updatingId === prasadId}
                                                         title={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
                                                         aria-label={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
                                                         className={`w-12 flex items-center justify-center transition-colors ${cartQuantity <= 1
@@ -356,9 +386,20 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
 
                                                     <div className="w-px bg-[#8b0000]" />
 
-                                                    <span className="flex-1 flex items-center justify-center font-secondaryFont text-xl font-bold text-gray-900">
-                                                        {cartQuantity}
-                                                    </span>
+                                                    <div className="flex-1 flex items-center justify-center font-secondaryFont text-xl font-bold text-gray-900 overflow-hidden relative">
+                                                        <AnimatePresence mode="popLayout" initial={false}>
+                                                            <motion.span
+                                                                key={cartQuantity}
+                                                                initial={{ y: 20, opacity: 0 }}
+                                                                animate={{ y: 0, opacity: 1 }}
+                                                                exit={{ y: -20, opacity: 0 }}
+                                                                transition={{ duration: 0.2 }}
+                                                                className="block"
+                                                            >
+                                                                {cartQuantity}
+                                                            </motion.span>
+                                                        </AnimatePresence>
+                                                    </div>
 
                                                     <div className="w-px bg-[#8b0000]" />
 
@@ -366,6 +407,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(plan, 1); }}
                                                         title="Increase quantity"
                                                         aria-label="Increase quantity"
+                                                        disabled={updatingId === prasadId || cartQuantity >= ((apiData?.data?.find((item: any) => item._id === (plan._id || String(plan.id))) as any)?.stock ?? 999)}
                                                         className={`w-12 flex items-center justify-center transition-colors ${cartQuantity >= ((apiData?.data?.find((item: any) => item._id === (plan._id || String(plan.id))) as any)?.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                                     >
                                                         <Plus className="w-5 h-5" />
@@ -376,14 +418,19 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                             // Show Add to Cart button when item is not in cart
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); handleAddToCartButton(plan); }}
-                                                className="w-full flex items-center justify-center gap-2 border border-[#8b0000] text-[#8b0000] py-2 px-3 rounded-lg mt-2 hover:bg-[#8b0000] hover:text-white transition-colors"
+                                                disabled={addingId === prasadId}
+                                                className={`w-full flex items-center justify-center gap-2 border border-[#8b0000] text-[#8b0000] py-2 px-3 rounded-lg mt-2 transition-colors ${addingId === prasadId ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                             >
-                                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M6 6h15l-1.5 9h-11z" />
-                                                    <circle cx="9" cy="20" r="1" />
-                                                    <circle cx="19" cy="20" r="1" />
-                                                </svg>
-                                                <span className="font-medium">{t('prashad.section.addToCart')}</span>
+                                                {addingId === prasadId ? (
+                                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                                ) : (
+                                                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                                                        <path d="M6 6h15l-1.5 9h-11z" />
+                                                        <circle cx="9" cy="20" r="1" />
+                                                        <circle cx="19" cy="20" r="1" />
+                                                    </svg>
+                                                )}
+                                                <span className="font-medium">{addingId === prasadId ? t('prashad.section.adding') : t('prashad.section.addToCart')}</span>
                                             </button>
                                         )}
                                     </div>

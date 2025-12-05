@@ -106,8 +106,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
 
   // Whatsapp :
-  const message = `Hi, I want to apply for emi for my donation for Gau Daan. Amount: ₹${bhumiAmount ?? "0"}. My contact number is: ${DefaultValues?.phoneNumber || "+91 1234567890"}`;
-
+  const message = `Hi, I want to apply for emi for my donation for ${title || data?.title || "Donation"}. Amount: ₹${bhumiAmount ?? "0"}. My contact number is: ${DefaultValues?.phoneNumber || "+91 1234567890"}`;
   const whatsAppURI = `https://api.whatsapp.com/send?phone=919027997165&text=${encodeURIComponent(message)}`;
 
   // Default fallback lists

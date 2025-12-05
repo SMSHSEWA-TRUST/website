@@ -12,6 +12,8 @@ import {
     useDeleteUserAddress
 } from '@/api/ProfileQueries';
 import { useI18n } from '@/lib/i18n';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 
 interface BuyNowCheckoutModalProps {
     isOpen: boolean;
@@ -22,6 +24,7 @@ interface BuyNowCheckoutModalProps {
     quantity: number;
     prasadImage?: string;
     onQuantityChange?: (newQuantity: number) => void;
+    isUpdating?: boolean;
 }
 
 const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
@@ -32,7 +35,8 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     prasadPrice,
     quantity,
     prasadImage,
-    onQuantityChange
+    onQuantityChange,
+    isUpdating = false
 }) => {
     const { t } = useI18n();
     // Address management state
@@ -41,6 +45,13 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     const [isAddEditAddressOpen, setIsAddEditAddressOpen] = useState(false);
     const [editingAddress, setEditingAddress] = useState<AddressModel | null>(null);
     const [localQuantity, setLocalQuantity] = useState(quantity);
+
+    // Sync local quantity with prop when modal opens or prop changes
+    useEffect(() => {
+        if (isOpen) {
+            setLocalQuantity(quantity);
+        }
+    }, [isOpen, quantity]);
 
     // API hooks
     const { data: addressesData, isLoading: isLoadingAddresses, refetch: refetchAddresses } = useGetUserAddresses();
@@ -371,7 +382,21 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                         <div className="mb-6">
                             <h3 className="text-lg font-medium text-gray-600 mb-3">{t('prashad_checkout.yourOrder')}</h3>
 
-                            <div className="bg-white rounded-xl">
+                            <div className="bg-white rounded-xl relative">
+                                {/* Loading Overlay */}
+                                <AnimatePresence>
+                                    {isUpdating && (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center backdrop-blur-[1px] rounded-xl"
+                                        >
+                                            <Loader2 className="w-6 h-6 text-[#8b0000] animate-spin" />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
                                 {/* Product Header */}
                                 <div className="flex items-start justify-between mb-3">
                                     <h4 className="text-base font-medium text-gray-900">{prasadName}</h4>
@@ -425,7 +450,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                         <div className="flex items-center gap-0 border border-gray-300 rounded-lg overflow-hidden">
                                             <button
                                                 onClick={() => handleQuantityChange(-1)}
-                                                disabled={localQuantity <= 1}
+                                                disabled={localQuantity <= 1 || isUpdating}
                                                 className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                                                 aria-label="Decrease quantity"
                                             >
@@ -433,12 +458,23 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                                     <line x1="5" y1="12" x2="19" y2="12" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
                                             </button>
-                                            <span className="px-4 py-1 text-base font-medium text-gray-900 min-w-[40px] text-center">
-                                                {localQuantity}
-                                            </span>
+                                            <div className="px-4 py-1 text-base font-medium text-gray-900 min-w-[40px] text-center overflow-hidden h-[24px] flex items-center justify-center relative">
+                                                <AnimatePresence mode="popLayout" initial={false}>
+                                                    <motion.span
+                                                        key={localQuantity}
+                                                        initial={{ y: 20, opacity: 0 }}
+                                                        animate={{ y: 0, opacity: 1 }}
+                                                        exit={{ y: -20, opacity: 0 }}
+                                                        transition={{ duration: 0.2 }}
+                                                        className="block"
+                                                    >
+                                                        {localQuantity}
+                                                    </motion.span>
+                                                </AnimatePresence>
+                                            </div>
                                             <button
                                                 onClick={() => handleQuantityChange(1)}
-                                                disabled={localQuantity >= currentStock}
+                                                disabled={localQuantity >= currentStock || isUpdating}
                                                 className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                                                 aria-label="Increase quantity"
                                             >
