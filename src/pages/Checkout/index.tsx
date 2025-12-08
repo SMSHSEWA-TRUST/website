@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Trash2, Minus, Plus, Loader2 } from 'lucide-react';
-import { getCart, updateCartItem, CartData, createOrder, verifyPayment } from '../../services/cart.service';
+import { getCart, getCartPreview, updateCartItem, CartData, CartPreviewData, createOrder, verifyPayment } from '../../services/cart.service';
 import { getUserAddresses, addUserAddress, updateUserAddress, AddressModel } from '../../services/profile.service';
 import { AddressCard } from '../../components/address/AddressCard';
 import { AddressFormModal } from '../../components/address/AddressFormModal';
@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export const CheckoutPage = () => {
     const navigate = useNavigate();
     const [cart, setCart] = useState<CartData | null>(null);
+    const [cartPreview, setCartPreview] = useState<CartPreviewData | null>(null);
     const [selectedAddress, setSelectedAddress] = useState<AddressModel | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState<string | null>(null);
@@ -33,8 +34,18 @@ export const CheckoutPage = () => {
                 getUserAddresses()
             ]);
 
-            if (cartRes.success) {
+            if (cartRes.success && cartRes.data) {
                 setCart(cartRes.data);
+
+                // Fetch cart preview to get charges and grandTotal
+                try {
+                    const previewRes = await getCartPreview(cartRes.data._id);
+                    if (previewRes.success && previewRes.data) {
+                        setCartPreview(previewRes.data);
+                    }
+                } catch (previewError) {
+                    console.error('Error fetching cart preview:', previewError);
+                }
             }
 
             // Handle address response - it might be an array directly or wrapped
@@ -54,6 +65,7 @@ export const CheckoutPage = () => {
             setLoading(false);
         }
     };
+
 
     const handleUpdateQuantity = async (itemId: string, currentQty: number, change: number) => {
         const newQty = currentQty + change;
@@ -76,8 +88,17 @@ export const CheckoutPage = () => {
             await updateCartItem(itemId, { action: change > 0 ? 'add' : 'remove', quantity: 1 });
             // Refresh cart to get accurate totals and confirm
             const res = await getCart();
-            if (res.success) {
+            if (res.success && res.data) {
                 setCart(res.data);
+                // Also refresh cart preview for updated charges
+                try {
+                    const previewRes = await getCartPreview(res.data._id);
+                    if (previewRes.success && previewRes.data) {
+                        setCartPreview(previewRes.data);
+                    }
+                } catch (e) {
+                    console.error('Error refreshing cart preview:', e);
+                }
             }
         } catch (error) {
             // Revert on error
@@ -116,8 +137,17 @@ export const CheckoutPage = () => {
                 // If I want to delete, I might need to call it with the full quantity.
                 await updateCartItem(itemId, { action: 'remove', quantity: item.quantity });
                 const res = await getCart();
-                if (res.success) {
+                if (res.success && res.data) {
                     setCart(res.data);
+                    // Also refresh cart preview for updated charges
+                    try {
+                        const previewRes = await getCartPreview(res.data._id);
+                        if (previewRes.success && previewRes.data) {
+                            setCartPreview(previewRes.data);
+                        }
+                    } catch (e) {
+                        console.error('Error refreshing cart preview:', e);
+                    }
                 }
             }
         } catch (error) {
@@ -303,11 +333,11 @@ export const CheckoutPage = () => {
         );
     }
 
-    // Calculate totals
-    const subtotal = cart.totalAmount;
-    const shipping = 64; // Hardcoded as per design example, or should be calculated?
-    const gst = 64; // Hardcoded as per design example
-    const total = subtotal + shipping + gst;
+    // Calculate totals from cart preview API
+    const subtotal = cartPreview?.cart?.totalAmount ?? cart.totalAmount;
+    const shipping = cartPreview?.charges?.deliveryCharges ?? 0;
+    const gst = (cartPreview?.charges?.serviceFee ?? 0) + (cartPreview?.charges?.taxes ?? 0);
+    const total = cartPreview?.grandTotal ?? (subtotal + shipping + gst);
 
     return (
         <div className="bg-gray-50 min-h-screen pb-12">

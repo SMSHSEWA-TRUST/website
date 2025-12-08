@@ -196,14 +196,14 @@ const YouMightLike: React.FC = () => {
                                     if (isInCart) {
                                         return (
                                             <div className="mt-auto">
-                                                <div className="flex items-center justify-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden relative">
+                                                <div className="flex w-full gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden relative">
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(prasad, -1); }}
                                                         // Allow decrement at 1 so user can remove item from cart
                                                         disabled={updatingId === prasad._id}
                                                         title={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
                                                         aria-label={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
-                                                        className={`p-3 transition-colors ${cartQuantity <= 1
+                                                        className={`flex items-center justify-center shrink-0 p-3 transition-colors ${cartQuantity <= 1
                                                             ? 'hover:bg-red-600 hover:text-white'
                                                             : 'hover:bg-[#8b0000] hover:text-white'
                                                             }`}
@@ -211,9 +211,9 @@ const YouMightLike: React.FC = () => {
                                                         <Minus className="w-5 h-5" />
                                                     </button>
 
-                                                    <div className="w-px bg-[#8b0000] h-8" />
+                                                    <div className="w-px bg-[#8b0000] shrink-0" />
 
-                                                    <div className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4 overflow-hidden h-8 flex items-center justify-center relative">
+                                                    <div className="font-secondaryFont text-xl font-bold flex-1 text-center text-gray-900 px-2 overflow-hidden flex items-center justify-center relative">
                                                         <AnimatePresence mode="popLayout" initial={false}>
                                                             <motion.span
                                                                 key={cartQuantity}
@@ -228,14 +228,14 @@ const YouMightLike: React.FC = () => {
                                                         </AnimatePresence>
                                                     </div>
 
-                                                    <div className="w-px bg-[#8b0000] h-8" />
+                                                    <div className="w-px bg-[#8b0000] shrink-0" />
 
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(prasad, 1); }}
                                                         title="Increase quantity"
                                                         aria-label="Increase quantity"
                                                         disabled={updatingId === prasad._id || cartQuantity >= (prasad.stock ?? 999)}
-                                                        className={`p-3 transition-colors ${cartQuantity >= (prasad.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
+                                                        className={`flex items-center justify-center shrink-0 p-3 transition-colors ${cartQuantity >= (prasad.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                                     >
                                                         <Plus className="w-5 h-5" />
                                                     </button>

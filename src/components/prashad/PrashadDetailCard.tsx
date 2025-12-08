@@ -115,6 +115,8 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                         onSuccess: () => {
                             setQuantity(1);
                             toast.success(t('prashad.section.removedFromCart') || 'Removed from cart', { position: 'top-center' });
+                            // If we are in "Buy Now" mode, close the modal
+                            if (isBuyNowOpen) setIsBuyNowOpen(false);
                         },
                         onError: (error) => {
                             console.error('Error removing from cart:', error);
@@ -123,6 +125,11 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                     }
                 );
             } else {
+                // If in Buy Now modal and not in cart, just close the modal
+                if (isBuyNowOpen) {
+                    setIsBuyNowOpen(false);
+                    return;
+                }
                 toast.error(t('prashad.section.minQuantity'), { position: 'top-center' });
             }
             return;
@@ -210,10 +217,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                 {
                     onSuccess: (data) => {
                         console.log('Added to cart successfully:', data);
-                        // Navigate to full-page checkout
-                        navigate('/checkout');
-                        // Optionally close detail modal
-                        if (onClose) onClose();
+                        toast.success(t('prashad.detail.addedToCart') || 'Added to cart successfully', { position: 'top-center' });
                     },
                     onError: (error) => {
                         console.error('Error adding to cart:', error);
@@ -342,53 +346,51 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                 <div className="text-4xl font-bold text-[#8b0000] tracking-tight">
                                     ₹{currentPrice}
                                 </div>
-                                <div className="flex items-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden relative">
-                                    <button
-                                        onClick={() => handleQuantityChange(-1)}
-                                        // When quantity is 1, allow decrement only if item is already in cart (to remove it)
-                                        disabled={quantity <= 1 && !isInCart || isProcessing}
-                                        title={quantity <= 1 && isInCart ? 'Remove from cart' : 'Decrease quantity'}
-                                        aria-label={quantity <= 1 && isInCart ? 'Remove from cart' : 'Decrease quantity'}
-                                        className={`p-3 transition-colors ${quantity <= 1 && !isInCart
-                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                            : 'hover:bg-[#8b0000] hover:text-white'
-                                            }`}
-                                    >
-                                        <Minus className="w-5 h-5" />
-                                    </button>
+                                {isInCart && (
+                                    <div className="flex items-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden relative">
+                                        <button
+                                            onClick={() => handleQuantityChange(-1)}
+                                            disabled={isProcessing}
+                                            title={quantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
+                                            aria-label={quantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
+                                            className="p-3 transition-colors hover:bg-[#8b0000] hover:text-white"
+                                        >
+                                            <Minus className="w-5 h-5" />
+                                        </button>
 
-                                    <div className="w-px bg-[#8b0000] h-8" />
+                                        <div className="w-px bg-[#8b0000] h-8" />
 
-                                    <div className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4 overflow-hidden h-8 flex items-center justify-center relative">
-                                        <AnimatePresence mode="popLayout" initial={false}>
-                                            <motion.span
-                                                key={quantity}
-                                                initial={{ y: 20, opacity: 0 }}
-                                                animate={{ y: 0, opacity: 1 }}
-                                                exit={{ y: -20, opacity: 0 }}
-                                                transition={{ duration: 0.2 }}
-                                                className="block"
-                                            >
-                                                {quantity}
-                                            </motion.span>
-                                        </AnimatePresence>
+                                        <div className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4 overflow-hidden h-8 flex items-center justify-center relative">
+                                            <AnimatePresence mode="popLayout" initial={false}>
+                                                <motion.span
+                                                    key={quantity}
+                                                    initial={{ y: 20, opacity: 0 }}
+                                                    animate={{ y: 0, opacity: 1 }}
+                                                    exit={{ y: -20, opacity: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="block"
+                                                >
+                                                    {quantity}
+                                                </motion.span>
+                                            </AnimatePresence>
+                                        </div>
+
+                                        <div className="w-px bg-[#8b0000] h-8" />
+
+                                        <button
+                                            onClick={() => handleQuantityChange(1)}
+                                            disabled={quantity >= currentStock || isProcessing}
+                                            title="Increase quantity"
+                                            aria-label="Increase quantity"
+                                            className={`p-3 transition-colors ${quantity >= currentStock
+                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                : 'hover:bg-[#8b0000] hover:text-white'
+                                                }`}
+                                        >
+                                            <Plus className="w-5 h-5" />
+                                        </button>
                                     </div>
-
-                                    <div className="w-px bg-[#8b0000] h-8" />
-
-                                    <button
-                                        onClick={() => handleQuantityChange(1)}
-                                        disabled={quantity >= currentStock || isProcessing}
-                                        title="Increase quantity"
-                                        aria-label="Increase quantity"
-                                        className={`p-3 transition-colors ${quantity >= currentStock
-                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                            : 'hover:bg-[#8b0000] hover:text-white'
-                                            }`}
-                                    >
-                                        <Plus className="w-5 h-5" />
-                                    </button>
-                                </div>
+                                )}
                             </div>
 
                             {/* Description */}
@@ -447,13 +449,15 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     )}
                                 </button>
 
-                                <button
-                                    onClick={handleBuyNow}
-                                    disabled={displayData?.stock === 0 || displayData?.isAvailable === false}
-                                    className="w-full font-secondaryFont py-3 rounded-xl text-base font-semibold border-2 border-[#8b0000] text-[#8b0000] bg-white hover:bg-[#fff5f5] transition-colors"
-                                >
-                                    {t('prashad.detail.buyNow')}
-                                </button>
+                                {isInCart && (
+                                    <button
+                                        onClick={handleBuyNow}
+                                        disabled={displayData?.stock === 0 || displayData?.isAvailable === false}
+                                        className="w-full font-secondaryFont py-3 rounded-xl text-base font-semibold border-2 border-[#8b0000] text-[#8b0000] bg-white hover:bg-[#fff5f5] transition-colors"
+                                    >
+                                        {t('prashad.detail.buyNow')}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

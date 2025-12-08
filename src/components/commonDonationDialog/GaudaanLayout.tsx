@@ -106,8 +106,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
 
   // Whatsapp :
-  const message = `Hi, I want to apply for emi for my donation for ${title || data?.title || "Donation"}. Amount: ₹${bhumiAmount ?? "0"}. My contact number is: ${DefaultValues?.phoneNumber || "+91 1234567890"}`;
-  const whatsAppURI = `https://api.whatsapp.com/send?phone=919027997165&text=${encodeURIComponent(message)}`;
+
 
   // Default fallback lists
   const defaultBhojanList: Array<{ _id: string; title: string; amount: number }> = [
@@ -370,6 +369,36 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       }
     }
   }, []); // Run once on mount
+  // Calculate dynamic message for WhatsApp
+  let availableItems: any[] = [];
+  if (isBhojan) {
+    availableItems = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
+  } else if (isAnnadan) {
+    availableItems = data?.items?.length ? data.items : defaultAnnadanList;
+  } else {
+    availableItems = data?.daanTypes ?? [];
+  }
+
+  const selectedItem = availableItems.find((it: any) =>
+    (it._id && it._id === selectedDaanTypeId) || (it.id && it.id === selectedDaanTypeId)
+  );
+
+  const mainTitle = title || data?.title || "Donation";
+  const itemTitle = selectedItem ? getItemTitle(selectedItem) : "";
+
+  const effectiveTitle = itemTitle && itemTitle !== mainTitle
+    ? `${mainTitle} - ${itemTitle}`
+    : mainTitle;
+
+  const effectiveAmount = finalPayingAmount > 0
+    ? finalPayingAmount
+    : (bhumiAmount ?? 0);
+
+  const currentPhone = watch("phoneNumber") || DefaultValues?.phoneNumber || "+91 1234567890";
+
+  const message = `Hi, I want to apply for emi for my donation for ${effectiveTitle}. Amount: ₹${effectiveAmount}. My contact number is: ${currentPhone}`;
+  const whatsAppURI = `https://api.whatsapp.com/send?phone=919027997165&text=${encodeURIComponent(message)}`;
+
   return (
     <div className="min-h-screen bg-[#FDFBFC] px-4 md:px-16 py-24  md:py-16 lg:py-10">
       <div className=" mx-auto relative">

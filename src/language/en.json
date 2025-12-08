@@ -624,7 +624,7 @@
         "loadingCharges": "Loading charges...",
         "subtotal": "Subtotal",
         "shipping": "Shipping",
-        "vatTax": "Vat,tax",
+        "vatTax": "gst",
         "total": "Total",
         "processing": "Processing...",
         "proceedToPayment": "Proceed to Payment",

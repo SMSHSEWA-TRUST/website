@@ -254,7 +254,7 @@ const DonationHistory = () => {
                                     <div className="flex justify-between items-center">
                                         <span className="text-xs text-gray-400 font-normal">Payment Status</span>
                                         <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold ${getStatusBadgeClass(donation.paymentStatus)}`}>
-                                            {donation.paymentStatus}
+                                            {donation.paymentStatus?.toLowerCase() === 'completed' ? 'Approved' : donation.paymentStatus}
                                         </span>
                                     </div>
                                 </div>
@@ -479,7 +479,7 @@ const DonationHistory = () => {
                                     <div>
                                         <p className="text-xs font-medium text-gray-500 mb-1">Payment Status</p>
                                         <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold ${getStatusBadgeClass(selectedDonation.paymentStatus)}`}>
-                                            {selectedDonation.paymentStatus}
+                                            {selectedDonation.paymentStatus?.toLowerCase() === 'completed' ? 'Approved' : selectedDonation.paymentStatus}
                                         </span>
                                     </div>
 
