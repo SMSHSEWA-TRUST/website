@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import DonationCard from "./components/DonationCard";
 import { Input } from "../ui/input";
@@ -369,35 +369,54 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       }
     }
   }, []); // Run once on mount
-  // Calculate dynamic message for WhatsApp
-  let availableItems: any[] = [];
-  if (isBhojan) {
-    availableItems = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
-  } else if (isAnnadan) {
-    availableItems = data?.items?.length ? data.items : defaultAnnadanList;
-  } else {
-    availableItems = data?.daanTypes ?? [];
-  }
+  // Calculate dynamic message for WhatsApp using useMemo to ensure it updates when dependencies change
+  const watchedPhoneNumber = watch("phoneNumber");
+  const { message, whatsAppURI } = useMemo(() => {
+    let availableItems: any[] = [];
+    if (isBhojan) {
+      availableItems = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
+    } else if (isAnnadan) {
+      availableItems = data?.items?.length ? data.items : defaultAnnadanList;
+    } else {
+      availableItems = data?.daanTypes ?? [];
+    }
 
-  const selectedItem = availableItems.find((it: any) =>
-    (it._id && it._id === selectedDaanTypeId) || (it.id && it.id === selectedDaanTypeId)
-  );
+    const selectedItem = availableItems.find((it: any) =>
+      (it._id && it._id === selectedDaanTypeId) || (it.id && it.id === selectedDaanTypeId)
+    );
 
-  const mainTitle = title || data?.title || "Donation";
-  const itemTitle = selectedItem ? getItemTitle(selectedItem) : "";
+    const mainTitle = title || data?.title || "Donation";
+    const itemTitle = selectedItem ? getItemTitle(selectedItem) : "";
 
-  const effectiveTitle = itemTitle && itemTitle !== mainTitle
-    ? `${mainTitle} - ${itemTitle}`
-    : mainTitle;
+    const effectiveTitle = itemTitle && itemTitle !== mainTitle
+      ? `${mainTitle} - ${itemTitle}`
+      : mainTitle;
 
-  const effectiveAmount = finalPayingAmount > 0
-    ? finalPayingAmount
-    : (bhumiAmount ?? 0);
+    const effectiveAmount = finalPayingAmount > 0
+      ? finalPayingAmount
+      : (bhumiAmount ?? 0);
 
-  const currentPhone = watch("phoneNumber") || DefaultValues?.phoneNumber || "+91 1234567890";
+    const currentPhone = watchedPhoneNumber || DefaultValues?.phoneNumber || "+91 1234567890";
 
-  const message = `Hi, I want to apply for emi for my donation for ${effectiveTitle}. Amount: ₹${effectiveAmount}. My contact number is: ${currentPhone}`;
-  const whatsAppURI = `https://api.whatsapp.com/send?phone=919027997165&text=${encodeURIComponent(message)}`;
+    const msg = `Hi, I want to apply for emi for my donation for ${effectiveTitle}. Amount: ₹${effectiveAmount}. My contact number is: ${currentPhone}`;
+    const uri = `https://api.whatsapp.com/send?phone=919027997165&text=${encodeURIComponent(msg)}`;
+
+    return { message: msg, whatsAppURI: uri };
+  }, [
+    data?.daanTypes,
+    data?.items,
+    data?.title,
+    title,
+    selectedDaanTypeId,
+    finalPayingAmount,
+    bhumiAmount,
+    isBhojan,
+    isAnnadan,
+    watchedPhoneNumber,
+    DefaultValues?.phoneNumber,
+    defaultBhojanList,
+    defaultAnnadanList,
+  ]);
 
   return (
     <div className="min-h-screen bg-[#FDFBFC] px-4 md:px-16 py-24  md:py-16 lg:py-10">
