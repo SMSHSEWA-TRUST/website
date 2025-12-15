@@ -65,6 +65,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   } = useForm({
     defaultValues: DefaultValues,
   });
+
   // Keep userPickedAmount as a string while typing for stable controlled input behavior
   const [userPickedAmount, setUserPickedAmount] = useState<string>(savedState?.userPickedAmount !== undefined && savedState?.userPickedAmount !== null ? String(savedState.userPickedAmount) : "");
   const [selectedDaanTypeId, setSelectedDaanTypeId] = useState<string | null>(savedState?.selectedDaanTypeId ?? savedState?.donationDocId ?? (DefaultValues.donationDocId || null));
@@ -95,6 +96,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   const isBhojan = title === "Bhojan Daan" || data?.title === "Bhojan Daan";
   const isAnnadan = title === "Anna Daan" || title === "Anna Daan" || data?.title === "Anna Daan" || data?.title === "Annadaan";
   const isRashiDaan = (title || data?.title || '').toLowerCase().includes('rashi');
+  const isGauDan = title === "Gau Daan" || data?.title === "Gau Daan";
 
   // When showing Bhumi Daan we fetch the plots from the server (API: /plots)
   // and inject them into the `data` passed down to the DonationForm so the
@@ -146,7 +148,13 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     const items: any[] = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
     return (
       <div className="w-full">
+
         <div className="w-full rounded-xl overflow-hidden shadow-lg bg-[#b83b2a] text-white">
+          {data?.daanTypes?.length > 0 && (
+            <div className="space-y-1 p-4 font-medium">
+              {t("donationPage.form.selectDonationType")}
+            </div>
+          )}
           <div className="p-4">
             <ul className="space-y-3">
               {items.map((it: any) => (
@@ -180,6 +188,53 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
               ))}
             </ul>
             <div className="mt-4 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90">{data?.shortDescription ?? 'भोजन दान जीवन का सबसे पवित्र कर्म है'}</div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  const GaudanList: React.FC = () => {
+    const items: any[] = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
+    return (
+      <div className="w-full">
+
+        <div className="w-full rounded-xl overflow-hidden shadow-lg bg-[#b83b2a] text-white">
+          {data?.daanTypes?.length > 0 && (
+            <div className="space-y-1 p-4 font-medium">
+              {t("donationPage.form.selectDonationType")}
+            </div>
+          )}
+          <div className="p-4">
+            <ul className="space-y-3">
+              {items.map((it: any) => (
+                <li
+                  key={it._id}
+                  onClick={() => {
+                    setSelectedDaanTypeId(it._id);
+                    setValue('donationDocId', it._id);
+                    setValue('daanType', it._id); // Set daanType when Bhojan Daan item is selected
+                    setValue('amount', it.amount ?? 0);
+                    setUserPickedAmount('');
+                    // Save state immediately when selection changes
+                    if (data?._id) {
+                      saveDonationFormState(data._id, {
+                        donationDocId: it._id,
+                        daanType: it._id,
+                        amount: it.amount ?? 0,
+                        selectedDaanTypeId: it._id,
+                        userPickedAmount: null,
+                        flowStep: 'form',
+                      });
+                    }
+                  }}
+                  className={`flex items-center justify-between gap-3 cursor-pointer rounded-md px-3 py-2 transition ${selectedDaanTypeId === it._id ? 'bg-white/10' : 'hover:bg-white/5'}`}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-yellow-300 rounded-full" />
+                    <span className="text-sm text-white">{getItemTitle(it)}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
@@ -529,6 +584,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 {isBhumi && <BhumiPreview />}
                 {isBhojan && <BhojanList />}
                 {isAnnadan && <AnnadanList />}
+                {isGauDan && <GaudanList />}
                 {/* Form / Payment Selection / Payment Details Section */}
 
               </>
@@ -536,11 +592,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
             {flowStep === 'form' && (
               <Card className="p-6">
-                {data?.daanTypes?.length > 0 && (
-                  <div className="space-y-1 mb-6">
-                    <SectionTitle>{t("donationPage.form.selectDonationType")}</SectionTitle>
-                  </div>
-                )}
+
                 {!shouldShowUserPaying.includes(title) && (
                   <>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
