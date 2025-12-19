@@ -9,8 +9,7 @@ const BhudaanSection: React.FC = () => {
     const navigate = useNavigate();
     const { data: allDaanData, isFetching } = useGetAllDaan();
 
-    const { t } = useI18n();
-
+    const { t, lang } = useI18n();
     return (
         <div id="bhudaan-section">
             <div className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden px-4 md:px-16 lg:px-24 ">
@@ -125,6 +124,18 @@ const BhudaanSection: React.FC = () => {
                     className="relative overflow-hidden"
                 >
                     {/* Track */}
+                    {/* Carousel Content */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
+                    {/* CarouselContent */}
                     <CarouselContent />
                 </div>
             </div>
