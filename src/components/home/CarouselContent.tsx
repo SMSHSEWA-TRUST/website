@@ -15,10 +15,27 @@ type SlideData = {
     quote: string;
     img: string;
 };
+type Lang = {
+    en: string;
+    hi: string;
+    gu: string;
+}
+type CaraousalData = {
+    id: string;
+    title: Lang;
+    role: Lang;
+    org: Lang;
+    quote: Lang;
+    img: string;
+};
 
 // slides will be read from translations via useI18n
 
-const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
+const Slide: React.FC<{ data: SlideData }> = ({ data: _data }) => {
+    const { lang } = useI18n();
+    // ts-ignore
+    const data: CaraousalData = _data;
+
     return (
         <div className="w-full flex-shrink-0">
             {/* Mobile / Tablet card (stacked, centered) */}
@@ -27,18 +44,18 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                     <div className=" flex justify-center">
                         <img
                             src={data.img}
-                            alt={data.title}
+                            alt={data.title?.[lang]}
                             className="w-[300px] h-[250px]   object-cover rounded-md"
                             loading="lazy"
                         />
                     </div>
                     <div className="px-6 pb-6 relative">
-                        <h3 className="mt-4 text-2xl font-bold font-primaryFont text-[#8B0000]">{data.title}</h3>
-                        <p className="text-sm text-[#8B0000] opacity-90 mt-1 font-semibold">{data.role}</p>
-                        <p className="text-xs text-gray-400 mt-2 mb-4" style={{ whiteSpace: 'pre-line' }}>{data.org}</p>
+                        <h3 className="mt-4 text-2xl font-bold font-primaryFont text-[#8B0000]">{data.title?.[lang]}</h3>
+                        <p className="text-sm text-[#8B0000] opacity-90 mt-1 font-semibold">{data.role?.[lang]}</p>
+                        <p className="text-xs text-gray-400 mt-2 mb-4" style={{ whiteSpace: 'pre-line' }}>{data.org?.[lang]}</p>
 
                         <div className="absolute top-[65px] left-7 text-[#D05E2D] text-[80px] font-primaryFont leading-none ">“</div>
-                        <p className="relative z-10 text-[#8B0000] textDescription leading-relaxed">{data.quote}</p>
+                        <p className="relative z-10 text-[#8B0000] textDescription leading-relaxed">{data.quote?.[lang]}</p>
 
                     </div>
                 </div>
@@ -51,7 +68,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                     <div className="w-full lg:w-[40%] h-full">
                         <LazyLoadImage
                             src={data.img}
-                            alt={data.title}
+                            alt={data.title?.[lang]}
                             className="w-full h-full object-cover"
                             loading="lazy"
                             style={{
@@ -67,7 +84,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                         </div>
                         <div className="mt-12 lg:mt-16 text-center ">
                             <p className="text-[#8B0000] textDescription  font-normal font-secondaryFont mb-8">
-                                {data.quote}
+                                {data.quote?.[lang]}
                             </p>
                         </div>
                     </div>
@@ -85,18 +102,18 @@ const Slide: React.FC<{ data: SlideData }> = ({ data }) => {
                         {/* Text content */}
                         <div className="relative z-10 mb-4 text-left">
                             <h3 className="textHeadingLg font-bold font-primaryFont mb-2">
-                                {data.title}
+                                {data.title?.[lang]}
                             </h3>
 
                             {/* Add underline here */}
                             <p className="textDescription font-secondaryFont font-semibold mb-2 opacity-90 border-b border-white inline-block pb-1">
-                                {data.role}
+                                {data.role?.[lang]}
                             </p>
                             <p
                                 className="textDescription text-[#FFFFFFB3] opacity-80 leading-relaxed font-secondaryFont "
                                 style={{ whiteSpace: "pre-line" }}
                             >
-                                {data.org}
+                                {data.org?.[lang]}
                             </p>
                         </div>
                     </div>
@@ -117,7 +134,7 @@ const CarouselContent: React.FC = () => {
 
     const { data: apiTestimonials = [] } = useGetTestimonials();
 
-    
+
 
     const filtered: TestimonialItem[] = apiTestimonials.filter((it) => it?.isActive && it?.isCarousel);
     const apiSlides = filtered.length > 0

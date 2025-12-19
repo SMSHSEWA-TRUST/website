@@ -115,7 +115,7 @@ const AnimatedStat = ({ amount, label, shouldAnimate }: { amount: string; label:
 
 
 export default function DonationSection() {
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
 
     // Load stats from i18n; fallback to DEFAULT_STATS
     type Stat = { amount: string; label: string };
@@ -152,9 +152,9 @@ export default function DonationSection() {
     // Map API items into the same shape we expect from locales
     const apiMapped = apiFiltered.map((it) => ({
         id: it._id,
-        name: it.person?.name ,
+        name: it.person?.name,
         text: it.description ?? '',
-        image: it.imageUrl || it.person?.imageUrl ,
+        image: it.imageUrl || it.person?.imageUrl,
     }));
 
     // Map local/raw testimonials and apply image mapping
@@ -248,6 +248,20 @@ export default function DonationSection() {
                     </ul>
                 </div>
 
+
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+                {/* TESTIMONIAL SECTION  */}
+
                 {/* Right: Main Content */}
                 <div className="flex flex-col items-start gap-6 w-full mb-4 md:mb-0">
                     <div className="w-full">
@@ -268,7 +282,7 @@ export default function DonationSection() {
                         <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <img
                                 src={currentTestimonial.image}
-                                alt={`Profile of ${currentTestimonial.name}`}
+                                alt={`Profile of ${currentTestimonial.name?.[lang]}`}
                                 className="w-full md:w-64 h-112 object-cover rounded-md shadow-md bg-gray-200"
                                 loading="lazy"
                             />
@@ -276,7 +290,7 @@ export default function DonationSection() {
                         <div className={`flex-1 flex flex-col justify-between h-full md:h-64 gap-3 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <div className="flex-1">
                                 <p className="text-[rgba(30,30,30,0.5)] textDescription leading-relaxed font-secondaryFont mb-4">
-                                   {truncateByChars(currentTestimonial.text, 300)}
+                                    {truncateByChars(currentTestimonial.text?.[lang], 300)}
                                 </p>
                                 {/* Decorative line after paragraph */}
                                 <div className="w-full flex justify-start mb-3">
@@ -285,7 +299,7 @@ export default function DonationSection() {
                                     </div>
                                 </div>
                                 <span className="text-[rgba(139,0,0,1)] font-normal font-primaryFont textHeading">
-                                    {currentTestimonial.name}
+                                    {currentTestimonial.name?.[lang]}
                                 </span>
                             </div>
                             <div className="flex items-center justify-end w-full mt-auto">
