@@ -43,7 +43,7 @@ const DonationSection = () => {
   };
 
   const getImageForCategory = (category: any): string | undefined => {
-    const title = String(category?.title || '').toLowerCase();
+    const title = String(category?.title?.["en"] || '').toLowerCase();
     if (!title) return undefined;
 
     // Try to match common substrings for each image
@@ -56,7 +56,7 @@ const DonationSection = () => {
     return undefined;
   };
 
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   // fallback localized items from locales when API data is not present
   const localizedItems = (t('donations.items') as any[]) || [];
 
@@ -134,12 +134,12 @@ const DonationSection = () => {
 
         {/* Donation Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 justify-center">
-          {(data?.data?.length ? data.data : localizedItems).map((category: any) => {
+          {(data?.data?.length ? data.data : localizedItems).map((category: any, index: number) => {
             const imageForCard = getImageForCategory(category);
 
             return (
               <div
-                key={category.id}
+                key={index}
                 className={
                   "group relative overflow-hidden rounded-xl transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl bg-[#AD2F16] hover:bg-white *:hover:bg-white hover:shadow-x flex flex-col"
                 }>
@@ -151,7 +151,7 @@ const DonationSection = () => {
                       className={`inline-flex items-center justify-center w-14 h-14 rounded-lg transition-all duration-300 border-orange-300 border bg-red-800 text-white group-hover:bg-red-800 group-hover:text-white text-white"   
                       }`}>
 
-                      <img src={imageForCard} alt={category.title || 'donation'} className="w-8 h-8 object-contain" />
+                      <img src={imageForCard} alt={category.title?.[lang] || 'donation'} className="w-8 h-8 object-contain" />
 
                     </div>
                   </div>
@@ -159,7 +159,7 @@ const DonationSection = () => {
                   {/* Title */}
                   <h3
                     className={`textHeading mb-2 transition-colors duration-300 text-white group-hover:text-red-800 hover:text-red-800 font-bold`}>
-                    {category.title}
+                    {category.title?.[lang]}
                   </h3>
 
                   {/* Decorative Line */}
@@ -178,7 +178,7 @@ const DonationSection = () => {
                   <p
                     className={`textDescription leading-relaxed mb-6 transition-colors duration-300 text-white/90 group-hover:text-gray-600 flex-grow
                       `}>
-                    {category.description}
+                    {category.description?.[lang]}
                   </p>
 
                   {/* Donate Button */}
