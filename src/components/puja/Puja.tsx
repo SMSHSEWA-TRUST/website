@@ -8,11 +8,9 @@ import { saveRedirectDestination, isAuthenticated } from '@/lib/authRedirect';
 
 
 export default function Puja() {
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
     const navigate = useNavigate();
     const location = useLocation();
-
-
 
     // Fetch pooja data from API
     const { data: poojaResponse, isLoading, isError } = useGetPooja();
@@ -118,7 +116,7 @@ export default function Puja() {
                                     <div className="relative w-full overflow-hidden h-64 flex-shrink-0">
                                         <LazyLoadImage
                                             src={puja.imageUrl || ''}
-                                            alt={puja.title}
+                                            alt={puja.title?.[lang]}
                                             className="w-full h-full object-cover rounded-lg"
                                             loading="lazy"
                                             style={{
@@ -131,19 +129,23 @@ export default function Puja() {
                                     <div className='pt-4 flex flex-col flex-grow'>
                                         {/* Title */}
                                         <h2 className="textHeading font-bold text-[#8B0000] mb-4 font-primaryFont min-h-[2.5rem]">
-                                            {puja.title}
+                                            {puja.title?.[lang]}
                                         </h2>
 
                                         {/* Description */}
                                         <p className="text-gray-700 textDescription leading-relaxed mb-6 font-secondaryFont flex-grow">
-                                            {puja.description}
+                                            {puja.description?.[lang]}
                                         </p>
 
                                         {/* Price and Button Container */}
                                         <div className="mt-auto">
                                             {/* Price */}
                                             <p className="text-[#8B0000] font-semibold textDescription mb-4 font-secondaryFont">
-                                                Price: ₹{puja.price}
+                                                {lang === "en"
+                                                    ? `Price: ₹${puja?.price}`
+                                                    : lang === "hi"
+                                                        ? `मूल्य: ₹${puja?.price}`
+                                                        : `કિંમત: ₹${puja?.price}`}
                                             </p>
 
                                             {/* CTA Button */}
@@ -151,7 +153,11 @@ export default function Puja() {
                                                 onClick={() => handleBookNow(puja)}
                                                 className="bg-[#8B0000] hover:bg-[#6B1028] text-white px-6 py-1 font-semibold textDescription transition-colors duration-200 shadow-sm hover:shadow-md font-secondaryFont rounded-lg"
                                             >
-                                                Book Now
+                                                {lang === "en"
+                                                    ? "Book Now"
+                                                    : lang === "hi"
+                                                        ? "अभी बुक करें"
+                                                        : "હમણાં બુક કરો"}
                                             </button>
                                         </div>
                                     </div>
