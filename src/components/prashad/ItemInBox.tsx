@@ -21,7 +21,7 @@ interface ItemInBoxProps {
 }
 
 const ItemInBox: React.FC<ItemInBoxProps> = ({ items }) => {
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
 
     // If no items provided, render nothing
     if (!items || items.length === 0) {
@@ -35,8 +35,8 @@ const ItemInBox: React.FC<ItemInBoxProps> = ({ items }) => {
         return {
             id: itemAny._id ?? itemAny.id ?? itemAny.itemId ?? itemAny.id,
             image: itemAny.itemImage ?? itemAny.image ?? '',
-            name: itemAny.itemName ?? itemAny.name ?? 'Item Name',
-            description: itemAny.itemDescription ?? itemAny.description ?? '',
+            name: itemAny.itemName?.[lang] ?? itemAny.name?.[lang] ?? 'Item Name',
+            description: itemAny.itemDescription?.[lang] ?? itemAny.description?.[lang] ?? '',
         };
     });
 

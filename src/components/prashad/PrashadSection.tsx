@@ -10,12 +10,18 @@ import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import { saveRedirectDestination, isAuthenticated } from '@/lib/authRedirect';
 import { useI18n } from '@/lib/i18n';
 
+
+type Lang = {
+    en: string;
+    hi: string;
+    gu: string;
+}
 export interface PrashadPlan {
     id: number;
-    name: string;
+    name: Lang;
     price: number;
     image?: string;
-    description?: string;
+    description?: Lang;
     whatsInBox?: string;
     gallery?: string[];
     category?: string;
@@ -31,6 +37,7 @@ interface PrashadSectionProps {
     categoryFilter?: string; // Category to filter by
 }
 
+
 const PrashadSection: React.FC<PrashadSectionProps> = ({
     title,
     description,
@@ -40,7 +47,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
     categoryFilter // Category filter
 }) => {
 
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
 
     const [selectedPlan, setSelectedPlan] = useState<PrashadPlan | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,7 +71,8 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                     price: item.price,
                     image: primaryImage,
                     description: item.description,
-                    whatsInBox: item.itemsIncluded ? item.itemsIncluded.join(', ') : item.whatsInBox,
+                    whatsInBox: "",
+                    // whatsInBox: item.itemsIncluded ? item.itemsIncluded.join(', ') : item.whatsInBox,
                     gallery: item.images || item.gallery,
                     category: item.category
                 } as PrashadPlan;
@@ -292,7 +300,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
 
                     {description && (
                         <p className="font-secondaryFont text-sm sm:text-base text-gray-600 max-w-3xl mx-auto">
-                            {description}
+                            {description?.[lang]}
                         </p>
                     )}
                 </div>
@@ -315,7 +323,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                     {plan.image ? (
                                         <LazyLoadImage
                                             src={plan.image}
-                                            alt={plan.name}
+                                            alt={plan.name?.[lang]}
                                             className="w-full h-full object-cover"
                                             wrapperClassName="absolute inset-0 w-full h-full"
                                             loading="lazy"
@@ -330,7 +338,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                 </div>
                                 <div className="p-4 flex flex-col flex-grow">
                                     <h3 className="font-secondaryFont text-base sm:text-lg text-gray-700 mb-1 line-clamp-1 h-[28px]">
-                                        {plan.name}
+                                        {plan.name?.[lang]}
                                     </h3>
                                     <p className="font-secondaryFont text-xl sm:text-2xl text-[#8b0000] font-semibold mt-1">
                                         ₹{plan.price}

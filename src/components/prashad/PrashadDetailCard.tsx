@@ -31,7 +31,7 @@ interface PrashadDetailModalProps {
 }
 
 const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, onClose }) => {
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
     const [quantity, setQuantity] = useState(1);
     const [isBuyNowOpen, setIsBuyNowOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(0);
@@ -226,7 +226,8 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
     // Generate gallery images or use placeholder
     // Note: galleryImages is now defined above, so we don't redefine it here
-
+    // console.log(currentName, currentDescription)
+    // return <></>
     return (
         <>
             <div className="w-full pt-28 lg:pt-0">
@@ -241,7 +242,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                 {galleryImages[selectedImage] ? (
                                     <LazyLoadImage
                                         src={galleryImages[selectedImage]}
-                                        alt={currentName}
+                                        alt={currentName?.[lang]}
                                         className="w-full h-full object-contain"
                                         wrapperClassName="w-full h-full flex items-center justify-center"
                                     />
@@ -268,7 +269,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                             {img ? (
                                                 <LazyLoadImage
                                                     src={img}
-                                                    alt={`${currentName} ${index + 1}`}
+                                                    alt={`${currentName?.[lang]} ${index + 1}`}
                                                     className="w-20 h-20 object-cover sm:w-24 sm:h-24 md:w-28 md:h-28"
                                                 />
                                             ) : (
@@ -288,7 +289,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                         <div className="bg-white p-8 lg:p-10 flex flex-col relative">
                             {/* Title */}
                             <h2 className="font-primaryFont text-3xl lg:text-4xl text-gray-900 mb-5 tracking-tight">
-                                {currentName}
+                                {currentName?.[lang]}
                             </h2>
 
                             {/* Stock Information */}
@@ -298,7 +299,11 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                         {displayData.stock > 0 ? (
                                             <>
                                                 <span className="text-green-600 font-semibold">{t('prashad.detail.inStock')}</span>
-                                                <span className="ml-2">({displayData.stock} available)</span>
+                                                <span className="ml-2">({displayData.stock} {lang === "en"
+                                                    ? displayData.stock > 0 ? "Available" : "Not Available"
+                                                    : lang === "hi"
+                                                        ? displayData.stock > 0 ? "उपलब्ध" : "उपलब्ध नहीं"
+                                                        : displayData.stock > 0 ? "ઉપલબ્ધ" : "ઉપલબ્ધ નથી"})</span>
                                             </>
                                         ) : (
                                             <span className="text-red-600 font-semibold">{t('prashad.detail.outOfStock')}</span>
@@ -356,7 +361,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     {t('prashad.detail.descriptionTitle')}
                                 </h3>
                                 <p className="font-secondaryFont text-sm text-gray-500 leading-relaxed">
-                                    {currentDescription || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}
+                                    {currentDescription?.[lang]}
                                 </p>
                             </div>
 
@@ -420,16 +425,16 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
 
             </div>
-            <BuyNowCheckoutModal
+            {/* <BuyNowCheckoutModal
                 isOpen={isBuyNowOpen}
                 onClose={() => setIsBuyNowOpen(false)}
                 prasadId={prasadId}
-                prasadName={currentName}
+                prasadName={currentName?.[lang]}
                 prasadPrice={currentPrice}
                 quantity={quantity}
                 prasadImage={galleryImages[selectedImage]}
                 onQuantityChange={(newQty: number) => setQuantity(newQty)}
-            />
+            /> */}
         </>
     );
 };

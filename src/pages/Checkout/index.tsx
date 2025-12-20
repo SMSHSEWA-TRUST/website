@@ -8,8 +8,10 @@ import { AddressFormModal } from '../../components/address/AddressFormModal';
 import { ComponentLoader } from '../../components/ui/LoadingComponents';
 import parshadTopImage from '../../assets/images/parshadTopImage.png';
 import toast from 'react-hot-toast';
+import { useI18n } from '@/lib/i18n';
 
 export const CheckoutPage = () => {
+    const { lang } = useI18n();
     const navigate = useNavigate();
     const [cart, setCart] = useState<CartData | null>(null);
     const [selectedAddress, setSelectedAddress] = useState<AddressModel | null>(null);
@@ -281,8 +283,8 @@ export const CheckoutPage = () => {
 
     // Calculate totals
     const subtotal = cart.totalAmount;
-    const shipping = 64; // Hardcoded as per design example, or should be calculated?
-    const gst = 64; // Hardcoded as per design example
+    const shipping = 0; // Hardcoded as per design example, or should be calculated?
+    const gst = 0; // Hardcoded as per design example
     const total = subtotal + shipping + gst;
 
     return (
@@ -343,14 +345,14 @@ export const CheckoutPage = () => {
                                             <div className="w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
                                                 <img
                                                     src={item.prasad.images[0] || '/placeholder.png'}
-                                                    alt={item.prasad.name}
+                                                    alt={item.prasad.name?.[lang]}
                                                     className="w-full h-full object-cover"
                                                 />
                                             </div>
 
                                             {/* Details */}
                                             <div className="flex-1 min-w-0">
-                                                <h3 className="text-sm sm:text-lg font-bold text-red-700 mb-1 truncate">{item.prasad.name}</h3>
+                                                <h3 className="text-sm sm:text-lg font-bold text-red-700 mb-1 truncate">{item.prasad.name?.[lang]}</h3>
                                                 <p className="text-sm sm:text-xl font-bold text-gray-900">₹{item.prasad.price}</p>
                                             </div>
                                         </div>
