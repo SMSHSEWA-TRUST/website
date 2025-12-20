@@ -8,7 +8,7 @@ import { useGetUserProfile } from '@/api/ProfileQueries';
 
 
 const SubscriptionPlans: React.FC = () => {
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
 
     // fetch subscriptions from API
     const { data: subsResp, isLoading, isError } = useGetAllSubscriptions();
@@ -414,7 +414,7 @@ const SubscriptionPlans: React.FC = () => {
                                     <div className="mb-4">
                                         <div className="flex items-center gap-2 mb-1">
                                             <h3 className={`textHeadingLg font-semibold tracking-wider ${selected ? 'text-white' : 'text-gray-900'}`}>
-                                                {plan.title}
+                                                {plan.title?.[lang]}
                                             </h3>
                                             {/* discount not used for these plans */}
                                         </div>
@@ -434,10 +434,20 @@ const SubscriptionPlans: React.FC = () => {
 
                                     {/* Subtitle */}
                                     <p className={`text-sm mb-6 ${selected ? 'text-white/90' : '#000000'}`}>
-                                        {plan.duration < 12
-                                            ? `billed every ${plan.duration} month${plan.duration > 1 ? "s" : ""}`
-                                            : `billed every ${plan.duration / 12} year${plan.duration / 12 > 1 ? "s" : ""}`
+                                        {
+                                            plan.duration < 12
+                                                ? lang === "en"
+                                                    ? `billed every ${plan.duration} month${plan.duration > 1 ? "s" : ""}`
+                                                    : lang === "hi"
+                                                        ? `हर ${plan.duration} महीने पर बिल किया जाएगा`
+                                                        : `દરેક ${plan.duration} મહિના પર બિલ કરવામાં આવશે`
+                                                : lang === "en"
+                                                    ? `billed every ${plan.duration / 12} year${plan.duration / 12 > 1 ? "s" : ""}`
+                                                    : lang === "hi"
+                                                        ? `हर ${plan.duration / 12} वर्ष पर बिल किया जाएगा`
+                                                        : `દરેક ${plan.duration / 12} વર્ષ પર બિલ કરવામાં આવશે`
                                         }
+
                                     </p>
 
                                     {/* Tagline */}
@@ -448,7 +458,14 @@ const SubscriptionPlans: React.FC = () => {
                                     {/* Features */}
                                     <div className="mb-3">
                                         <h4 className={`text-md font-bold mb-2 ${selected ? 'text-white' : 'text-gray-800'}`}>
-                                            {"What's Included"}
+                                            {
+                                                lang === "en"
+                                                    ? "What's Included"
+                                                    : lang === "hi"
+                                                        ? "क्या शामिल है"
+                                                        : "શું સામેલ છે"
+                                            }
+
                                         </h4>
                                     </div>
                                     <ul className="space-y-3 mb-8">
@@ -468,7 +485,7 @@ const SubscriptionPlans: React.FC = () => {
                                                         strokeLinejoin="round"
                                                     />
                                                 </svg>
-                                                <span className={`text-sm ${selected ? 'text-white/90' : '#000000'}`}>{feature}</span>
+                                                <span className={`text-sm ${selected ? 'text-white/90' : '#000000'}`}>{feature?.[lang]}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -504,7 +521,26 @@ const SubscriptionPlans: React.FC = () => {
                                                 : 'bg-white border-2 border-red-700 text-red-700 hover:bg-red-50'
                                             } ${processingIndex === idx ? 'opacity-60 cursor-not-allowed' : ''}`}
                                     >
-                                        {processingIndex === idx ? (plan.processingText || 'Processing...') : (plan.buttonText || 'Get Started')}
+                                        {
+                                            processingIndex === idx
+                                                ? (
+                                                    plan.processingText ||
+                                                    (lang === "en"
+                                                        ? "Processing..."
+                                                        : lang === "hi"
+                                                            ? "प्रक्रिया जारी है..."
+                                                            : "પ્રક્રિયા ચાલી રહી છે...")
+                                                )
+                                                : (
+                                                    plan.buttonText ||
+                                                    (lang === "en"
+                                                        ? "Get Started"
+                                                        : lang === "hi"
+                                                            ? "शुरू करें"
+                                                            : "શરૂ કરો")
+                                                )
+                                        }
+
                                     </button>
                                 )}
                             </div>
