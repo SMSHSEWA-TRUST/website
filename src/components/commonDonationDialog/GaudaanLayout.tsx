@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import DonationCard from "./components/DonationCard";
 import { Input } from "../ui/input";
@@ -65,6 +65,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   } = useForm({
     defaultValues: DefaultValues,
   });
+
   // Keep userPickedAmount as a string while typing for stable controlled input behavior
   const [userPickedAmount, setUserPickedAmount] = useState<string>(savedState?.userPickedAmount !== undefined && savedState?.userPickedAmount !== null ? String(savedState.userPickedAmount) : "");
   const [selectedDaanTypeId, setSelectedDaanTypeId] = useState<string | null>(savedState?.selectedDaanTypeId ?? savedState?.donationDocId ?? (DefaultValues.donationDocId || null));
@@ -95,6 +96,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   const isBhojan = title === "Bhojan Daan" || data?.title === "Bhojan Daan";
   const isAnnadan = title === "Anna Daan" || title === "Anna Daan" || data?.title === "Anna Daan" || data?.title === "Annadaan";
   const isRashiDaan = (title || data?.title || '').toLowerCase().includes('rashi');
+  const isGauDan = title === "Gau Daan" || data?.title === "Gau Daan";
 
   // When showing Bhumi Daan we fetch the plots from the server (API: /plots)
   // and inject them into the `data` passed down to the DonationForm so the
@@ -106,9 +108,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
 
   // Whatsapp :
-  const message = `Hi, I want to apply for emi for my donation for Gau Daan. Amount: ₹${bhumiAmount ?? "0"}. My contact number is: ${DefaultValues?.phoneNumber || "+91 1234567890"}`;
 
-  const whatsAppURI = `https://api.whatsapp.com/send?phone=919027997165&text=${encodeURIComponent(message)}`;
 
   // Default fallback lists
   const defaultBhojanList: Array<{ _id: string; title: string; amount: number }> = [
@@ -148,7 +148,13 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     const items: any[] = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
     return (
       <div className="w-full">
+
         <div className="w-full rounded-xl overflow-hidden shadow-lg bg-[#b83b2a] text-white">
+          {data?.daanTypes?.length > 0 && (
+            <div className="space-y-1 p-4 font-medium">
+              {t("donationPage.form.selectDonationType")}
+            </div>
+          )}
           <div className="p-4">
             <ul className="space-y-3">
               {items.map((it: any) => (
@@ -182,6 +188,53 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
               ))}
             </ul>
             <div className="mt-4 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90">{data?.shortDescription ?? 'भोजन दान जीवन का सबसे पवित्र कर्म है'}</div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  const GaudanList: React.FC = () => {
+    const items: any[] = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
+    return (
+      <div className="w-full">
+
+        <div className="w-full rounded-xl overflow-hidden shadow-lg bg-[#b83b2a] text-white">
+          {data?.daanTypes?.length > 0 && (
+            <div className="space-y-1 p-4 font-medium">
+              {t("donationPage.form.selectDonationType")}
+            </div>
+          )}
+          <div className="p-4">
+            <ul className="space-y-3">
+              {items.map((it: any) => (
+                <li
+                  key={it._id}
+                  onClick={() => {
+                    setSelectedDaanTypeId(it._id);
+                    setValue('donationDocId', it._id);
+                    setValue('daanType', it._id); // Set daanType when Bhojan Daan item is selected
+                    setValue('amount', it.amount ?? 0);
+                    setUserPickedAmount('');
+                    // Save state immediately when selection changes
+                    if (data?._id) {
+                      saveDonationFormState(data._id, {
+                        donationDocId: it._id,
+                        daanType: it._id,
+                        amount: it.amount ?? 0,
+                        selectedDaanTypeId: it._id,
+                        userPickedAmount: null,
+                        flowStep: 'form',
+                      });
+                    }
+                  }}
+                  className={`flex items-center justify-between gap-3 cursor-pointer rounded-md px-3 py-2 transition ${selectedDaanTypeId === it._id ? 'bg-white/10' : 'hover:bg-white/5'}`}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-yellow-300 rounded-full" />
+                    <span className="text-sm text-white">{getItemTitle(it)}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
@@ -259,6 +312,13 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
     setSubmittedForm(form);
     setFlowStep('selectPayment');
 
+    // Scroll to top instantly
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+      // Push history state so back button works
+      window.history.pushState({ flowStep: 'selectPayment' }, '');
+    }
+
     // Save form state to sessionStorage for persistence including all plot data
     if (data?._id) {
       saveDonationFormState(data._id, {
@@ -312,15 +372,109 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   };
   // Listen for browser back (popstate) and trigger the same back handler
   useEffect(() => {
-    if (!onBack) return;
-    const onPopState = () => {
-      handleBackClick();
+    const onPopState = (event: PopStateEvent) => {
+      const state = event.state;
+      if (state?.flowStep === 'selectPayment') {
+        setFlowStep('selectPayment');
+      } else {
+        // If we are in payment and go back, switch to form
+        if (flowStep === 'selectPayment') {
+          setFlowStep('form');
+          setSelectedPaymentMethod(null);
+          setPaymentDropdownOpen(true);
+
+          // Update saved state when going back to form
+          if (data?._id && submittedForm) {
+            saveDonationFormState(data._id, {
+              ...submittedForm,
+              userPickedAmount,
+              selectedDaanTypeId,
+              flowStep: 'form',
+              selectedPaymentMethod: null,
+              selectedPlots: submittedForm.selectedPlots ?? [],
+              plotContacts: submittedForm.plotContacts ?? {},
+              sameDetailsForAll: submittedForm.sameDetailsForAll ?? false,
+              expandedPlots: submittedForm.expandedPlots ?? {},
+            });
+          }
+        } else {
+          // If we are in form and go back, the browser handles the navigation (e.g. to previous page)
+          // We don't need to call onBack() here as it might trigger a double navigation
+        }
+      }
     };
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
-  }, [onBack, /* handleBackClick reads flowStep and other locals */ flowStep, submittedForm, userPickedAmount, selectedDaanTypeId]);
+  }, [flowStep, submittedForm, userPickedAmount, selectedDaanTypeId, data?._id]);
+
+  // Fix history stack when restoring 'selectPayment' step (e.g. after login)
+  useEffect(() => {
+    if (flowStep === 'selectPayment') {
+      // Check if current history state matches our flow step
+      const currentState = window.history.state;
+      if (currentState?.flowStep !== 'selectPayment') {
+        // We likely just loaded this page with restored state.
+        // Inject the 'form' step into history so 'Back' works correctly.
+
+        // 1. Replace current entry with 'form' step
+        window.history.replaceState({ flowStep: 'form' }, '');
+
+        // 2. Push new entry for 'selectPayment' step
+        window.history.pushState({ flowStep: 'selectPayment' }, '');
+      }
+    }
+  }, []); // Run once on mount
+  // Calculate dynamic message for WhatsApp using useMemo to ensure it updates when dependencies change
+  const watchedPhoneNumber = watch("phoneNumber");
+  const { message, whatsAppURI } = useMemo(() => {
+    let availableItems: any[] = [];
+    if (isBhojan) {
+      availableItems = data?.daanTypes?.length ? data.daanTypes : defaultBhojanList;
+    } else if (isAnnadan) {
+      availableItems = data?.items?.length ? data.items : defaultAnnadanList;
+    } else {
+      availableItems = data?.daanTypes ?? [];
+    }
+
+    const selectedItem = availableItems.find((it: any) =>
+      (it._id && it._id === selectedDaanTypeId) || (it.id && it.id === selectedDaanTypeId)
+    );
+
+    const mainTitle = title || data?.title || "Donation";
+    const itemTitle = selectedItem ? getItemTitle(selectedItem) : "";
+
+    const effectiveTitle = itemTitle && itemTitle !== mainTitle
+      ? `${mainTitle} - ${itemTitle}`
+      : mainTitle;
+
+    const effectiveAmount = finalPayingAmount > 0
+      ? finalPayingAmount
+      : (bhumiAmount ?? 0);
+
+    const currentPhone = watchedPhoneNumber || DefaultValues?.phoneNumber || "+91 1234567890";
+
+    const msg = `Hi, I want to apply for emi for my donation for ${effectiveTitle}. Amount: ₹${effectiveAmount}. My contact number is: ${currentPhone}`;
+    const uri = `https://api.whatsapp.com/send?phone=919027997165&text=${encodeURIComponent(msg)}`;
+
+    return { message: msg, whatsAppURI: uri };
+  }, [
+    data?.daanTypes,
+    data?.items,
+    data?.title,
+    title,
+    selectedDaanTypeId,
+    finalPayingAmount,
+    bhumiAmount,
+    isBhojan,
+    isAnnadan,
+    watchedPhoneNumber,
+    DefaultValues?.phoneNumber,
+    defaultBhojanList,
+    defaultAnnadanList,
+  ]);
+
   return (
-    <div className="min-h-screen bg-[#FDFBFC] px-4 md:px-16   py-9 lg:py-10">
+    <div className="min-h-screen bg-[#FDFBFC] px-4 md:px-16 py-24  md:py-16 lg:py-10">
       <div className=" mx-auto relative">
 
         {/* Close button removed - using back button instead */}
@@ -430,6 +584,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 {isBhumi && <BhumiPreview />}
                 {isBhojan && <BhojanList />}
                 {isAnnadan && <AnnadanList />}
+                {isGauDan && <GaudanList />}
                 {/* Form / Payment Selection / Payment Details Section */}
 
               </>
@@ -437,11 +592,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
             {flowStep === 'form' && (
               <Card className="p-6">
-                {data?.daanTypes?.length > 0 && (
-                  <div className="space-y-1 mb-6">
-                    <SectionTitle>{t("donationPage.form.selectDonationType")}</SectionTitle>
-                  </div>
-                )}
+
                 {!shouldShowUserPaying.includes(title) && (
                   <>
                     <label className="block text-sm font-medium text-gray-700 mb-2">

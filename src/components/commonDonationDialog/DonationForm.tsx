@@ -391,7 +391,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="space-y-4">
+      {/* <div className="space-y-4">
         {data?.daanTypes?.length > 0 &&
           data?.daanTypes.map((option: { _id: string; name: string; amount: number }) => (
             <div
@@ -413,7 +413,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
               </div>
             </div>
           ))}
-      </div>
+      </div> */}
 
       {data?.title === DialogTypesForDonation.BHUDAAN && (
         <div>

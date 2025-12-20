@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Minus, Plus } from 'lucide-react';
+import { Minus, Plus, Loader2 } from 'lucide-react';
 import { useGetPrasadById } from '@/api/PrasadQueries';
 import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import toast from 'react-hot-toast';
@@ -10,6 +10,7 @@ import Bestseller from './Bestseller';
 import ImportantParshad from './ImportantParshad';
 import BuyNowCheckoutModal from './BuyNowCheckoutModal';
 import { useI18n } from '@/lib/i18n';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface PrashadPlan {
     id: number;
@@ -93,41 +94,15 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
     if (!plan) return null;
 
-    const handleQuantityChange = (change: number) => {
-        const newQuantity = quantity + change;
-        if (newQuantity >= 1 && newQuantity <= currentStock) {
-            setQuantity(newQuantity);
+    const isProcessing = updateCartMutation.isPending || addToCartMutation.isPending;
 
-            // If product is already in cart, update it via API
-            if (isInCart && cartItemId) {
-                // Determine action based on change direction
-                const action = change > 0 ? 'add' : 'remove';
-                const quantityChange = Math.abs(change);
+    const updateQuantity = (newQuantity: number) => {
+        if (isProcessing) return;
 
-                updateCartMutation.mutate(
-                    {
-                        itemId: cartItemId,
-                        data: {
-                            action: action,
-                            quantity: quantityChange,
-                        }
-                    },
-                    {
-                        onError: (error) => {
-                            console.error('Error updating cart:', error);
-                            // Revert quantity on error
-                            setQuantity(quantity);
-                            toast.error(t('prashad.section.failedUpdate'), { position: 'top-center' });
-                        }
-                    }
-                );
-            }
-        } else if (newQuantity > currentStock) {
-            // Optional: Show alert when trying to exceed stock
-            toast.error(t('prashad.section.onlyAvailable').replace('{{count}}', String(currentStock)), { position: 'top-center' });
-        } else if (newQuantity < 1) {
-            // If trying to go below 1, and the product is in cart, treat this as a remove action
+        // Validation
+        if (newQuantity < 1) {
             if (isInCart && cartItemId) {
+                // If in cart and going below 1, remove it
                 updateCartMutation.mutate(
                     {
                         itemId: cartItemId,
@@ -138,9 +113,10 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                     },
                     {
                         onSuccess: () => {
-                            // After removing from cart, reset local quantity to 1 (default)
                             setQuantity(1);
                             toast.success(t('prashad.section.removedFromCart') || 'Removed from cart', { position: 'top-center' });
+                            // If we are in "Buy Now" mode, close the modal
+                            if (isBuyNowOpen) setIsBuyNowOpen(false);
                         },
                         onError: (error) => {
                             console.error('Error removing from cart:', error);
@@ -149,10 +125,54 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                     }
                 );
             } else {
-                // Not in cart and trying to go below 1: keep minimum at 1
+                // If in Buy Now modal and not in cart, just close the modal
+                if (isBuyNowOpen) {
+                    setIsBuyNowOpen(false);
+                    return;
+                }
                 toast.error(t('prashad.section.minQuantity'), { position: 'top-center' });
             }
+            return;
         }
+
+        if (newQuantity > currentStock) {
+            toast.error(t('prashad.section.onlyAvailable').replace('{{count}}', String(currentStock)), { position: 'top-center' });
+            return;
+        }
+
+        // Calculate delta for API
+        const delta = newQuantity - quantity;
+        if (delta === 0) return;
+
+        setQuantity(newQuantity);
+
+        // If product is already in cart, update it via API
+        if (isInCart && cartItemId) {
+            const action = delta > 0 ? 'add' : 'remove';
+            const quantityChange = Math.abs(delta);
+
+            updateCartMutation.mutate(
+                {
+                    itemId: cartItemId,
+                    data: {
+                        action: action,
+                        quantity: quantityChange,
+                    }
+                },
+                {
+                    onError: (error) => {
+                        console.error('Error updating cart:', error);
+                        // Revert quantity on error
+                        setQuantity(quantity); // Revert to old quantity
+                        toast.error(t('prashad.section.failedUpdate'), { position: 'top-center' });
+                    }
+                }
+            );
+        }
+    };
+
+    const handleQuantityChange = (change: number) => {
+        updateQuantity(quantity + change);
     };
 
     const handleBuyNow = () => {
@@ -197,10 +217,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                 {
                     onSuccess: (data) => {
                         console.log('Added to cart successfully:', data);
-                        // Navigate to full-page checkout
-                        navigate('/checkout');
-                        // Optionally close detail modal
-                        if (onClose) onClose();
+                        toast.success(t('prashad.detail.addedToCart') || 'Added to cart successfully', { position: 'top-center' });
                     },
                     onError: (error) => {
                         console.error('Error adding to cart:', error);
@@ -287,6 +304,23 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
                         {/* Right Side - Details */}
                         <div className="bg-white p-8 lg:p-10 flex flex-col relative">
+                            {/* Loading Overlay */}
+                            <AnimatePresence>
+                                {isProcessing && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="absolute inset-0 bg-white/60 z-50 flex items-center justify-center backdrop-blur-[1px] rounded-lg"
+                                    >
+                                        <div className="flex flex-col items-center gap-2">
+                                            <Loader2 className="w-8 h-8 text-[#8b0000] animate-spin" />
+                                            <span className="text-sm font-medium text-[#8b0000]">{t('prashad.section.updating')}</span>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             {/* Title */}
                             <h2 className="font-primaryFont text-3xl lg:text-4xl text-gray-900 mb-5 tracking-tight">
                                 {currentName?.[lang]}
@@ -317,42 +351,51 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                 <div className="text-4xl font-bold text-[#8b0000] tracking-tight">
                                     ₹{currentPrice}
                                 </div>
-                                <div className="flex items-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden">
-                                    <button
-                                        onClick={() => handleQuantityChange(-1)}
-                                        // When quantity is 1, allow decrement only if item is already in cart (to remove it)
-                                        disabled={quantity <= 1 && !isInCart}
-                                        title={quantity <= 1 && isInCart ? 'Remove from cart' : 'Decrease quantity'}
-                                        aria-label={quantity <= 1 && isInCart ? 'Remove from cart' : 'Decrease quantity'}
-                                        className={`p-3 transition-colors ${quantity <= 1 && !isInCart
-                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                            : 'hover:bg-[#8b0000] hover:text-white'
-                                            }`}
-                                    >
-                                        <Minus className="w-5 h-5" />
-                                    </button>
+                                {isInCart && (
+                                    <div className="flex items-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden relative">
+                                        <button
+                                            onClick={() => handleQuantityChange(-1)}
+                                            disabled={isProcessing}
+                                            title={quantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
+                                            aria-label={quantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
+                                            className="p-3 transition-colors hover:bg-[#8b0000] hover:text-white"
+                                        >
+                                            <Minus className="w-5 h-5" />
+                                        </button>
 
-                                    <div className="w-px bg-[#8b0000] h-8" />
+                                        <div className="w-px bg-[#8b0000] h-8" />
 
-                                    <span className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4">
-                                        {quantity}
-                                    </span>
+                                        <div className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4 overflow-hidden h-8 flex items-center justify-center relative">
+                                            <AnimatePresence mode="popLayout" initial={false}>
+                                                <motion.span
+                                                    key={quantity}
+                                                    initial={{ y: 20, opacity: 0 }}
+                                                    animate={{ y: 0, opacity: 1 }}
+                                                    exit={{ y: -20, opacity: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="block"
+                                                >
+                                                    {quantity}
+                                                </motion.span>
+                                            </AnimatePresence>
+                                        </div>
 
-                                    <div className="w-px bg-[#8b0000] h-8" />
+                                        <div className="w-px bg-[#8b0000] h-8" />
 
-                                    <button
-                                        onClick={() => handleQuantityChange(1)}
-                                        disabled={quantity >= currentStock}
-                                        title="Increase quantity"
-                                        aria-label="Increase quantity"
-                                        className={`p-3 transition-colors ${quantity >= currentStock
-                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                            : 'hover:bg-[#8b0000] hover:text-white'
-                                            }`}
-                                    >
-                                        <Plus className="w-5 h-5" />
-                                    </button>
-                                </div>
+                                        <button
+                                            onClick={() => handleQuantityChange(1)}
+                                            disabled={quantity >= currentStock || isProcessing}
+                                            title="Increase quantity"
+                                            aria-label="Increase quantity"
+                                            className={`p-3 transition-colors ${quantity >= currentStock
+                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                : 'hover:bg-[#8b0000] hover:text-white'
+                                                }`}
+                                        >
+                                            <Plus className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Description */}
@@ -411,13 +454,15 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     )}
                                 </button>
 
-                                <button
-                                    onClick={handleBuyNow}
-                                    disabled={displayData?.stock === 0 || displayData?.isAvailable === false}
-                                    className="w-full font-secondaryFont py-3 rounded-xl text-base font-semibold border-2 border-[#8b0000] text-[#8b0000] bg-white hover:bg-[#fff5f5] transition-colors"
-                                >
-                                    {t('prashad.detail.buyNow')}
-                                </button>
+                                {isInCart && (
+                                    <button
+                                        onClick={handleBuyNow}
+                                        disabled={displayData?.stock === 0 || displayData?.isAvailable === false}
+                                        className="w-full font-secondaryFont py-3 rounded-xl text-base font-semibold border-2 border-[#8b0000] text-[#8b0000] bg-white hover:bg-[#fff5f5] transition-colors"
+                                    >
+                                        {t('prashad.detail.buyNow')}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -425,7 +470,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
 
             </div>
-            {/* <BuyNowCheckoutModal
+            <BuyNowCheckoutModal
                 isOpen={isBuyNowOpen}
                 onClose={() => setIsBuyNowOpen(false)}
                 prasadId={prasadId}
@@ -434,7 +479,8 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                 quantity={quantity}
                 prasadImage={galleryImages[selectedImage]}
                 onQuantityChange={(newQty: number) => setQuantity(newQty)}
-            /> */}
+                isUpdating={isProcessing}
+            />
         </>
     );
 };

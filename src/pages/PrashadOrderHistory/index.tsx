@@ -5,18 +5,43 @@ import toast from 'react-hot-toast';
 import { useQuery } from "@tanstack/react-query";
 import { getPrasadOrderHistory } from "@/services/prasad.service";
 
+interface PrasadItem {
+    prasadId: string;
+    quantity: number;
+    _id: string;
+    name: string;
+    description: string;
+    images: string[];
+    price: number;
+    stock: number;
+    isAvailable: boolean;
+}
+
+interface UserDetails {
+    _id: string;
+    memberId: string;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+}
+
 interface PrashadOrder {
     _id: string;
-    user: string;
+    user: UserDetails | string; // Handle both object and string cases if necessary, though JSON shows object
     subscription: string;
-    prasad: any[]; // Array of prasad items
+    prasad: PrasadItem[];
+    prasadDetails?: any[]; // Keep for compatibility if needed, but we use 'prasad'
     orderId: string;
+    note: string;
     status: string;
+    address: string;
     amount: number;
     createdAt: string;
     updatedAt: string;
     __v: number;
     paymentId: string;
+    expectedDeliveryDate?: string;
 }
 
 const PrashadOrderHistory = () => {
@@ -151,10 +176,12 @@ const PrashadOrderHistory = () => {
                                     <span className="text-xs text-gray-400">Created At</span>
                                     <span className="font-bold">{new Date(order.createdAt).toLocaleDateString()}</span>
                                 </div>
-                                <div className="flex justify-between">
-                                    <span className="text-xs text-gray-400">Payment ID</span>
-                                    <span className="font-bold break-all">{order.paymentId}</span>
-                                </div>
+                                {order.expectedDeliveryDate && (
+                                    <div className="flex justify-between">
+                                        <span className="text-xs text-gray-400">Expected Delivery</span>
+                                        <span className="font-bold">{new Date(order.expectedDeliveryDate).toLocaleDateString()}</span>
+                                    </div>
+                                )}
                                 <div className="flex justify-between">
                                     <span className="text-xs text-gray-400">Prasad Items</span>
                                     <span className="font-bold">{order.prasad.length}</span>
@@ -217,10 +244,12 @@ const PrashadOrderHistory = () => {
                                             <p className="text-sm font-semibold text-gray-900">{new Date(selectedOrder.createdAt).toLocaleString()}</p>
                                         </div>
 
-                                        <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">Updated At</p>
-                                            <p className="text-sm font-semibold text-gray-900">{new Date(selectedOrder.updatedAt).toLocaleString()}</p>
-                                        </div>
+                                        {selectedOrder.expectedDeliveryDate && (
+                                            <div className="flex justify-between">
+                                                <p className="text-xs text-gray-400">Expected Delivery</p>
+                                                <p className="text-sm font-semibold text-gray-900">{new Date(selectedOrder.expectedDeliveryDate).toLocaleString()}</p>
+                                            </div>
+                                        )}
 
                                         <div className="flex justify-between">
                                             <p className="text-xs text-gray-400">Payment ID</p>
@@ -228,13 +257,8 @@ const PrashadOrderHistory = () => {
                                         </div>
 
                                         <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">User ID</p>
-                                            <p className="text-sm font-semibold text-gray-900 break-all">{selectedOrder.user}</p>
-                                        </div>
-
-                                        <div className="flex justify-between">
-                                            <p className="text-xs text-gray-400">Subscription ID</p>
-                                            <p className="text-sm font-semibold text-gray-900 break-all">{selectedOrder.subscription}</p>
+                                            <p className="text-xs text-gray-400">Shipping Address</p>
+                                            <p className="text-sm font-semibold text-gray-900 break-all text-right">{selectedOrder.address}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -245,11 +269,29 @@ const PrashadOrderHistory = () => {
                                         <div className="mb-4">
                                             <h3 className="text-sm font-semibold text-gray-900">Prasad Items</h3>
                                             {selectedOrder.prasad.length > 0 ? (
-                                                <ul className="text-sm text-gray-700 mt-2 space-y-1">
+                                                <ul className="text-sm text-gray-700 mt-4 space-y-4">
                                                     {selectedOrder.prasad.map((item, index) => (
-                                                        <li key={index} className="flex justify-between">
-                                                            <span>{item.name || `Item ${index + 1}`}</span>
-                                                            <span>₹{item.price || item.amount || 'N/A'}</span>
+                                                        <li key={item._id || index} className="flex gap-4 items-start border-b border-gray-50 pb-4 last:border-0 last:pb-0">
+                                                            {item.images && item.images.length > 0 ? (
+                                                                <img
+                                                                    src={item.images[0]}
+                                                                    alt={item.name}
+                                                                    className="w-16 h-16 object-cover rounded-md border border-gray-200"
+                                                                />
+                                                            ) : (
+                                                                <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-xs">
+                                                                    No Image
+                                                                </div>
+                                                            )}
+                                                            <div className="flex-1">
+                                                                <p className="font-medium text-gray-900">{item.name}</p>
+                                                                <div className="flex justify-between mt-1 items-center">
+                                                                    <div className="text-xs text-gray-500">
+                                                                        <span>{item.quantity} x ₹{item.price}</span>
+                                                                    </div>
+                                                                    <span className="font-semibold">₹{item.quantity * item.price}</span>
+                                                                </div>
+                                                            </div>
                                                         </li>
                                                     ))}
                                                 </ul>

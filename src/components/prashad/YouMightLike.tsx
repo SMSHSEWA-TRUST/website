@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { ShoppingCart, Minus, Plus } from 'lucide-react';
+import { ShoppingCart, Minus, Plus, Loader2 } from 'lucide-react';
 import { useGetPrasadByTag } from '@/api/PrasadQueries';
 import { useAddToCart, useGetCart, useUpdateCartItem } from '@/api/CartQueries';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useI18n } from '@/lib/i18n';
 import { isAuthenticated } from '@/lib/authRedirect';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const YouMightLike: React.FC = () => {
     const navigate = useNavigate();
@@ -15,6 +16,8 @@ const YouMightLike: React.FC = () => {
     const { data: cartData } = useGetCart();
     const updateCartMutation = useUpdateCartItem();
     const { t } = useI18n();
+    const [addingId, setAddingId] = useState<string | null>(null);
+    const [updatingId, setUpdatingId] = useState<string | null>(null);
 
     const getCartItemForPrasad = (prasadId: string) => {
         const cartDataResponse = cartData?.data as any;
@@ -27,6 +30,9 @@ const YouMightLike: React.FC = () => {
         const cartItem = getCartItemForPrasad(prasadId);
         if (!cartItem) return;
 
+        // Set updating state
+        setUpdatingId(prasadId);
+
         const currentQuantity = cartItem.quantity;
         const newQuantity = currentQuantity + change;
         if (newQuantity < 1) {
@@ -34,10 +40,12 @@ const YouMightLike: React.FC = () => {
             updateCartMutation.mutate({ itemId: cartItem._id, data: { action: 'remove', quantity: currentQuantity } }, {
                 onSuccess: () => {
                     toast.success(`${prasad.name} removed from cart`);
+                    setUpdatingId(null);
                 },
                 onError: (err) => {
                     console.error('Error removing cart item:', err);
                     toast.error('Failed to update cart. Please try again.');
+                    setUpdatingId(null);
                 }
             });
             return;
@@ -47,12 +55,15 @@ const YouMightLike: React.FC = () => {
         const quantityChange = Math.abs(change);
 
         updateCartMutation.mutate({ itemId: cartItem._id, data: { action: action as any, quantity: quantityChange } }, {
+            onSuccess: () => {
+                setUpdatingId(null);
+            },
             onError: (err) => {
                 console.error('Error updating cart:', err);
+                setUpdatingId(null);
             }
         });
     };
-    const [addingId, setAddingId] = useState<string | null>(null);
 
     // Get first 5 prasad items
     const displayItems = prasadData?.data?.slice(0, 5) || [];
@@ -125,8 +136,22 @@ const YouMightLike: React.FC = () => {
                     {displayItems.map((prasad, index) => (
                         <div
                             key={prasad._id || index}
-                            className="bg-white rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                            className="bg-white rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col relative"
                         >
+                            {/* Loading Overlay */}
+                            <AnimatePresence>
+                                {(updatingId === prasad._id || addingId === prasad._id) && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="absolute inset-0 bg-white/60 z-50 flex items-center justify-center backdrop-blur-[1px]"
+                                    >
+                                        <Loader2 className="w-8 h-8 text-[#8b0000] animate-spin" />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             {/* Image Container */}
                             <div
                                 className="w-full aspect-square bg-gray-100 cursor-pointer overflow-hidden"
@@ -171,14 +196,14 @@ const YouMightLike: React.FC = () => {
                                     if (isInCart) {
                                         return (
                                             <div className="mt-auto">
-                                                <div className="flex items-center justify-center gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden">
+                                                <div className="flex w-full gap-0 border-2 border-[#8b0000] rounded-lg overflow-hidden relative">
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(prasad, -1); }}
                                                         // Allow decrement at 1 so user can remove item from cart
-                                                        disabled={false}
+                                                        disabled={updatingId === prasad._id}
                                                         title={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
                                                         aria-label={cartQuantity <= 1 ? 'Remove from cart' : 'Decrease quantity'}
-                                                        className={`p-3 transition-colors ${cartQuantity <= 1
+                                                        className={`flex items-center justify-center shrink-0 p-3 transition-colors ${cartQuantity <= 1
                                                             ? 'hover:bg-red-600 hover:text-white'
                                                             : 'hover:bg-[#8b0000] hover:text-white'
                                                             }`}
@@ -186,19 +211,31 @@ const YouMightLike: React.FC = () => {
                                                         <Minus className="w-5 h-5" />
                                                     </button>
 
-                                                    <div className="w-px bg-[#8b0000] h-8" />
+                                                    <div className="w-px bg-[#8b0000] shrink-0" />
 
-                                                    <span className="font-secondaryFont text-xl font-bold min-w-[50px] text-center text-gray-900 px-4">
-                                                        {cartQuantity}
-                                                    </span>
+                                                    <div className="font-secondaryFont text-xl font-bold flex-1 text-center text-gray-900 px-2 overflow-hidden flex items-center justify-center relative">
+                                                        <AnimatePresence mode="popLayout" initial={false}>
+                                                            <motion.span
+                                                                key={cartQuantity}
+                                                                initial={{ y: 20, opacity: 0 }}
+                                                                animate={{ y: 0, opacity: 1 }}
+                                                                exit={{ y: -20, opacity: 0 }}
+                                                                transition={{ duration: 0.2 }}
+                                                                className="block"
+                                                            >
+                                                                {cartQuantity}
+                                                            </motion.span>
+                                                        </AnimatePresence>
+                                                    </div>
 
-                                                    <div className="w-px bg-[#8b0000] h-8" />
+                                                    <div className="w-px bg-[#8b0000] shrink-0" />
 
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleQuantityChangeInCard(prasad, 1); }}
                                                         title="Increase quantity"
                                                         aria-label="Increase quantity"
-                                                        className={`p-3 transition-colors ${cartQuantity >= (prasad.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
+                                                        disabled={updatingId === prasad._id || cartQuantity >= (prasad.stock ?? 999)}
+                                                        className={`flex items-center justify-center shrink-0 p-3 transition-colors ${cartQuantity >= (prasad.stock ?? 999) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-[#8b0000] hover:text-white'}`}
                                                     >
                                                         <Plus className="w-5 h-5" />
                                                     </button>

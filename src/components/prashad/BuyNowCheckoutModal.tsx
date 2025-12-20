@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useGetPrasadCharge } from '@/api/ChargeQueries';
+import { createPortal } from 'react-dom';
+import { useGetCart } from '@/api/CartQueries';
 import { useGetPrasadById } from '@/api/PrasadQueries';
 import { useBuyNow } from '@/api/BuyNowQueries';
 import { useVerifyPayment } from '@/api/CartQueries';
@@ -12,6 +13,8 @@ import {
     useDeleteUserAddress
 } from '@/api/ProfileQueries';
 import { useI18n } from '@/lib/i18n';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 
 interface BuyNowCheckoutModalProps {
     isOpen: boolean;
@@ -22,6 +25,7 @@ interface BuyNowCheckoutModalProps {
     quantity: number;
     prasadImage?: string;
     onQuantityChange?: (newQuantity: number) => void;
+    isUpdating?: boolean;
 }
 
 const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
@@ -32,7 +36,8 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     prasadPrice,
     quantity,
     prasadImage,
-    onQuantityChange
+    onQuantityChange,
+    isUpdating = false
 }) => {
     const { t } = useI18n();
     // Address management state
@@ -42,12 +47,22 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     const [editingAddress, setEditingAddress] = useState<AddressModel | null>(null);
     const [localQuantity, setLocalQuantity] = useState(quantity);
 
+    // Sync local quantity with prop when modal opens or prop changes
+    useEffect(() => {
+        if (isOpen) {
+            setLocalQuantity(quantity);
+        }
+    }, [isOpen, quantity]);
+
     // API hooks
     const { data: addressesData, isLoading: isLoadingAddresses, refetch: refetchAddresses } = useGetUserAddresses();
     const addAddressMutation = useAddUserAddress();
     const updateAddressMutation = useUpdateUserAddress();
     const deleteAddressMutation = useDeleteUserAddress();
-    const { data: chargesApiResp, isLoading: isLoadingCharges } = useGetPrasadCharge(prasadId, isOpen && !!prasadId);
+
+    // Use getCart to fetch the cart preview data (charges, taxes, total)
+    const { data: cartResponse, isLoading: isLoadingCart } = useGetCart();
+
     const buyNowMutation = useBuyNow();
     const verifyPaymentMutation = useVerifyPayment();
 
@@ -56,38 +71,90 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
 
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-    // Prevent background scrolling when modal is open
+    // Prevent background scrolling when modal is open using position: fixed strategy
+    // Prevent background scrolling when modal is open using a robust class-based strategy
     useEffect(() => {
         if (!isOpen) return;
 
-        const previousOverflow = document.body.style.overflow;
-        const previousPaddingRight = document.body.style.paddingRight;
+        const scrollY = window.scrollY;
 
-        // Compensate for scrollbar to avoid layout shift
+        // Create a style element for the lock class
+        const style = document.createElement('style');
+        style.id = 'modal-scroll-lock';
+        style.innerHTML = `
+            .modal-open-lock {
+                position: fixed !important;
+                top: -${scrollY}px !important;
+                width: 100% !important;
+                height: 100% !important;
+                overflow: hidden !important;
+                overscroll-behavior: none !important;
+                touch-action: none !important;
+            }
+            html.modal-open-lock {
+                scroll-behavior: auto !important; /* prevent smooth scroll on restore */
+            }
+        `;
+        document.head.appendChild(style);
+
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+        // Save original padding
+        const originalBodyPadding = document.body.style.paddingRight;
+
+        // Apply lock class
+        document.body.classList.add('modal-open-lock');
+        document.documentElement.classList.add('modal-open-lock'); // Lock html too
+
+        // Compensate scrollbar
         if (scrollbarWidth > 0) {
             document.body.style.paddingRight = `${scrollbarWidth}px`;
         }
-        document.body.style.overflow = 'hidden';
 
         return () => {
-            document.body.style.overflow = previousOverflow || '';
-            document.body.style.paddingRight = previousPaddingRight || '';
+            // Remove styles
+            const styleEl = document.getElementById('modal-scroll-lock');
+            if (styleEl) styleEl.remove();
+
+            // Remove classes
+            document.body.classList.remove('modal-open-lock');
+            document.documentElement.classList.remove('modal-open-lock');
+
+            // Restore padding
+            document.body.style.paddingRight = originalBodyPadding || '';
+
+            // Restore scroll position immediately without smooth scrolling
+            document.documentElement.style.scrollBehavior = 'auto';
+            window.scrollTo(0, scrollY);
+
+            // Reset scroll behavior preference
+            setTimeout(() => {
+                document.documentElement.style.scrollBehavior = '';
+            }, 0);
         };
     }, [isOpen]);
 
-    // Calculate charges
-    const chargeItem = (chargesApiResp && chargesApiResp.data && Array.isArray(chargesApiResp.data) && chargesApiResp.data[0]) || null;
-    const deliveryCharges = chargeItem ? Number(chargeItem.deliveryCharges || 0) : 0;
-    const serviceFee = chargeItem ? Number(chargeItem.serviceFee || 0) : 0;
-    const taxes = chargeItem ? Number(chargeItem.taxes || 0) : 0;
+    // Calculate charges from Cart API response
+    const cartData = cartResponse?.data as any;
+    const charges = cartData?.charges;
+
+    const deliveryCharges = charges ? Number(charges.deliveryCharges || 0) : 0;
+    const serviceFee = charges ? Number(charges.serviceFee || 0) : 0;
+    const taxes = charges ? Number(charges.taxes || 0) : 0;
 
     const currentStock = prasadDetails?.data?.stock ?? Number.POSITIVE_INFINITY;
 
-    const subtotal = prasadPrice * localQuantity;
+    // Map fields as requested:
+    // Subtotal: cart.totalAmount
+    // Shipping: charges.deliveryCharges
+    // GST: charges.serviceFee + charges.taxes
+    // Total: grandTotal
+
+    const subtotal = cartData?.cart?.totalAmount || 0;
     const shipping = deliveryCharges;
     const vatTax = serviceFee + taxes;
-    const totalAmount = Math.round(subtotal + shipping + vatTax);
+    const totalAmount = cartData?.grandTotal || 0;
+
 
     const hasStockIssue = !isFinite(currentStock) ? false : (currentStock <= 0 || localQuantity > currentStock);
 
@@ -97,7 +164,16 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
     // Handle quantity change
     const handleQuantityChange = (change: number) => {
         const newQuantity = localQuantity + change;
-        // enforce min 1 and max = currentStock
+
+        // If new quantity is 0, triggers removal
+        if (newQuantity === 0) {
+            if (onQuantityChange) {
+                onQuantityChange(0);
+            }
+            return;
+        }
+
+        // enforce min 1 and max = currentStock for updates
         if (newQuantity >= 1 && newQuantity <= currentStock) {
             setLocalQuantity(newQuantity);
             if (onQuantityChange) {
@@ -205,7 +281,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
 
             const options: any = {
                 key: (import.meta as any).env?.VITE_RAZORPAY_KEY || '',
-                amount: (srv && (srv.amount || srv.amount_paid)) || Math.round(prasadPrice * localQuantity) * 100,
+                amount: (srv && (srv.amount || srv.amount_paid)) || totalAmount * 100,
                 currency: (srv && srv.currency) || 'INR',
                 name: 'SM SHSEWA TRUST',
                 description: `Prasad - ${prasadName}`,
@@ -269,13 +345,13 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
 
     const isLoading = addAddressMutation.isPending || updateAddressMutation.isPending;
 
-    return (
+    return createPortal(
         <>
             {/* Main Checkout Modal */}
-            <div className="fixed inset-0 z-[99999] flex items-start justify-center overflow-y-auto bg-black bg-opacity-50 p-4">
-                <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full my-8">
+            <div className="fixed inset-0 z-[99999] flex items-center justify-center overflow-hidden bg-black bg-opacity-60 backdrop-blur-sm p-4">
+                <div className="relative bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col">
                     {/* Header */}
-                    <div className="flex items-center px-6 py-4 border-b border-gray-200">
+                    <div className="flex items-center px-6 py-4 border-b border-gray-200 flex-shrink-0">
                         <button
                             onClick={onClose}
                             className="mr-4 text-gray-600 hover:text-gray-900"
@@ -289,7 +365,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                     </div>
 
                     {/* Content */}
-                    <div className="px-6 py-6 max-h-[calc(100vh-200px)] overflow-y-auto">
+                    <div className="px-6 py-6 overflow-y-auto flex-1">
                         {/* Shipping Address Section */}
                         <div className="mb-6">
                             <h3 className="text-lg font-medium text-gray-600 mb-3">{t('prashad_checkout.shippingAddress')}</h3>
@@ -371,22 +447,28 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                         <div className="mb-6">
                             <h3 className="text-lg font-medium text-gray-600 mb-3">{t('prashad_checkout.yourOrder')}</h3>
 
-                            <div className="bg-white rounded-xl">
+                            <div className="bg-white rounded-xl relative">
+                                {/* Loading Overlay */}
+                                <AnimatePresence>
+                                    {isUpdating && (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center backdrop-blur-[1px] rounded-xl"
+                                        >
+                                            <Loader2 className="w-6 h-6 text-[#8b0000] animate-spin" />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
                                 {/* Product Header */}
                                 <div className="flex items-start justify-between mb-3">
                                     <h4 className="text-base font-medium text-gray-900">{prasadName}</h4>
                                     {/* Delete Icon */}
                                     <button
                                         onClick={() => {
-                                            // Confirm with the user, then inform parent and close modal
-                                            if (!window.confirm('Remove this item from your order?')) return;
-                                            try {
-                                                if (onQuantityChange) onQuantityChange(0);
-                                                toast.success('Item removed from order');
-                                            } catch (e) {
-                                                // ignore
-                                            }
-                                            onClose();
+                                            if (onQuantityChange) onQuantityChange(0);
                                         }}
                                         className="text-red-600 hover:text-red-700"
                                         aria-label="Remove item"
@@ -425,7 +507,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                         <div className="flex items-center gap-0 border border-gray-300 rounded-lg overflow-hidden">
                                             <button
                                                 onClick={() => handleQuantityChange(-1)}
-                                                disabled={localQuantity <= 1}
+                                                disabled={isUpdating}
                                                 className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                                                 aria-label="Decrease quantity"
                                             >
@@ -433,12 +515,23 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                                                     <line x1="5" y1="12" x2="19" y2="12" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
                                             </button>
-                                            <span className="px-4 py-1 text-base font-medium text-gray-900 min-w-[40px] text-center">
-                                                {localQuantity}
-                                            </span>
+                                            <div className="px-4 py-1 text-base font-medium text-gray-900 min-w-[40px] text-center overflow-hidden h-[24px] flex items-center justify-center relative">
+                                                <AnimatePresence mode="popLayout" initial={false}>
+                                                    <motion.span
+                                                        key={localQuantity}
+                                                        initial={{ y: 20, opacity: 0 }}
+                                                        animate={{ y: 0, opacity: 1 }}
+                                                        exit={{ y: -20, opacity: 0 }}
+                                                        transition={{ duration: 0.2 }}
+                                                        className="block"
+                                                    >
+                                                        {localQuantity}
+                                                    </motion.span>
+                                                </AnimatePresence>
+                                            </div>
                                             <button
                                                 onClick={() => handleQuantityChange(1)}
-                                                disabled={localQuantity >= currentStock}
+                                                disabled={localQuantity >= currentStock || isUpdating}
                                                 className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                                                 aria-label="Increase quantity"
                                             >
@@ -458,7 +551,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
 
                         {/* Price Breakdown */}
                         <div className="space-y-2 py-4">
-                            {isLoadingCharges ? (
+                            {isLoadingCart ? (
                                 <div className="text-center py-4">
                                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#AD2F16] mx-auto"></div>
                                     <p className="text-sm text-gray-500 mt-2">{t('prashad_checkout.loadingCharges')}</p>
@@ -492,7 +585,7 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                     <div className="px-6 py-4 border-t border-gray-200">
                         <button
                             onClick={proceedToPayment}
-                            disabled={isProcessingPayment || !selectedAddressId || isLoadingCharges || hasStockIssue}
+                            disabled={isProcessingPayment || !selectedAddressId || isLoadingCart || hasStockIssue}
                             className="w-full bg-[#AD2F16] hover:bg-[#8B0000] text-white font-semibold py-4 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                             {isProcessingPayment ? (
@@ -536,7 +629,8 @@ const BuyNowCheckoutModal: React.FC<BuyNowCheckoutModalProps> = ({
                 }}
                 isLoading={isLoading}
             />
-        </>
+        </>,
+        document.body
     );
 };
 

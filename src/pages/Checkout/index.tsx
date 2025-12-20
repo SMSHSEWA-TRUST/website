@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trash2, Minus, Plus } from 'lucide-react';
-import { getCart, updateCartItem, CartData, createOrder, verifyPayment } from '../../services/cart.service';
+import { ArrowLeft, Trash2, Minus, Plus, Loader2 } from 'lucide-react';
+import { getCart, getCartPreview, updateCartItem, CartData, CartPreviewData, createOrder, verifyPayment } from '../../services/cart.service';
 import { getUserAddresses, addUserAddress, updateUserAddress, AddressModel } from '../../services/profile.service';
 import { AddressCard } from '../../components/address/AddressCard';
 import { AddressFormModal } from '../../components/address/AddressFormModal';
@@ -9,11 +9,13 @@ import { ComponentLoader } from '../../components/ui/LoadingComponents';
 import parshadTopImage from '../../assets/images/parshadTopImage.png';
 import toast from 'react-hot-toast';
 import { useI18n } from '@/lib/i18n';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const CheckoutPage = () => {
     const { lang } = useI18n();
     const navigate = useNavigate();
     const [cart, setCart] = useState<CartData | null>(null);
+    const [cartPreview, setCartPreview] = useState<CartPreviewData | null>(null);
     const [selectedAddress, setSelectedAddress] = useState<AddressModel | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState<string | null>(null);
@@ -34,8 +36,18 @@ export const CheckoutPage = () => {
                 getUserAddresses()
             ]);
 
-            if (cartRes.success) {
+            if (cartRes.success && cartRes.data) {
                 setCart(cartRes.data);
+
+                // Fetch cart preview to get charges and grandTotal
+                try {
+                    const previewRes = await getCartPreview(cartRes.data._id);
+                    if (previewRes.success && previewRes.data) {
+                        setCartPreview(previewRes.data);
+                    }
+                } catch (previewError) {
+                    console.error('Error fetching cart preview:', previewError);
+                }
             }
 
             // Handle address response - it might be an array directly or wrapped
@@ -56,19 +68,43 @@ export const CheckoutPage = () => {
         }
     };
 
+
     const handleUpdateQuantity = async (itemId: string, currentQty: number, change: number) => {
         const newQty = currentQty + change;
         if (newQty < 1) return;
 
+        // Optimistic update
+        const previousCart = cart;
+        setCart((prev) => {
+            if (!prev) return prev;
+            const updatedItems = prev.items.map((item) =>
+                item._id === itemId ? { ...item, quantity: newQty } : item
+            );
+            // Simple recalculation for UI responsiveness (approximate, server is source of truth)
+            // We can just update items for now, totals will update on refetch
+            return { ...prev, items: updatedItems };
+        });
+
         try {
             setUpdating(itemId);
             await updateCartItem(itemId, { action: change > 0 ? 'add' : 'remove', quantity: 1 });
-            // Refresh cart
+            // Refresh cart to get accurate totals and confirm
             const res = await getCart();
-            if (res.success) {
+            if (res.success && res.data) {
                 setCart(res.data);
+                // Also refresh cart preview for updated charges
+                try {
+                    const previewRes = await getCartPreview(res.data._id);
+                    if (previewRes.success && previewRes.data) {
+                        setCartPreview(previewRes.data);
+                    }
+                } catch (e) {
+                    console.error('Error refreshing cart preview:', e);
+                }
             }
         } catch (error) {
+            // Revert on error
+            setCart(previousCart);
             toast.error('Failed to update quantity');
         } finally {
             setUpdating(null);
@@ -76,6 +112,13 @@ export const CheckoutPage = () => {
     };
 
     const handleRemoveItem = async (itemId: string) => {
+        // Optimistic update
+        const previousCart = cart;
+        setCart((prev) => {
+            if (!prev) return prev;
+            return { ...prev, items: prev.items.filter((item) => item._id !== itemId) };
+        });
+
         try {
             setUpdating(itemId);
             // Assuming updateCartItem with action 'remove' and quantity equal to current removes it?
@@ -86,7 +129,7 @@ export const CheckoutPage = () => {
             // If I want to delete, I might need to call remove multiple times or maybe there is a delete endpoint?
             // Looking at service: updateCartItem(itemId, data).
             // Let's try removing with current quantity.
-            const item = cart?.items.find(i => i._id === itemId);
+            const item = previousCart?.items.find(i => i._id === itemId);
             if (item) {
                 // If the API supports removing the item entirely, we might need a different call.
                 // But based on `updateCartItem` signature, maybe we just loop or send a large number?
@@ -96,11 +139,22 @@ export const CheckoutPage = () => {
                 // If I want to delete, I might need to call it with the full quantity.
                 await updateCartItem(itemId, { action: 'remove', quantity: item.quantity });
                 const res = await getCart();
-                if (res.success) {
+                if (res.success && res.data) {
                     setCart(res.data);
+                    // Also refresh cart preview for updated charges
+                    try {
+                        const previewRes = await getCartPreview(res.data._id);
+                        if (previewRes.success && previewRes.data) {
+                            setCartPreview(previewRes.data);
+                        }
+                    } catch (e) {
+                        console.error('Error refreshing cart preview:', e);
+                    }
                 }
             }
         } catch (error) {
+            // Revert on error
+            setCart(previousCart);
             toast.error('Failed to remove item');
         } finally {
             setUpdating(null);
@@ -339,7 +393,21 @@ export const CheckoutPage = () => {
                             <h2 className="text-xl font-bold text-gray-900 mb-4">Your Cart</h2>
                             <div className="space-y-6">
                                 {cart.items.map((item) => (
-                                    <div key={item._id} className="flex flex-col sm:flex-row sm:items-center gap-4 pb-4 sm:pb-6 border-b border-gray-100 last:border-0 last:pb-0">
+                                    <div key={item._id} className="flex flex-col sm:flex-row sm:items-center gap-4 pb-4 sm:pb-6 border-b border-gray-100 last:border-0 last:pb-0 relative">
+                                        {/* Loading Overlay */}
+                                        <AnimatePresence>
+                                            {updating === item._id && (
+                                                <motion.div
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    className="absolute inset-0 bg-white/60 z-50 flex items-center justify-center backdrop-blur-[1px] rounded-lg"
+                                                >
+                                                    <Loader2 className="w-8 h-8 text-[#8b0000] animate-spin" />
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+
                                         <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto flex-1">
                                             {/* Image */}
                                             <div className="w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
@@ -368,7 +436,20 @@ export const CheckoutPage = () => {
                                                 >
                                                     <Minus className="w-3 h-3 sm:w-4 sm:h-4" />
                                                 </button>
-                                                <span className="w-6 sm:w-10 text-center text-xs sm:text-base font-semibold text-gray-900">{item.quantity}</span>
+                                                <div className="w-6 sm:w-10 text-center text-xs sm:text-base font-semibold text-gray-900 overflow-hidden h-[24px] flex items-center justify-center relative">
+                                                    <AnimatePresence mode="popLayout" initial={false}>
+                                                        <motion.span
+                                                            key={item.quantity}
+                                                            initial={{ y: 20, opacity: 0 }}
+                                                            animate={{ y: 0, opacity: 1 }}
+                                                            exit={{ y: -20, opacity: 0 }}
+                                                            transition={{ duration: 0.2 }}
+                                                            className="block"
+                                                        >
+                                                            {item.quantity}
+                                                        </motion.span>
+                                                    </AnimatePresence>
+                                                </div>
                                                 <button
                                                     onClick={() => handleUpdateQuantity(item._id, item.quantity, 1)}
                                                     disabled={updating === item._id}
