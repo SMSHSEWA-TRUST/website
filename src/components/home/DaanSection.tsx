@@ -157,7 +157,7 @@ const DonationSection = () => {
                       className={`inline-flex items-center justify-center w-14 h-14 rounded-lg transition-all duration-300 border-orange-300 border bg-red-800 text-white group-hover:bg-red-800 group-hover:text-white text-white"   
                       }`}>
 
-                      <img src={imageForCard} alt={category.title?.[lang] || 'donation'} className="w-8 h-8 object-contain" />
+                      <img src={imageForCard} alt={category?.title?.[lang] || category?.title?.en} className="w-8 h-8 object-contain" />
 
                     </div>
                   </div>
@@ -165,7 +165,7 @@ const DonationSection = () => {
                   {/* Title */}
                   <h3
                     className={`textHeading mb-2 transition-colors duration-300 text-white group-hover:text-red-800 hover:text-red-800 font-bold`}>
-                    {category.title?.[lang]}
+                    {category?.title?.[lang] || category?.title?.en}
                   </h3>
 
                   {/* Decorative Line */}
@@ -184,7 +184,7 @@ const DonationSection = () => {
                   <p
                     className={`textDescription leading-relaxed mb-6 transition-colors duration-300 text-white/90 group-hover:text-gray-600 flex-grow
                       `}>
-                    {category.description?.[lang]}
+                    {category?.description?.[lang] || category?.description?.en}
                   </p>
 
                   {/* Donate Button */}

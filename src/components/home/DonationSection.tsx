@@ -282,7 +282,7 @@ export default function DonationSection() {
                         <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <img
                                 src={currentTestimonial.image}
-                                alt={`Profile of ${currentTestimonial.name?.[lang]}`}
+                                alt={`Profile of ${currentTestimonial?.name?.[lang] || currentTestimonial?.name?.en}`}
                                 className="w-full md:w-64 h-112 object-cover rounded-md shadow-md bg-gray-200"
                                 loading="lazy"
                             />
@@ -290,7 +290,7 @@ export default function DonationSection() {
                         <div className={`flex-1 flex flex-col justify-between h-full md:h-64 gap-3 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
                             <div className="flex-1">
                                 <p className="text-[rgba(30,30,30,0.5)] textDescription leading-relaxed font-secondaryFont mb-4">
-                                    {truncateByChars(currentTestimonial.text?.[lang], 300)}
+                                    {truncateByChars(currentTestimonial?.text?.[lang] || currentTestimonial?.text?.en, 300)}
                                 </p>
                                 {/* Decorative line after paragraph */}
                                 <div className="w-full flex justify-start mb-3">
@@ -299,7 +299,7 @@ export default function DonationSection() {
                                     </div>
                                 </div>
                                 <span className="text-[rgba(139,0,0,1)] font-normal font-primaryFont textHeading">
-                                    {currentTestimonial.name?.[lang]}
+                                    {currentTestimonial.name?.[lang] || currentTestimonial.name?.en}
                                 </span>
                             </div>
                             <div className="flex items-center justify-end w-full mt-auto">

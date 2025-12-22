@@ -259,7 +259,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                 {galleryImages[selectedImage] ? (
                                     <LazyLoadImage
                                         src={galleryImages[selectedImage]}
-                                        alt={currentName?.[lang]}
+                                        alt={currentName?.[lang] || currentName?.en}
                                         className="w-full h-full object-contain"
                                         wrapperClassName="w-full h-full flex items-center justify-center"
                                     />
@@ -286,7 +286,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                             {img ? (
                                                 <LazyLoadImage
                                                     src={img}
-                                                    alt={`${currentName?.[lang]} ${index + 1}`}
+                                                    alt={`${currentName?.[lang] || currentPrice?.en} ${index + 1}`}
                                                     className="w-20 h-20 object-cover sm:w-24 sm:h-24 md:w-28 md:h-28"
                                                 />
                                             ) : (
@@ -323,7 +323,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
 
                             {/* Title */}
                             <h2 className="font-primaryFont text-3xl lg:text-4xl text-gray-900 mb-5 tracking-tight">
-                                {currentName?.[lang]}
+                                {currentName?.[lang] || currentName?.en}
                             </h2>
 
                             {/* Stock Information */}
@@ -404,7 +404,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                     {t('prashad.detail.descriptionTitle')}
                                 </h3>
                                 <p className="font-secondaryFont text-sm text-gray-500 leading-relaxed">
-                                    {currentDescription?.[lang]}
+                                    {currentDescription?.[lang] || currentDescription?.en}
                                 </p>
                             </div>
 
@@ -474,7 +474,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                 isOpen={isBuyNowOpen}
                 onClose={() => setIsBuyNowOpen(false)}
                 prasadId={prasadId}
-                prasadName={currentName?.[lang]}
+                prasadName={currentName?.[lang] || currentName?.en}
                 prasadPrice={currentPrice}
                 quantity={quantity}
                 prasadImage={galleryImages[selectedImage]}

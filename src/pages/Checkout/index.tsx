@@ -413,14 +413,14 @@ export const CheckoutPage = () => {
                                             <div className="w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
                                                 <img
                                                     src={item.prasad.images[0] || '/placeholder.png'}
-                                                    alt={item.prasad.name?.[lang]}
+                                                    alt={item.prasad.name?.[lang] || item?.prasad?.name?.en}
                                                     className="w-full h-full object-cover"
                                                 />
                                             </div>
 
                                             {/* Details */}
                                             <div className="flex-1 min-w-0">
-                                                <h3 className="text-sm sm:text-lg font-bold text-red-700 mb-1 truncate">{item.prasad.name?.[lang]}</h3>
+                                                <h3 className="text-sm sm:text-lg font-bold text-red-700 mb-1 truncate">{item.prasad.name?.[lang] || item?.prasad?.name?.en}</h3>
                                                 <p className="text-sm sm:text-xl font-bold text-gray-900">₹{item.prasad.price}</p>
                                             </div>
                                         </div>

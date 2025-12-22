@@ -316,7 +316,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
 
                     {description && (
                         <p className="font-secondaryFont text-sm sm:text-base text-gray-600 max-w-3xl mx-auto">
-                            {description?.[lang]}
+                            {description?.[lang] || description?.en}
                         </p>
                     )}
                 </div>
@@ -353,7 +353,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                     {plan.image ? (
                                         <LazyLoadImage
                                             src={plan.image}
-                                            alt={plan.name?.[lang]}
+                                            alt={plan?.name?.[lang] || plan?.name?.en}
                                             className="w-full h-full object-cover"
                                             wrapperClassName="absolute inset-0 w-full h-full"
                                             loading="lazy"
@@ -368,7 +368,7 @@ const PrashadSection: React.FC<PrashadSectionProps> = ({
                                 </div>
                                 <div className="p-4 flex flex-col flex-grow">
                                     <h3 className="font-secondaryFont text-base sm:text-lg text-gray-700 mb-1 line-clamp-1 h-[28px]">
-                                        {plan.name?.[lang]}
+                                        {plan?.name?.[lang] || plan?.name?.en}
                                     </h3>
                                     <p className="font-secondaryFont text-xl sm:text-2xl text-[#8b0000] font-semibold mt-1">
                                         ₹{plan.price}

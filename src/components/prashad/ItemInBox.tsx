@@ -35,8 +35,8 @@ const ItemInBox: React.FC<ItemInBoxProps> = ({ items }) => {
         return {
             id: itemAny._id ?? itemAny.id ?? itemAny.itemId ?? itemAny.id,
             image: itemAny.itemImage ?? itemAny.image ?? '',
-            name: itemAny.itemName?.[lang] ?? itemAny.name?.[lang] ?? 'Item Name',
-            description: itemAny.itemDescription?.[lang] ?? itemAny.description?.[lang] ?? '',
+            name: itemAny.itemName?.[lang] ?? itemAny.name?.[lang] ?? itemAny.name?.en,
+            description: itemAny.itemDescription?.[lang] ?? itemAny.description?.[lang] ?? itemAny.description?.en,
         };
     });
 

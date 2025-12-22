@@ -414,7 +414,7 @@ const SubscriptionPlans: React.FC = () => {
                                     <div className="mb-4">
                                         <div className="flex items-center gap-2 mb-1">
                                             <h3 className={`textHeadingLg font-semibold tracking-wider ${selected ? 'text-white' : 'text-gray-900'}`}>
-                                                {plan.title?.[lang]}
+                                                {plan?.title?.[lang] || plan?.title?.en}
                                             </h3>
                                             {/* discount not used for these plans */}
                                         </div>
@@ -485,7 +485,7 @@ const SubscriptionPlans: React.FC = () => {
                                                         strokeLinejoin="round"
                                                     />
                                                 </svg>
-                                                <span className={`text-sm ${selected ? 'text-white/90' : '#000000'}`}>{feature?.[lang]}</span>
+                                                <span className={`text-sm ${selected ? 'text-white/90' : '#000000'}`}>{feature?.[lang] || feature?.en}</span>
                                             </li>
                                         ))}
                                     </ul>

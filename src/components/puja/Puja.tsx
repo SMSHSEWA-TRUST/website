@@ -116,7 +116,7 @@ export default function Puja() {
                                     <div className="relative w-full overflow-hidden h-64 flex-shrink-0">
                                         <LazyLoadImage
                                             src={puja.imageUrl || ''}
-                                            alt={puja.title?.[lang]}
+                                            alt={puja?.title?.[lang] || puja?.title?.en}
                                             className="w-full h-full object-cover rounded-lg"
                                             loading="lazy"
                                             style={{
@@ -129,12 +129,12 @@ export default function Puja() {
                                     <div className='pt-4 flex flex-col flex-grow'>
                                         {/* Title */}
                                         <h2 className="textHeading font-bold text-[#8B0000] mb-4 font-primaryFont min-h-[2.5rem]">
-                                            {puja.title?.[lang]}
+                                            {puja?.title?.[lang] || puja?.title?.en}
                                         </h2>
 
                                         {/* Description */}
                                         <p className="text-gray-700 textDescription leading-relaxed mb-6 font-secondaryFont flex-grow">
-                                            {puja.description?.[lang]}
+                                            {puja.description?.[lang] || puja?.description?.en}
                                         </p>
 
                                         {/* Price and Button Container */}

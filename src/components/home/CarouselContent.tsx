@@ -44,18 +44,18 @@ const Slide: React.FC<{ data: SlideData }> = ({ data: _data }) => {
                     <div className=" flex justify-center">
                         <img
                             src={data.img}
-                            alt={data.title?.[lang]}
+                            alt={data.title?.[lang] || data.title.en}
                             className="w-[300px] h-[250px]   object-cover rounded-md"
                             loading="lazy"
                         />
                     </div>
                     <div className="px-6 pb-6 relative">
-                        <h3 className="mt-4 text-2xl font-bold font-primaryFont text-[#8B0000]">{data.title?.[lang]}</h3>
-                        <p className="text-sm text-[#8B0000] opacity-90 mt-1 font-semibold">{data.role?.[lang]}</p>
-                        <p className="text-xs text-gray-400 mt-2 mb-4" style={{ whiteSpace: 'pre-line' }}>{data.org?.[lang]}</p>
+                        <h3 className="mt-4 text-2xl font-bold font-primaryFont text-[#8B0000]">{data.title?.[lang] || data.title.en}</h3>
+                        <p className="text-sm text-[#8B0000] opacity-90 mt-1 font-semibold">{data.role?.[lang] || data.role.en}</p>
+                        <p className="text-xs text-gray-400 mt-2 mb-4" style={{ whiteSpace: 'pre-line' }}>{data.org?.[lang] || data.org.en}</p>
 
                         <div className="absolute top-[65px] left-7 text-[#D05E2D] text-[80px] font-primaryFont leading-none ">“</div>
-                        <p className="relative z-10 text-[#8B0000] textDescription leading-relaxed">{data.quote?.[lang]}</p>
+                        <p className="relative z-10 text-[#8B0000] textDescription leading-relaxed">{data.quote?.[lang] || data.quote.en}</p>
 
                     </div>
                 </div>
@@ -68,7 +68,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data: _data }) => {
                     <div className="w-full lg:w-[40%] h-full">
                         <LazyLoadImage
                             src={data.img}
-                            alt={data.title?.[lang]}
+                            alt={data.title?.[lang] || data.title.en}
                             className="w-full h-full object-cover"
                             loading="lazy"
                             style={{
@@ -84,7 +84,7 @@ const Slide: React.FC<{ data: SlideData }> = ({ data: _data }) => {
                         </div>
                         <div className="mt-12 lg:mt-16 text-center ">
                             <p className="text-[#8B0000] textDescription  font-normal font-secondaryFont mb-8">
-                                {data.quote?.[lang]}
+                                {data.quote?.[lang] || data.quote.en}
                             </p>
                         </div>
                     </div>
@@ -102,18 +102,18 @@ const Slide: React.FC<{ data: SlideData }> = ({ data: _data }) => {
                         {/* Text content */}
                         <div className="relative z-10 mb-4 text-left">
                             <h3 className="textHeadingLg font-bold font-primaryFont mb-2">
-                                {data.title?.[lang]}
+                                {data.title?.[lang] || data.title.en}
                             </h3>
 
                             {/* Add underline here */}
                             <p className="textDescription font-secondaryFont font-semibold mb-2 opacity-90 border-b border-white inline-block pb-1">
-                                {data.role?.[lang]}
+                                {data.role?.[lang] || data.role.en}
                             </p>
                             <p
                                 className="textDescription text-[#FFFFFFB3] opacity-80 leading-relaxed font-secondaryFont "
                                 style={{ whiteSpace: "pre-line" }}
                             >
-                                {data.org?.[lang]}
+                                {data.org?.[lang] || data.org.en}
                             </p>
                         </div>
                     </div>
