@@ -675,6 +675,27 @@
       "defaultDescription": "જેણે ભૂમિ દાન આપ્યું, તેણે આવનારી પેઢીઓને સંજીવની આપી"
     }
   },
+  "prashad_checkout": {
+    "checkoutTitle": "ચેકઆઉટ",
+    "shippingAddress": "ડિલિવરીનું સરનામું",
+    "addDeliveryAddress": "ડિલિવરી સરનામું ઉમેરો",
+    "yourCart": "તમારું કાર્ટ",
+    "yourOrder": "તમારો ઓર્ડર",
+    "orderSummary": "ઓર્ડરની વિગતો",
+    "removeConfirm": "શું તમે આ આઇટમને ઓર્ડરમાંથી દૂર કરવા માંગો છો?",
+    "itemRemoved": "આઇટમ ઓર્ડરમાંથી દૂર કરવામાં આવી છે",
+    "loadingCharges": "ચાર્જિસ લોડ થઈ રહ્યા છે...",
+    "subtotal": "રકમ",
+    "shipping": "શિપિંગ ચાર્જ",
+    "vatTax": "જીએસટી",
+    "total": "કુલ રકમ",
+    "processing": "પ્રોસેસ થઈ રહ્યું છે...",
+    "proceedToPayment": "ચુકવણી કરો",
+    "itemOutOfStock": "આ આઇટમ સ્ટોકમાં નથી",
+    "onlyAvailable": "માત્ર {{count}} ઉપલબ્ધ છે",
+    "addDeliveryAddressButton": "ડિલિવરી સરનામું ઉમેરો",
+    "selectDeliveryAddress": "કૃપા કરીને ડિલિવરી સરનામું પસંદ કરો"
+  },
   "membershipFaq": {
     "heading": "વારંવાર પૂછાતા પ્રશ્નો",
     "items": [

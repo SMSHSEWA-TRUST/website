@@ -416,7 +416,7 @@ const PrashadDetailCard: React.FC<PrashadDetailModalProps> = ({ plan, isOpen, on
                                 {displayData?.itemsIncluded && displayData.itemsIncluded.length > 0 ? (
                                     <ul className="font-secondaryFont text-sm text-gray-500 leading-relaxed list-disc list-inside space-y-1">
                                         {displayData.itemsIncluded.map((item: any, index: number) => (
-                                            <li key={item._id ?? index}>{typeof item === 'string' ? item : (item.itemName ?? item.itemDescription ?? '')}</li>
+                                            <li key={item._id ?? index}>{item?.itemName?.[lang] || item?.itemName?.["en"]}</li>
                                         ))}
                                     </ul>
                                 ) : currentWhatsInBox ? (

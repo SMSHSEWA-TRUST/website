@@ -12,7 +12,7 @@ import { useI18n } from '@/lib/i18n';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const CheckoutPage = () => {
-    const { lang } = useI18n();
+    const { t, lang } = useI18n();
     const navigate = useNavigate();
     const [cart, setCart] = useState<CartData | null>(null);
     const [cartPreview, setCartPreview] = useState<CartPreviewData | null>(null);
@@ -361,7 +361,7 @@ export const CheckoutPage = () => {
                     >
                         <ArrowLeft className="w-6 h-6 text-gray-700" />
                     </button>
-                    <h1 className="text-3xl font-bold text-gray-900">Checkout</h1>
+                    <h1 className="text-3xl font-bold text-gray-900">{t("prashad_checkout.checkoutTitle")}</h1>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-8">
@@ -369,7 +369,7 @@ export const CheckoutPage = () => {
                     <div className="flex-1 space-y-6">
                         {/* Shipping Address Section */}
                         <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
-                            <h2 className="text-xl font-bold text-gray-900 mb-4">Shipping Address</h2>
+                            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("prashad_checkout.shippingAddress")}</h2>
                             {selectedAddress ? (
                                 <AddressCard
                                     address={selectedAddress}
@@ -382,7 +382,7 @@ export const CheckoutPage = () => {
                                         onClick={handleAddAddress}
                                         className="text-red-600 font-semibold hover:underline"
                                     >
-                                        Add New Address
+                                        {t("prashad_checkout.addDeliveryAddress")}
                                     </button>
                                 </div>
                             )}
@@ -390,7 +390,7 @@ export const CheckoutPage = () => {
 
                         {/* Cart Section */}
                         <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
-                            <h2 className="text-xl font-bold text-gray-900 mb-4">Your Cart</h2>
+                            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("prashad_checkout.yourCart")}</h2>
                             <div className="space-y-6">
                                 {cart.items.map((item) => (
                                     <div key={item._id} className="flex flex-col sm:flex-row sm:items-center gap-4 pb-4 sm:pb-6 border-b border-gray-100 last:border-0 last:pb-0 relative">
@@ -480,24 +480,24 @@ export const CheckoutPage = () => {
                     {/* Right Column - Order Summary */}
                     <div className="lg:w-[400px] flex-shrink-0">
                         <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm sticky top-32 z-20">
-                            <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+                            <h2 className="text-xl font-bold text-gray-900 mb-6">{t("prashad_checkout.orderSummary")}</h2>
 
                             <div className="space-y-4 mb-8">
                                 <div className="flex justify-between text-gray-600 font-medium">
-                                    <span>Subtotal</span>
+                                    <span>{t("prashad_checkout.subtotal")}</span>
                                     <span className="text-gray-900 font-bold">₹{subtotal.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between text-gray-600 font-medium">
-                                    <span>Shipping</span>
+                                    <span>{t("prashad_checkout.shipping")}</span>
                                     <span className="text-gray-900 font-bold">₹{shipping.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between text-gray-600 font-medium">
-                                    <span>GST</span>
+                                    <span>{t("prashad_checkout.vatTax")}</span>
                                     <span className="text-gray-900 font-bold">₹{gst.toFixed(2)}</span>
                                 </div>
                                 <div className="h-px bg-gray-100 my-4"></div>
                                 <div className="flex justify-between text-lg">
-                                    <span className="font-bold text-gray-900">Total</span>
+                                    <span className="font-bold text-gray-900">{t("prashad_checkout.total")}</span>
                                     <span className="font-bold text-gray-900">₹{total.toFixed(2)}</span>
                                 </div>
                             </div>
@@ -507,7 +507,7 @@ export const CheckoutPage = () => {
                                 disabled={processingPayment}
                                 className="w-full bg-[#A83218] text-white font-bold py-4 rounded-xl hover:bg-[#8a2913] transition-colors shadow-lg shadow-red-900/20 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
-                                {processingPayment ? 'Processing...' : 'Continue to Payment'}
+                                {processingPayment ? t("prashad_checkout.processing") : t("prashad_checkout.proceedToPayment")}
                             </button>
                         </div>
                     </div>

@@ -1,786 +1,791 @@
 {
-    "header": {
-        "supportEmail": "smshstrust@gmail.com",
-        "phone": "+91 9352815982",
-        "language": "Language:",
-        "title": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust"
-    },
-    "nav": {
-        "home": "Home",
-        "about": "About",
-        "puja": "Pooja",
-        "gallery": "Gallery",
-        "prashad": "Prashad",
-        "membership": "Membership",
-        "blogs": "Blogs",
-        "contact": "Contact us"
-    },
-    "pageHero": {
-        "about": {
-            "title": "About Shree Mahakaleshwar Salasar Hanuman Sewa Trust",
-            "semiTitle": "",
-            "description": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is a spiritual and social trust founded with the vision of uniting faith and seva (service). With the blessings of Mahakal Baba (Ujjain) and Salasar Balaji Maharaj (Rajasthan), we are on a sacred journey to build a grand Mahadham in Surat by 2029. Our mission is to preserve Sanatan values, spread seva, and create a spiritual legacy for future generations."
-        },
-        "blogs": {
-            "title": "Wisdom & Devotion Through Words ",
-            "semiTitle": "",
-            "description": ""
-        },
-        "blogDetails": {
-            "title": "Blog Details",
-            "semiTitle": "By: Author | Date: 01/01/2025",
-            "description": ""
-        },
-        "contact": {
-            "title": "Contact Us",
-            "semiTitle": "",
-            "description": ""
-        },
-        "membership": {
-            "title": "Become a Member – Be a Part of Mahadham 2029",
-            "semiTitle": "",
-            "description": "Joining the Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is not just a membership – it is becoming part of a spiritual movement. "
-        },
-        "gallery": {
-            "title": "Gallery",
-            "semiTitle": "",
-            "description": "Gallery of Faith & Devotion  – step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
-        },
-        "puja": {
-            "title": "Gallery of Faith & Devotion",
-            "semiTitle": "",
-            "description": "Gallery of Faith & Devotion  – step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
-        },
-        "prashad": {
-            "title": "Prashad",
-            "semiTitle": "",
-            "description": "God’s Prasad is a sacred blessing. Experience divine grace through our Prasad offerings."
-        }
-    },
-    "auth": {
-        "register": "Register/Login",
-        "logout": "Logout"
-    },
-    "profile": {
-        "personalProfile": "Personal Profile",
-        "pujaBookings": "Pooja Bookings",
-        "prashadOrders": "Prashad Orders",
-        "donationsHistory": "Donations History",
-        "membershipHistory": "Membership History"
-    },
-    "hero": {
-        "subheading": "Feel Lord Shiva's Power",
-        "titles": [
-            "Jai Shree Mahakaleshwar",
-            "Jai Shree Salasar Balaji"
-        ],
-        "descriptions": [
-            "It is believed that Lord Mahakal is the Mahakaal of all Kaal (the destroyer of time itself)",
-            "It is believed that the darshan of Salasar Hanuman Balaji frees one from all sorrows."
-        ]
-    },
-    "bhudaan": {
-        "title": "Bhumi Daan",
-        "lead": "In Sanatan Dharma, three forms of donation are considered the most sacred: Kanya Daan, Anna Daan, and Bhumi Daan.\n\nAnd among these, the donation of land for the creation of a Mahadham stands as the highest virtue. When you offer land for this divine cause, you are not just giving soil, you are laying the foundation of faith, service, and Sanatan culture for generations to come.",
-        "subtitle": "Donate Land for the construction of the Grand Mahadham.",
-        "button": "Donate Now"
-    },
+  "header": {
+    "supportEmail": "smshstrust@gmail.com",
+    "phone": "+91 9352815982",
+    "language": "Language:",
+    "title": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "puja": "Pooja",
+    "gallery": "Gallery",
+    "prashad": "Prashad",
+    "membership": "Membership",
+    "blogs": "Blogs",
+    "contact": "Contact us"
+  },
+  "pageHero": {
     "about": {
-        "heading": "About SMSH & The Mahadham Vision",
-        "lead": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is building a grand Mahadham in Surat by 2029 – a spiritual landmark that will be more than a temple.",
-        "whyTitle": "Why Surat?",
-        "whyDescription": "Surat is not only a city of enterprise but also of deep-rooted faith. With devotees and trustees coming together from across India, Surat was chosen as the home of the Mahadham – a sacred space for devotion, service, and cultural revival.",
-        "services": [
-            {
-                "title": "Gaushala",
-                "description": "for cow service and protection.",
-                "image": "images/Gaushala.png"
-            },
-            {
-                "title": "Bhojanalaya",
-                "description": "to provide prasad and meals for devotees and the needy.",
-                "image": "images/Sanskritik Kendra.png"
-            },
-            {
-                "title": "Aushadhalaya",
-                "description": "for holistic health and wellness.",
-                "image": "images/Aushadhalaya.png"
-            },
-            {
-                "title": "Meditation Centre",
-                "description": "A Place Where people can connect themselves with Divine energy",
-                "image": "/images/Dhyaan kendra.png"
-            }
-        ],
-        "joinButton": "Join us",
-        "paragraph": "By 2029, Surat will not just host a temple, but a living symbol of Sanatan Dharma  – where every visitor experiences devotion, service, and collective strength."
+      "title": "About Shree Mahakaleshwar Salasar Hanuman Sewa Trust",
+      "semiTitle": "",
+      "description": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is a spiritual and social trust founded with the vision of uniting faith and seva (service). With the blessings of Mahakal Baba (Ujjain) and Salasar Balaji Maharaj (Rajasthan), we are on a sacred journey to build a grand Mahadham in Surat by 2029. Our mission is to preserve Sanatan values, spread seva, and create a spiritual legacy for future generations."
     },
-    "divine": {
-        "heading": "Feel the Surreal Divine Power",
-        "lead": "Experience the serene atmosphere and spiritual energy as we gather for devotion, service, and community.",
-        "connect": {
-            "title": "Connect with Us",
-            "desc": "Stay connected with Shree Mahakaleshwar Salasar Hanuman Sewa Trust.\nWe are here to guide, support, and walk with you on your journey of devotion and service."
-        },
-        "phone": "+91 9352815982",
-        "donate": {
-            "title": "Donate for a Cause",
-            "desc": "Your contribution is not just a donation  –\nit is a sacred offering towards the construction of Mahadham and the service of society.\nTogether, let us build faith, service, and culture for generations to come.\nDonate Today, Build Mahadham."
-        },
-        "office": {
-            "title": "Office Timings",
-            "weekdays": "Monday - Friday",
-            "weekdayHours": "8:00 AM - 8:00 PM",
-            "weekend": "Saturday - Sunday",
-            "weekendHours": "10:00 AM - 6:00 PM",
-            "invite": "We welcome you with open arms at our office in Surat. Visit us, connect with our team, and be part of this divine mission."
-        }
+    "blogs": {
+      "title": "Wisdom & Devotion Through Words ",
+      "semiTitle": "",
+      "description": ""
     },
-    "services": {
-        "subtitle": "From beginning to end, and from end to infinity all is Shiva",
-        "heading": "Jai Shree Mahakaleshwar || Jai Shree Salasar Balaji || Jai Shree Mahadham",
-        "items": [
-            {
-                "title": "Service One",
-                "description": "Short description for service one."
-            },
-            {
-                "title": "Jai Shree Mahakaleshwar",
-                "description": "Mahakal, the Lord of Time, removes all suffering with a single darshan. Eternal protector, He is the embodiment of power and peace."
-            },
-            {
-                "title": "Service Three",
-                "description": "Short description for service three."
-            },
-            {
-                "title": "Jai Shree Mahadham",
-                "description": "The Mahadham in Surat, envisioned by SMSH Trust, will be more than a temple  – a sanctuary of faith, seva, and Sanatan culture by 2029."
-            },
-            {
-                "title": "Service Five",
-                "description": "Short description for service five."
-            },
-            {
-                "title": "Jai Shree Salasar Balaji",
-                "description": "Darshan of Salasar Balaji ends all sorrows. Hanuman Ji, eternal protector of Kaliyuga, blesses devotees wherever Ram Katha is sung."
-            }
-        ]
-    },
-    "donations": {
-        "heading": "Donations",
-        "lead": "Support the causes and projects that matter – your donation makes a lasting impact.",
-        "button": "Donate Now",
-        "items": [
-            {
-                "id": "gaudaan",
-                "icon": "Gift",
-                "title": "Gaudaan",
-                "description": "Offering a cow (Gaudaan) is considered one of the most sacred acts in Sanatan Dharma. It is believed to bring prosperity, peace, and spiritual upliftment to the giver and their family."
-            },
-            {
-                "id": "bhojan",
-                "icon": "Utensils",
-                "title": "Bhojan Daan",
-                "description": "Feeding the hungry is regarded as serving the Divine. Bhojan Daan is believed to remove obstacles and bless the giver with happiness and fulfillment."
-            },
-            {
-                "id": "annadaan",
-                "icon": "Heart",
-                "title": "Annadaan",
-                "description": "Annadaan is regarded as the highest form of donation. Offering food is the purest act of compassion and devotion, nourishing both body and soul."
-            },
-            {
-                "id": "rashi",
-                "icon": "Heart",
-                "title": "Rashi Daan",
-                "description": "Every monetary contribution strengthens the Mahadham. Rashi Daan directly supports sacred construction and seva projects, creating a lasting legacy of devotion."
-            },
-            {
-                "id": "bhumi",
-                "icon": "Heart",
-                "title": "Bhumi Daan",
-                "description": "Bhumi Daan is considered the supreme offering in Sanatan Dharma. Donating land for the Mahadham lays an eternal foundation of faith, devotion, and selfless service."
-            }
-        ]
-    },
-    "grid": {
-        "heading": "Divine Moments, Captured Forever",
-        "lead": "Step into the sacred journey of devotion, rituals, and celebrations.\nEvery picture tells the story of faith, seva, and Sanatan culture.",
-        "instagram": "Follow us on Instagram ",
-        "gallery": " View Gallery "
-    },
-    "home": {
-        "blogSection": {
-            "title": "Wisdom, Devotion & Stories",
-            "description": " Dive into articles that bring alive the spirit of Sanatan Dharma. From temple traditions to inspiring stories of seva, each blog is a step closer to divinity.",
-            "readAll": "Read Articles, Explore Faith",
-            "readArticle": "Read Article"
-        }
+    "blogDetails": {
+      "title": "Blog Details",
+      "semiTitle": "By: Author | Date: 01/01/2025",
+      "description": ""
     },
     "contact": {
-        "title": "Reach Out to Us",
-        "subtitle": "Our team will connect with you soon.",
-        "lead": " Your voice matters to us. Whether it’s a query, a blessing, or a contribution – we are here to listen and respond with devotion.",
-        "decorativeAlt": "Decorative Line",
-        "mainImageAlt": "Temple Architecture",
-        "form": {
-            "namePlaceholder": "Please enter your name",
-            "nameRequired": "Name is required",
-            "phonePlaceholder": "Please enter your phone number",
-            "phoneRequired": "Phone number is required",
-            "emailPlaceholder": "Please enter your email address",
-            "emailRequired": "Email is required",
-            "emailInvalid": "Please enter a valid email",
-            "messagePlaceholder": "Please enter your message",
-            "submit": "Submit"
-        }
+      "title": "Contact Us",
+      "semiTitle": "",
+      "description": ""
     },
-    "footer": {
-        "headings": {
-            "specialLinks": "Special Links",
-            "info": "Info"
-        },
-        "specialLinks": {
-            "about": "About SMSHST",
-            "mission": "Our Mission",
-            "donate": "Donate for Cause",
-            "gallery": "Gallery",
-            "contact": "Contact Us"
-        },
-        "social": {
-            "facebook": "Facebook",
-            "twitter": "Twitter",
-            "instagram": "Instagram",
-            "linkedin": "LinkedIn",
-            "youtube": "YouTube"
-        },
-        "bottom": {
-            "partnerships": "Partnerships",
-            "templeSupport": "Temple Support",
-            "privacy": "Privacy Policy",
-            "terms": "Terms & Conditions"
-        },
-        "helpText": "Hope N Help Charitable Foundation Trust",
-        "description": {
-            "lead": "Serving with Faith, Building with Seva",
-            "sub": "A spiritual movement dedicated to devotion, culture, and service. Join us in creating the grand Mahadham in Surat by 2029."
-        },
-        "labels": {
-            "email": "Email",
-            "phone": "Phone No",
-            "addressPrefix": "Address:"
-        },
-        "contact": {
-            "address1": "203, Metro Tower, Ring Road",
-            "address2": "Surat, Gujarat 395002"
-        },
-        "aria": {
-            "visitSocial": "Visit our"
-        }
+    "membership": {
+      "title": "Become a Member – Be a Part of Mahadham 2029",
+      "semiTitle": "",
+      "description": "Joining the Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is not just a membership – it is becoming part of a spiritual movement. "
     },
-    "donation": {
-        "Leftsection": {
-            "title": "Statistics",
-            "stats": [
-                {
-                    "amount": "200",
-                    "label": "Crore+ Commitment for Mahadham Construction (Target 2025–26)"
-                },
-                {
-                    "amount": "200+",
-                    "label": "Trustees & Devotees Already Contributing"
-                },
-                {
-                    "amount": "40+",
-                    "label": "Acres of Land Identified & Offered for Seva"
-                },
-                {
-                    "amount": "2029",
-                    "label": "Target Year for Mahadham Completion"
-                }
-            ]
-        },
-        "Rightsection": {
-            "title": "Testimonials",
-            "testimonials": [
-                {
-                    "name": "Satyanarayan Goyal, Trustee, SMSHST",
-                    "message": "Mahadham is not just a temple, but a living symbol of faith and service. Every effort takes us closer to 2029."
-                },
-                {
-                    "name": "Devotee, SMSHST",
-                    "message": "Contributing to Mahadham is not just a donation, it is an offering of faith. I feel blessed to be part of this divine mission."
-                },
-                {
-                    "name": "Trustee, SMSHST",
-                    "message": "Every brick of Mahadham will carry the blessings of countless devotees. Together, we are building faith for generations."
-                },
-                {
-                    "name": "Trustee, SMSHST",
-                    "message": "Mahadham will not only be a temple, it will be a place of seva, culture, and unity. That is why I contribute with devotion."
-                },
-                {
-                    "name": "Devotee, SMSHST",
-                    "message": "When I think of Mahadham, I see a future where every devotee feels at home, embraced by faith and service."
-                },
-                {
-                    "name": "Trustee, SMSHST",
-                    "message": "The vision of 2029 is not just about completing a temple, but about creating a living symbol of Sanatan Dharma."
-                },
-                {
-                    "name": "Devotee, SMSHST",
-                    "message": "My children will one day say — our family helped build this Mahadham. That is my true pride."
-                },
-                {
-                    "name": "Trustee, SMSHST",
-                    "message": "Land, wealth, time — whatever we give for Mahadham, it all becomes eternal seva."
-                },
-                {
-                    "name": "Trustee, SMSHST",
-                    "message": "To be part of Mahadham’s foundation is to be part of history itself. This is not just construction, it is devotion in action."
-                },
-                {
-                    "name": "Devotee, SMSHST",
-                    "message": "Every donation, big or small, is a sacred step towards 2029. Together, we will make Mahadham a reality."
-                }
-            ]
-        }
+    "gallery": {
+      "title": "Gallery",
+      "semiTitle": "",
+      "description": "Gallery of Faith & Devotion  – step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
     },
-    "ScrollingBanner": {
-        "phrases": [
-            "JAI SHREE MAHAKALESHWAR",
-            "JAI SHREE SALASAR BALAJI"
-        ]
-    },
-    "liveDarshan": {
-        "title": "Live Darshan",
-        "buttons": {
-            "mahakaleshwar": "Shree Mahakaleshwar Mandir",
-            "salasar": "Shree Salasar Balaji Mandir"
-        },
-        "upcomingEventsTitle": "Upcoming Events",
-        "liveBadge": "Live",
-        "viewDetails": "View Details",
-        "modal": {
-            "upcomingEvent": "Upcoming Event",
-            "eventFallback": "Event",
-            "noDescription": "No description available."
-        }
-    },
-    "aboutWorship": {
-        "title": "Embark on a Journey of Spiritual Awakening at ",
-        "highlightedText": "Our Mahadham",
-        "subtitle": "Nurture Your Soul, Embrace the Divine",
-        "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, devotion is not just worship – it is seva, culture, and transformation. Our envisioned Mahadham will be a sacred abode where every prayer, every offering, and every act of seva brings one closer to the divine.",
-        "buttonText": "Aarti Timings"
-    },
-    "aboutImagesectioncontent": {
-        "cards": [
-            {
-                "heading": "Our Mission",
-                "title": " Seva with Devotion",
-                "desc": " Serving humanity is serving God. Every act of seva at SMSHST is a step towards spiritual fulfillment.",
-                "alt": "Worship scene left"
-            },
-            {
-                "title": "",
-                "desc": "",
-                "alt": "Worship scene center"
-            },
-            {
-                "heading": "Our Vision",
-                "title": " Power of Bhakti",
-                "desc": " With folded hands and a pure heart, devotion connects the soul to the divine.",
-                "alt": "Worship scene right"
-            }
-        ]
-    },
-    "aboutTeam": {
-        "smallTitle": "Our companions who serve every moment in the temple are the true strength of our society.",
-        "heading": "Team at the Temple",
-        "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, our true strength lies in the dedication of our spiritual leaders, trustees, and volunteers. Together, they ensure that every ritual, every service, and every initiative is carried out with devotion, discipline, and dignity. Our team is not just an organization  – it is a family of devotees united by faith and committed to the divine vision of Mahadham 2029.",
-        "arrows": {
-            "prev": "Previous",
-            "next": "Next"
-        },
-        "members": [
-            {
-                "name": "Acharya Pandit Ji",
-                "role": "Chief Priest"
-            },
-            {
-                "name": "Acharya Pandit Ji",
-                "role": "Assistant Priest"
-            },
-            {
-                "name": "Acharya Ji",
-                "role": "Trust President"
-            },
-            {
-                "name": "Acharya Ji",
-                "role": "Trust Secretary"
-            },
-            {
-                "name": "Acharya Ji",
-                "role": "Trust Secretary"
-            }
-        ]
-    },
-    "carousel": {
-        "slides": {
-            "a": {
-                "title": "RATAN LAL JI",
-                "role": "Honourable Trustee",
-                "org": "Shree Mahakaleshwar Salasar \nHanuman Sewa Trust",
-                "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
-            },
-            "b": {
-                "title": "ANITA DEVI",
-                "role": "Volunteer Lead",
-                "org": "Shree Mahakaleshwar Salasar \nHanuman Sewa Trust",
-                "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
-            }
-        }
-    },
-    "GalleryPage": {
-        "title": " Explore the Gallery — Relive the Divine"
-    },
-    "MembershipPage": {
-        "title": "Choose your plan – Monthly or Annual – and walk with us towards Mahadham 2029."
-    },
-    "BlogPage": {
-        "title": "Read, Reflect, and Reconnect with Divinity.",
-        "description": "Our blog is a sacred space where devotion meets knowledge. From the glory of Mahakal and Salasar Balaji to stories of seva, festivals, and Sanatan Dharma  – every article nurtures your soul and strengthens your faith.",
-        "buttonText": "Read Blog",
-        "Blogs": [
-            {
-                "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
-                "date": "2024-01-15"
-            },
-            {
-                "title": "Balaji in Kaliyug – The Living Protector of Devotees",
-                "date": "2024-02-10"
-            },
-            {
-                "title": "Bhumi Daan – The Supreme Offering in Sanatan Dharma",
-                "date": "2024-03-05"
-            }
-        ]
-    },
-    "ContactPage": {
-        "title": "Connect with Us",
-        "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, we believe every devotee is family. Whether you wish to learn more about our mission, contribute to Mahadham 2029, or participate in seva activities, we are here to connect, guide, and serve you."
-    },
-    "BlogDetailsPage": {
-        "Blog": [
-            {
-                "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
-                "subtitle": "By: Author | Date: 01/01/2025",
-                "content": [
-                    "In the Sanatan tradition, Lord Mahakal is not just a deity — He is ‘Kaalon ke Kaal’, the one who governs time itself. While most deities symbolize specific virtues, Mahakal stands beyond time, life, and death.",
-                    "At Ujjain, the sacred land of Mahakaleshwar Jyotirlinga, countless devotees experience this truth every day. It is believed that even a single darshan of Mahakal removes deep-rooted fears, ancestral doshas, and unending cycles of suffering. Unlike other temples, where the deity appears as benevolent and calm, Mahakal radiates the fearless aura of cosmic power — reminding us that no force in the universe is greater than time, and yet Mahakal rules over it.",
-                    "Spiritual texts narrate that during the invasion of Ujjain, people turned to Mahakal with prayers. It is said that the Lord himself appeared to protect his devotees. Even today, those who face unbearable struggles in life are encouraged to meditate on Mahakal, because He not only destroys obstacles but also burns away karmic impurities.",
-                    "In the context of SMSHST Mahadham, Mahakal represents the unshakable foundation. The temple being built in Surat by 2029 is not just a structure but a symbol of this eternal power. For every devotee, it will serve as a reminder: no matter how big the storm, when you surrender to Mahakal, you are protected beyond time itself.",
-                    "✨ Visiting Mahakal is not about asking for blessings alone — it is about experiencing liberation from fear, from time, and from worldly attachments."
-                ]
-            },
-            {
-                "title": "Balaji in Kaliyug – The Living Protector of Devotees",
-                "subtitle": "By: Author | Date: 02/10/2024",
-                "content": [
-                    "When we think of Hanuman ji, the first thought is of unshakable devotion to Shri Ram. But in Kaliyug, Hanuman has taken a special form for his devotees — Salasar Balaji in Rajasthan.",
-                    "Historical accounts say that in 1754, a farmer in Salasar village discovered an idol of Hanuman with a unique divine form. This was not the childlike Hanuman we often see, but Balaji Maharaj with a beard and mustache, symbolizing strength and protection. Since then, millions of devotees have experienced miracles by visiting Salasar Dham.",
-                    "It is believed that in Kaliyug, whenever and wherever Ram Katha is recited, Hanuman ji himself is present. At Salasar, He stands as a living proof of that eternal promise. Devotees who suffer from diseases, financial struggles, or family problems find sudden relief after offering prayers here. Stories of instant protection and blessings are told by generations of devotees.",
-                    "In SMSHST’s vision of Mahadham in Surat, Salasar Balaji’s presence will ensure that every devotee feels the warmth of a living protector. This will not just be a temple for rituals but a sanctuary for protection, courage, and unwavering faith.",
-                    "✨ Balaji in Kaliyug is not just worshiped — He walks with His devotees, protects them, and stands as the ultimate guardian of faith."
-                ]
-            },
-            {
-                "title": " Bhumi Daan – The Supreme Offering in Sanatan Dharma",
-                "subtitle": "By: Author | Date: 03/05/2024",
-                "content": [
-                    "In Sanatan Dharma, the act of daan (donation) holds immense significance. Among all forms of daan, three are considered supreme: Kanya Daan, Anna Daan, and Bhumi Daan. Among these, Bhumi Daan is regarded as the most sacred because land becomes the foundation for generations of dharmic activities.",
-                    "Think about it — food donation feeds for a day, wealth donation supports temporarily, but land donation creates a permanent space for seva, bhakti, and spiritual growth. That is why our scriptures praise Bhumi Daan as incomparable.",
-                    "When a devotee donates land for a temple, a gaushala, or a dharmic center, it is believed that the punya (spiritual merit) lasts for many lifetimes. The land carries the vibrations of every mantra chanted, every prayer offered, and every seva performed. The donor becomes eternally connected with those blessings.",
-                    "At SMSHST, Bhumi Daan is the cornerstone of Mahadham 2029. Surat, the land of enterprise, is becoming the chosen land of faith. Every devotee who donates land for Mahadham is not just giving property; they are laying the foundation for a spiritual legacy that will bless countless generations.",
-                    "✨ When you donate land for Mahadham, you don’t just give soil — you give space for divinity to live, for culture to grow, and for seva to expand."
-                ]
-            }
-        ]
-    },
-    "AboutpageAboutsection": {
-        "title": "About Us",
-        "content": [
-            {
-                "paragraph1": "Shri Mahakaleshwar Salasar Hanuman Seva Trust (SMSHST) is a spiritual and social trust established to unite faith and service. Inspired by the blessings of Mahakal Baba (Ujjain) and Salasar Balaji Maharaj (Rajasthan), we are on a sacred journey to build a grand Mahadham in Surat by 2029. This Mahadham will not just be a temple but a spiritual center where devotion, knowledge, and service converge.",
-                "paragraph2": "Our mission focuses on preserving Sanatan values, expanding service, and creating a spiritual legacy. We believe devotion is not only a personal practice but also a means to uplift society. SMSHST invites everyone to participate in this noble cause and become part of this historic journey. Our dream – a Mahadham of faith, an expansion of service, and an everlasting spiritual legacy for generations to come."
-            }
-        ]
-    },
-    "PoojaPage": {
-        "title": "Pooja's at Temple"
-    },
-    "parshadPage": {
-        "title": [
-            {
-                "title1": "Shri Mahakaleshwar Prasad",
-                "title2": "Shri Salasar Balaji Prasad",
-                "title3": "Idols & Photo Frames"
-            }
-        ]
+    "puja": {
+      "title": "Gallery of Faith & Devotion",
+      "semiTitle": "",
+      "description": "Gallery of Faith & Devotion  – step into a world of sacred moments, from rituals and celebrations to seva and community gatherings. Each picture reflects the blessings of Mahakal and Salasar Balaji, and the unwavering devotion of countless hearts."
     },
     "prashad": {
-        "section": {
-            "addToCart": "Add to Cart",
-            "adding": "Adding...",
-            "addedToCartSuffix": "added to cart",
-            "failedLoad": "Failed to load prasad items. Please try again later.",
-            "unableAdd": "Unable to add item to cart",
-            "failedAdd": "Failed to add to cart. Please try again.",
-            "failedUpdate": "Failed to update cart. Please try again.",
-            "minQuantity": "Minimum quantity is 1. To remove from cart, use the cart page.",
-            "onlyAvailable": "Only {{count}} items available in stock",
-            "outOfStock": "Out of Stock",
-            "goToCheckout": "Go to Checkout"
-        },
-        "itemInBox": {
-            "title": "About the items in the box",
-            "subtitle": "A Detailed List of Everything Included in Your Shipment. See Exactly What Comes in the Box.",
-            "defaultItemName": "Item Name",
-            "defaultItemDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        },
-        "detail": {
-            "descriptionTitle": "Description",
-            "whatsInBoxTitle": "What's in the box",
-            "noItemsInfo": "No items information available",
-            "addToCart": "Add to cart",
-            "buyNow": "Buy now",
-            "adding": "Adding...",
-            "inStock": "In Stock",
-            "goToCheckout": "Go to Checkout",
-            "outOfStock": "Out of Stock"
-        },
-        "bestseller": {
-            "heading": "Our other Bestsellers"
-        },
-        "youMightLike": {
-            "heading": "You might also like"
-        },
-        "important": {
-            "heading": "Importance of Prashad",
-            "lead": "Prashad is a sacred and deeply significant offering in Hinduism, representing the grace and blessings of the Divine. It is food, often vegetarian and prepared with great reverence, that has first been offered to a deity during a ritual or prayer. Therefore, prashad serves as a tangible symbol of divine love and acceptance, distributing the positive energy and unity of the sacred ceremony to the entire congregation.",
-            "point1": "The act of receiving and consuming prashad is much more than simply eating; it is an act of communion, purification, and spiritual nourishment. ",
-            "point2": "By partaking in this sanctified food, devotees believe they are absorbing the residual spiritual energy and favor of the God, thus purifying their body and mind, strengthening their faith, and dissolving negative karma."
-        },
-        "faq": {
-            "heading": "Prashad Related FAQ's",
-            "items": [
-                {
-                    "question": "What exactly is prashad?",
-                    "answer": "Prashad (or Prasad) is a sacred vegetarian food offering that has been blessed by a deity during a special puja or ceremony. When you receive it, you are partaking in the blessings and spiritual energy of the Divine."
-                },
-                {
-                    "question": "Is the prashad safe to eat?",
-                    "answer": "Yes, absolutely. The prashad is prepared under strict hygiene guidelines with the utmost purity and reverence. We use only high-quality, fresh, vegetarian ingredients and ensure it is packaged securely for safe consumption."
-                },
-                {
-                    "question": "What ingredients are used in the prashad?",
-                    "answer": "The specific ingredients vary depending on the deity and the type of prashad ordered (e.g., Ladoo, Halwa, Panchamrit). All our offerings are strictly vegetarian and are prepared without onion and garlic. Ingredients typically include ghee, milk, sugar/jaggery, flour, nuts, and natural spices. A full list of potential allergens is available on the product page."
-                },
-                {
-                    "question": "How long will it take for my prashad order to arrive?",
-                    "answer": "Since prashad is often prepared fresh after the puja, the delivery time is calculated based on the specific puja date and your location.\nPreparation: [X] days after the scheduled puja.\nShipping: Standard shipping takes approximately [Y]–[Z] business days.\nYou will receive a tracking number once your order is shipped."
-                },
-                {
-                    "question": "How should I store the prashad once it arrives?",
-                    "answer": "Generally, prashad should be consumed within [X] days of receipt for the best experience.\nDry Prashad (e.g., Ladoo, Dry Fruits): Store in a cool, dry place in an airtight container.\nMoist Prashad (e.g., Halwa, Kheer): Refrigeration is highly recommended, and it should be consumed promptly."
-                },
-                {
-                    "question": "Can I order prashad for someone else as a gift?",
-                    "answer": "Yes. Ordering prashad for a loved one is a beautiful way to share blessings. Simply enter their shipping address at checkout. We do not include pricing details in the shipment."
-                },
-                {
-                    "question": "What if I have allergies? How can I be sure the prashad is safe for me?",
-                    "answer": "We take allergies seriously. While we strive to maintain a clean kitchen, our prashad may be prepared in a facility that also handles common allergens like milk, nuts (tree nuts and peanuts), wheat, and soy. If you have severe allergies, please review the specific ingredient list on the product page carefully or contact our customer support before ordering. We cannot guarantee a 100% allergen-free environment."
-                },
-                {
-                    "question": "Can I request a specific type of prashad or customize my order?",
-                    "answer": "Currently, we offer pre-set prashad packages that correspond to the specific pujas being performed. This ensures the offering remains traditional and standardized. We cannot accommodate specific customization or ingredient changes for individual orders at this time. Please check our site regularly for new seasonal offerings!"
-                },
-                {
-                    "question": "What is your policy on cancellations, returns, and refunds?",
-                    "answer": "Due to the sacred and perishable nature of prashad, all sales are generally final.\nCancellations: Orders can only be canceled within [X] hours of placement, provided the puja preparation has not yet begun.\nReturns/Refunds: We cannot accept returns. If your prashad arrives damaged or if there is an error in your order, please contact us within 24 hours of delivery with photographic proof, and we will work to issue a replacement or a partial refund."
-                }
-            ]
-        }
-    },
-    "prashad_checkout": {
-        "checkoutTitle": "Checkout",
-        "shippingAddress": "Shipping Address",
-        "addDeliveryAddress": "Add Delivery Address",
-        "yourOrder": "Your Order",
-        "removeConfirm": "Remove this item from your order?",
-        "itemRemoved": "Item removed from order",
-        "loadingCharges": "Loading charges...",
-        "subtotal": "Subtotal",
-        "shipping": "Shipping",
-        "vatTax": "gst",
-        "total": "Total",
-        "processing": "Processing...",
-        "proceedToPayment": "Proceed to Payment",
-        "itemOutOfStock": "Item is out of stock",
-        "onlyAvailable": "Only {{count}} available",
-        "addDeliveryAddressButton": "Add Delivery Address",
-        "selectDeliveryAddress": "Please select a delivery address"
-    },
-    "donationPage": {
-        "loading": "Loading...",
-        "form": {
-            "selectDonationType": "Select the type of दान you want to donate to",
-            "donationAmount": "Donation Amount",
-            "amountPlaceholder": "Enter Donation Amount e.g 10000",
-            "contactDetails": "Contact Details",
-            "name": "Name",
-            "namePlaceholder": "Please enter your name",
-            "nameRequired": "Name is required",
-            "nameInvalid": "Please enter a valid name (letters and spaces only, min 2 chars)",
-            "fatherName": "Father Name",
-            "fatherNamePlaceholder": "Last Name e.g John, Mary",
-            "fatherNameRequired": "Father name is required",
-            "fatherNameInvalid": "Please enter a valid father name",
-            "motherName": "Mother Name",
-            "motherNamePlaceholder": "Last Name e.g John, Mary",
-            "motherNameRequired": "Mother name is required",
-            "motherNameInvalid": "Please enter a valid mother name",
-            "phoneNumber": "Phone Number",
-            "phoneNumberPlaceholder": "+91-(00000 00000) or 0XXXXXXXXXX",
-            "phoneNumberRequired": "Phone number is required",
-            "phoneNumberInvalid": "Please enter a valid 10 digit Indian phone number",
-            "email": "Email Address",
-            "emailPlaceholder": "Your email@gmail.com",
-            "emailRequired": "Email is required",
-            "emailInvalid": "Please enter a valid email",
-            "address": "Address",
-            "addressPlaceholder": "Park Avenue Street",
-            "addressRequired": "Address is required",
-            "addressInvalid": "Address must be at least 5 characters",
-            "contactInformation": "Contact Information",
-            "landDetailsTitle": "Land {{plotNumber}} Details",
-            "sameDetailsForAll": "Same Details for other Lands",
-            "notEditableMessage": "This field is prefilled from your registered account and cannot be edited.",
-            "plotSelectionRequired": "Please select at least one land plot to proceed with your donation."
-        },
-        "landSelector": {
-            "title": "Select your Land Areas to Donate",
-            "selected": "{{count}} selected",
-            "available": "Available (Click to select)",
-            "pending": "Pending",
-            "emi": "EMI",
-            "purchased": "Purchased / Occupied",
-            "viewAllPlots": "View All Plots",
-            "showLess": "Show Less",
-            "clearAllSelections": "Clear All Selections",
-            "totalSelected": "Total Selected: {{count}} plots",
-            "totalAmount": "Total Amount: ₹{{amount}}",
-            "plotCharge": "Plot Charge",
-            "plotTitle": "Plot {{plotNumber}} - {{status}} - ₹{{price}}",
-            "plotTitleSelected": "Plot {{plotNumber}} - {{status}} - ₹{{price}} (Selected)",
-            "morePlots": "+{{count}} more"
-        },
-        "payment": {
-            "paymentMode": "Payment Mode",
-            "paymentModeDescription": "Enter Name on whose behalf you want to donate and their Details",
-            "selectPaymentMethod": "Select Payment Method",
-            "cash": "Cash",
-            "cashSubtitle": "Visit Our Temple office to submit the cash",
-            "cheque": "Cheque",
-            "chequeSubtitle": "Write a cheque in favour of our trust",
-            "bankTransfer": "Direct Bank Transfer",
-            "bankTransferSubtitle": "Directly transfer the amount to our trust's bank",
-            "card": "Credit/Debit Card",
-            "cardSubtitle": "Directly transfer the amount to our trust's bank",
-            "upi": "UPI",
-            "upiSubtitle": "Pay via Google Pay, Phonepe, Paytm, Bhim",
-            "emi": "EMI (Easy Monthly Installments)",
-            "emiSubtitle": "Pay Small amounts in monthly instalments",
-            "submitRequest": "Submit Request",
-            "processing": "Processing...",
-            "choosePaymentMethod": "Chose Payment Method: {{amount}}"
-        },
-        "paymentDetails": {
-            "cashInstructions": "Kindly Visit our office and submit it",
-            "chequeInstructions": "Fill the cheque and kindly reach our office for further process",
-            "bankTransferInstructions": "Kindly transfer the amount to our Bank account",
-            "upiTitle": "Scan to Pay",
-            "emiTitle": "Thank you for your Interest",
-            "emiDescription": "Please sit tight, our team will contact you shortly to help you further",
-            "whatsappButton": "Send 'Hi' to our Whatsapp",
-            "bankDetails": "Our Bank Details",
-            "bankName": "Bank Name",
-            "accountNumber": "Account Number",
-            "accountName": "Account Name",
-            "ifscCode": "IFSC Code",
-            "branch": "Branch",
-            "organizationDetails": "Shri Mahakaleshwar Salasar Hanuman Seva Trust, Surat, Gujarat",
-            "emailId": "Email ID",
-            "contactNo": "Contact No.",
-            "addressLabel": "Address",
-            "noteToDevotees": "Note to Devotees",
-            "disclaimer": "Disclaimer:",
-            "disclaimerText": "We humbly request all devotees to kindly verify all details before making any donation. Donations made to Shri Mahakaleshwar Salasar Hanuman Seva Trust are used solely for temple activities, seva, and community welfare programs.",
-            "pleaseNote": "Please note that:",
-            "disclaimerPoint1": "Donations made in cash should be submitted directly at the temple office only.",
-            "disclaimerPoint2": "Official receipts will be provided for every donation.",
-            "disclaimerPoint3": "The Trust will not be responsible for transactions made through unauthorized persons or channels.",
-            "disclaimerPoint4": "Devotees are encouraged to retain the receipt for future reference and transparency.",
-            "disclaimerClosing": "🙏 Your support and blessings help us continue the seva and spiritual activities."
-        },
-        "layout": {
-            "organization": "Shri Mahakaleshwar Salasar Hanuman Seva Mandir",
-            "location": "Surat, Gujarat",
-            "aboutTitle": "About {{title}}",
-            "aboutDescription": "{{title}} is a sacred form of donation that helps support the temple's mission and serves the community. Your contribution will make a meaningful difference in maintaining and expanding our spiritual services.",
-            "howItHelps": "How it will help?",
-            "helpDescription": "Your {{title}} contribution will directly support temple maintenance, community services, and spiritual programs that benefit thousands of devotees."
-        },
-        "summary": {
-            "totalAmountToBePaid": "Total Amount to be Paid",
-            "totalAmount": "Total Amount",
-            "grandTotal": "Grand Total"
-        },
-        "bhumiDaan": {
-            "defaultDescription": "He who gives land donation, gives life to future generations"
-        }
-      
+      "title": "Prashad",
+      "semiTitle": "",
+      "description": "God’s Prasad is a sacred blessing. Experience divine grace through our Prasad offerings."
     }
-,
-    "membershipFaq": {
-        "heading": "Frequently Asked Questions",
-        "items": [
-            {
-                "question": "Which pricing plan is right for me?",
-                "answer": "Every organization has unique needs, and the right plan depends on the features required to support your team and workflow. You can review the comparison above to see what each plan includes. If you need help selecting the best option, our sales team is happy to guide you."
-            },
-            {
-                "question": "How does your pricing work?",
-                "answer": "Our pricing is designed to be flexible and scale with your organization. We offer both monthly and annual billing, with additional discounts for yearly commitments. If you have specific needs, we can also provide a customized quote."
-            },
-            {
-                "question": "What if I change my mind?",
-                "answer": "You can cancel your subscription at any time. Annual plans are eligible for a prorated refund based on the terms outlined on our pricing page."
-            },
-            {
-                "question": "Do you offer discounted plans?",
-                "answer": "Yes. We offer special discounts for nonprofits, educational institutions, and customers making long-term commitments. Contact our sales team to check your eligibility."
-            },
-            {
-                "question": "What payment methods do you accept?",
-                "answer": "We accept all major credit cards, debit cards, and bank transfers. For larger organizations, we also support invoicing and purchase orders."
-            },
-            {
-                "question": "Do you offer plans for nonprofits and NGOs?",
-                "answer": "Yes. We provide dedicated pricing and support programs for nonprofits and NGOs. Please reach out to our partnerships team for more details."
-            }
+  },
+  "auth": {
+    "register": "Register/Login",
+    "logout": "Logout"
+  },
+  "profile": {
+    "personalProfile": "Personal Profile",
+    "pujaBookings": "Pooja Bookings",
+    "prashadOrders": "Prashad Orders",
+    "donationsHistory": "Donations History",
+    "membershipHistory": "Membership History"
+  },
+  "hero": {
+    "subheading": "Feel Lord Shiva's Power",
+    "titles": ["Jai Shree Mahakaleshwar", "Jai Shree Salasar Balaji"],
+    "descriptions": [
+      "It is believed that Lord Mahakal is the Mahakaal of all Kaal (the destroyer of time itself)",
+      "It is believed that the darshan of Salasar Hanuman Balaji frees one from all sorrows."
+    ]
+  },
+  "bhudaan": {
+    "title": "Bhumi Daan",
+    "lead": "In Sanatan Dharma, three forms of donation are considered the most sacred: Kanya Daan, Anna Daan, and Bhumi Daan.\n\nAnd among these, the donation of land for the creation of a Mahadham stands as the highest virtue. When you offer land for this divine cause, you are not just giving soil, you are laying the foundation of faith, service, and Sanatan culture for generations to come.",
+    "subtitle": "Donate Land for the construction of the Grand Mahadham.",
+    "button": "Donate Now"
+  },
+  "about": {
+    "heading": "About SMSH & The Mahadham Vision",
+    "lead": "Shree Mahakaleshwar Salasar Hanuman Sewa Trust (SMSHST) is building a grand Mahadham in Surat by 2029 – a spiritual landmark that will be more than a temple.",
+    "whyTitle": "Why Surat?",
+    "whyDescription": "Surat is not only a city of enterprise but also of deep-rooted faith. With devotees and trustees coming together from across India, Surat was chosen as the home of the Mahadham – a sacred space for devotion, service, and cultural revival.",
+    "services": [
+      {
+        "title": "Gaushala",
+        "description": "for cow service and protection.",
+        "image": "images/Gaushala.png"
+      },
+      {
+        "title": "Bhojanalaya",
+        "description": "to provide prasad and meals for devotees and the needy.",
+        "image": "images/Sanskritik Kendra.png"
+      },
+      {
+        "title": "Aushadhalaya",
+        "description": "for holistic health and wellness.",
+        "image": "images/Aushadhalaya.png"
+      },
+      {
+        "title": "Meditation Centre",
+        "description": "A Place Where people can connect themselves with Divine energy",
+        "image": "/images/Dhyaan kendra.png"
+      }
+    ],
+    "joinButton": "Join us",
+    "paragraph": "By 2029, Surat will not just host a temple, but a living symbol of Sanatan Dharma  – where every visitor experiences devotion, service, and collective strength."
+  },
+  "divine": {
+    "heading": "Feel the Surreal Divine Power",
+    "lead": "Experience the serene atmosphere and spiritual energy as we gather for devotion, service, and community.",
+    "connect": {
+      "title": "Connect with Us",
+      "desc": "Stay connected with Shree Mahakaleshwar Salasar Hanuman Sewa Trust.\nWe are here to guide, support, and walk with you on your journey of devotion and service."
+    },
+    "phone": "+91 9352815982",
+    "donate": {
+      "title": "Donate for a Cause",
+      "desc": "Your contribution is not just a donation  –\nit is a sacred offering towards the construction of Mahadham and the service of society.\nTogether, let us build faith, service, and culture for generations to come.\nDonate Today, Build Mahadham."
+    },
+    "office": {
+      "title": "Office Timings",
+      "weekdays": "Monday - Friday",
+      "weekdayHours": "8:00 AM - 8:00 PM",
+      "weekend": "Saturday - Sunday",
+      "weekendHours": "10:00 AM - 6:00 PM",
+      "invite": "We welcome you with open arms at our office in Surat. Visit us, connect with our team, and be part of this divine mission."
+    }
+  },
+  "services": {
+    "subtitle": "From beginning to end, and from end to infinity all is Shiva",
+    "heading": "Jai Shree Mahakaleshwar || Jai Shree Salasar Balaji || Jai Shree Mahadham",
+    "items": [
+      {
+        "title": "Service One",
+        "description": "Short description for service one."
+      },
+      {
+        "title": "Jai Shree Mahakaleshwar",
+        "description": "Mahakal, the Lord of Time, removes all suffering with a single darshan. Eternal protector, He is the embodiment of power and peace."
+      },
+      {
+        "title": "Service Three",
+        "description": "Short description for service three."
+      },
+      {
+        "title": "Jai Shree Mahadham",
+        "description": "The Mahadham in Surat, envisioned by SMSH Trust, will be more than a temple  – a sanctuary of faith, seva, and Sanatan culture by 2029."
+      },
+      {
+        "title": "Service Five",
+        "description": "Short description for service five."
+      },
+      {
+        "title": "Jai Shree Salasar Balaji",
+        "description": "Darshan of Salasar Balaji ends all sorrows. Hanuman Ji, eternal protector of Kaliyuga, blesses devotees wherever Ram Katha is sung."
+      }
+    ]
+  },
+  "donations": {
+    "heading": "Donations",
+    "lead": "Support the causes and projects that matter – your donation makes a lasting impact.",
+    "button": "Donate Now",
+    "items": [
+      {
+        "id": "gaudaan",
+        "icon": "Gift",
+        "title": "Gaudaan",
+        "description": "Offering a cow (Gaudaan) is considered one of the most sacred acts in Sanatan Dharma. It is believed to bring prosperity, peace, and spiritual upliftment to the giver and their family."
+      },
+      {
+        "id": "bhojan",
+        "icon": "Utensils",
+        "title": "Bhojan Daan",
+        "description": "Feeding the hungry is regarded as serving the Divine. Bhojan Daan is believed to remove obstacles and bless the giver with happiness and fulfillment."
+      },
+      {
+        "id": "annadaan",
+        "icon": "Heart",
+        "title": "Annadaan",
+        "description": "Annadaan is regarded as the highest form of donation. Offering food is the purest act of compassion and devotion, nourishing both body and soul."
+      },
+      {
+        "id": "rashi",
+        "icon": "Heart",
+        "title": "Rashi Daan",
+        "description": "Every monetary contribution strengthens the Mahadham. Rashi Daan directly supports sacred construction and seva projects, creating a lasting legacy of devotion."
+      },
+      {
+        "id": "bhumi",
+        "icon": "Heart",
+        "title": "Bhumi Daan",
+        "description": "Bhumi Daan is considered the supreme offering in Sanatan Dharma. Donating land for the Mahadham lays an eternal foundation of faith, devotion, and selfless service."
+      }
+    ]
+  },
+  "grid": {
+    "heading": "Divine Moments, Captured Forever",
+    "lead": "Step into the sacred journey of devotion, rituals, and celebrations.\nEvery picture tells the story of faith, seva, and Sanatan culture.",
+    "instagram": "Follow us on Instagram ",
+    "gallery": " View Gallery "
+  },
+  "home": {
+    "blogSection": {
+      "title": "Wisdom, Devotion & Stories",
+      "description": " Dive into articles that bring alive the spirit of Sanatan Dharma. From temple traditions to inspiring stories of seva, each blog is a step closer to divinity.",
+      "readAll": "Read Articles, Explore Faith",
+      "readArticle": "Read Article"
+    }
+  },
+  "contact": {
+    "title": "Reach Out to Us",
+    "subtitle": "Our team will connect with you soon.",
+    "lead": " Your voice matters to us. Whether it’s a query, a blessing, or a contribution – we are here to listen and respond with devotion.",
+    "decorativeAlt": "Decorative Line",
+    "mainImageAlt": "Temple Architecture",
+    "form": {
+      "namePlaceholder": "Please enter your name",
+      "nameRequired": "Name is required",
+      "phonePlaceholder": "Please enter your phone number",
+      "phoneRequired": "Phone number is required",
+      "emailPlaceholder": "Please enter your email address",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "messagePlaceholder": "Please enter your message",
+      "submit": "Submit"
+    }
+  },
+  "footer": {
+    "headings": {
+      "specialLinks": "Special Links",
+      "info": "Info"
+    },
+    "specialLinks": {
+      "about": "About SMSHST",
+      "mission": "Our Mission",
+      "donate": "Donate for Cause",
+      "gallery": "Gallery",
+      "contact": "Contact Us"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "youtube": "YouTube"
+    },
+    "bottom": {
+      "partnerships": "Partnerships",
+      "templeSupport": "Temple Support",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions"
+    },
+    "helpText": "Hope N Help Charitable Foundation Trust",
+    "description": {
+      "lead": "Serving with Faith, Building with Seva",
+      "sub": "A spiritual movement dedicated to devotion, culture, and service. Join us in creating the grand Mahadham in Surat by 2029."
+    },
+    "labels": {
+      "email": "Email",
+      "phone": "Phone No",
+      "addressPrefix": "Address:"
+    },
+    "contact": {
+      "address1": "203, Metro Tower, Ring Road",
+      "address2": "Surat, Gujarat 395002"
+    },
+    "aria": {
+      "visitSocial": "Visit our"
+    }
+  },
+  "donation": {
+    "Leftsection": {
+      "title": "Statistics",
+      "stats": [
+        {
+          "amount": "200",
+          "label": "Crore+ Commitment for Mahadham Construction (Target 2025–26)"
+        },
+        {
+          "amount": "200+",
+          "label": "Trustees & Devotees Already Contributing"
+        },
+        {
+          "amount": "40+",
+          "label": "Acres of Land Identified & Offered for Seva"
+        },
+        {
+          "amount": "2029",
+          "label": "Target Year for Mahadham Completion"
+        }
+      ]
+    },
+    "Rightsection": {
+      "title": "Testimonials",
+      "testimonials": [
+        {
+          "name": "Satyanarayan Goyal, Trustee, SMSHST",
+          "message": "Mahadham is not just a temple, but a living symbol of faith and service. Every effort takes us closer to 2029."
+        },
+        {
+          "name": "Devotee, SMSHST",
+          "message": "Contributing to Mahadham is not just a donation, it is an offering of faith. I feel blessed to be part of this divine mission."
+        },
+        {
+          "name": "Trustee, SMSHST",
+          "message": "Every brick of Mahadham will carry the blessings of countless devotees. Together, we are building faith for generations."
+        },
+        {
+          "name": "Trustee, SMSHST",
+          "message": "Mahadham will not only be a temple, it will be a place of seva, culture, and unity. That is why I contribute with devotion."
+        },
+        {
+          "name": "Devotee, SMSHST",
+          "message": "When I think of Mahadham, I see a future where every devotee feels at home, embraced by faith and service."
+        },
+        {
+          "name": "Trustee, SMSHST",
+          "message": "The vision of 2029 is not just about completing a temple, but about creating a living symbol of Sanatan Dharma."
+        },
+        {
+          "name": "Devotee, SMSHST",
+          "message": "My children will one day say — our family helped build this Mahadham. That is my true pride."
+        },
+        {
+          "name": "Trustee, SMSHST",
+          "message": "Land, wealth, time — whatever we give for Mahadham, it all becomes eternal seva."
+        },
+        {
+          "name": "Trustee, SMSHST",
+          "message": "To be part of Mahadham’s foundation is to be part of history itself. This is not just construction, it is devotion in action."
+        },
+        {
+          "name": "Devotee, SMSHST",
+          "message": "Every donation, big or small, is a sacred step towards 2029. Together, we will make Mahadham a reality."
+        }
+      ]
+    }
+  },
+  "ScrollingBanner": {
+    "phrases": ["JAI SHREE MAHAKALESHWAR", "JAI SHREE SALASAR BALAJI"]
+  },
+  "liveDarshan": {
+    "title": "Live Darshan",
+    "buttons": {
+      "mahakaleshwar": "Shree Mahakaleshwar Mandir",
+      "salasar": "Shree Salasar Balaji Mandir"
+    },
+    "upcomingEventsTitle": "Upcoming Events",
+    "liveBadge": "Live",
+    "viewDetails": "View Details",
+    "modal": {
+      "upcomingEvent": "Upcoming Event",
+      "eventFallback": "Event",
+      "noDescription": "No description available."
+    }
+  },
+  "aboutWorship": {
+    "title": "Embark on a Journey of Spiritual Awakening at ",
+    "highlightedText": "Our Mahadham",
+    "subtitle": "Nurture Your Soul, Embrace the Divine",
+    "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, devotion is not just worship – it is seva, culture, and transformation. Our envisioned Mahadham will be a sacred abode where every prayer, every offering, and every act of seva brings one closer to the divine.",
+    "buttonText": "Aarti Timings"
+  },
+  "aboutImagesectioncontent": {
+    "cards": [
+      {
+        "heading": "Our Mission",
+        "title": " Seva with Devotion",
+        "desc": " Serving humanity is serving God. Every act of seva at SMSHST is a step towards spiritual fulfillment.",
+        "alt": "Worship scene left"
+      },
+      {
+        "title": "",
+        "desc": "",
+        "alt": "Worship scene center"
+      },
+      {
+        "heading": "Our Vision",
+        "title": " Power of Bhakti",
+        "desc": " With folded hands and a pure heart, devotion connects the soul to the divine.",
+        "alt": "Worship scene right"
+      }
+    ]
+  },
+  "aboutTeam": {
+    "smallTitle": "Our companions who serve every moment in the temple are the true strength of our society.",
+    "heading": "Team at the Temple",
+    "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, our true strength lies in the dedication of our spiritual leaders, trustees, and volunteers. Together, they ensure that every ritual, every service, and every initiative is carried out with devotion, discipline, and dignity. Our team is not just an organization  – it is a family of devotees united by faith and committed to the divine vision of Mahadham 2029.",
+    "arrows": {
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "members": [
+      {
+        "name": "Acharya Pandit Ji",
+        "role": "Chief Priest"
+      },
+      {
+        "name": "Acharya Pandit Ji",
+        "role": "Assistant Priest"
+      },
+      {
+        "name": "Acharya Ji",
+        "role": "Trust President"
+      },
+      {
+        "name": "Acharya Ji",
+        "role": "Trust Secretary"
+      },
+      {
+        "name": "Acharya Ji",
+        "role": "Trust Secretary"
+      }
+    ]
+  },
+  "carousel": {
+    "slides": {
+      "a": {
+        "title": "RATAN LAL JI",
+        "role": "Honourable Trustee",
+        "org": "Shree Mahakaleshwar Salasar \nHanuman Sewa Trust",
+        "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
+      },
+      "b": {
+        "title": "ANITA DEVI",
+        "role": "Volunteer Lead",
+        "org": "Shree Mahakaleshwar Salasar \nHanuman Sewa Trust",
+        "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\u00A0"
+      }
+    }
+  },
+  "GalleryPage": {
+    "title": " Explore the Gallery — Relive the Divine"
+  },
+  "MembershipPage": {
+    "title": "Choose your plan – Monthly or Annual – and walk with us towards Mahadham 2029."
+  },
+  "BlogPage": {
+    "title": "Read, Reflect, and Reconnect with Divinity.",
+    "description": "Our blog is a sacred space where devotion meets knowledge. From the glory of Mahakal and Salasar Balaji to stories of seva, festivals, and Sanatan Dharma  – every article nurtures your soul and strengthens your faith.",
+    "buttonText": "Read Blog",
+    "Blogs": [
+      {
+        "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
+        "date": "2024-01-15"
+      },
+      {
+        "title": "Balaji in Kaliyug – The Living Protector of Devotees",
+        "date": "2024-02-10"
+      },
+      {
+        "title": "Bhumi Daan – The Supreme Offering in Sanatan Dharma",
+        "date": "2024-03-05"
+      }
+    ]
+  },
+  "ContactPage": {
+    "title": "Connect with Us",
+    "description": "At Shree Mahakaleshwar Salasar Hanuman Sewa Trust, we believe every devotee is family. Whether you wish to learn more about our mission, contribute to Mahadham 2029, or participate in seva activities, we are here to connect, guide, and serve you."
+  },
+  "BlogDetailsPage": {
+    "Blog": [
+      {
+        "title": "The Eternal Power of Mahakal – Kaalon ke Kaal",
+        "subtitle": "By: Author | Date: 01/01/2025",
+        "content": [
+          "In the Sanatan tradition, Lord Mahakal is not just a deity — He is ‘Kaalon ke Kaal’, the one who governs time itself. While most deities symbolize specific virtues, Mahakal stands beyond time, life, and death.",
+          "At Ujjain, the sacred land of Mahakaleshwar Jyotirlinga, countless devotees experience this truth every day. It is believed that even a single darshan of Mahakal removes deep-rooted fears, ancestral doshas, and unending cycles of suffering. Unlike other temples, where the deity appears as benevolent and calm, Mahakal radiates the fearless aura of cosmic power — reminding us that no force in the universe is greater than time, and yet Mahakal rules over it.",
+          "Spiritual texts narrate that during the invasion of Ujjain, people turned to Mahakal with prayers. It is said that the Lord himself appeared to protect his devotees. Even today, those who face unbearable struggles in life are encouraged to meditate on Mahakal, because He not only destroys obstacles but also burns away karmic impurities.",
+          "In the context of SMSHST Mahadham, Mahakal represents the unshakable foundation. The temple being built in Surat by 2029 is not just a structure but a symbol of this eternal power. For every devotee, it will serve as a reminder: no matter how big the storm, when you surrender to Mahakal, you are protected beyond time itself.",
+          "✨ Visiting Mahakal is not about asking for blessings alone — it is about experiencing liberation from fear, from time, and from worldly attachments."
         ]
+      },
+      {
+        "title": "Balaji in Kaliyug – The Living Protector of Devotees",
+        "subtitle": "By: Author | Date: 02/10/2024",
+        "content": [
+          "When we think of Hanuman ji, the first thought is of unshakable devotion to Shri Ram. But in Kaliyug, Hanuman has taken a special form for his devotees — Salasar Balaji in Rajasthan.",
+          "Historical accounts say that in 1754, a farmer in Salasar village discovered an idol of Hanuman with a unique divine form. This was not the childlike Hanuman we often see, but Balaji Maharaj with a beard and mustache, symbolizing strength and protection. Since then, millions of devotees have experienced miracles by visiting Salasar Dham.",
+          "It is believed that in Kaliyug, whenever and wherever Ram Katha is recited, Hanuman ji himself is present. At Salasar, He stands as a living proof of that eternal promise. Devotees who suffer from diseases, financial struggles, or family problems find sudden relief after offering prayers here. Stories of instant protection and blessings are told by generations of devotees.",
+          "In SMSHST’s vision of Mahadham in Surat, Salasar Balaji’s presence will ensure that every devotee feels the warmth of a living protector. This will not just be a temple for rituals but a sanctuary for protection, courage, and unwavering faith.",
+          "✨ Balaji in Kaliyug is not just worshiped — He walks with His devotees, protects them, and stands as the ultimate guardian of faith."
+        ]
+      },
+      {
+        "title": " Bhumi Daan – The Supreme Offering in Sanatan Dharma",
+        "subtitle": "By: Author | Date: 03/05/2024",
+        "content": [
+          "In Sanatan Dharma, the act of daan (donation) holds immense significance. Among all forms of daan, three are considered supreme: Kanya Daan, Anna Daan, and Bhumi Daan. Among these, Bhumi Daan is regarded as the most sacred because land becomes the foundation for generations of dharmic activities.",
+          "Think about it — food donation feeds for a day, wealth donation supports temporarily, but land donation creates a permanent space for seva, bhakti, and spiritual growth. That is why our scriptures praise Bhumi Daan as incomparable.",
+          "When a devotee donates land for a temple, a gaushala, or a dharmic center, it is believed that the punya (spiritual merit) lasts for many lifetimes. The land carries the vibrations of every mantra chanted, every prayer offered, and every seva performed. The donor becomes eternally connected with those blessings.",
+          "At SMSHST, Bhumi Daan is the cornerstone of Mahadham 2029. Surat, the land of enterprise, is becoming the chosen land of faith. Every devotee who donates land for Mahadham is not just giving property; they are laying the foundation for a spiritual legacy that will bless countless generations.",
+          "✨ When you donate land for Mahadham, you don’t just give soil — you give space for divinity to live, for culture to grow, and for seva to expand."
+        ]
+      }
+    ]
+  },
+  "AboutpageAboutsection": {
+    "title": "About Us",
+    "content": [
+      {
+        "paragraph1": "Shri Mahakaleshwar Salasar Hanuman Seva Trust (SMSHST) is a spiritual and social trust established to unite faith and service. Inspired by the blessings of Mahakal Baba (Ujjain) and Salasar Balaji Maharaj (Rajasthan), we are on a sacred journey to build a grand Mahadham in Surat by 2029. This Mahadham will not just be a temple but a spiritual center where devotion, knowledge, and service converge.",
+        "paragraph2": "Our mission focuses on preserving Sanatan values, expanding service, and creating a spiritual legacy. We believe devotion is not only a personal practice but also a means to uplift society. SMSHST invites everyone to participate in this noble cause and become part of this historic journey. Our dream – a Mahadham of faith, an expansion of service, and an everlasting spiritual legacy for generations to come."
+      }
+    ]
+  },
+  "PoojaPage": {
+    "title": "Pooja's at Temple"
+  },
+  "parshadPage": {
+    "title": [
+      {
+        "title1": "Shri Mahakaleshwar Prasad",
+        "title2": "Shri Salasar Balaji Prasad",
+        "title3": "Idols & Photo Frames"
+      }
+    ]
+  },
+  "prashad": {
+    "section": {
+      "addToCart": "Add to Cart",
+      "adding": "Adding...",
+      "addedToCartSuffix": "added to cart",
+      "failedLoad": "Failed to load prasad items. Please try again later.",
+      "unableAdd": "Unable to add item to cart",
+      "failedAdd": "Failed to add to cart. Please try again.",
+      "failedUpdate": "Failed to update cart. Please try again.",
+      "minQuantity": "Minimum quantity is 1. To remove from cart, use the cart page.",
+      "onlyAvailable": "Only {{count}} items available in stock",
+      "outOfStock": "Out of Stock",
+      "goToCheckout": "Go to Checkout"
+    },
+    "itemInBox": {
+      "title": "About the items in the box",
+      "subtitle": "A Detailed List of Everything Included in Your Shipment. See Exactly What Comes in the Box.",
+      "defaultItemName": "Item Name",
+      "defaultItemDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    "detail": {
+      "descriptionTitle": "Description",
+      "whatsInBoxTitle": "What's in the box",
+      "noItemsInfo": "No items information available",
+      "addToCart": "Add to cart",
+      "buyNow": "Buy now",
+      "adding": "Adding...",
+      "inStock": "In Stock",
+      "goToCheckout": "Go to Checkout",
+      "outOfStock": "Out of Stock"
+    },
+    "bestseller": {
+      "heading": "Our other Bestsellers"
+    },
+    "youMightLike": {
+      "heading": "You might also like"
+    },
+    "important": {
+      "heading": "Importance of Prashad",
+      "lead": "Prashad is a sacred and deeply significant offering in Hinduism, representing the grace and blessings of the Divine. It is food, often vegetarian and prepared with great reverence, that has first been offered to a deity during a ritual or prayer. Therefore, prashad serves as a tangible symbol of divine love and acceptance, distributing the positive energy and unity of the sacred ceremony to the entire congregation.",
+      "point1": "The act of receiving and consuming prashad is much more than simply eating; it is an act of communion, purification, and spiritual nourishment. ",
+      "point2": "By partaking in this sanctified food, devotees believe they are absorbing the residual spiritual energy and favor of the God, thus purifying their body and mind, strengthening their faith, and dissolving negative karma."
+    },
+    "faq": {
+      "heading": "Prashad Related FAQ's",
+      "items": [
+        {
+          "question": "What exactly is prashad?",
+          "answer": "Prashad (or Prasad) is a sacred vegetarian food offering that has been blessed by a deity during a special puja or ceremony. When you receive it, you are partaking in the blessings and spiritual energy of the Divine."
+        },
+        {
+          "question": "Is the prashad safe to eat?",
+          "answer": "Yes, absolutely. The prashad is prepared under strict hygiene guidelines with the utmost purity and reverence. We use only high-quality, fresh, vegetarian ingredients and ensure it is packaged securely for safe consumption."
+        },
+        {
+          "question": "What ingredients are used in the prashad?",
+          "answer": "The specific ingredients vary depending on the deity and the type of prashad ordered (e.g., Ladoo, Halwa, Panchamrit). All our offerings are strictly vegetarian and are prepared without onion and garlic. Ingredients typically include ghee, milk, sugar/jaggery, flour, nuts, and natural spices. A full list of potential allergens is available on the product page."
+        },
+        {
+          "question": "How long will it take for my prashad order to arrive?",
+          "answer": "Since prashad is often prepared fresh after the puja, the delivery time is calculated based on the specific puja date and your location.\nPreparation: [X] days after the scheduled puja.\nShipping: Standard shipping takes approximately [Y]–[Z] business days.\nYou will receive a tracking number once your order is shipped."
+        },
+        {
+          "question": "How should I store the prashad once it arrives?",
+          "answer": "Generally, prashad should be consumed within [X] days of receipt for the best experience.\nDry Prashad (e.g., Ladoo, Dry Fruits): Store in a cool, dry place in an airtight container.\nMoist Prashad (e.g., Halwa, Kheer): Refrigeration is highly recommended, and it should be consumed promptly."
+        },
+        {
+          "question": "Can I order prashad for someone else as a gift?",
+          "answer": "Yes. Ordering prashad for a loved one is a beautiful way to share blessings. Simply enter their shipping address at checkout. We do not include pricing details in the shipment."
+        },
+        {
+          "question": "What if I have allergies? How can I be sure the prashad is safe for me?",
+          "answer": "We take allergies seriously. While we strive to maintain a clean kitchen, our prashad may be prepared in a facility that also handles common allergens like milk, nuts (tree nuts and peanuts), wheat, and soy. If you have severe allergies, please review the specific ingredient list on the product page carefully or contact our customer support before ordering. We cannot guarantee a 100% allergen-free environment."
+        },
+        {
+          "question": "Can I request a specific type of prashad or customize my order?",
+          "answer": "Currently, we offer pre-set prashad packages that correspond to the specific pujas being performed. This ensures the offering remains traditional and standardized. We cannot accommodate specific customization or ingredient changes for individual orders at this time. Please check our site regularly for new seasonal offerings!"
+        },
+        {
+          "question": "What is your policy on cancellations, returns, and refunds?",
+          "answer": "Due to the sacred and perishable nature of prashad, all sales are generally final.\nCancellations: Orders can only be canceled within [X] hours of placement, provided the puja preparation has not yet begun.\nReturns/Refunds: We cannot accept returns. If your prashad arrives damaged or if there is an error in your order, please contact us within 24 hours of delivery with photographic proof, and we will work to issue a replacement or a partial refund."
+        }
+      ]
     }
+  },
+  "prashad_checkout": {
+    "checkoutTitle": "Checkout",
+    "shippingAddress": "Shipping Address",
+    "addDeliveryAddress": "Add Delivery Address",
+    "yourCart": "Your Cart",
+    "yourOrder": "Your Order",
+    "orderSummary": "Order Summary",
+    "removeConfirm": "Remove this item from your order?",
+    "itemRemoved": "Item removed from order",
+    "loadingCharges": "Loading charges...",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "vatTax": "gst",
+    "total": "Total",
+    "processing": "Processing...",
+    "proceedToPayment": "Proceed to Payment",
+    "itemOutOfStock": "Item is out of stock",
+    "onlyAvailable": "Only {{count}} available",
+    "addDeliveryAddressButton": "Add Delivery Address",
+    "selectDeliveryAddress": "Please select a delivery address"
+  },
+  "donationPage": {
+    "loading": "Loading...",
+    "form": {
+      "selectDonationType": "Select the type of दान you want to donate to",
+      "donationAmount": "Donation Amount",
+      "amountPlaceholder": "Enter Donation Amount e.g 10000",
+      "contactDetails": "Contact Details",
+      "name": "Name",
+      "namePlaceholder": "Please enter your name",
+      "nameRequired": "Name is required",
+      "nameInvalid": "Please enter a valid name (letters and spaces only, min 2 chars)",
+      "fatherName": "Father Name",
+      "fatherNamePlaceholder": "Last Name e.g John, Mary",
+      "fatherNameRequired": "Father name is required",
+      "fatherNameInvalid": "Please enter a valid father name",
+      "motherName": "Mother Name",
+      "motherNamePlaceholder": "Last Name e.g John, Mary",
+      "motherNameRequired": "Mother name is required",
+      "motherNameInvalid": "Please enter a valid mother name",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "+91-(00000 00000) or 0XXXXXXXXXX",
+      "phoneNumberRequired": "Phone number is required",
+      "phoneNumberInvalid": "Please enter a valid 10 digit Indian phone number",
+      "email": "Email Address",
+      "emailPlaceholder": "Your email@gmail.com",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "address": "Address",
+      "addressPlaceholder": "Park Avenue Street",
+      "addressRequired": "Address is required",
+      "addressInvalid": "Address must be at least 5 characters",
+      "contactInformation": "Contact Information",
+      "landDetailsTitle": "Land {{plotNumber}} Details",
+      "sameDetailsForAll": "Same Details for other Lands",
+      "notEditableMessage": "This field is prefilled from your registered account and cannot be edited.",
+      "plotSelectionRequired": "Please select at least one land plot to proceed with your donation."
+    },
+    "landSelector": {
+      "title": "Select your Land Areas to Donate",
+      "selected": "{{count}} selected",
+      "available": "Available (Click to select)",
+      "pending": "Pending",
+      "emi": "EMI",
+      "purchased": "Purchased / Occupied",
+      "viewAllPlots": "View All Plots",
+      "showLess": "Show Less",
+      "clearAllSelections": "Clear All Selections",
+      "totalSelected": "Total Selected: {{count}} plots",
+      "totalAmount": "Total Amount: ₹{{amount}}",
+      "plotCharge": "Plot Charge",
+      "plotTitle": "Plot {{plotNumber}} - {{status}} - ₹{{price}}",
+      "plotTitleSelected": "Plot {{plotNumber}} - {{status}} - ₹{{price}} (Selected)",
+      "morePlots": "+{{count}} more"
+    },
+    "payment": {
+      "paymentMode": "Payment Mode",
+      "paymentModeDescription": "Enter Name on whose behalf you want to donate and their Details",
+      "selectPaymentMethod": "Select Payment Method",
+      "cash": "Cash",
+      "cashSubtitle": "Visit Our Temple office to submit the cash",
+      "cheque": "Cheque",
+      "chequeSubtitle": "Write a cheque in favour of our trust",
+      "bankTransfer": "Direct Bank Transfer",
+      "bankTransferSubtitle": "Directly transfer the amount to our trust's bank",
+      "card": "Credit/Debit Card",
+      "cardSubtitle": "Directly transfer the amount to our trust's bank",
+      "upi": "UPI",
+      "upiSubtitle": "Pay via Google Pay, Phonepe, Paytm, Bhim",
+      "emi": "EMI (Easy Monthly Installments)",
+      "emiSubtitle": "Pay Small amounts in monthly instalments",
+      "submitRequest": "Submit Request",
+      "processing": "Processing...",
+      "choosePaymentMethod": "Chose Payment Method: {{amount}}"
+    },
+    "paymentDetails": {
+      "cashInstructions": "Kindly Visit our office and submit it",
+      "chequeInstructions": "Fill the cheque and kindly reach our office for further process",
+      "bankTransferInstructions": "Kindly transfer the amount to our Bank account",
+      "upiTitle": "Scan to Pay",
+      "emiTitle": "Thank you for your Interest",
+      "emiDescription": "Please sit tight, our team will contact you shortly to help you further",
+      "whatsappButton": "Send 'Hi' to our Whatsapp",
+      "bankDetails": "Our Bank Details",
+      "bankName": "Bank Name",
+      "accountNumber": "Account Number",
+      "accountName": "Account Name",
+      "ifscCode": "IFSC Code",
+      "branch": "Branch",
+      "organizationDetails": "Shri Mahakaleshwar Salasar Hanuman Seva Trust, Surat, Gujarat",
+      "emailId": "Email ID",
+      "contactNo": "Contact No.",
+      "addressLabel": "Address",
+      "noteToDevotees": "Note to Devotees",
+      "disclaimer": "Disclaimer:",
+      "disclaimerText": "We humbly request all devotees to kindly verify all details before making any donation. Donations made to Shri Mahakaleshwar Salasar Hanuman Seva Trust are used solely for temple activities, seva, and community welfare programs.",
+      "pleaseNote": "Please note that:",
+      "disclaimerPoint1": "Donations made in cash should be submitted directly at the temple office only.",
+      "disclaimerPoint2": "Official receipts will be provided for every donation.",
+      "disclaimerPoint3": "The Trust will not be responsible for transactions made through unauthorized persons or channels.",
+      "disclaimerPoint4": "Devotees are encouraged to retain the receipt for future reference and transparency.",
+      "disclaimerClosing": "🙏 Your support and blessings help us continue the seva and spiritual activities."
+    },
+    "layout": {
+      "organization": "Shri Mahakaleshwar Salasar Hanuman Seva Mandir",
+      "location": "Surat, Gujarat",
+      "aboutTitle": "About {{title}}",
+      "aboutDescription": "{{title}} is a sacred form of donation that helps support the temple's mission and serves the community. Your contribution will make a meaningful difference in maintaining and expanding our spiritual services.",
+      "howItHelps": "How it will help?",
+      "helpDescription": "Your {{title}} contribution will directly support temple maintenance, community services, and spiritual programs that benefit thousands of devotees."
+    },
+    "summary": {
+      "totalAmountToBePaid": "Total Amount to be Paid",
+      "totalAmount": "Total Amount",
+      "grandTotal": "Grand Total"
+    },
+    "bhumiDaan": {
+      "defaultDescription": "He who gives land donation, gives life to future generations"
+    }
+  },
+  "membershipFaq": {
+    "heading": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "Which pricing plan is right for me?",
+        "answer": "Every organization has unique needs, and the right plan depends on the features required to support your team and workflow. You can review the comparison above to see what each plan includes. If you need help selecting the best option, our sales team is happy to guide you."
+      },
+      {
+        "question": "How does your pricing work?",
+        "answer": "Our pricing is designed to be flexible and scale with your organization. We offer both monthly and annual billing, with additional discounts for yearly commitments. If you have specific needs, we can also provide a customized quote."
+      },
+      {
+        "question": "What if I change my mind?",
+        "answer": "You can cancel your subscription at any time. Annual plans are eligible for a prorated refund based on the terms outlined on our pricing page."
+      },
+      {
+        "question": "Do you offer discounted plans?",
+        "answer": "Yes. We offer special discounts for nonprofits, educational institutions, and customers making long-term commitments. Contact our sales team to check your eligibility."
+      },
+      {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept all major credit cards, debit cards, and bank transfers. For larger organizations, we also support invoicing and purchase orders."
+      },
+      {
+        "question": "Do you offer plans for nonprofits and NGOs?",
+        "answer": "Yes. We provide dedicated pricing and support programs for nonprofits and NGOs. Please reach out to our partnerships team for more details."
+      }
+    ]
+  },
+  "checkout": {
+    "title": "Checkout",
+    "shippingAddress": "Shipping Address",
+    "yourCart": "Your Cart",
+    "orderSummary": {
+      "title": "Order Summary",
+      "shipping": "Shipping",
+      "gst": "GST",
+      "total": "Total"
+    }
+  }
 }
