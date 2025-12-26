@@ -275,7 +275,7 @@ const PrashadOrderHistory = () => {
                                                             {item.images && item.images.length > 0 ? (
                                                                 <img
                                                                     src={item.images[0]}
-                                                                    alt={item.name}
+                                                                    alt={item?.name?.en}
                                                                     className="w-16 h-16 object-cover rounded-md border border-gray-200"
                                                                 />
                                                             ) : (
@@ -284,7 +284,7 @@ const PrashadOrderHistory = () => {
                                                                 </div>
                                                             )}
                                                             <div className="flex-1">
-                                                                <p className="font-medium text-gray-900">{item.name}</p>
+                                                                <p className="font-medium text-gray-900">{item?.name?.en}</p>
                                                                 <div className="flex justify-between mt-1 items-center">
                                                                     <div className="text-xs text-gray-500">
                                                                         <span>{item.quantity} x ₹{item.price}</span>

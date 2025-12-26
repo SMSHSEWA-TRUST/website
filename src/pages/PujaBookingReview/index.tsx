@@ -220,7 +220,7 @@ export default function PujaBookingReviewPage({
         }
     };
 
-   
+
     // If no booking data and not modal, redirect back to booking page
     if (!bookingData && !isOpen) {
         navigate('/puja-booking');
@@ -393,7 +393,7 @@ export default function PujaBookingReviewPage({
                                             Pooja Type
                                         </label>
                                         <div className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-900">
-                                            {bookingData.pujaTypeDetails || 'Pooja type not specified'}
+                                            {bookingData?.pujaTypeDetails?.en || 'Pooja type not specified'}
                                         </div>
                                     </div>
 

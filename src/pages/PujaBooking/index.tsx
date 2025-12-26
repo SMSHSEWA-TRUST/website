@@ -873,8 +873,8 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Pooja Type</label>
                                     <input
                                         type="text"
-                                        name="pujaTypeDetails"
-                                        value={formData.pujaTypeDetails}
+                                        name="pujaTypeDetails1"
+                                        value={"ssdsds"}
                                         onChange={handleInputChange}
                                         placeholder="Full Name"
                                         readOnly

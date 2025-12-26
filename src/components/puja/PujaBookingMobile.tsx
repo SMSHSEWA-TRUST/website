@@ -639,7 +639,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja, initialBooki
                                 ) : eventsError ? (
                                     <div className="text-red-500">{eventsError}</div>
                                 ) : events.length === 0 ? (
-                                            <div className="text-gray-500">Select a Date to View Events</div>
+                                    <div className="text-gray-500">Select a Date to View Events</div>
                                 ) : (
                                     <div className="space-y-3 max-h-60 overflow-y-auto">
                                         {events.slice(0, 5).map((event) => {
@@ -869,7 +869,7 @@ export default function PujaBookingMobile({ onClose, selectedPooja, initialBooki
                         <h3 className="text-lg font-bold">Other Details</h3>
                         <div>
                             <label className="block text-sm mb-1">Puja Type</label>
-                            <input name="pujaTypeDetails" value={formData.pujaTypeDetails} onChange={handleInputChange} readOnly className="w-full px-3 py-2 border rounded bg-gray-100" />
+                            <input name="pujaTypeDetails" value={formData?.pujaTypeDetails?.en} onChange={handleInputChange} readOnly className="w-full px-3 py-2 border rounded bg-gray-100" />
                         </div>
                         <div>
                             <label className="block text-sm mb-1">Special Requests</label>

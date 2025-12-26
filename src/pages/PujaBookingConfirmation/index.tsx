@@ -196,8 +196,8 @@ const PujaBookingConfirmationPage: React.FC<PujaBookingConfirmationPageProps> = 
                                         )}
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-base font-bold">{bookingData.pujaType}</h3>
-                                        <p className="text-xs text-white/90 mt-0.5 leading-relaxed">{bookingData.pujaDescription}</p>
+                                        <h3 className="text-base font-bold">{bookingData?.pujaType?.en}</h3>
+                                        <p className="text-xs text-white/90 mt-0.5 leading-relaxed">{bookingData?.pujaDescription?.en || bookingData?.pujaDescription}</p>
                                     </div>
                                 </div>
                                 <div className="mt-3 md:mt-4 grid grid-cols-2 gap-2 md:gap-3 text-xs">

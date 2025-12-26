@@ -246,6 +246,13 @@ const Header = (): JSX.Element => {
       link: "/contact",
     },
   ]
+
+  const [openLangSelect, setLangSelect] = useState(false);
+  const handelLangeChange = (lang: string) => {
+    setLangSelect(!openLangSelect);
+    setLang(lang as any);
+  }
+
   return (
     <header
       className={`w-full top-0 fixed left-0 right-0 z-50 font-secondaryFont transform transition-transform duration-300 ${isHidden ? "-translate-y-full" : "translate-y-0"
@@ -347,7 +354,7 @@ const Header = (): JSX.Element => {
                 .marquee { animation: none; }
               }
             `}</style>
-            <div className="flex items-center gap-2 textDescription" ref={langSelectorRef}>
+            {/* <div className="flex items-center gap-2 textDescription" ref={langSelectorRef}>
               <span className="hidden sm:inline">{t("header.language")}</span>
               <select
                 value={lang}
@@ -366,6 +373,70 @@ const Header = (): JSX.Element => {
                   ગુજરાતી
                 </option>
               </select>
+            </div> */}
+            <div className="relative min-w-[70px]">
+              <span className="hidden sm:inline text-xs sm:text-sm mr-1">{t("header.language")}</span>
+              <button
+                type="button"
+                className="bg-[#AD2F16] border border-white/30 text-left rounded px-4 py-1.5 text-white text-xs sm:text-sm min-w-[70px]"
+                aria-haspopup="listbox"
+                aria-expanded={openLangSelect}
+                id="custom-select-button"
+                onClick={() => setLangSelect(!openLangSelect)}
+              >
+
+                {lang === "en" && "English"}
+                {lang === "hi" && "हिन्दी"} {/* Button par Hindi text dikhega */}
+                {lang === "gu" && "ગુજરાતી"} {/* Button par Gujarati text dikhega */}
+
+              </button>
+
+              {/* 2. Dropdown Menu (Listbox) */}
+              <div
+                className={`absolute z-10 mt-1 bg-white border border-gray-300 rounded-md shadow-lg ${openLangSelect ? "block" : "hidden"} w-[90px] float-end right-0`}
+                role="listbox"
+                aria-labelledby="custom-select-button"
+              >
+
+                {/* Item 1: English */}
+                <div
+                  role="option"
+                  aria-selected={lang === "en"}
+                  className={`cursor-pointer px-3 py-2 text-sm 
+          ${lang === "en" ? "font-medium bg-gray-100 text-gray-900" : "text-gray-700"}
+          hover:bg-[#AD2F16] hover:text-white
+        `}
+                  onClick={() => handelLangeChange("en")}
+                >
+                  English
+                </div>
+
+                {/* Item 2: Hindi (हिन्दी) - Text Changed */}
+                <div
+                  role="option"
+                  aria-selected={lang === "hi"}
+                  className={`cursor-pointer px-3 py-2 text-sm 
+          ${lang === "hi" ? "font-medium bg-gray-100 text-gray-900" : "text-gray-700"}
+          hover:bg-[#AD2F16] hover:text-white
+        `}
+                  onClick={() => handelLangeChange("hi")}
+                >
+                  हिन्दी
+                </div>
+
+                {/* Item 3: Gujarati (ગુજરાતી) - Text Changed */}
+                <div
+                  role="option"
+                  aria-selected={lang === "gu"}
+                  className={`cursor-pointer px-3 py-2 text-sm 
+          ${lang === "gu" ? "font-medium bg-gray-100 text-gray-900" : "text-gray-700"}
+          hover:bg-[#AD2F16] hover:text-white
+        `}
+                  onClick={() => handelLangeChange("gu")}
+                >
+                  ગુજરાતી
+                </div>
+              </div>
             </div>
           </div>
         </div>
