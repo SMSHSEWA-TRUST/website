@@ -34,7 +34,7 @@ const DonationCard: React.FC<DonationCardProps> = ({ data, displayTotal, display
 
   const computedTotal = (data?.daanTypes ?? []).reduce((sum, item) => sum + (item?.amount ?? 0), 0);
 
-  
+
   // data may already contain grandTotal or additionalFee; prefer parent override `displayGrandTotal` for live updates
   const grandTotal = typeof displayGrandTotal === "number"
     ? displayGrandTotal

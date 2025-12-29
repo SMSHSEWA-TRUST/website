@@ -4,12 +4,35 @@ import { useGetAllDaan } from "@/api/DaanQueries";
 import { navigateToDonation } from '@/lib/donationUtils';
 import mandal from '@/assets/images/mand-7.png';
 import CarouselContent from './CarouselContent';
+import { clearDonationFormState } from "@/lib/donationFormStorage";
 
 const BhudaanSection: React.FC = () => {
     const navigate = useNavigate();
     const { data: allDaanData, isFetching } = useGetAllDaan();
 
     const { t } = useI18n();
+
+    const handleDonate = (category: any) => {
+        // Ensure fresh start by clearing any previous saved state for this category
+        if (category?._id) {
+            clearDonationFormState(category._id);
+        }
+
+        // If user is not authenticated, save the intended action and redirect to login
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+            // Save the intended donation category to localStorage for redirect after login
+            localStorage.setItem('auth_redirect_destination', JSON.stringify({
+                path: '/donation',
+                state: { selectedCategory: category, returnTo: 'donations' }
+            }));
+            navigate('/login');
+            return;
+        }
+
+        // Navigate to the donation page with the selected category
+        navigateToDonation(navigate, category, 'donations');
+    };
     return (
         <div id="bhudaan-section">
             <div className="bg-[#8B0000] py-6  flex flex-col items-center w-full relative overflow-hidden px-4 md:px-16 lg:px-24 ">
@@ -70,41 +93,13 @@ const BhudaanSection: React.FC = () => {
                         onClick={() => {
                             // Don't proceed if data is still loading
                             if (isFetching) return;
-
                             // Find the Bhumi Daan category from API data
                             const categories = allDaanData?.data ?? [];
                             const bhumiCategory = categories.find((c: any) => {
-                                const title = String(c?.title || '').toLowerCase();
+                                const title = String(c?.title?.en || '').toLowerCase();
                                 return title.includes('bhumi') || title.includes('bhud') || title.includes('bhum');
                             });
-
-                            // Require login before allowing access to donation flow
-                            const token = localStorage.getItem("authToken");
-                            if (!token) {
-                                // Save the intended destination before redirecting to login
-                                if (bhumiCategory) {
-                                    localStorage.setItem('auth_redirect_destination', JSON.stringify({
-                                        path: '/donation',
-                                        state: { selectedCategory: bhumiCategory, returnTo: 'bhudaan' }
-                                    }));
-                                } else {
-                                    // Fallback to focus approach if category not found
-                                    localStorage.setItem('auth_redirect_destination', JSON.stringify({
-                                        path: '/donation',
-                                        state: { focus: 'bhumi', returnTo: 'bhudaan' }
-                                    }));
-                                }
-                                navigate('/login');
-                                return;
-                            }
-
-                            // Navigate directly to the donation page
-                            if (bhumiCategory) {
-                                navigateToDonation(navigate, bhumiCategory, 'bhudaan');
-                            } else {
-                                // Fallback to focus approach if category not found
-                                navigate('/donation', { state: { focus: 'bhumi', returnTo: 'bhudaan' } });
-                            }
+                            handleDonate(bhumiCategory);
                         }}
                         className={`textDescription font-bold py-2 px-6 rounded shadow transition font-secondaryFont ${isFetching
                             ? 'bg-gray-300 text-gray-600 cursor-not-allowed'

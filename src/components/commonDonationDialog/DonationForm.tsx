@@ -415,7 +415,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
           ))}
       </div> */}
 
-      {data?.title === DialogTypesForDonation.BHUDAAN && (
+      {data?.title?.en === DialogTypesForDonation.BHUDAAN && (
         <div>
           <BhumiDaanPlotSection onAmountChange={onAmountChange} plots={data?.plots ?? []} onPlotsChange={setSelectedPlots} initialSelectedPlots={initialSelectedPlots} />
           {plotSelectionError && (
@@ -435,18 +435,18 @@ const DonationForm: React.FC<DonationFormProps> = ({
           }
 
           // Validation for BHUDAAN: Ensure at least one plot is selected
-          if (data?.title === DialogTypesForDonation.BHUDAAN && selectedPlots.length === 0) {
+          if (data?.title?.en === DialogTypesForDonation.BHUDAAN && selectedPlots.length === 0) {
             setPlotSelectionError(t("donationPage.form.plotSelectionRequired") || "Please select at least one land plot to proceed.");
             return;
           }
 
           // Clear plot selection error if we have plots selected
-          if (data?.title === DialogTypesForDonation.BHUDAAN && selectedPlots.length > 0) {
+          if (data?.title?.en === DialogTypesForDonation.BHUDAAN && selectedPlots.length > 0) {
             setPlotSelectionError("");
           }
 
           if (selectedPlots.length > 0) {
-            if (data?.title === DialogTypesForDonation.BHUDAAN) {
+            if (data?.title?.en === DialogTypesForDonation.BHUDAAN) {
               // Validate BhumiDaan contact details for ALL selected plots before proceeding
               const requiredKeys = [
                 "name",
@@ -557,13 +557,13 @@ const DonationForm: React.FC<DonationFormProps> = ({
         className="space-y-4"
         id="donationForm">
 
-        {(data?.title !== DialogTypesForDonation.BHUDAAN || selectedPlots.length > 0) && (
+        {(data?.title?.en !== DialogTypesForDonation.BHUDAAN || selectedPlots.length > 0) && (
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-red-700 mb-4">{t("donationPage.form.contactDetails")}</h3>
           </div>
         )}
 
-        {data?.title !== DialogTypesForDonation.BHUDAAN && (
+        {data?.title?.en !== DialogTypesForDonation.BHUDAAN && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Name */}
             <div>

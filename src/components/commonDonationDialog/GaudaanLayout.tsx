@@ -29,15 +29,20 @@ type userProps = {
   email: string;
 };
 
+type Lang = {
+  en: string;
+  hi: string;
+  gu: string;
+}
 interface GaudaanLayoutProps {
-  title?: string;
+  title?: Lang;
   onBack?: () => void;
   data: any;
 }
 const shouldShowUserPaying = ["Bhumi Daan", "Bhojan Daan"];
 
-const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", onBack, data }) => {
-  const { t } = useI18n();
+const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "", gu: "" }, onBack, data }) => {
+  const { t, lang } = useI18n();
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? (JSON.parse(storedUser) as userProps) : null;
 
@@ -92,20 +97,21 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   };
 
   // Helper flags for which UI to show
-  const isBhumi = title === "Bhumi Daan" || data?.title === "Bhumi Daan";
-  const isBhojan = title === "Bhojan Daan" || data?.title === "Bhojan Daan";
-  const isAnnadan = title === "Anna Daan" || title === "Anna Daan" || data?.title === "Anna Daan" || data?.title === "Annadaan";
-  const isRashiDaan = (title || data?.title || '').toLowerCase().includes('rashi');
-  const isGauDan = title === "Gau Daan" || data?.title === "Gau Daan";
+  const isBhumi = title?.en === "Bhumi Daan" || data?.title?.en === "Bhumi Daan";
+  const isBhojan = title?.en === "Bhojan Daan" || data?.title?.en === "Bhojan Daan";
+  const isAnnadan = title?.en === "Anna Daan" || title?.en === "Anna Daan" || data?.title?.en === "Anna Daan" || data?.title?.en === "Annadaan";
+  const isRashiDaan = (title?.en || data?.title?.en || '').toLowerCase().includes('rashi');
+  const isGauDan = title?.en === "Gau Daan" || data?.title?.en === "Gau Daan";
 
   // When showing Bhumi Daan we fetch the plots from the server (API: /plots)
   // and inject them into the `data` passed down to the DonationForm so the
   // LandDonationSelector receives the latest API data.
+
   const { data: plotsResp } = usePlotsData(isBhumi);
   const apiPlots: any[] = plotsResp?.data?.data ?? [];
   const dataWithPlots = isBhumi ? { ...(data ?? {}), plots: data?.plots?.length ? data.plots : apiPlots } : data;
 
-
+  // console.log(isBhumi, "isBhumi", dataWithPlots)
 
   // Whatsapp :
 
@@ -129,7 +135,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
   // Helper to safely read a display title from item objects that may use
   // different property names across data shapes (title, name, displayName, label)
-  const getItemTitle = (it: any) => (it?.title ?? it?.name ?? it?.displayName ?? it?.label ?? 'Untitled');
+  // This is for Gaudan Section
+  const getItemTitle = (it: any) => (it?.title ?? it?.name?.[lang] ?? it?.displayName ?? it?.label ?? 'Untitled');
 
   // Local small components to keep JSX tidy
   const BhumiPreview: React.FC = () => (
@@ -187,7 +194,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 </li>
               ))}
             </ul>
-            <div className="mt-4 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90">{data?.shortDescription ?? 'भोजन दान जीवन का सबसे पवित्र कर्म है'}</div>
+            <div className="mt-4 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90">{data?.whyItMatters?.[lang] ?? 'भोजन दान जीवन का सबसे पवित्र कर्म है'}</div>
           </div>
         </div>
       </div>
@@ -242,6 +249,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
   };
 
   const AnnadanList: React.FC = () => {
+
     const items: any[] = data?.items?.length ? data.items : defaultAnnadanList;
     return (
       <div className="w-full">
@@ -258,7 +266,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 </li>
               ))}
             </ul>
-            <div className="mt-4 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90">{data?.shortDescription ?? 'अन्नदान से बढ़कर कोई दान नहीं, यह भूख मिटाकर जीवन में मुस्कान लाता है'}</div>
+            <div className="mt-4 bg-white/10 rounded-md px-3 py-2 text-xs text-white/90">{data?.whyItMatters?.[lang] ?? 'अन्नदान से बढ़कर कोई दान नहीं, यह भूख मिटाकर जीवन में मुस्कान लाता है'}</div>
           </div>
         </div>
       </div>
@@ -276,7 +284,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       totalAmount: finalPayingAmount,
       paymentMode: selectedPaymentMethod || undefined,
       ...(formdata.daanType && {
-        daanType: formdata.daanType, // Include the selected donation type ID
+        daanType: formdata.daanType?.en, // Include the selected donation type ID
       }),
       ...(formdata.plotIds?.length > 0 && {
         // Send as an array (not a JSON string) so backend receives proper ObjectId array
@@ -302,6 +310,9 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
         setFlowStep('form');
         onBack?.();
       },
+      onError: (e) => {
+        console.error(e);
+      }
     });
   };
 
@@ -440,7 +451,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
       (it._id && it._id === selectedDaanTypeId) || (it.id && it.id === selectedDaanTypeId)
     );
 
-    const mainTitle = title || data?.title || "Donation";
+    const mainTitle = title?.en || data?.title?.en || "Donation";
     const itemTitle = selectedItem ? getItemTitle(selectedItem) : "";
 
     const effectiveTitle = itemTitle && itemTitle !== mainTitle
@@ -482,7 +493,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">{title}</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">{title?.[lang]}</h1>
         </div>
 
         {/* Main Content */}
@@ -495,8 +506,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 <div className="aspect-[4/2] w-full overflow-hidden">
                   <LazyLoadImage
                     className="w-full h-full object-cover"
-                    alt={`${getDaanImageAlt(title)} 1`}
-                    src={getDaanImages(title)[0]}
+                    alt={`${getDaanImageAlt(title?.[lang])} 1`}
+                    src={getDaanImages(title?.[lang])[0]}
                     loading="lazy"
                   />
                 </div>
@@ -515,11 +526,11 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
 
                   <div className="mb-4">
                     <h3 className="text-[#AD2F16] textHeading   mb-2">
-                      {t("donationPage.layout.aboutTitle").replace("{{title}}", title)}
+                      {t("donationPage.layout.aboutTitle").replace("{{title}}", title?.[lang])}
                     </h3>
                     <p className="text-[#1E1E1E80] textDescription leading-relaxed">
-                      {data?.aboutDescription || data?.description ||
-                        t("donationPage.layout.aboutDescription").replace("{{title}}", title)}
+                      {data?.aboutDescription?.[lang] || data?.description?.[lang] ||
+                        t("donationPage.layout.aboutDescription").replace("{{title}}", title?.[lang])}
                     </p>
                   </div>
                 </div>
@@ -528,8 +539,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                 <div className={`w-full overflow-hidden ${!isBhumi ? "aspect-[4/2]" : ""}`}>
                   <LazyLoadImage
                     className="w-full h-full object-cover"
-                    alt={`${getDaanImageAlt(title)} 2`}
-                    src={getDaanImages(title)[1]}
+                    alt={`${getDaanImageAlt(title?.[lang])} 2`}
+                    src={getDaanImages(title?.[lang])[1]}
                     loading="lazy"
                   />
                 </div>
@@ -539,8 +550,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                   <div>
                     <h4 className="text-[#AD2F16] textHeading  mb-2">{t("donationPage.layout.howItHelps")}</h4>
                     <p className="text-[#1E1E1E80] textDescription leading-relaxed">
-                      {data?.helpDescription ||
-                        t("donationPage.layout.helpDescription").replace("{{title}}", title)}
+                      {data?.helpDescription?.[lang] ||
+                        t("donationPage.layout.helpDescription").replace("{{title}}", title?.[lang])}
                     </p>
                   </div>
                 </div>
@@ -553,8 +564,8 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
               <div className="aspect-[16/9] w-full overflow-hidden">
                 <LazyLoadImage
                   className="w-full h-full object-cover"
-                  alt={getDaanImageAlt(title)}
-                  src={getDaanImage(title)}
+                  alt={getDaanImageAlt(title?.[lang])}
+                  src={getDaanImage(title?.[lang])}
                   loading="lazy"
                 />
               </div>
@@ -566,10 +577,10 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                   <p className="text-[#1E1E1E80] textDescription">📍 {data?.location || t("donationPage.layout.location")}</p>
                 </div>
                 <div>
-                  <h3 className="text-[#AD2F16] textHeading font-semibold mb-1">{t("donationPage.layout.aboutTitle").replace("{{title}}", title)}</h3>
+                  <h3 className="text-[#AD2F16] textHeading font-semibold mb-1">{t("donationPage.layout.aboutTitle").replace("{{title}}", title?.[lang])}</h3>
                   <p className="text-[#1E1E1E80] textDescription  leading-relaxed line-clamp-3">
-                    {data?.aboutDescription || data?.description ||
-                      t("donationPage.layout.aboutDescription").replace("{{title}}", title)}
+                    {data?.aboutDescription?.[lang] || data?.description?.[lang] ||
+                      t("donationPage.layout.aboutDescription").replace("{{title}}", title?.[lang])}
                   </p>
                 </div>
               </div>
@@ -593,7 +604,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
             {flowStep === 'form' && (
               <Card className="p-6">
 
-                {!shouldShowUserPaying.includes(title) && (
+                {!shouldShowUserPaying.includes(title?.[lang]) && (
                   <>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {t("donationPage.form.donationAmount")}
@@ -625,7 +636,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                   </>
                 )}
                 <DonationForm
-                  category={dataWithPlots?.title ?? data?.title ?? "Daan Title"}
+                  category={dataWithPlots?.title?.[lang] ?? data?.title?.[lang] ?? "Daan Title"}
                   data={dataWithPlots}
                   handleSubmit={handleSubmit}
                   control={control}
@@ -985,7 +996,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
               {flowStep === 'form' && (
                 <>
                   <DonationCard
-                    type={title}
+                    type={title?.en}
                     data={data}
                     displayTotal={(data?.daanTypes ?? []).reduce((s: number, it: any) => s + (it?.amount ?? 0), 0)}
                     displayGrandTotal={Number(grandTotal) + (Number(userPickedAmount) || 0)}
@@ -1002,10 +1013,6 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = "Bhojan daan", on
                   </button>
                 </>
               )}
-
-
-
-
             </div>
           </div>
         </div>
