@@ -223,7 +223,7 @@ const DonationHistory = () => {
                                     {/* Donation Title */}
                                     <div className="flex justify-between items-start">
                                         <span className="text-xs text-gray-400 font-normal">Donation Title</span>
-                                        <span className="text-sm font-bold text-gray-900">{donation.donationType}</span>
+                                        <span className="text-sm font-bold text-gray-900">{(donation.daanType as any)?.en}</span>
                                     </div>
 
                                     {/* Amount */}

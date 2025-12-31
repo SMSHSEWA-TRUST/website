@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Bestseller: React.FC = () => {
     const navigate = useNavigate();
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
     const { data: prasadData, isLoading } = useGetPrasadByTag('Bestsellers');
     const addToCartMutation = useAddToCart();
     const { data: cartData } = useGetCart();
@@ -160,7 +160,7 @@ const Bestseller: React.FC = () => {
                                 {prasad.featuredImage || prasad.image || prasad.images?.[0] ? (
                                     <LazyLoadImage
                                         src={prasad.featuredImage || prasad.image || prasad.images?.[0]}
-                                        alt={prasad.name}
+                                        alt={prasad?.name?.[lang]}
                                         className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                                     />
                                 ) : (
@@ -179,7 +179,7 @@ const Bestseller: React.FC = () => {
                                     className="font-secondaryFont text-sm md:text-base text-gray-800 mb-2 line-clamp-2 cursor-pointer hover:text-[#8b0000] transition-colors"
                                     onClick={() => navigate(`/prashad/${prasad._id}`)}
                                 >
-                                    {prasad.name}
+                                    {prasad.name?.[lang]}
                                 </h3>
 
                                 {/* Price */}

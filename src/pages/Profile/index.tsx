@@ -130,7 +130,7 @@ const ProfilePage = () => {
     const formatSubscriptionTitle = (title?: string | null) => {
         if (!title) return "";
         // remove exact words 'plan' or common typo 'plane' (case-insensitive)
-        const cleaned = title.replace(/\bpla(?:n|ne)\b/ig, "").replace(/\s+/g, ' ').trim();
+        const cleaned = title?.replace(/\bpla(?:n|ne)\b/ig, "").replace(/\s+/g, ' ').trim();
         // fallback to original if cleaning produces empty string
         return cleaned || title;
     };
@@ -500,7 +500,7 @@ const ProfilePage = () => {
                                     </div>
                                     {profileData?.data?.recentSubscription?.subscriptionName ? (
                                         <div className="absolute -bottom-1 -right-1 px-2.5 py-0.5 rounded-md flex items-center justify-center text-white shadow-md" style={{ background: 'linear-gradient(90.44deg, #8B0000 0.41%, #AD2F16 99.66%)' }}>
-                                            <span className="text-xs font-semibold">{formatSubscriptionTitle(profileData?.data?.recentSubscription?.subscriptionName)}</span>
+                                            <span className="text-xs font-semibold">{formatSubscriptionTitle(profileData?.data?.recentSubscription?.subscriptionName?.en)}</span>
                                         </div>
                                     ) : null}
                                 </div>

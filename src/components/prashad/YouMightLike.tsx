@@ -15,7 +15,7 @@ const YouMightLike: React.FC = () => {
     const addToCartMutation = useAddToCart();
     const { data: cartData } = useGetCart();
     const updateCartMutation = useUpdateCartItem();
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
     const [addingId, setAddingId] = useState<string | null>(null);
     const [updatingId, setUpdatingId] = useState<string | null>(null);
 
@@ -179,7 +179,7 @@ const YouMightLike: React.FC = () => {
                                     className="font-secondaryFont text-sm md:text-base text-gray-800 mb-2 line-clamp-2 cursor-pointer hover:text-[#8b0000] transition-colors"
                                     onClick={() => navigate(`/prashad/${prasad._id}`)}
                                 >
-                                    {prasad.name}
+                                    {prasad.name?.[lang]}
                                 </h3>
 
                                 {/* Price */}

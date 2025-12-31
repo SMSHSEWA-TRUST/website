@@ -6,7 +6,11 @@ interface MembershipCard {
     id: number;
     status: "active" | "expired";
     planType: string;
-    planName: string;
+    planName: {
+        en: string;
+        hi: string;
+        gu: string;
+    };
     months: string;
     amount: string;
     paymentMode: string;
@@ -18,7 +22,6 @@ const MembershipHistory = () => {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit] = useState(10);
-
     // Fetch subscriptions from API with pagination
     const { data: subscriptionsData, isLoading, isError } = useGetMySubscriptions(currentPage, pageLimit);
 
@@ -168,7 +171,7 @@ const MembershipHistory = () => {
                                     {/* Plan Type */}
                                     <div className="flex justify-between items-start">
                                         <span className="text-xs text-gray-400 font-normal">{membership.planType}</span>
-                                        <span className="text-sm font-bold text-gray-900">{membership.planName}</span>
+                                        <span className="text-sm font-bold text-gray-900">{membership.planName?.en}</span>
                                     </div>
 
                                     {/* Months valid */}

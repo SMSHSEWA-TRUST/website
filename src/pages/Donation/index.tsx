@@ -33,7 +33,7 @@ export const DonationPage: React.FC = () => {
     // Helper function to find category by URL slug
     const findCategoryBySlug = (slug: string, categories: any[]) => {
         return categories.find((category: any) => {
-            const categorySlug = createDonationSlug(category.title || '');
+            const categorySlug = createDonationSlug(category.title?.en || '');
             return categorySlug === slug;
         });
     };
@@ -43,7 +43,7 @@ export const DonationPage: React.FC = () => {
         if (selectedCategoryFromState) {
             // If we have category from state but no URL title, update URL
             if (!urlTitle) {
-                const slug = createDonationSlug(selectedCategoryFromState.title || '');
+                const slug = createDonationSlug((selectedCategoryFromState.title as any)?.en || '');
                 navigate(`/donation/${slug}`, { replace: true, state });
             }
             return;
@@ -74,7 +74,7 @@ export const DonationPage: React.FC = () => {
                 if (match) {
                     setSelectedCategory(match);
                     // Update URL with the category title
-                    const slug = createDonationSlug(match.title || '');
+                    const slug = createDonationSlug(match.title?.en || '');
                     navigate(`/donation/${slug}`, { replace: true, state });
                     return;
                 }
