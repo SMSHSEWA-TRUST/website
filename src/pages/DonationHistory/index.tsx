@@ -434,7 +434,7 @@ const DonationHistory = () => {
                                     {/* Donation Title */}
                                     <div>
                                         <p className="text-xs font-medium text-gray-500 mb-1">Donation Title</p>
-                                        <p className="text-sm font-normal text-gray-900">{selectedDonation.donationType}</p>
+                                        <p className="text-sm font-normal text-gray-900">{(selectedDonation.donationType as any)?.en}</p>
                                     </div>
 
                                     {/* Donation Type - Only show if daanType exists */}
