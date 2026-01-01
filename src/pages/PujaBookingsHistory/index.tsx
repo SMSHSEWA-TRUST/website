@@ -190,7 +190,7 @@ const PujaBookingsHistory = () => {
                                 {b.pujaType?.title && (
                                     <div className="flex justify-between items-start">
                                         <span className="text-xs text-gray-400 font-normal">Puja Type</span>
-                                        <span className="text-sm font-bold text-gray-900">{b.pujaType.title}</span>
+                                        <span className="text-sm font-bold text-gray-900">{b.pujaType.title?.en}</span>
                                     </div>
                                 )}
 
@@ -301,9 +301,9 @@ const PujaBookingsHistory = () => {
                                         {selectedBooking.pujaType?.title && (
                                             <div>
                                                 <p className="text-xs font-medium text-gray-500 mb-1">Puja Type</p>
-                                                <p className="text-sm font-normal text-gray-900">{selectedBooking.pujaType.title}</p>
+                                                <p className="text-sm font-normal text-gray-900">{selectedBooking.pujaType.title?.en}</p>
                                                 {selectedBooking.pujaType?.imageUrl && (
-                                                    <img src={selectedBooking.pujaType.imageUrl} alt={selectedBooking.pujaType.title} className="mt-2 w-24 h-16 object-cover rounded" />
+                                                    <img src={selectedBooking.pujaType.imageUrl} alt={selectedBooking.pujaType.title?.name} className="mt-2 w-24 h-16 object-cover rounded" />
                                                 )}
                                             </div>
                                         )}
