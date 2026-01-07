@@ -91,7 +91,7 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
         mobile: '',
         alternateMobile: '',
         address: '',
-        pujaTypeDetails: '',
+        pujaTypeDetails: { en: "", hi: '', gu: "" },
         specialRequests: '',
         prasadDelivery: 'yes',
         personalizedMessage: '',
@@ -149,7 +149,7 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
                 mobile: '',
                 alternateMobile: '',
                 address: '',
-                pujaTypeDetails: selectedPooja?.title || '',
+                pujaTypeDetails: selectedPooja?.title || { en: "", hi: "", gu: "" },
                 specialRequests: '',
                 prasadDelivery: 'yes',
                 personalizedMessage: '',
@@ -874,7 +874,7 @@ export default function PujaBookingPage({ selectedPooja: propSelectedPooja }: Pu
                                     <input
                                         type="text"
                                         name="pujaTypeDetails1"
-                                        value={"ssdsds"}
+                                        value={formData?.pujaTypeDetails?.en}
                                         onChange={handleInputChange}
                                         placeholder="Full Name"
                                         readOnly
