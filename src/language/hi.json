@@ -564,7 +564,13 @@
       "emiSubtitle": "मासिक किश्तों में छोटी राशि का भुगतान करें",
       "submitRequest": "अनुरोध सबमिट करें",
       "processing": "प्रक्रिया जारी है...",
-      "choosePaymentMethod": "भुगतान विधि चुनें: {{amount}}"
+      "choosePaymentMethod": "भुगतान विधि चुनें: {{amount}}",
+      "cashValue": "Cash",
+      "chequeValue": "Cheque",
+      "bankTransferValue": "Direct Bank Transfer",
+      "cardValue": "Credit/Debit Card",
+      "upiValue": "UPI",
+      "emiValue": "EMI (Easy Monthly Installments)"
     },
     "paymentDetails": {
       "cashInstructions": "कृपया हमारे कार्यालय में आकर जमा करें",

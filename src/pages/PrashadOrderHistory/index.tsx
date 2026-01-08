@@ -1,9 +1,9 @@
 
 import React, { useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from 'react-hot-toast';
 import { useQuery } from "@tanstack/react-query";
 import { getPrasadOrderHistory } from "@/services/prasad.service";
+import { useCancelOrder } from "@/api/PrasadQueries";
 
 interface PrasadItem {
     prasadId: string;
@@ -46,7 +46,7 @@ interface PrashadOrder {
 
 const PrashadOrderHistory = () => {
     const navigate = useNavigate();
-
+    const cancelOrder = useCancelOrder();
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [selectedOrder, setSelectedOrder] = React.useState<PrashadOrder | null>(null);
 
@@ -94,9 +94,10 @@ const PrashadOrderHistory = () => {
         }
     }, [isModalOpen]);
 
-    // TODO: Wire cancel API if available
     const handleCancelOrder = (_orderId: string) => {
-        toast('Cancel order API not implemented.', { position: 'top-center' });
+        console.log(_orderId)
+        cancelOrder.mutate({ _id: _orderId });
+        // toast('Cancel order API not implemented.', { position: 'top-center' });
     };
 
     const getStatusBadgeClass = (status?: string) => {
@@ -190,7 +191,7 @@ const PrashadOrderHistory = () => {
 
                             <div className="flex gap-3 mt-4">
                                 <button onClick={() => handleViewDetails(order)} className="flex-1 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50">View Details</button>
-                                <button onClick={() => handleCancelOrder(order._id)} className="py-2 px-3 text-sm bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50">Cancel Order</button>
+                                {order.status !== "cancelled" && <button onClick={() => handleCancelOrder(order._id)} className="py-2 px-3 text-sm bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50">Cancel Order</button>}
                             </div>
                         </div>
                     ))}
@@ -302,14 +303,14 @@ const PrashadOrderHistory = () => {
                                     </div>
 
                                     <div className="mt-4">
-                                        <button onClick={() => handleCancelOrder(selectedOrder._id)} className="w-full py-3 rounded-lg border border-red-300 text-red-600 bg-white hover:bg-red-50 flex items-center justify-center gap-2">
+                                        {selectedOrder.status !== "cancelled" && <button onClick={() => handleCancelOrder(selectedOrder._id)} className="w-full py-3 rounded-lg border border-red-300 text-red-600 bg-white hover:bg-red-50 flex items-center justify-center gap-2">
                                             {/* Red circular X icon */}
                                             <svg className="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                                 <circle cx="12" cy="12" r="10" fill="#FEE2E2" stroke="#F87171" strokeWidth="0" />
                                                 <path d="M15.5 8.5 L8.5 15.5 M8.5 8.5 L15.5 15.5" stroke="#DC2626" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
                                             <span className="font-medium">Cancel Order</span>
-                                        </button>
+                                        </button>}
                                     </div>
                                 </div>
                             </div>

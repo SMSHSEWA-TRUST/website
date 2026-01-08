@@ -7,7 +7,7 @@ export interface PrashadOrderHistoryResponse {
 
 export const getPrasadOrderHistory = (): Promise<PrashadOrderHistoryResponse> =>
   authTokenAxios.get("/prasad/history");
-import { authTokenAxios } from "./axios";
+import {authTokenAxios} from "./axios";
 
 export interface PrasadItem {
   _id: string;
@@ -51,9 +51,12 @@ export interface SinglePrasadResponse {
 
 export const getPrasad = (): Promise<PrasadResponse> => authTokenAxios.get(`/prasad/`);
 
-export const getPrasadById = (prasadId: string): Promise<SinglePrasadResponse> => 
+export const getPrasadById = (prasadId: string): Promise<SinglePrasadResponse> =>
   authTokenAxios.get(`/prasad/${prasadId}`);
 
 // Fetch prasad items by tag (e.g. "best sellers").
 export const getPrasadByTag = (tag: string): Promise<PrasadResponse> =>
   authTokenAxios.get(`/prasad/get-by-tag?tag=${encodeURIComponent(tag)}`);
+
+export const cancelPrasadById = (prasadId: string): Promise<SinglePrasadResponse> =>
+  authTokenAxios.patch(`/order/cancel-order/${prasadId}`);

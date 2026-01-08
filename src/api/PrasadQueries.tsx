@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPrasad, getPrasadById, PrasadResponse, SinglePrasadResponse } from "@/services/prasad.service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { cancelPrasadById, getPrasad, getPrasadById, PrasadResponse, SinglePrasadResponse } from "@/services/prasad.service";
 import { getPrasadByTag } from "@/services/prasad.service";
+
 
 export const QueryKeys = {
     prasad: "prasad",
@@ -28,3 +29,15 @@ export const useGetPrasadByTag = (tag: string, enabled: boolean = true) =>
         queryFn: () => getPrasadByTag(tag),
         enabled: enabled && !!tag,
     });
+
+export const useCancelOrder = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationKey: ["prasad", "cancel"],
+        mutationFn: (payload: any) => cancelPrasadById(payload._id),
+        onSuccess: async () => {
+            queryClient.invalidateQueries({ queryKey: ["prasadOrderHistory"] });
+        }
+    });
+}

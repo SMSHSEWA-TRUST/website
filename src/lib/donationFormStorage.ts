@@ -1,6 +1,6 @@
 // Utility for persisting and retrieving donation form data across navigation
 
-const STORAGE_KEY_PREFIX = 'donation_form_';
+const STORAGE_KEY_PREFIX = "donation_form_";
 
 export interface DonationFormState {
   // Form field values
@@ -13,26 +13,25 @@ export interface DonationFormState {
   email?: string;
   address?: string;
   amount?: number;
-  
+
   // Bhumi Daan specific data
   selectedPlots?: any[];
   plotContacts?: Record<string, any>;
   sameDetailsForAll?: boolean;
   expandedPlots?: Record<string, boolean>;
   plotIds?: any[];
-  
+
   // Additional amount from user input
   userPickedAmount?: number | null;
-  
+
   // Selected payment method
   selectedPaymentMethod?: string | null;
-  
+
   // Flow step
-  flowStep?: 'form' | 'selectPayment' | 'paymentDetails';
-  
+  flowStep?: "form" | "selectPayment" | "paymentDetails";
+
   // Selected Daan Type ID (for Bhojan Daan and others)
   selectedDaanTypeId?: string | null;
-  
   // Timestamp for cache expiration
   timestamp?: number;
 }
@@ -58,7 +57,7 @@ export const saveDonationFormState = (categoryId: string, state: DonationFormSta
     };
     sessionStorage.setItem(getStorageKey(categoryId), JSON.stringify(stateWithTimestamp));
   } catch (error) {
-    console.warn('Failed to save donation form state:', error);
+    console.warn("Failed to save donation form state:", error);
   }
 };
 
@@ -69,18 +68,18 @@ export const getDonationFormState = (categoryId: string): DonationFormState | nu
   try {
     const stored = sessionStorage.getItem(getStorageKey(categoryId));
     if (!stored) return null;
-    
+
     const state: DonationFormState = JSON.parse(stored);
-    
+
     // Check if cache has expired
     if (state.timestamp && Date.now() - state.timestamp > CACHE_EXPIRATION_MS) {
       clearDonationFormState(categoryId);
       return null;
     }
-    
+
     return state;
   } catch (error) {
-    console.warn('Failed to retrieve donation form state:', error);
+    console.warn("Failed to retrieve donation form state:", error);
     return null;
   }
 };
@@ -92,7 +91,7 @@ export const clearDonationFormState = (categoryId: string): void => {
   try {
     sessionStorage.removeItem(getStorageKey(categoryId));
   } catch (error) {
-    console.warn('Failed to clear donation form state:', error);
+    console.warn("Failed to clear donation form state:", error);
   }
 };
 
@@ -108,6 +107,6 @@ export const clearAllDonationFormStates = (): void => {
       }
     });
   } catch (error) {
-    console.warn('Failed to clear all donation form states:', error);
+    console.warn("Failed to clear all donation form states:", error);
   }
 };

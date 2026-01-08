@@ -630,7 +630,13 @@
       "emiSubtitle": "માસિક હપ્તામાં નાની રકમ ચૂકવો",
       "submitRequest": "વિનંતી સબમિટ કરો",
       "processing": "પ્રક્રિયા ચાલી રહી છે...",
-      "choosePaymentMethod": "પસંદ કરેલી ચુકવણી પદ્ધતિ: {{amount}}"
+      "choosePaymentMethod": "પસંદ કરેલી ચુકવણી પદ્ધતિ: {{amount}}",
+      "cashValue": "Cash",
+      "chequeValue": "Cheque",
+      "bankTransferValue": "Direct Bank Transfer",
+      "cardValue": "Credit/Debit Card",
+      "upiValue": "UPI",
+      "emiValue": "EMI (Easy Monthly Installments)"
     },
     "paymentDetails": {
       "cashInstructions": "કૃપા કરીને અમારી ઓફિસમાં આવો અને તેને સબમિટ કરો",

@@ -701,7 +701,13 @@
       "emiSubtitle": "Pay Small amounts in monthly instalments",
       "submitRequest": "Submit Request",
       "processing": "Processing...",
-      "choosePaymentMethod": "Chose Payment Method: {{amount}}"
+      "choosePaymentMethod": "Chose Payment Method: {{amount}}",
+      "cashValue": "Cash",
+      "chequeValue": "Cheque",
+      "bankTransferValue": "Direct Bank Transfer",
+      "cardValue": "Credit/Debit Card",
+      "upiValue": "UPI",
+      "emiValue": "EMI (Easy Monthly Installments)"
     },
     "paymentDetails": {
       "cashInstructions": "Kindly Visit our office and submit it",

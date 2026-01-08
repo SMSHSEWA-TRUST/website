@@ -695,16 +695,16 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "",
                         <path fillRule="evenodd" d="M10 3a1 1 0 01.707.293l5 5a1 1 0 01-1.414 1.414L10 5.414 5.707 9.707A1 1 0 114.293 8.293l5-5A1 1 0 0110 3z" clipRule="evenodd" />
                       </svg>
                     </button>
-
+                    {/* TODO:ssds */}
                     {paymentDropdownOpen && (
                       <div className="mt-2 bg-white border rounded-lg shadow-sm overflow-hidden">
                         {[
-                          { label: t("donationPage.payment.cash"), img: CashImage, subtitle: t("donationPage.payment.cashSubtitle") },
-                          { label: t("donationPage.payment.cheque"), img: ChequeImage, subtitle: t("donationPage.payment.chequeSubtitle") },
-                          { label: t("donationPage.payment.bankTransfer"), img: Bank_transferImage, subtitle: t("donationPage.payment.bankTransferSubtitle") },
-                          { label: t("donationPage.payment.card"), img: CardImage, subtitle: t("donationPage.payment.cardSubtitle") },
-                          { label: t("donationPage.payment.upi"), img: UpiImage, subtitle: t("donationPage.payment.upiSubtitle") },
-                          { label: t("donationPage.payment.emi"), img: EmiImage, subtitle: t("donationPage.payment.emiSubtitle") },
+                          { label: t("donationPage.payment.cash"), img: CashImage, subtitle: t("donationPage.payment.cashSubtitle"), value: t("donationPage.payment.cashValue") },
+                          { label: t("donationPage.payment.cheque"), img: ChequeImage, subtitle: t("donationPage.payment.chequeSubtitle"), value: t("donationPage.payment.chequeValue") },
+                          { label: t("donationPage.payment.bankTransfer"), img: Bank_transferImage, subtitle: t("donationPage.payment.bankTransferSubtitle"), value: t("donationPage.payment.bankTransferValue") },
+                          { label: t("donationPage.payment.card"), img: CardImage, subtitle: t("donationPage.payment.cardSubtitle"), value: t("donationPage.payment.cardValue") },
+                          { label: t("donationPage.payment.upi"), img: UpiImage, subtitle: t("donationPage.payment.upiSubtitle"), value: t("donationPage.payment.upiValue") },
+                          { label: t("donationPage.payment.emi"), img: EmiImage, subtitle: t("donationPage.payment.emiSubtitle"), value: t("donationPage.payment.emiValue") },
                         ].map((opt) => (
                           <label key={opt.label} className="flex items-center justify-between gap-3 p-3 hover:bg-gray-50 cursor-pointer">
                             <div className="flex items-center gap-3">
@@ -720,10 +720,10 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "",
                             <input
                               type="radio"
                               name="paymentMethod"
-                              value={opt.label}
-                              checked={selectedPaymentMethod === opt.label}
+                              value={opt.value}
+                              checked={selectedPaymentMethod === opt.value}
                               onChange={() => {
-                                setSelectedPaymentMethod(opt.label);
+                                setSelectedPaymentMethod(opt.value);
                                 setPaymentDropdownOpen(false);
                                 // Save payment method selection
                                 if (data?._id && submittedForm) {
@@ -731,7 +731,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "",
                                     ...submittedForm,
                                     userPickedAmount,
                                     flowStep: 'selectPayment',
-                                    selectedPaymentMethod: opt.label,
+                                    selectedPaymentMethod: opt.value,
                                   });
                                 }
                               }}
@@ -746,7 +746,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "",
 
                 {/* Method-specific UI shown below the radio list */}
                 <div className="mt-4">
-                  {selectedPaymentMethod === t("donationPage.payment.cash") && (
+                  {selectedPaymentMethod === t("donationPage.payment.cashValue") && (
                     <div className="space-y-4">
                       <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">{t("donationPage.paymentDetails.cashInstructions")}</div>
 
@@ -826,7 +826,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "",
                     </div>
                   )}
 
-                  {selectedPaymentMethod === t("donationPage.payment.cheque") && (
+                  {selectedPaymentMethod === t("donationPage.payment.chequeValue") && (
                     <div className="space-y-4">
                       <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">{t("donationPage.paymentDetails.chequeInstructions")}</div>
                       <div className="w-full overflow-hidden rounded-md bg-[#FCFCFC] p-3">
@@ -869,7 +869,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "",
                     </div>
                   )}
 
-                  {(selectedPaymentMethod === t("donationPage.payment.bankTransfer") || selectedPaymentMethod === t("donationPage.payment.card")) && (
+                  {(selectedPaymentMethod === t("donationPage.payment.bankTransferValue") || selectedPaymentMethod === t("donationPage.payment.cardValue")) && (
                     <div className="space-y-4">
                       <div className="textDescription text-[#1E1E1E80] font-secondaryFont mt-2">{t("donationPage.paymentDetails.bankTransferInstructions")}</div>
 
@@ -934,7 +934,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "",
                     </div>
                   )}
 
-                  {selectedPaymentMethod === t("donationPage.payment.upi") && (
+                  {selectedPaymentMethod === t("donationPage.payment.upiValue") && (
                     <div className="space-y-4  border rounded-md overflow-hidden justify-center items-center ">
                       <div className="text-center textHeading text-[#8B0000] mt-4">{t("donationPage.paymentDetails.upiTitle")}</div>
                       <div className="mt-2 flex items-center justify-center mb-2 w-[80%] mx-auto">
@@ -958,7 +958,7 @@ const GaudaanLayout: React.FC<GaudaanLayoutProps> = ({ title = { en: "", hi: "",
                     </div>
                   )}
 
-                  {selectedPaymentMethod === t("donationPage.payment.emi") && (
+                  {selectedPaymentMethod === t("donationPage.payment.emiValue") && (
                     <div className="space-y-4 text-center">
                       <div className="py-6">
                         <img src={EmiRequestIMage} alt="EMI" className="mx-auto w-48 h-48 object-contain" />
