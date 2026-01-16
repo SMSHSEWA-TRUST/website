@@ -13,7 +13,7 @@ const defaultTeamMembers = [
 ];
 
 export default function Team() {
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
     const { data, isLoading, error } = useGetTeam();
 
     // pull strings from translations with fallbacks
@@ -261,7 +261,7 @@ export default function Team() {
                                         {member.image ? (
                                             <LazyLoadImage
                                                 src={member.image}
-                                                alt={member.name}
+                                                alt={member.name?.[lang]}
                                                 className="w-full h-full object-cover"
                                                 loading="lazy"
                                             />
@@ -276,10 +276,10 @@ export default function Team() {
                                     </div>
                                     <div className="px-6 py-3 pb-2">
                                         <h3 className="font-primaryFont textDescription  font-semibold text-[#4c291e] mb-1 text-left">
-                                            {member.name}
+                                            {member.name?.[lang]}
                                         </h3>
                                         <p className="font-secondaryFont textDescription  text-gray-500 text-left mt-0">
-                                            {member.role}
+                                            {member.role?.[lang]}
                                         </p>
                                     </div>
                                 </div>
@@ -336,12 +336,12 @@ export default function Team() {
                             <div className="w-full lg:w-1/2 p-4 sm:p-6 lg:p-8 bg-white flex flex-col overflow-auto">
                                 {/* Name */}
                                 <h2 className="textHeadingLg mb-2 text-[#8B0000]" >
-                                    {selectedMember.name}
+                                    {selectedMember.name?.[lang]}
                                 </h2>
 
                                 {/* Position */}
                                 <p className="text-[#1E1E1E80] textDescription mb-4 lg:mb-6">
-                                    {selectedMember.role}
+                                    {selectedMember.role?.[lang]}
                                 </p>
 
                                 {/* Decorative line */}
@@ -349,7 +349,7 @@ export default function Team() {
 
                                 {/* Description */}
                                 <p className="text-gray-700 textDescription leading-relaxed mb-4 lg:mb-6">
-                                    {selectedMember.description || 'No description available.'}
+                                    {selectedMember.description?.[lang] || 'No description available.'}
                                 </p>
 
 

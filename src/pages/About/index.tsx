@@ -16,6 +16,8 @@ const TeamSection = React.lazy(() => import("@/components/about/Team"));
 // const WordsTrustees = React.lazy(() => import("@/components/about/WordsTrustees"));
 const CarouselContent = React.lazy(() => import("@/components/home/CarouselContent"));
 const About = React.lazy(() => import("@/components/about/about"));
+
+
 export const AboutPage = (): JSX.Element => {
     return (
         <>

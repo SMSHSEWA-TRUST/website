@@ -11,8 +11,11 @@ import { useI18n } from '@/lib/i18n';
 import { useGetLiveEvents } from '@/api/EventsQueries';
 import type { EventItem } from '@/services/events.service';
 
-
-
+type MultiLang = {
+  en: string;
+  hi: string;
+  gu: string;
+};
 
 // Video Player Component - Reusable for both layouts
 const VideoPlayerSection = ({
@@ -89,26 +92,25 @@ const SevaSection = ({
   {
     isDesktop: boolean;
     upcomingSevas: Array<{
-      title: string;
-      description: string;
+      title: MultiLang;
+      description: MultiLang;
       date: string;
       time: string;
       image?: string;
     }>;
-    onViewDetails: (image?: string, title?: string, description?: string, date?: string, time?: string) => void;
+    onViewDetails: (image?: string, title?: MultiLang, description?: MultiLang, date?: string, time?: string) => void;
     titleText?: string;
     viewDetailsText?: string;
 
 
 
   }) => {
-
+  const { lang } = useI18n();
   function truncateByChars(sentence: any, maxLength: number) {
     if (!sentence || typeof sentence !== "string") return "";
     if (sentence.length <= maxLength) return sentence;
     return sentence.slice(0, maxLength).trim() + "...";
   }
-
   return (
     <div className={isDesktop ? "flex-shrink-0 h-full" : "w-full"}>
       <Card className={`bg-white shadow-lg flex flex-col ${isDesktop ? "h-full" : "h-[500px] sm:h-[600px]"}`}>
@@ -153,10 +155,10 @@ const SevaSection = ({
             {upcomingSevas.map((seva, index) => (
               <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
                 <h4 className="font-primaryFont font-normal text-[rgba(76, 41, 30, 1)] textHeading mb-2">
-                  {seva.title}
+                  {seva.title?.[lang]}
                 </h4>
                 <p className="font-secondaryFont font-normal text-[rgba(30, 30, 30, 0.5)] textDescription leading-relaxed mb-3">
-                  {truncateByChars(seva.description, 100)}
+                  {truncateByChars(seva.description?.[lang], 100)}
                 </p>
                 <div className="flex items-center justify-between font-secondaryFont font-normal text-[#1E1E1E80] textDescription">
                   <div className="flex items-center gap-4 text-[#1E1E1E80]">
@@ -208,7 +210,7 @@ const SevaSection = ({
 // };
 
 const LiveDarshan = (): JSX.Element => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [selectedTemple, setSelectedTemple] = useState<string>("Mahakaleshwar");
   const [countdown, setCountdown] = useState("00:00:00");
   const [liveVideoUrls, setLiveVideoUrls] = useState<{ [key: string]: string }>({});
@@ -420,14 +422,14 @@ const LiveDarshan = (): JSX.Element => {
   // Modal state for viewing details image
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState<string | undefined>(undefined);
-  const [modalTitle, setModalTitle] = useState<string | undefined>(undefined);
-  const [modalDescription, setModalDescription] = useState<string | undefined>(undefined);
+  const [modalTitle, setModalTitle] = useState<MultiLang | undefined>(undefined);
+  const [modalDescription, setModalDescription] = useState<MultiLang | undefined>(undefined);
   const [modalDate, setModalDate] = useState<string | undefined>(undefined);
 
   const handleOpenModal = (
     image?: string,
-    title?: string,
-    description?: string,
+    title?: MultiLang,
+    description?: MultiLang,
     date?: string
   ) => {
     setModalImage(image);
@@ -669,7 +671,7 @@ const LiveDarshan = (): JSX.Element => {
           <div className="relative z-10 w-full max-w-2xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
             {/* Header */}
             <div className="flex items-start justify-between p-4 lg:p-6 pb-2 flex-shrink-0">
-              <h3 className="text-2xl font-primaryFont font-semibold text-[#111]">{modalTitle || t('liveDarshan.modal.upcomingEvent')}</h3>
+              <h3 className="text-2xl font-primaryFont font-semibold text-[#111]">{modalTitle?.[lang] || t('liveDarshan.modal.upcomingEvent')}</h3>
               <button
                 aria-label="Close"
                 onClick={handleCloseModal}
@@ -686,14 +688,14 @@ const LiveDarshan = (): JSX.Element => {
               <div className="w-full mb-4">
                 <LazyLoadImage
                   src={modalImage || pujaImageWebp}
-                  alt={modalTitle || 'event'}
+                  alt={modalTitle?.[lang] || 'event'}
                   className="w-full h-44 md:h-56 lg:h-64 object-cover bg-cover rounded-2xl"
                 />
               </div>
 
               {/* Puja heading */}
               <div>
-                <h4 className="text-[rgba(139,0,0,1)] text-2xl font-primaryFont mb-2">{modalTitle || t('liveDarshan.modal.eventFallback')}</h4>
+                <h4 className="text-[rgba(139,0,0,1)] text-2xl font-primaryFont mb-2">{modalTitle?.[lang] || t('liveDarshan.modal.eventFallback')}</h4>
               </div>
 
               {/* Date/Time Row */}
@@ -711,7 +713,7 @@ const LiveDarshan = (): JSX.Element => {
 
               {/* Description */}
               <div className="text-sm text-[#444] leading-relaxed">
-                <p className="mb-3">{modalDescription || t('liveDarshan.modal.noDescription')}</p>
+                <p className="mb-3">{modalDescription?.[lang] || t('liveDarshan.modal.noDescription')}</p>
               </div>
             </div>
 
