@@ -10,7 +10,7 @@ export const PrivacyPage = (): JSX.Element => {
                 <HeroSection pageKey="privacy" />
             </Suspense>
 
-            <section className="max-w-4xl mx-auto px-4 md:px-8 py-8 md:py-12 font-secondaryFont textDescription text-gray-800 leading-relaxed">
+            <section className="max-w-4xl mx-auto px-4 md:px-8 py-16 md:py-12 font-secondaryFont textDescription text-gray-800 leading-relaxed">
                 <div className="prose prose-lg max-w-none">
 
                     <h1 className="font-primaryFont textHeadingLg text-[#8b0000]">Privacy Policy</h1>
