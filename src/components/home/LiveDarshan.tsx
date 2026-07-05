@@ -296,7 +296,8 @@ const LiveDarshan = (): JSX.Element => {
     };
     const fetchVideos = async () => {
       try {
-        const res = await fetch('https://api.smshsewatrust.com/api/liveVideos/');
+        const baseUrl = import.meta.env.VITE_BASE_URL || '';
+        const res = await fetch(`${baseUrl}/liveVideos/`);
         if (!res.ok) throw new Error('Failed to fetch live videos');
         const json = await res.json();
         const arr = Array.isArray(json?.data) ? json.data : (Array.isArray(json) ? json : []);
